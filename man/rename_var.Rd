@@ -21,8 +21,8 @@ Harmonize gender variable
 \examples{
 \dontrun{
 gesis_spss_read ( path = file.path('data-raw', 'example.sav'),
-   rename = TRUE,
-    unique_id = TRUE) \%>\%
-    recode_var ( ., harmonized_name = "gender")
+                  rename = TRUE,
+                  unique_id = TRUE ) \%>\%
+   recode_var (., harmonized_name = "gender")
 }
 }
