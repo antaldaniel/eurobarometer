@@ -3,3 +3,4 @@
 ^LICENSE\.md$
 ^not_included$
 ^data-raw$
+^README\.Rmd$
