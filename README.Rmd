@@ -22,13 +22,7 @@ The goal of eurobarometer is to ...
 
 ## Installation
 
-You can install the released version of eurobarometer from [CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("eurobarometer")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+At this moment yuo cannot install yest the packgae from [CRAN](https://CRAN.R-project.org), but there is a development version on [GitHub](https://github.com/):
 
 ``` r
 # install.packages("devtools")
