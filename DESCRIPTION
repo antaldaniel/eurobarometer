@@ -16,7 +16,12 @@ Imports:
     lubridate,
     stringr,
     rlang,
-    magrittr
-RoxygenNote: 7.0.2
+    magrittr,
+    stats,
+    utils,
+    sjlabelled
+RoxygenNote: 7.1.0
 Depends:
      R (>= 2.10)
+Suggests: 
+    testthat
