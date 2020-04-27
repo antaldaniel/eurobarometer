@@ -23,4 +23,9 @@ setting for standard demography variables.
 #not case sensitive
 recode_gender  ( var = c("Man", "Female", "man", "Woman" ))
 }
+\seealso{
+Other recode functions: 
+\code{\link{recode_age_education}()},
+\code{\link{recode_mentioned}()}
+}
 \concept{recode functions}
