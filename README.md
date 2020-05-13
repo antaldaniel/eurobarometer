@@ -12,6 +12,7 @@ the repository is only intended to be a limited example, demo, or
 proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 “[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)”
 “[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/regions)](https://cran.r-project.org/package=eurobarometer)”
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3825700.svg)](https://doi.org/10.5281/zenodo.3825700)
 <!-- badges: end -->
 
 The goal of eurobarometer is converting Eurobarometer microdata files,
@@ -26,6 +27,9 @@ Pull requests are welcome on
 from all potential contributors who abide by the terms of the
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+
+If you use `eurobarometer` in your work, please [cite the
+package](https://doi.org/10.5281/zenodo.3825700).
 
 ## Installation
 
