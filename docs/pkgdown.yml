@@ -1,0 +1,8 @@
+pandoc: 2.7.2
+pkgdown: 1.5.1
+pkgdown_sha: ~
+articles:
+  metadata: metadata.html
+  Panel: Panel.html
+last_built: 2020-05-13T19:39Z
+
