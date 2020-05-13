@@ -1,9 +1,14 @@
-#' Create Normalized Variable Names for GESIS Columns
+#' Create Canonical Names for GESIS Columns
 #'
-#' @param x A vector of the GESIS variable names
+#' Create canonical names that do not vary across several SPSS files
+#' from different years.
+#' @param metadata A metadata data frame created by
+#' \code{\link{gesis_metadata_create}}
 #' @importFrom stringr str_sub
+#' @family naming functions
 #' @examples
-#' normalize_names ( c("UPPER CASE VAR", "VAR NAME WITH % SYMBOL") )
+#' canonical_names ( c("digital_object_identifier",
+#'                     "tns_unique_case_id") )
 #' @export
 
 canonical_names <- function(metadata) {
@@ -25,8 +30,6 @@ canonical_names <- function(metadata) {
   x <- ifelse ( grepl("wex_weight_extra", x),
                 "wex",
                 x)
-
-
 
   x <- gsub( '\\s', '_', x)
   x <- gsub( '___', '_', x)

@@ -2,6 +2,7 @@
 #'
 #' @param x A vector of the GESIS variable names
 #' @importFrom stringr str_sub
+#' @family naming functions
 #' @examples
 #' normalize_names ( c("UPPER CASE VAR", "VAR NAME WITH % SYMBOL") )
 #' @export

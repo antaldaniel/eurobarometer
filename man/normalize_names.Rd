@@ -15,3 +15,8 @@ Create Normalized Variable Names for GESIS Columns
 \examples{
 normalize_names ( c("UPPER CASE VAR", "VAR NAME WITH \% SYMBOL") )
 }
+\seealso{
+Other naming functions: 
+\code{\link{canonical_names}()}
+}
+\concept{naming functions}

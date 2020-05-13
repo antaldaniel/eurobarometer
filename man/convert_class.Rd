@@ -12,7 +12,8 @@ convert_class(
 )
 }
 \arguments{
-\item{metadata}{A metadata data frame created by gesis_metadata_create.}
+\item{metadata}{A metadata data frame created by
+\code{\link{gesis_metadata_create}}.}
 
 \item{var_name}{Defaults to \code{"normalized_name"}.}
 

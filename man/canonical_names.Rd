@@ -2,16 +2,24 @@
 % Please edit documentation in R/canonical_names.R
 \name{canonical_names}
 \alias{canonical_names}
-\title{Create Normalized Variable Names for GESIS Columns}
+\title{Create Canonical Names for GESIS Columns}
 \usage{
 canonical_names(metadata)
 }
 \arguments{
-\item{x}{A vector of the GESIS variable names}
+\item{metadata}{A metadata data frame created by
+\code{\link{gesis_metadata_create}}}
 }
 \description{
-Create Normalized Variable Names for GESIS Columns
+Create canonical names that do not vary across several SPSS files
+from different years.
 }
 \examples{
-normalize_names ( c("UPPER CASE VAR", "VAR NAME WITH \% SYMBOL") )
+canonical_names ( c("digital_object_identifier",
+                    "tns_unique_case_id") )
 }
+\seealso{
+Other naming functions: 
+\code{\link{normalize_names}()}
+}
+\concept{naming functions}
