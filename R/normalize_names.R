@@ -1,12 +1,12 @@
-#' Create a canonical variable name for the R objects
+#' Create Normalized Variable Names for GESIS Columns
 #'
 #' @param x A vector of the GESIS variable names
 #' @importFrom stringr str_sub
 #' @examples
-#' canonical_name_create ( c("UPPER CASE VAR", "VAR NAME WITH % SYMBOL") )
+#' normalize_names ( c("UPPER CASE VAR", "VAR NAME WITH % SYMBOL") )
 #' @export
 
-canonical_name_create <- function(x) {
+normalize_names <- function(x) {
 
   x <- trimws(tolower(as.character(x)))
 

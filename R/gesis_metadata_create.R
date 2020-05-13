@@ -25,14 +25,16 @@ gesis_metadata_create <- function ( dat ) {
 
   r_class   <- vapply ( dat, class, character(1) )
   spss_name <- vapply ( dat, sjlabelled::get_label, character(1) )
-  canonical_name <- canonical_name_create(spss_name)
+  normalized_names <- normalize_names(spss_name)
+
+
 
   ##Creating the basic metadata ----
   metadata <- data.frame (
     r_name = names ( dat ),
     r_class = r_class,
     spss_name = spss_name,
-    canonical_name = canonical_name
+    normalized_name = normalized_names
   )
 
 
@@ -52,31 +54,5 @@ gesis_metadata_create <- function ( dat ) {
     sapply ( metadata$factor_levels, unlist ),
     length, numeric(1) )  #number of categories in categorical variables
 
-  ##Adding constants -----
-
-  if ( "doi" %in% names(dat)) {
-    metadata$doi = dat$doi[1]
-  } else { metadata$doi <- NA_character_ }
-
-  if ( "version" %in% names(dat)) {
-    metadata$version = dat$version[1]
-  } else { metadata$version <- NA_character_ }
-
-  study_number <- which ( metadata$canonical_name == "study_number_distributor")
-  gesis_archive_version <-  which ( metadata$canonical_name == "gesis_archive_version")
-  id_serial_number <- which ( metadata$canonical_name == "id_serial_number")
-
-  if ( length(study_number) > 0 ) {
-    metadata$study_number <- as.character(dat [1, study_number])
-  } else {
-    metadata$study_number<- NA
-  }
-
-  if ( length(gesis_archive_version) > 0 ) {
-    metadata$gesis_archive_number <- as.character(dat [1, gesis_archive_version])
-  } else {
-    metadata$gesis_archive_number <- NA
-  }
-
- metadata
+  suggest_conversion( metadata)
 }
