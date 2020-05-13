@@ -8,37 +8,67 @@
 
 normalize_names <- function(x) {
 
-  x <- trimws(tolower(as.character(x)))
+  y <- trimws(tolower(as.character(x)))
 
   ##do the abbreviations first that may have a . sign
-  x <- gsub( '\\ss\\.a\\.', '_sa', x)
+  y <- gsub( '\\ss\\.a\\.', '_sa', y)
 
   ##remove special regex characters
-  x <- gsub( '\\&', '_and_', x)
-  x <- gsub( '\\+', '_plus_', x)
-  x <- gsub( '\\%', '_pct_', x)
-  x <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', '_', x)
+  y <- gsub( '\\&', '_and_', y)
+  y <- gsub( '\\+', '_plus_', y)
+  y <- gsub( '\\%', '_pct_', y)
+  y <- gsub( '<', '_lt_', y)
+  y <- gsub( '>', '_gt_', y)
+  y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', '_', y)
 
   ##remove space(s)
-  x <- gsub('\\s\\s', '\\s', x)
+  y <- gsub('\\s\\s', '\\s', y)
 
-  x <- ifelse ( test = stringr::str_sub ( x, -1, -1 ) == '_',
-                yes  = stringr::str_sub ( x,  1, -2 ),
-                no   = x  )
+  y <- ifelse ( test = stringr::str_sub ( y, -1, -1 ) == '_',
+                yes  = stringr::str_sub ( y,  1, -2 ),
+                no   = y  )
 
-  x <- gsub( '^q[abc]\\d{1,2}', '', x )  # remove QA1, QB25 etc
-  x <- gsub( '^d\\d{1,2}', '', x )       # remove QA1, QB25 etc
+  y <- gsub( '^q[abcde]\\d{1,2}', '', y )  # remove QA1, QB25 etc
+  y <- gsub( '^d\\d{1,2}', '', y )       # removed d26_ etc
+  y <- gsub( '^c\\d{1,2}', '', y )       # removed c26_ etc
+  y <- gsub ( "^p\\d+{1,}_", "", y)  #remove p6_ like starts
+  y <- gsub ( "^p\\d+{1,}\\s", "", y)  #remove p6  like starts
+  y <- gsub ( "^q\\d+{1,}_", "", y)  #remove q1_ like starts
+  y <- gsub ( "^q\\d+{1,}\\s", "", y)  #remove q1  like starts
 
-  x <- gsub( '\\s', '_', x)
-  x <- gsub( '___', '_', x)
-  x <- gsub( '__', '_', x)
+  y  <- gsub("recoded_three_groups", "rec_3", y)
+  y  <- gsub("recoded_four_groups", "rec_4", y)
+  y  <- gsub("recoded_five_groups", "rec_5", y)
+  y  <- gsub("recoded_six_groups", "rec_6", y)
+  y  <- gsub("3_groups_recoded", "rec_3", y)
+  y  <- gsub("4_groups_recoded", "rec_4", y)
+  y  <- gsub("5_groups_recoded", "rec_5", y)
+  y  <- gsub("6_groups_recoded", "rec_6", y)
+  y  <- gsub("7_groups_recoded", "rec_7", y)
+  y  <- gsub("8_groups_recoded", "rec_8", y)
+  y  <- gsub("11_groups_recoded", "rec_11", y)
+  y  <- gsub("3_cat_recoded", "rec_3", y)
+  y  <- gsub("4_cat_recoded", "rec_4", y)
+  y  <- gsub("5_cat_recoded", "rec_5", y)
+  y  <- gsub("6_cat_recoded", "rec_6", y)
+  y  <- gsub("7_cat_recoded", "rec_7", y)
+  y  <- gsub("8_cat_recoded", "rec_8", y)
+  y  <- gsub("11_cat_recoded", "rec_11", y)
+  y <- gsub( '\\s', '_', y)
+  y <- gsub( '___', '_', y)
+  y <- gsub( '__', '_', y)
 
   #x <- gsub( 'á', 'a', x)
   #x <- gsub( 'ü', 'u', x)
   #x <- gsub( 'é', 'e', x)
 
-  x <- ifelse ( test = stringr::str_sub ( x, 1,  1 ) == '_',
-                yes  = stringr::str_sub ( x, 2, -1 ),
-                no   = x  )
-  x
+  y  <- gsub("15_plus", "gt_15", y)
+  y  <- gsub("wex_weight_extra_population_gt_15", "wex", y)
+  y  <- ifelse ( substr(y,1,3) =="w1_",
+                 'w1', y)
+
+  y <- ifelse ( test = stringr::str_sub ( y, 1,  1 ) == '_',
+                yes  = stringr::str_sub ( y, 2, -1 ),
+                no   = y  )
+  y
 }

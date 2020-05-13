@@ -25,16 +25,14 @@ gesis_metadata_create <- function ( dat ) {
 
   r_class   <- vapply ( dat, class, character(1) )
   spss_name <- vapply ( dat, sjlabelled::get_label, character(1) )
-  normalized_names <- normalize_names(spss_name)
-
-
-
+  normalized_names <- normalize_names(x = spss_name )
+  normalized_names
   ##Creating the basic metadata ----
   metadata <- data.frame (
     r_name = names ( dat ),
     r_class = r_class,
     spss_name = spss_name,
-    normalized_name = normalized_names
+    normalized_names = normalized_names
   )
 
 
