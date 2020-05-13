@@ -64,7 +64,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/eurobarometer/regions/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -80,12 +87,14 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#eurobarometer" class="anchor"></a>eurobarometer</h1></div>
 <!-- badges: start -->
-<!-- badges: end -->
-<p>The goal of eurobarometer is to …</p>
+<p><a href="https://codecov.io/gh/antaldaniel/eurobarometer?branch=master"><img src="https://codecov.io/gh/antaldaniel/eurobarometer/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://www.repostatus.org/#concept"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept."></a> “<a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="license"></a>” “<a href="https://cran.r-project.org/package=eurobarometer"><img src="https://www.r-pkg.org/badges/version/regions" alt="CRAN_Status_Badge"></a>” <!-- badges: end --></p>
+<p>The goal of eurobarometer is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems.</p>
+<p>Please report all issues to <a href="https://github.com/antaldaniel/eurobarometer/issues">github.com/antaldaniel/eurobarometer/issues</a>.</p>
+<p>Pull requests are welcome on <a href="(https://github.com/antaldaniel/eurobarometer/issues)">github.com/antaldaniel/eurobarometer</a> from all potential contributors who abide by the terms of the <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>At this moment yuo cannot install yest the packgae from <a href="https://CRAN.R-project.org">CRAN</a>, but there is a development version on <a href="https://github.com/">GitHub</a>:</p>
+<p>At this moment you cannot install yest the packgae from <a href="https://CRAN.R-project.org">CRAN</a>, but there is a development version on <a href="https://github.com/">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"antaldaniel/eurobarometer"</span>)</pre></div>
 </div>
@@ -101,15 +110,35 @@
 <p>This setting the function calls <code>canonical_file_rename()</code> which removes spaces and special characters, and converts all variable names to lowercase. Similarly, by default the serial identifiers of observations (rows) in the SPSS file are brought to the harmonized name <code>unique_id</code>. This ID is unique in the single survey data file, but not if you create panel trend files.</p>
 <p>If you are planning to work in R with certain files, it makes sense to save the result of this function as an R data object with <code><a href="https://rdrr.io/r/base/save.html">save()</a></code> or <code><a href="https://rdrr.io/r/base/readRDS.html">saveRDS()</a></code> somewhere. Conversion from SPSS is a rather resource-intensive operation.</p>
 </div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
+<p>Please note that the eurobarometer project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to its terms.</p>
+</div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/eurobarometer/regions/">https://​github.com/​eurobarometer/​regions/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/eurobarometer/regions">https://​github.com/​eurobarometer/​regions</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></small></li>
+</ul>
+</div>
+<div class="community">
+<h2>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
 <div class="developers">
