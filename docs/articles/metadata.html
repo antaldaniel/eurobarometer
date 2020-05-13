@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.0001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.0002</span>
       </span>
     </div>
 
@@ -60,6 +60,9 @@
       <a href="../articles/Panel.html">Importing Panel Data</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -97,15 +100,19 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stringr</span>)</pre></body></html></div>
 <p>The <code>eb_sample</code> is a small fraction of the GESIS datafile <code>ZA5479_v6-0-0.sav</code>. It cannot be used to retrieve any statistical data from the original dataset. In scope it is limited to some important metadata columns, a few demographic variables and one question block. In geographic coverage, it takes a sample from the responses from the United Kingdom and Germany. These two countries are targeting parts of the countries separately, i.e. for Great Britain and Northern Ireland, and the former West Germany and East Germany.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">sample</span> <span class="kw">&lt;-</span> <span class="kw pkg">eurobarometer</span><span class="kw ns">:::</span><span class="no">eb_sample</span>
-<span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="kw">dat</span> <span class="kw">=</span> <span class="no">sample</span>)</pre></body></html></div>
+<span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="kw">dat</span> <span class="kw">=</span> <span class="no">sample</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">sample_metadata</span>)
+<span class="co">#&gt; [1] "r_name"                "r_class"               "spss_name"            </span>
+<span class="co">#&gt; [4] "normalized_names"      "factor_levels"         "level_length"         </span>
+<span class="co">#&gt; [7] "conversion_suggestion"</span></pre></body></html></div>
 <p>The function <code>gesis_metadta_create</code> normalizes those variable names that are not machine readable. These names are still often problematic and require adjustment.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">adjusted_metadata</span> <span class="kw">&lt;-</span> <span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">canonical_names</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span> (
-    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">normalized_name</span>, <span class="fl">1</span>,<span class="fl">3</span>) <span class="kw">==</span> <span class="st">"p6_|p7_"</span> ~ <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">normalized_name</span>, <span class="fl">4</span>,-<span class="fl">1</span>),
-    <span class="no">normalized_name</span> <span class="kw">==</span> <span class="st">"w1_weight_result_from_target"</span> ~ <span class="st">'w1'</span>,
-    <span class="fl">TRUE</span> ~ <span class="no">normalized_name</span>
+    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">normalized_names</span>, <span class="fl">1</span>,<span class="fl">3</span>) <span class="kw">==</span> <span class="st">"p6_|p7_"</span> ~ <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">normalized_names</span>, <span class="fl">4</span>,-<span class="fl">1</span>),
+    <span class="no">normalized_names</span> <span class="kw">==</span> <span class="st">"w1_weight_result_from_target"</span> ~ <span class="st">'w1'</span>,
+    <span class="fl">TRUE</span> ~ <span class="no">normalized_names</span>
   ))</pre></body></html></div>
-<p>You can, if you know what you are doing, change the suggested base R representation of your survey data in the column</p>
+<p>You can, if you know what you are doing, change the suggested base R representation of your survey data in the column:</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">renamed_sample</span> <span class="kw">&lt;-</span> <span class="no">sample</span> <span class="kw">%&gt;%</span>
   <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">adjusted_metadata</span>$<span class="no">canonical_names</span>)
 
@@ -128,54 +135,143 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">2.4757</td>
+<td align="right">1.0429</td>
+<td align="left">33</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">1.3942</td>
+<td align="left">33</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">0.3328</td>
 <td align="left">46</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="right">1.4912</td>
+<td align="right">1.6013</td>
+<td align="left">88</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">1.3679</td>
+<td align="left">47</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">0.8893</td>
+<td align="left">57</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">0.8884</td>
+<td align="left">49</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">0.5674</td>
+<td align="left">69</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">0.7254</td>
+<td align="left">65</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">0.9762</td>
 <td align="left">73</td>
 <td align="right">0</td>
 </tr>
+</tbody>
+</table>
+<p><code>GESIS</code> and/or <code>TNS</code> did not use some variable names consistently over the years and decades. Canonizing these variables names is a subjective matter. A subjective canonization is coded in ’canonical_names()`, which uses both the variable names and their labels from the SPSS file.</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">sample_metadata</span>$<span class="no">canonical_names</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/canonical_names.html">canonical_names</a></span>(<span class="no">sample_metadata</span>)
+
+<span class="no">sample</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">sample_metadata</span>$<span class="no">canonical_names</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"age"</span>)) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="fl">10</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">kable</span>()</pre></body></html></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">age_education</th>
+<th align="right">age_education_recoded</th>
+<th align="right">age_exact</th>
+<th align="right">age_rec_4</th>
+<th align="right">age_rec_6</th>
+</tr></thead>
+<tbody>
 <tr class="odd">
-<td align="right">1.2367</td>
-<td align="left">20</td>
+<td align="right">14</td>
+<td align="right">1</td>
+<td align="right">76</td>
+<td align="right">4</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">18</td>
+<td align="right">1</td>
 <td align="right">1</td>
 </tr>
-<tr class="even">
-<td align="right">0.7289</td>
-<td align="left">72</td>
-<td align="right">0</td>
-</tr>
 <tr class="odd">
-<td align="right">1.0801</td>
-<td align="left">75</td>
-<td align="right">0</td>
+<td align="right">15</td>
+<td align="right">2</td>
+<td align="right">72</td>
+<td align="right">4</td>
+<td align="right">6</td>
 </tr>
 <tr class="even">
-<td align="right">0.5384</td>
-<td align="left">43</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.5579</td>
-<td align="left">36</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">1.3350</td>
-<td align="left">28</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">0.7796</td>
-<td align="left">68</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">1.2546</td>
-<td align="left">69</td>
+<td align="right">98</td>
+<td align="right">10</td>
+<td align="right">18</td>
 <td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="right">6</td>
+<td align="right">63</td>
+<td align="right">4</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="right">98</td>
+<td align="right">10</td>
+<td align="right">17</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">16</td>
+<td align="right">3</td>
+<td align="right">29</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">3</td>
+<td align="right">37</td>
+<td align="right">2</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="right">18</td>
+<td align="right">5</td>
+<td align="right">52</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">19</td>
+<td align="right">6</td>
+<td align="right">50</td>
+<td align="right">3</td>
+<td align="right">4</td>
 </tr>
 </tbody>
 </table>

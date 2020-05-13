@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GESIS Eurobarometer Variable Names — eurobarometer_vocabulary • eurobarometer</title>
+<title>Create Canonical Names for GESIS Columns — canonical_names • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="GESIS Eurobarometer Variable Names — eurobarometer_vocabulary" />
-<meta property="og:description" content="Variable names used for harmonization" />
+<meta property="og:title" content="Create Canonical Names for GESIS Columns — canonical_names" />
+<meta property="og:description" content="Create canonical names that do not vary across several SPSS files
+from different years." />
 
 
 
@@ -126,31 +127,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GESIS Eurobarometer Variable Names</h1>
-    <small class="dont-index">Source: <a href='https://github.com/eurobarometer/regions/blob/master/R/data_eurobarometer_vocabulary.R'><code>R/data_eurobarometer_vocabulary.R</code></a></small>
-    <div class="hidden name"><code>eurobarometer_vocabulary.Rd</code></div>
+    <h1>Create Canonical Names for GESIS Columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/eurobarometer/regions/blob/master/R/canonical_names.R'><code>R/canonical_names.R</code></a></small>
+    <div class="hidden name"><code>canonical_names.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Variable names used for harmonization</p>
+    <p>Create canonical names that do not vary across several SPSS files
+from different years.</p>
     </div>
 
-    <pre class="usage"><span class='no'>eurobarometer_vocabulary</span></pre>
+    <pre class="usage"><span class='fu'>canonical_names</span>(<span class='no'>metadata</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>metadata</th>
+      <td><p>A metadata data frame created by
+<code><a href='gesis_metadata_create.html'>gesis_metadata_create</a></code></p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>A data_frame:</p><dl'>
-  <dt>code</dt><dd><p>Country code in the Eurostat database</p></dd>
-  <dt>name</dt><dd><p>Country name in English</p></dd>
+    <div class='dont-index'><p>Other naming functions: 
+<code><a href='normalize_names.html'>normalize_names</a>()</code></p></div>
 
-</dl>
-
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p><a href='http://ec.europa.eu/eurostat/statistics-explained/index.php/Tutorial:Country_codes_and_protocol_order'>http://ec.europa.eu/eurostat/statistics-explained/index.php/Tutorial:Country_codes_and_protocol_order</a>,
-  <a href='http://ec.europa.eu/eurostat/statistics-explained/index.php/Glossary:Euro_area'>http://ec.europa.eu/eurostat/statistics-explained/index.php/Glossary:Euro_area</a></p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>canonical_names</span> ( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"digital_object_identifier"</span>,
+                    <span class='st'>"tns_unique_case_id"</span>) )</div><div class='output co'>#&gt; <span class='error'>Error: $ operator is invalid for atomic vectors</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
