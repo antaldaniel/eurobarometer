@@ -29,6 +29,8 @@ normalize_names <- function(x) {
                 yes  = stringr::str_sub ( y,  1, -2 ),
                 no   = y  )
 
+
+
   y <- gsub( '^q[abcde]\\d{1,2}', '', y )  # remove QA1, QB25 etc
   y <- gsub( '^d\\d{1,2}', '', y )       # removed d26_ etc
   y <- gsub( '^c\\d{1,2}', '', y )       # removed c26_ etc
@@ -36,6 +38,7 @@ normalize_names <- function(x) {
   y <- gsub ( "^p\\d+{1,}\\s", "", y)  #remove p6  like starts
   y <- gsub ( "^q\\d+{1,}_", "", y)  #remove q1_ like starts
   y <- gsub ( "^q\\d+{1,}\\s", "", y)  #remove q1  like starts
+  y <- gsub( '^\\d{1,2}_', '', y ) #remove leading number 1_
 
   y  <- gsub("recoded_three_groups", "rec_3", y)
   y  <- gsub("recoded_four_groups", "rec_4", y)

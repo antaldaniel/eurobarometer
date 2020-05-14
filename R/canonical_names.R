@@ -19,17 +19,61 @@ canonical_names <- function(metadata) {
   x <- ifelse (metadata$r_name == "uniqid", "uniqid", x)
   x <- ifelse (metadata$r_name == "doi", "doi", x)
 
-  head ( x, 30)
-
-  x <- ifelse ( test = grepl("unique_case_id", x),
-                yes = "	uniqid", no = x)
+  ## Hard replacmenet ------------------------
+  x <- ifelse ( grepl("unique_case_id", x),
+                yes = "uniqid",
+                no  = x )
   x <- ifelse ( grepl("digital_object_identifier", x),
-                "doi",
-                x)
-
+                yes = "doi",
+                no  = x )
   x <- ifelse ( grepl("wex_weight_extra", x),
-                "wex",
-                x)
+                yes = "wex",
+                no  = x )
+  x <- ifelse ( grepl("trend_type_of_community", x),
+                yes = "type_of_community",
+                no  = x )
+  x <- ifelse ( grepl("gesis_archive_version", x),
+                yes = "gesis_archive_version_and_date",
+                no  = x )
+
+
+
+  appears_replace <- function(x, appears, replace) {
+    ifelse ( grepl(appears,x ),
+             yes = gsub( appears, replace , x),
+             no  = x )
+  }
+
+  x <- appears_replace ( x, appears = "cultural_act_go_to|cultural_act_visit",
+                         replace ="cultural_activities_freq" )
+  x <- appears_replace ( x, appears = "trend_type_of_community",
+                         replace ="type_of_community" )
+  x <- appears_replace ( x, appears = "durables_appartment|durables_appartm",
+                         replace ="durables_apartment" )
+  x <- appears_replace ( x, appears = "durables_ap_house",
+                         replace ="durables_apartment_house" )
+
+  x  <- gsub("recoded_3_categories", "rec_3", x)
+  x  <- gsub("recoded_4_categories", "rec_4", x)
+  x  <- gsub("recoded_5_categories", "rec_5", x)
+  x  <- gsub("recoded_6_categories", "rec_6", x)
+  x  <- gsub("recoded_7_categories", "rec_7", x)
+  x  <- gsub("recoded_8_categories", "rec_8", x)
+  x  <- gsub("recoded_11_categories", "rec_11", x)
+  x  <- gsub("recoded_3_cat", "rec_3", x)
+  x  <- gsub("recoded_4_cat", "rec_4", x)
+  x  <- gsub("recoded_5_cat", "rec_5", x)
+  x  <- gsub("recoded_6_cat", "rec_6", x)
+  x  <- gsub("recoded_7_cat", "rec_7", x)
+  x  <- gsub("recoded_8_cat", "rec_8", x)
+  x  <- gsub("recoded_11_cat", "rec_11", x)
+  x  <- gsub("3_cat_recoded", "rec_3", x)
+  x  <- gsub("4_cat_recoded", "rec_4", x)
+  x  <- gsub("5_cat_recoded", "rec_5", x)
+  x  <- gsub("6_cat_recoded", "rec_6", x)
+  x  <- gsub("7_cat_recoded", "rec_7", x)
+  x  <- gsub("8_cat_recoded", "rec_8", x)
+  x  <- gsub("11_cat_recoded", "rec_11", x)
 
   x <- gsub( '\\s', '_', x)
   x <- gsub( '___', '_', x)
