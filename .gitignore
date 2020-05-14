@@ -3,6 +3,5 @@
 .RData
 .Ruserdata
 
-data-raw
 inst/doc
 not_included
