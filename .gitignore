@@ -3,5 +3,6 @@
 .RData
 .Ruserdata
 
+data-raw/covr.R
 inst/doc
 not_included
