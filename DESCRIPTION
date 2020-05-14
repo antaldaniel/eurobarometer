@@ -16,7 +16,7 @@ License: GPL-3
 Encoding: UTF-8
 Language: en-GB
 URL: https://eurobarometer.danielantal.eu/
-BugReports: https://github.com/antaldaniel/eurobarometer
+BugReports: https://github.com/antaldaniel/eurobarometer/issues
 LazyData: true
 Imports: 
     purrr,
