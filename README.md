@@ -42,36 +42,58 @@ on [GitHub](https://github.com/):
 devtools::install_github("antaldaniel/eurobarometer")
 ```
 
-## Reading in an SPSS file from GESIS
+## Data Preparation For Programmatic Use
 
-First of all, we create a representation of the GESIS archive SPSS file
-that can be programatically used in R. One problem is that SPSS variable
-names may contain reserved characters. For further programmatic use in
-R, the best is to rename the variables.
+The SPSS files in GESIS are not ready for programmatic use in R, because
+the variable names often contain reserved special characters. You should
+use `gesis_metadta_create()` to understand what are the possible
+problems in the SPSS file and how to resolve them. (See: [Working With
+Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html))
 
-``` r
-library(eurobarometer)
-library(eurobarometer)
-gesis_spss_read ( path = file.path('data-raw', 'example.sav'), 
-                  rename = TRUE, 
-                  unique_id = TRUE)
-```
+  - The naming functions `normalize_names()` removes regex symbols,
+    whitespace, and basic inconsistencies in abbreviations. The function
+    `canonical_names()`harmonizes the names across various GESIS files,
+    so that they can be joined into panels across time.
 
-This setting the function calls `canonical_file_rename()` which removes
-spaces and special characters, and converts all variable names to
-lowercase. Similarly, by default the serial identifiers of observations
-(rows) in the SPSS file are brought to the harmonized name `unique_id`.
-This ID is unique in the single survey data file, but not if you create
-panel trend files.
+  - You can read in the SPSS file to R in haven, which will result in
+    many `labelled` variables. The metadata file contains a suggestion
+    of the most practical class conversion for data analysis. You can
+    review and change this suggestion and then make the conversions at
+    once with `convert_class()`
 
-If you are planning to work in R with certain files, it makes sense to
-save the result of this function as an R data object with `save()` or
-`saveRDS()` somewhere. Conversion from SPSS is a rather
-resource-intensive operation.
+## Joining Serveral Files
+
+The vocabulary functions help to create data panels across Eurobarometer
+surveys taken in different times.
+
+There are two main issues that need to be resolved in such cases
+
+  - Make sure that the same questions are used, and they are
+    consistently named (this problem is treated in the metadata level)
+
+  - In case of structured questions or question blocks the answer
+    options are coded exactly the same (for example “Fully agree”and
+    “Totally agree” are the same.) This will be handled by the
+    vocabulary functions. (Not yet implemented.)
+
+## Joining With Eurostat & Other Data Tables
+
+  - The regional boundaries are consistently used, coded and named -
+    this will be harmonized with the package `regions` , currently under
+    review in CRAN, which will help resolving common issues, and to
+    properly join various Eurobarometer files with Eurostat data tables
+    and Google data tables.
+
+  - This will also allow you to create regional statistics from
+    Eurobarometer microdata files.
+
+  - Currently `code_nuts1()` and `code_nuts2()` is implemented but this
+    will be replaced with a more comprehensive NUTS0-NUTS3 level helper
+    function to make the regional coding consistent.
 
 ## Code of Conduct
 
-Please note that the eurobarometer project is released with a
+Please note that the `eurobarometer` project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to its terms.
