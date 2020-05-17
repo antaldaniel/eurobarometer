@@ -60,7 +60,7 @@ There are two main issues that need to be resolved in such cases
 
 ## Joining With Eurostat & Other Data Tables
 
-*  The regional boundaries are consistently used, coded and named - this will be harmonized with the package `regions` , currently under review in CRAN, which will help resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.
+*  The regional boundaries are consistently used, coded and named - this will be harmonized with the package [regions](http://regions.danielantal.eu/), currently under review in CRAN, which will help resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.
 
 * This will also allow you to create regional statistics from Eurobarometer microdata files.
 
