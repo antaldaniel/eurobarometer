@@ -92,7 +92,7 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The goal of eurobarometer is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems. See <code><a href="articles/metadata.html">vignette("metadata")</a></code> or maybe pkgdown, C:/Users/Daniel Antal/Documents/R/win-library/4.0/pkgdown, metadata, metadata.Rmd, Metadata, metadata.R, metadata.html</p>
+<p>The goal of eurobarometer is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems.</p>
 <p>Please report all issues to <a href="https://github.com/antaldaniel/eurobarometer/issues">github.com/antaldaniel/eurobarometer/issues</a>.</p>
 <p>Pull requests are welcome on <a href="(https://github.com/antaldaniel/eurobarometer/issues)">github.com/antaldaniel/eurobarometer</a> from all potential contributors who abide by the terms of the <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.</p>
 <p>If you use <code>eurobarometer</code> in your work, please <a href="https://doi.org/10.5281/zenodo.3825700">cite the package</a>.</p>
@@ -106,11 +106,12 @@
 <div id="data-preparation-for-programmatic-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-preparation-for-programmatic-use" class="anchor"></a>Data Preparation For Programmatic Use</h2>
-<p>The SPSS files in GESIS are not ready for programmatic use in R, because the variable names often contain reserved special characters. You should use <code>gesis_metadta_create()</code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a>)</p>
+<p>The SPSS files in GESIS are not ready for programmatic use in R, because the variable names often contain reserved special characters. You should use <code><a href="reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a>)</p>
 <ul>
 <li><p>The naming functions <code><a href="reference/normalize_names.html">normalize_names()</a></code> removes regex symbols, whitespace, and basic inconsistencies in abbreviations. The function <code><a href="reference/canonical_names.html">canonical_names()</a></code>harmonizes the names across various GESIS files, so that they can be joined into panels across time.</p></li>
-<li><p>You can read in the SPSS file to R in haven, which will result in many <code>labelled</code> variables. The metadata file contains a suggestion of the most practical class conversion for data analysis. You can review and change this suggestion and then make the conversions at once with <code><a href="reference/convert_class.html">convert_class()</a></code></p></li>
+<li><p>You can read in the SPSS file to R in <a href="https://haven.tidyverse.org/">haven</a>, which will result in many <code>labelled</code> variables. The metadata file contains a suggestion of the most practical class conversion for data analysis. You can review and change this suggestion and then make the conversions at once with <code><a href="reference/convert_class.html">convert_class()</a></code></p></li>
 </ul>
+<p>See <code><a href="articles/metadata.html">vignette("metadata")</a></code></p>
 </div>
 <div id="joining-serveral-files" class="section level2">
 <h2 class="hasAnchor">
@@ -126,7 +127,7 @@
 <h2 class="hasAnchor">
 <a href="#joining-with-eurostat--other-data-tables" class="anchor"></a>Joining With Eurostat &amp; Other Data Tables</h2>
 <ul>
-<li><p>The regional boundaries are consistently used, coded and named - this will be harmonized with the package <a href="http://regions.danielantal.eu/">regions</a>, currently under review in CRAN, which will help resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.</p></li>
+<li><p>The regional boundaries are consistently used, coded and named - this will be harmonized with the package <a href="http://regions.danielantal.eu/">regions</a>, which helps resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.</p></li>
 <li><p>This will also allow you to create regional statistics from Eurobarometer microdata files.</p></li>
 <li><p>Currently <code><a href="reference/code_nuts1.html">code_nuts1()</a></code> and <code><a href="reference/code_nuts2.html">code_nuts2()</a></code> is implemented but this will be replaced with a more comprehensive NUTS0-NUTS3 level helper function to make the regional coding consistent.</p></li>
 </ul>
