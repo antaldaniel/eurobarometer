@@ -1,0 +1,59 @@
+---
+title: "Survey Data Harmonization"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{harmonization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(eurobarometer)
+library(dplyr)
+library(knitr)
+```
+
+## Class conversion
+We are using the SPSS file version of the GESIS archive and recommend reading in these files with the haven package.  Haven uses a special R class, `labelled`, to preserve the metadata information of the SPSS file.  While `labelled` provides a consistent and full representation of the SPSS file, it is not very useful for our purposes, because it mixes data with metadata in a way that is particular to the SPSS software.
+
+The data part is not particularly useful for statistical analysis and visualization in the labelled class. We are looking for a practical representation of each typical questionnaire form: for example, multiple response questions are represented by indicator / dummy variables, and single choice questions can be usually represented with factors.
+
+The metadata elements must be detached, harmonized and re-joined with the data.  For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: `Mentioned` and `Not Mentioned`, with rare exceptions.  We are re-coding them into numerical 1,0 values.   Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.
+  
+###Harmonization of variable types
+In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.
+
+## Variable names
+Variable names are essential both for joining data from various surveys, and for programming.  When we read in the SPSS file to a labelled class, we have a variable names and variable labels present from SPSS.  Our primary goal is to harmonize the variable names, but we need to create a consistent mapping for variable names for potential cross-checking with actual questionnaires.
+
+### Harmonization of variable names
+The harmonization of variables means that the same variable name is used for the same questionnaire item.  In the original GESIS files, there is a little consistency present, but not sufficient to use the original variable names.  Some demography variables are consistently identified with their usual questionnaire item ID, for example, xxxx with xxxx.  However, there seem to be exception.  For non-trending, but potentially repeating policy questions, there are no harmonized variable names.
+
+Another problem with the original variable names is that they are not always programmatically usable, because they use various reserved characters, such as percentage signs, semicolons, etc.  We are changing them to ASCII-only, snake_form variable names that are harmonized.
+Harmonization of variable name labels.
+
+The harmonization of variable name labels would mean that for each variable name, such as `type_of_community`, we would use the same generic question abbreviation xxxxxx.   The harmonization of variable labels is not a priority, but the documentation of variant is an important task to create comprehensive data maps or metadata. While the generic questionnaire is always bilingual, i.e. English and French, it seems that sometimes it is a bit more English or bit more French, which leads to minor inconsistencies that are likely not systematically reflected in the actually used translations (and the final English language versions used in the United Kingdom and Ireland, and the final French versions used in France and Belgium.)
+
+See more on variable name harmonization in `vignette("metadata")` .
+
+## Harmonization of data 
+Once we made sure that the `type_of_community` demography variable is called `type_of_community` in all data tables, and they are all converted to a character class, we can technically join tables with a time identifier to compare the contents of this variable.  Conversion to character leads to a loss of information, because the answer options to this question are intended to be ordinal: they represent three levels of urbanizations irrespective of national administrative definitions.
+
+Data harmonization means that the three levels are identically coded in the join.
+
+```{r, results='asis'}
+data("eurobarometer_corpus", package = "eurobarometer")
+
+eurobarometer_corpus %>%
+  filter ( grepl("town|rural", label_normalized )) %>%
+  sample_n(., 20) %>%
+  kable()
+```
+
