@@ -14,6 +14,6 @@
 #'   \item{filename}{The name of the original GESIS file.}
 #' }
 #' @seealso gesis_corpus_create gesis_vocabulary_create
-"eurobarometer_vocabulary"
+"eurobarometer_corpus"
 
 
