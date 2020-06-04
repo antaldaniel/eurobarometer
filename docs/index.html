@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.0002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.0003</span>
       </span>
     </div>
 
@@ -99,22 +99,38 @@
 <div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"antaldaniel/eurobarometer"</span>)</pre></div>
 </div>
-<div id="reading-in-an-spss-file-from-gesis" class="section level2">
+<div id="data-preparation-for-programmatic-use" class="section level2">
 <h2 class="hasAnchor">
-<a href="#reading-in-an-spss-file-from-gesis" class="anchor"></a>Reading in an SPSS file from GESIS</h2>
-<p>First of all, we create a representation of the GESIS archive SPSS file that can be programatically used in R. One problem is that SPSS variable names may contain reserved characters. For further programmatic use in R, the best is to rename the variables.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
-<span class="fu"><a href="reference/gesis_spss_read.html">gesis_spss_read</a></span> ( <span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">'data-raw'</span>, <span class="st">'example.sav'</span>),
-                  <span class="kw">rename</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-                  <span class="kw">unique_id</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
-<p>This setting the function calls <code>canonical_file_rename()</code> which removes spaces and special characters, and converts all variable names to lowercase. Similarly, by default the serial identifiers of observations (rows) in the SPSS file are brought to the harmonized name <code>unique_id</code>. This ID is unique in the single survey data file, but not if you create panel trend files.</p>
-<p>If you are planning to work in R with certain files, it makes sense to save the result of this function as an R data object with <code><a href="https://rdrr.io/r/base/save.html">save()</a></code> or <code><a href="https://rdrr.io/r/base/readRDS.html">saveRDS()</a></code> somewhere. Conversion from SPSS is a rather resource-intensive operation.</p>
+<a href="#data-preparation-for-programmatic-use" class="anchor"></a>Data Preparation For Programmatic Use</h2>
+<p>The SPSS files in GESIS are not ready for programmatic use in R, because the variable names often contain reserved special characters. You should use <code>gesis_metadta_create()</code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a>)</p>
+<ul>
+<li><p>The naming functions <code><a href="reference/normalize_names.html">normalize_names()</a></code> removes regex symbols, whitespace, and basic inconsistencies in abbreviations. The function <code><a href="reference/canonical_names.html">canonical_names()</a></code>harmonizes the names across various GESIS files, so that they can be joined into panels across time.</p></li>
+<li><p>You can read in the SPSS file to R in haven, which will result in many <code>labelled</code> variables. The metadata file contains a suggestion of the most practical class conversion for data analysis. You can review and change this suggestion and then make the conversions at once with <code><a href="reference/convert_class.html">convert_class()</a></code></p></li>
+</ul>
+</div>
+<div id="joining-serveral-files" class="section level2">
+<h2 class="hasAnchor">
+<a href="#joining-serveral-files" class="anchor"></a>Joining Serveral Files</h2>
+<p>The vocabulary functions help to create data panels across Eurobarometer surveys taken in different times.</p>
+<p>There are two main issues that need to be resolved in such cases</p>
+<ul>
+<li><p>Make sure that the same questions are used, and they are consistently named (this problem is treated in the metadata level)</p></li>
+<li><p>In case of structured questions or question blocks the answer options are coded exactly the same (for example “Fully agree”and “Totally agree” are the same.) This will be handled by the vocabulary functions. (Not yet implemented.)</p></li>
+</ul>
+</div>
+<div id="joining-with-eurostat--other-data-tables" class="section level2">
+<h2 class="hasAnchor">
+<a href="#joining-with-eurostat--other-data-tables" class="anchor"></a>Joining With Eurostat &amp; Other Data Tables</h2>
+<ul>
+<li><p>The regional boundaries are consistently used, coded and named - this will be harmonized with the package <a href="http://regions.danielantal.eu/">regions</a>, currently under review in CRAN, which will help resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.</p></li>
+<li><p>This will also allow you to create regional statistics from Eurobarometer microdata files.</p></li>
+<li><p>Currently <code><a href="reference/code_nuts1.html">code_nuts1()</a></code> and <code><a href="reference/code_nuts2.html">code_nuts2()</a></code> is implemented but this will be replaced with a more comprehensive NUTS0-NUTS3 level helper function to make the regional coding consistent.</p></li>
+</ul>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the eurobarometer project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to its terms.</p>
+<p>Please note that the <code>eurobarometer</code> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to its terms.</p>
 </div>
 </div>
   </div>
@@ -125,7 +141,7 @@
 <ul class="list-unstyled">
 <li>Browse source code at <br><a href="https://github.com/antaldaniel/eurobarometer/">https://​github.com/​antaldaniel/​eurobarometer/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/antaldaniel/eurobarometer">https://​github.com/​antaldaniel/​eurobarometer</a>
+<li>Report a bug at <br><a href="https://github.com/antaldaniel/eurobarometer/issues">https://​github.com/​antaldaniel/​eurobarometer/​issues</a>
 </li>
 </ul>
 </div>
