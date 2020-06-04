@@ -13,8 +13,7 @@ gesis_vocabulary_create(dat)
 The vocabulary of the survey in a data frame.
 }
 \description{
-Retrieve a metadata file with from your data directory or the temporary directory
-of your current R session.
+Get every single unique questionnaire item from a survey file.
 }
 \examples{
 \dontrun{

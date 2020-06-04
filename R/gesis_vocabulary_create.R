@@ -1,7 +1,7 @@
 #' Get The Vocabulary Of A Survey
 #'
-#' Retrieve a metadata file with from your data directory or the temporary directory
-#' of your current R session.
+#' Get every single unique questionnaire item from a survey file.
+#'
 #' @param dat For example,
 #' @importFrom sjlabelled get_label get_labels
 #' @importFrom dplyr bind_rows
