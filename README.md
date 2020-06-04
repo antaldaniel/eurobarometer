@@ -13,6 +13,9 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 “[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)”
 “[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/regions)](https://cran.r-project.org/package=eurobarometer)”
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3825700.svg)](https://doi.org/10.5281/zenodo.3825700)
+[![Follow
+author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
+
 <!-- badges: end -->
 
 The goal of eurobarometer is converting Eurobarometer microdata files,
@@ -46,7 +49,7 @@ devtools::install_github("antaldaniel/eurobarometer")
 
 The SPSS files in GESIS are not ready for programmatic use in R, because
 the variable names often contain reserved special characters. You should
-use `gesis_metadta_create()` to understand what are the possible
+use `gesis_metadata_create()` to understand what are the possible
 problems in the SPSS file and how to resolve them. (See: [Working With
 Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html))
 
@@ -55,11 +58,14 @@ Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html))
     `canonical_names()`harmonizes the names across various GESIS files,
     so that they can be joined into panels across time.
 
-  - You can read in the SPSS file to R in haven, which will result in
-    many `labelled` variables. The metadata file contains a suggestion
-    of the most practical class conversion for data analysis. You can
-    review and change this suggestion and then make the conversions at
-    once with `convert_class()`
+  - You can read in the SPSS file to R in
+    [haven](https://haven.tidyverse.org/), which will result in many
+    `labelled` variables. The metadata file contains a suggestion of the
+    most practical class conversion for data analysis. You can review
+    and change this suggestion and then make the conversions at once
+    with `convert_class()`
+
+See `vignette("metadata")`
 
 ## Joining Serveral Files
 
@@ -80,10 +86,9 @@ There are two main issues that need to be resolved in such cases
 
   - The regional boundaries are consistently used, coded and named -
     this will be harmonized with the package
-    [regions](http://regions.danielantal.eu/), currently under review in
-    CRAN, which will help resolving common issues, and to properly join
-    various Eurobarometer files with Eurostat data tables and Google
-    data tables.
+    [regions](http://regions.danielantal.eu/), which helps resolving
+    common issues, and to properly join various Eurobarometer files with
+    Eurostat data tables and Google data tables.
 
   - This will also allow you to create regional statistics from
     Eurobarometer microdata files.
