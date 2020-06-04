@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.0003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/harmonization.html">Survey Data Harmonization</a>
+    </li>
+    <li>
       <a href="../articles/metadata.html">Working With Metadata</a>
     </li>
   </ul>
@@ -119,10 +122,10 @@
                <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"conversion_suggestion"</span>)
 
 <span class="no">converted</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>( <span class="fu">all_of</span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"w1"</span>,
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"w1"</span>,
                           <span class="st">"age_exact"</span>,
                           <span class="st">"is_energy_saving_action_used_car_less"</span>))) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="no">.</span>, <span class="fl">10</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="no">.</span>, <span class="fl">10</span>) <span class="kw">%&gt;%</span>
   <span class="fu">kable</span>()</pre></body></html></div>
 <table class="table">
 <thead><tr class="header">
@@ -132,54 +135,54 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.7572</td>
+<td align="right">0.6974</td>
+<td align="left">85</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">0.3727</td>
+<td align="left">60</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">1.4408</td>
+<td align="left">35</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">1.0296</td>
+<td align="left">57</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">1.1808</td>
+<td align="left">19</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">0.8998</td>
+<td align="left">55</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">0.8437</td>
+<td align="left">46</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">1.2358</td>
+<td align="left">18</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="right">0.4393</td>
 <td align="left">47</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">1.4539</td>
-<td align="left">69</td>
+<td align="right">1.2189</td>
+<td align="left">20</td>
 <td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.3739</td>
-<td align="left">41</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">0.9067</td>
-<td align="left">41</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">0.7616</td>
-<td align="left">81</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">1.4408</td>
-<td align="left">33</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.2197</td>
-<td align="left">26</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">0.6580</td>
-<td align="left">73</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.2367</td>
-<td align="left">21</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">0.8867</td>
-<td align="left">48</td>
-<td align="right">1</td>
 </tr>
 </tbody>
 </table>
@@ -189,7 +192,7 @@
 <span class="no">sample</span> <span class="kw">%&gt;%</span>
   <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">sample_metadata</span>$<span class="no">canonical_names</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"age"</span>)) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample.html">sample_n</a></span>(<span class="fl">10</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">10</span>) <span class="kw">%&gt;%</span>
   <span class="fu">kable</span>()</pre></body></html></div>
 <table class="table">
 <thead><tr class="header">
@@ -201,72 +204,72 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">18</td>
+<td align="right">21</td>
+<td align="right">8</td>
+<td align="right">48</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">15</td>
+<td align="right">2</td>
+<td align="right">57</td>
+<td align="right">4</td>
 <td align="right">5</td>
-<td align="right">41</td>
-<td align="right">3</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="right">14</td>
-<td align="right">1</td>
-<td align="right">25</td>
-<td align="right">2</td>
-<td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="right">16</td>
-<td align="right">3</td>
-<td align="right">52</td>
-<td align="right">3</td>
+<td align="right">21</td>
+<td align="right">8</td>
+<td align="right">73</td>
 <td align="right">4</td>
-</tr>
-<tr class="even">
-<td align="right">17</td>
-<td align="right">4</td>
-<td align="right">45</td>
-<td align="right">3</td>
-<td align="right">4</td>
-</tr>
-<tr class="odd">
-<td align="right">19</td>
 <td align="right">6</td>
-<td align="right">27</td>
-<td align="right">2</td>
-<td align="right">2</td>
 </tr>
 <tr class="even">
 <td align="right">21</td>
 <td align="right">8</td>
-<td align="right">72</td>
+<td align="right">51</td>
+<td align="right">3</td>
 <td align="right">4</td>
-<td align="right">6</td>
 </tr>
 <tr class="odd">
-<td align="right">16</td>
-<td align="right">3</td>
-<td align="right">50</td>
-<td align="right">3</td>
+<td align="right">17</td>
 <td align="right">4</td>
-</tr>
-<tr class="even">
-<td align="right">16</td>
-<td align="right">3</td>
 <td align="right">41</td>
 <td align="right">3</td>
 <td align="right">3</td>
 </tr>
-<tr class="odd">
-<td align="right">18</td>
-<td align="right">5</td>
-<td align="right">56</td>
+<tr class="even">
+<td align="right">27</td>
+<td align="right">9</td>
+<td align="right">48</td>
+<td align="right">3</td>
 <td align="right">4</td>
-<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="right">16</td>
+<td align="right">3</td>
+<td align="right">42</td>
+<td align="right">3</td>
+<td align="right">3</td>
 </tr>
 <tr class="even">
-<td align="right">22</td>
-<td align="right">9</td>
-<td align="right">63</td>
+<td align="right">21</td>
+<td align="right">8</td>
+<td align="right">47</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">2</td>
+<td align="right">47</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="right">5</td>
+<td align="right">60</td>
 <td align="right">4</td>
 <td align="right">5</td>
 </tr>

@@ -73,7 +73,7 @@ of your current R session." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9.0003</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -95,6 +95,9 @@ of your current R session." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/harmonization.html">Survey Data Harmonization</a>
+    </li>
     <li>
       <a href="../articles/metadata.html">Working With Metadata</a>
     </li>
@@ -164,8 +167,8 @@ names, factor lists, suggested class conversions.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>##use your own file:</span>
-<span class='fu'>gesis_metadata_get</span>( <span class='kw'>zacat_id</span> <span class='kw'>=</span> <span class='st'>"ZA5688"</span>,
-                    <span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='st'>"data-raw/"</span>)
+<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></span>( <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>gesis_dir</span>, <span class='no'>gesis_file</span>) )
+<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'>gesis_metadata_create</span>(<span class='no'>tmp</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
