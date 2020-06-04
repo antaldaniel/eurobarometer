@@ -11,6 +11,7 @@ normalize_names <- function(x) {
 
   y <- trimws(tolower(as.character(x)))
 
+
   ##do the abbreviations first that may have a . sign
   y <- gsub( '\\ss\\.a\\.', '_sa', y)
 
@@ -22,8 +23,9 @@ normalize_names <- function(x) {
   y <- gsub( '>', '_gt_', y)
   y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', '_', y)
 
-  ##remove space(s)
+  ##remove space(s) and some other characters
   y <- gsub('\\s\\s', '\\s', y)
+  y <- gsub("\\'", "",  y)
 
   y <- ifelse ( test = stringr::str_sub ( y, -1, -1 ) == '_',
                 yes  = stringr::str_sub ( y,  1, -2 ),
