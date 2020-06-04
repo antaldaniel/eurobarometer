@@ -26,8 +26,8 @@ of your current R session.
 \examples{
 \dontrun{
 ##use your own file:
-gesis_metadata_get( zacat_id = "ZA5688",
-                    data_dir = "data-raw/")
+tmp <- haven::read_spss( file.path(gesis_dir, gesis_file) )
+metadata <- gesis_metadata_create(tmp)
 }
 }
 \seealso{
