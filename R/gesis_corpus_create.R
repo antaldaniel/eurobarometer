@@ -30,7 +30,7 @@ gesis_corpus_create <- function ( file_path ) {
       next
     }
     if ( f == 1 ) {
-      corpus <- gesis_vocabulary_create(tmp)
+      corpus <- gesis_vocabulary_create(dat = tmp)
       corpus$filename <- spss_files[f]
     } else {
       new_corpus <- purrr::possibly(gesis_vocabulary_create, NULL)(tmp)

@@ -10,7 +10,10 @@ gesis_vocabulary_create(dat)
 \item{dat}{For example,}
 }
 \value{
-The vocabulary of the survey in a data frame.
+The vocabulary of the survey in a data frame. The return
+data frame has 7 columns: \code(r_name), \code(numeric_value),
+\code(character_value), \code(label), \code(item_no), \code(item_of),
+\code(label_normalized).
 }
 \description{
 Get every single unique questionnaire item from a survey file.
