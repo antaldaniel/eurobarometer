@@ -10,7 +10,8 @@ gesis_corpus_create(file_path)
 \item{dat}{For example,}
 }
 \value{
-A data frame with six variables.
+A data frame with seven variables, results binded together
+from \code{\link{gesis_vocabulary_create}}.
 }
 \description{
 Reads in all SPSS files in a directory, runs
@@ -24,5 +25,7 @@ corpus <- gesis_corpus_create ( <your_path> )
 }
 }
 \seealso{
+gesis_vocabulary_create
+
 gesis_vocabulary_create
 }

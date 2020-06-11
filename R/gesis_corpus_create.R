@@ -9,7 +9,9 @@
 #' @importFrom purrr possibly
 #' @importFrom haven read_spss
 #' @importFrom dplyr bind_rows
-#' @return A data frame with six variables.
+#' @return A data frame with seven variables, results binded together
+#' from \code{\link{gesis_vocabulary_create}}.
+#' @seealso gesis_vocabulary_create
 #' @examples
 #' \dontrun{
 #' ##use your own path:
