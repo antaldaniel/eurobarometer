@@ -11,9 +11,16 @@ gesis_vocabulary_create(dat)
 }
 \value{
 The vocabulary of the survey in a data frame. The return
-data frame has 7 columns: \code(r_name), \code(numeric_value),
-\code(character_value), \code(label), \code(item_no), \code(item_of),
-\code(label_normalized).
+data frame has 7 columns:
+\describe{
+  \item{r_name}{The name of the variable in the data file.}
+  \item{numeric_value}{The original SPSS numeric values, if applicable}
+  \item{character_value}{The original SPSS character value, if applicable}
+  \item{label}{The label of the questionnaire item}
+  \item{item_no}{The rank number of the alphabetically sorted answer option.}
+  \item{item_of}{The number of answer options in the questionnaire item.}
+  \item{label_normalized}{Normalized version of the questionnaire item}
+}
 }
 \description{
 Get every single unique questionnaire item from a survey file.

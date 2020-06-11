@@ -1,7 +1,7 @@
-#' Get a metadata file
+#' Get A Metadata File
 #'
-#' Retrieve a metadata file with from your data directory or the temporary directory
-#' of your current R session.
+#' Retrieve a metadata file with from your data directory or the
+#' temporary directory of your current R session.
 #' @param zacat_id For example, \code{"ZA5688_v6-0-0"}, as analyzed and saved by
 #' \code{\link{analyze_gesis_file}}.
 #' Defaults to \code{"last_data_frame"}, which is
@@ -55,5 +55,5 @@ gesis_metadata_create <- function ( dat ) {
     sapply ( metadata$factor_levels, unlist ),
     length, numeric(1) )  #number of categories in categorical variables
 
-  suggest_conversion( metadata)
+  suggest_conversion(metadata)
 }

@@ -1,0 +1,74 @@
+---
+title: "vocabulary"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vocabulary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(eurobarometer)
+```
+
+There is no final metadata solution now.  There are two main functions, [gesis_metadata_create](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html), which mainly helps with normalizing the variable names, and [gesis_vocabulary_create](http://eurobarometer.danielantal.eu/reference/gesis_vocabulary_create.html) (wrapped by [gesis_corpus_create](http://eurobarometer.danielantal.eu/reference/gesis_corpus_create.html)), which help consolidating the vocabulary of questionnaire items.
+
+They are both referring back to [normalize_names](http://eurobarometer.danielantal.eu/reference/normalize_names.html) in normalizing labels. The  [canonical_names](http://eurobarometer.danielantal.eu/reference/canonical_names.html) is a very early attempt to use a canonical form of same questions that appear under different normalized forms.
+
+This is a database created from 28 Eurobarometer SPSS files.
+
+```{r}
+metadata_database <-  readRDS( 
+  file.path('..', 'data-raw',
+  'eb_metadata_database.rds')) 
+```
+
+Let's filter out a typical question type that has `Tend to trust` and `Tend not to trust` answer options, with differently encoded `Declined` to answer options.
+
+```{r}
+trust <- metadata_database  %>%
+  filter (
+  grepl( "tend_to_trust|tend_not_to_trust", label_normalized )
+  )  %>%
+  arrange ( normalized_names, label_normalized, filename ) %>%
+  select (-all_of(c("numeric_value", "character_value", 
+                    "factor_levels", "r_class", 
+                    "conversion_suggestion", 
+                    "normalized_names")))
+
+```
+
+To get the unique questions, let's leave out the `Tend not to trust` negative answer options. 
+
+```{r}
+require(kableExtra)
+trust %>% filter ( 
+   grepl( "tend_to_trust", label_normalized )
+  ) %>%
+kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                fixed_thead = T)
+
+```
+
+Let's filter on national institutions:
+
+```{r}
+require(kableExtra)
+trust %>% filter ( 
+   grepl( "tend_to_trust", label_normalized ), 
+   grepl( "institutions_national", canonical_names )
+  ) %>% 
+kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                fixed_thead = T)
+
+```
+

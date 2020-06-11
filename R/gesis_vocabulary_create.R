@@ -9,9 +9,16 @@
 #' @importFrom tibble tibble
 #' @seealso canonical_name_create
 #' @return The vocabulary of the survey in a data frame. The return
-#' data frame has 7 columns: \code(r_name), \code(numeric_value),
-#' \code(character_value), \code(label), \code(item_no), \code(item_of),
-#' \code(label_normalized).
+#' data frame has 7 columns:
+#' \describe{
+#'   \item{r_name}{The name of the variable in the data file.}
+#'   \item{numeric_value}{The original SPSS numeric values, if applicable}
+#'   \item{character_value}{The original SPSS character value, if applicable}
+#'   \item{label}{The label of the questionnaire item}
+#'   \item{item_no}{The rank number of the alphabetically sorted answer option.}
+#'   \item{item_of}{The number of answer options in the questionnaire item.}
+#'   \item{label_normalized}{Normalized version of the questionnaire item}
+#' }
 #' @examples
 #' \dontrun{
 #' ##use your own file:
@@ -30,11 +37,9 @@ gesis_vocabulary_create <- function ( dat ) {
   normalized_names
 
   get_items <- function ( r_name  = 'nuts') {
-
     itemize <- dat[, r_name ]
     names(itemize) <- "item"
     items <- labelled::val_labels(itemize$item)
-
 
     if ( class(items)=="character" ) {
       character_value <- as.character(items)
@@ -59,7 +64,6 @@ gesis_vocabulary_create <- function ( dat ) {
                       item_of = length(items))
 
     tmp_metadata
-
   }
 
   ##Creating the basic metadata ----

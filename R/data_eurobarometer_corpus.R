@@ -10,6 +10,8 @@
 #'   \item{numeric_value}{The original SPSS numeric values, if applicable}
 #'   \item{character_value}{The original SPSS character value, if applicable}
 #'   \item{label}{The label of the questionnaire item}
+#'   \item{item_no}{The rank number of the alphabetically sorted answer option.}
+#'   \item{item_of}{The number of answer options in the questionnaire item.}
 #'   \item{label_normalized}{Normalized version of the questionnaire item}
 #'   \item{filename}{The name of the original GESIS file.}
 #' }

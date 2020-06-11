@@ -2,7 +2,7 @@
 % Please edit documentation in R/gesis_metadata_create.R
 \name{gesis_metadata_create}
 \alias{gesis_metadata_create}
-\title{Get a metadata file}
+\title{Get A Metadata File}
 \usage{
 gesis_metadata_create(dat)
 }
@@ -20,8 +20,8 @@ A data frame with the original file names, the suggested canonical
 names, factor lists, suggested class conversions.
 }
 \description{
-Retrieve a metadata file with from your data directory or the temporary directory
-of your current R session.
+Retrieve a metadata file with from your data directory or the
+temporary directory of your current R session.
 }
 \examples{
 \dontrun{
