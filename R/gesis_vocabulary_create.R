@@ -4,10 +4,14 @@
 #'
 #' @param dat For example,
 #' @importFrom sjlabelled get_label get_labels
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_rows mutate arrange
 #' @importFrom labelled val_labels
+#' @importFrom tibble tibble
 #' @seealso canonical_name_create
-#' @return The vocabulary of the survey in a data frame.
+#' @return The vocabulary of the survey in a data frame. The return
+#' data frame has 7 columns: \code(r_name), \code(numeric_value),
+#' \code(character_value), \code(label), \code(item_no), \code(item_of),
+#' \code(label_normalized).
 #' @examples
 #' \dontrun{
 #' ##use your own file:
@@ -31,6 +35,7 @@ gesis_vocabulary_create <- function ( dat ) {
     names(itemize) <- "item"
     items <- labelled::val_labels(itemize$item)
 
+
     if ( class(items)=="character" ) {
       character_value <- as.character(items)
     } else {
@@ -43,13 +48,18 @@ gesis_vocabulary_create <- function ( dat ) {
       numeric_value <- rep(NA_real_, length(items))
     }
 
-    tibble(
+    tmp_metadata <- tibble(
       r_name  = r_name,
       numeric_value = numeric_value,
       character_value = character_value,
       label = names ( items )
+      ) %>%
+      dplyr::arrange ( label ) %>%
+      dplyr::mutate ( item_no = 1:nrow(.),
+                      item_of = length(items))
 
-    )
+    tmp_metadata
+
   }
 
   ##Creating the basic metadata ----
@@ -62,13 +72,14 @@ gesis_vocabulary_create <- function ( dat ) {
 
   vocabulary <- NULL
 
-  for (i in which(metadata$r_class == "haven_labelled") ) {
+  haven_labelled_vars <- which(metadata$r_class == "haven_labelled")
+  for (v in  haven_labelled_vars ) {
 
     if ( ! is.null(vocabulary) ) {
       vocabulary <- dplyr::bind_rows(vocabulary,
-                                     get_items(metadata$r_name[i]))
+                                     get_items(metadata$r_name[v]))
     } else {
-      vocabulary <- get_items(metadata$r_name[i])
+      vocabulary <- get_items(r_name = metadata$r_name[v])
     }
 
   }
