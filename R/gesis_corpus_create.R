@@ -22,11 +22,14 @@ gesis_corpus_create <- function ( file_path ) {
   spss_files <- dir(file_path)[grepl(".sav", dir(file_path))]
   gesis_files <- file.path( file_path, spss_files)
   n_files <- length(spss_files)
+
   for ( f in 1:n_files ) {
     message ( f, "/", n_files, " reading ", spss_files[f])
     tmp <- purrr::possibly(haven::read_spss, NULL)(gesis_files[f])
+
     if ( is.null(tmp) ) {
-      warning("Not read")
+      ## possibly retuns NULL in case there was a file reading error.
+      warning("Error reading file: ", spss_files[f], " (omitted)")
       next
     }
     if ( f == 1 ) {
@@ -35,11 +38,19 @@ gesis_corpus_create <- function ( file_path ) {
     } else {
       new_corpus <- purrr::possibly(gesis_vocabulary_create, NULL)(tmp)
       if (!is.null(new_corpus)) {
+        ## If the vocabulary is successfully created, join with previous
         new_corpus$filename <- spss_files[f]
         corpus <- dplyr::bind_rows(corpus, new_corpus)
-      } else warning("Corpus creation error.")
+
+      } else {
+        ## At this moment files that are read in with an error
+        ## are just omitted with a warning.
+        warning("Corpus creation error in file ", spss_files[f],
+                "\nThis file is omitted from the results.")
+        }
     }
   }
+
   corpus
 }
 
