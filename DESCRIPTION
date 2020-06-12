@@ -3,11 +3,17 @@ Type: Package
 Title: Tidy Eurobarometer Survey Microdata
 Version: 0.1.0
 Authors@R: 
-    person(given = "Daniel",
+    c(person(given = "Daniel",
            family = "Antal",
            role = c("aut", "cre"),
            email = "daniel.antal@ceemid.eu",
-           comment = c(ORCID = "0000-0001-7513-6760"))
+           comment = c(ORCID = "0000-0001-7513-6760")),
+      person(given = "Marta",
+           family = "Kołczyńska",
+           role = c("ctb"),
+           email = "mkolczynska@gmail.com",
+           comment = c(ORCID = "0000-0003-4981-0437"))
+      )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
 Description: Converting Eurobarometer microdata files, as stored by
     GESIS, into tidy R data frames and help common pre-processing 
