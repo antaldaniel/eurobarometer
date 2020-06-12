@@ -124,14 +124,14 @@ Some variables appear to have four categories, because the declined answers are 
 trust_2_with_decline  <- trust_with_decline %>%
   filter ( item_of <= 4)
 
-trust_2_var_labels <- trust_2_with_decline %>%
+trust_2_value_labels <- trust_2_with_decline %>%
   select ( all_of(c("label", "label_normalized", 
                     "item_no", "item_of"))
            ) %>%
   distinct_all () %>%
   arrange ( label_normalized, label, item_of)
 
-trust_2_var_labels %>% 
+trust_2_value_labels %>% 
 kable() %>%
   kable_styling(bootstrap_options = 
                 c("striped", "hover", "condensed"), 
@@ -162,7 +162,7 @@ trust_vocabulary <- tibble::tibble (
   topic_1 = 'trust',
   # And if we find them, we can add GESIS or TNS/Kantar keywords here
   topic_2 = 'trust, binary',
-  label_normalized = trust_2_var_labels %>%
+  label_normalized = trust_2_value_labels %>%
     filter ( 
       grepl("tend_to|tend_not_to|inap|dk", label_normalized)) %>%
     distinct ( label_normalized ) %>%
@@ -212,3 +212,38 @@ saveRDS(trust_table, file.path(
 ```
 
 Once we have a few more bits, for example, similar elements of other 2-value factors, we'll bind them together in a small R file in data-raw, and export the final data file with `usethis::use_data()` to the final data directory.  After this, we'll add the documentation in the `R` and `man` directories.
+
+## Harmonization of Variable Names
+
+```{r}
+trust_variable_table <- trust_with_decline %>%
+  filter ( label_normalized %in% trust_table$label_normalized ) %>%
+  filter ( ! grepl("_recoded", normalized_names ) ) %>%
+  distinct ( label_normalized, .keep_all = TRUE ) %>%
+  mutate ( institution =      gsub("trust_in_institutions_|trust_in_|_trust", "",
+                                   normalized_names )) %>%
+  mutate ( geo_qualifier = case_when(
+    grepl("_tcc", institution) ~ "tcc",
+    TRUE ~ NA_character_),
+    institution = gsub("_tcc", "", institution)
+  ) %>%
+  mutate ( canonical_names = paste0("trust_in_",
+                                    institution, "_",
+                                    geo_qualifier) ) %>%
+  mutate ( canonical_names = gsub("_NA", "", canonical_names)) %>%
+  select ( -contains("label"),
+           -contains("item")) %>%
+  rename ( keyword_1 = institution )
+
+trust_variable_table %>%
+  kable %>%
+  kable_styling(bootstrap_options = 
+                  c("striped", "hover", "condensed"), 
+                  fixed_thead = T, 
+                  font_size = 10 ) %>%
+    add_header_above(c("Filtering" = 3, 
+                       "Preferred Term" = 1, 
+                       "Keywords" = 2)
+                     )
+```
+
