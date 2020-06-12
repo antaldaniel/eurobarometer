@@ -1,5 +1,5 @@
 ---
-title: "vocabulary"
+title: "Working With Vocabularies"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vocabulary}
@@ -9,6 +9,8 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE, 
   collapse = TRUE,
   comment = "#>"
 )
@@ -17,6 +19,13 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(eurobarometer)
 library(dplyr)
+library(tibble)
+library(knitr)
+library(kableExtra)
+# The examples of this vignette can be found run with  
+# source(
+#  file.path("not_included", "vignette_vocabulary_examples.R")
+#  )
 ```
 
 There is no final metadata solution now.  There are two main functions, [gesis_metadata_create](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html), which mainly helps with normalizing the variable names, and [gesis_vocabulary_create](http://eurobarometer.danielantal.eu/reference/gesis_vocabulary_create.html) (wrapped by [gesis_corpus_create](http://eurobarometer.danielantal.eu/reference/gesis_corpus_create.html)), which help consolidating the vocabulary of questionnaire items.
@@ -34,42 +43,172 @@ metadata_database <-  readRDS(
 Let's filter out a typical question type that has `Tend to trust` and `Tend not to trust` answer options, with differently encoded `Declined` to answer options.
 
 ```{r}
-trust <- metadata_database  %>%
-  filter (
-  grepl( "tend_to_trust|tend_not_to_trust", label_normalized )
-  )  %>%
-  arrange ( normalized_names, label_normalized, filename ) %>%
-  select (-all_of(c("numeric_value", "character_value", 
-                    "factor_levels", "r_class", 
-                    "conversion_suggestion", 
-                    "normalized_names")))
+select_metadata_vars <- c("filename", "r_name", "normalized_names", 
+                          "canonical_names",
+                          "label_normalized" , "label",
+                          "item_no", "item_of")
 
+trust_metadata <- metadata_database  %>%
+  filter (
+    grepl( "tend_to_trust|tend_not_to_trust", label_normalized )
+  )  %>%
+  select ( all_of(select_metadata_vars)) %>%
+  arrange ( normalized_names, label_normalized, filename )
 ```
 
 To get the unique questions, let's leave out the `Tend not to trust` negative answer options. 
 
 ```{r}
 require(kableExtra)
-trust %>% filter ( 
+trust_metadata %>% filter ( 
    grepl( "tend_to_trust", label_normalized )
   ) %>%
+  sample_n(15) %>% # Print only a sample of 15 rows
 kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
-                fixed_thead = T)
-
+  kable_styling(bootstrap_options =
+                c("striped", "hover", "condensed"), 
+                fixed_thead = T, 
+                font_size = 7)
 ```
 
-Let's filter on national institutions:
+Let's add back all value labels:
 
 ```{r}
-require(kableExtra)
-trust %>% filter ( 
-   grepl( "tend_to_trust", label_normalized ), 
-   grepl( "institutions_national", canonical_names )
-  ) %>% 
+trust_metadata %>%
+  select (
+    # previously we filtered tend to (not) agree, remove it
+    -all_of(c("label_normalized", "label"))
+    ) %>%
+  left_join ( 
+    # add back all value labels, i.e. various declines
+    metadata_database %>%
+                select ( all_of(select_metadata_vars))
+    )  %>% 
+  sample_n(15) %>% # Print only a sample of 15 rows
 kable() %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
-                fixed_thead = T)
+  kable_styling(bootstrap_options = 
+                c("striped", "hover", "condensed"), 
+                fixed_thead = T, 
+                font_size = 9)
+```
+
+## Harmonization of Value Labels
+
+Let's review the problems here. 
+
+```{r, results='asis'}
+trust_with_decline  <- metadata_database %>%
+  select ( all_of(select_metadata_vars) ) %>%
+  semi_join ( trust_metadata %>%
+                select ( all_of(c("filename", "r_name"))), 
+              by = c("filename", "r_name"))
+
+trust_var_labels <- trust_with_decline %>%
+  select ( all_of(c("label", "label_normalized", "item_no", "item_of"))) %>%
+  distinct_all () %>%
+  arrange ( label_normalized, label, item_of)
+
+trust_var_labels %>% 
+kable() %>%
+  kable_styling(bootstrap_options = 
+                c("striped", "hover", "condensed"), 
+                fixed_thead = T, 
+                font_size = 9 ) 
+```
+
+We are dealing with different scales here. Let's narrow down. 
+
+Some variables appear to have four categories, because the declined answers are differently coded in the Turkish Community of Cyprus.  In other cases, though, this is just a different scale.
+
+```{r}
+trust_2_with_decline  <- trust_with_decline %>%
+  filter ( item_of <= 4)
+
+trust_2_var_labels <- trust_2_with_decline %>%
+  select ( all_of(c("label", "label_normalized", 
+                    "item_no", "item_of"))
+           ) %>%
+  distinct_all () %>%
+  arrange ( label_normalized, label, item_of)
+
+trust_2_var_labels %>% 
+kable() %>%
+  kable_styling(bootstrap_options = 
+                c("striped", "hover", "condensed"), 
+                fixed_thead = T, 
+                font_size = 10 ) 
 
 ```
 
+My approach would be this:
+1. filter out all questions with normalized answer options `tend_to_trust` and `tend_not_to_trust`.  These can be safely harmonized.
+
+2. There is clearly a lot of work to be done with the refusal options. I think that this would merit a different function and a different vocabulary, because missingness should consistently treated anyway. The treatment of missinginess in the R language will also raise issues, because the `NA` values is not class independent.
+
+3. Agree on a class representation of the value labels and the missingness. A binary variable would lend itself to be numerically represented, but if we want to treat trust as a topic, which is sometimes coded differently, then a factor or character representation is better (and we should probably use their more modern vctrs versions.).
+
+4. A factor representation is useful if we want to use the ordinary scale of the variable. In this case we must make sure that at each table join, the number and ordering of the factor levels is consistent.
+
+5. I tend to belive that it is better to add back the ordinary scaling later, becasue it is not always necessary at all. (For example, the researcher may want to use this variables in PCA or select a few of them as indicators/dummies.) It is far more simple to give a character representation to these labels. 
+
+6. Manually find out what is going on with 	`tend_to_trust_7_8_in_qa8` `tend_not_to_trust_1_4_in_qa8`. If they can be safely treated as an exception and recoded to `tend_to_trust` and `tend_not_to_trust`, add them to the controlled vocabulary.
+
+7. Leave out anything that has different labels than `tend_to_trust`,  `tend_not_to_trust` or their missingness value.
+
+```{r}
+trust_vocabulary <- tibble::tibble (
+  # maybe we can use a generic controlled vocabulary, for example
+  # Library of Congress
+  topic_1 = 'trust',
+  # And if we find them, we can add GESIS or TNS/Kantar keywords here
+  topic_2 = 'trust, binary',
+  label_normalized = trust_2_var_labels %>%
+    filter ( 
+      grepl("tend_to|tend_not_to|inap|dk", label_normalized)) %>%
+    distinct ( label_normalized ) %>%
+    unlist () %>%
+    as.character(), 
+  level = 2 # I would not treat in R missings as levels
+) 
+
+trust_table <- trust_vocabulary %>%
+  mutate( 
+    character_value = case_when(
+      # and create a surely harmonized character representation 
+      grepl("dk|inap", label_normalized) ~ NA_character_, 
+      substr(label_normalized, 1,7) == "tend_to" ~ "tend_to_trust", 
+    TRUE ~ "tend_not_to_trust"), 
+    numeric_value = case_when ( 
+      character_value == "tend_to" ~ 1,
+      character_value == "tend_not_to" ~ 0,
+      TRUE ~ NA_real_),
+    missing = case_when (
+      # it is useful for faster filtering of missingness
+      # and true value labels  
+      is.na(numeric_value) ~ TRUE, 
+      TRUE ~ FALSE)
+  )
+
+trust_table %>%
+  kable %>%
+  kable_styling(bootstrap_options = 
+                  c("striped", "hover", "condensed"), 
+                  fixed_thead = T, 
+                  font_size = 10 ) %>%
+    add_header_above(c("Keywords" = 2, 
+                       "Label Identification" = 2, 
+                       "Value Harmonization" = 3))
+```
+
+As far as I see, this can be a bulding block of an important metadata table, for example, a table of two-level categories.  As far as I see it, this table is capable of harmonizing the two-level trust variables in all 28 Eurobarometers I checked.
+
+
+```{r}
+saveRDS(trust_table, file.path(
+  "..",   # we're in vignettes
+  "data-raw", "trust_table.rds"),
+  version = 2 # downward compatibility on CRAN
+  )
+```
+
+Once we have a few more bits, for example, similar elements of other 2-value factors, we'll bind them together in a small R file in data-raw, and export the final data file with `usethis::use_data()` to the final data directory.  After this, we'll add the documentation in the `R` and `man` directories.
