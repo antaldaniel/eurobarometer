@@ -104,18 +104,7 @@
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">kableExtra</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following object is masked from 'package:kableExtra':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     group_rows</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)</pre></body></html></div>
 <div id="harmonizing-variable-names" class="section level1">
 <h1 class="hasAnchor">
 <a href="#harmonizing-variable-names" class="anchor"></a>Harmonizing Variable Names</h1>
@@ -142,7 +131,11 @@
 <div id="suffix-conventions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#suffix-conventions" class="anchor"></a>Suffix conventions</h3>
-<p>Currently we are only using suffixes for questionnaire variations. The most likely variation is related to the fact that some fieldwork areas are not part of the core Eurobarometer territory, and for some reason they separated in the original data file, because the respondent received a shorter, or slightly modified questionnaire. In these cases, some of the questions are the same as in the core questionnaire, and can be imputed to the core question. * <code>_tcc</code>: Question variation for members of the Turkish Cypriot community * <code>_mk</code>: Question variation used in North Macedonia.</p>
+<p>Currently we are only using suffixes for questionnaire variations. The most likely variation is related to the fact that some fieldwork areas are not part of the core Eurobarometer territory, and for some reason they separated in the original data file, because the respondent received a shorter, or slightly modified questionnaire. In these cases, some of the questions are the same as in the core questionnaire, and can be imputed to the core question.</p>
+<ul>
+<li><p><code>_tcc</code>: Question variation for members of the Turkish Cypriot community</p></li>
+<li><p><code>_mk</code>: Question variation used in North Macedonia.</p></li>
+</ul>
 </div>
 </div>
 <div id="preferred-expressions" class="section level2">
