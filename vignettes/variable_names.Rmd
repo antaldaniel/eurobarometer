@@ -40,13 +40,17 @@ The variable names are following the `underscore_separated`naming convention whi
 * `id_`: easy selection and detachments of constant metadata, such as the document object identifier or the version number of the data file; except for the uniqid variable, which is an observation / row identifier in almost all files.
 
 * `mc_` : multiple choice question items.  These are logically related variables that are given in the questionnaire in tabular format, but they are coded both in SPSS and R item by item as separate variables (columns).  For the same (structured) question, we always use the `mc_this_question_item_1`, `mc_this_question_item_2`, `mc_this_question_item_dk`  naming convention, where the `_dk` suffix contains the indication that the respondent rejected the entire complex question.
+
 * `is_` : indicator questions, which may created from binary answer options, or from multiple-choice like questions without clear structure. 
 
 These questions can easily be selected for example with the `tidyselect::starts_with(“mc_”)` selector which is widely used in the `tidyverse`.
 
 ### Suffix conventions
-Currently we are only using suffixes for questionnaire variations.  The most likely variation is related to the fact that some fieldwork areas are not part of the core Eurobarometer territory, and for some reason they separated in the original data file, because the respondent received a shorter, or slightly modified questionnaire. In these cases, some of the questions are the same as in the core questionnaire, and can be imputed to the core question. 
+
+Currently we are only using suffixes for questionnaire variations.  The most likely variation is related to the fact that some fieldwork areas are not part of the core Eurobarometer territory, and for some reason they separated in the original data file, because the respondent received a shorter, or slightly modified questionnaire. In these cases, some of the questions are the same as in the core questionnaire, and can be imputed to the core question.
+
 * `_tcc`: Question variation for members of the Turkish Cypriot community
+
 * `_mk`: Question variation used in North Macedonia.
 
 ## Preferred expressions
