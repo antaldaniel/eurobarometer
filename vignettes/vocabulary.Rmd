@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(eurobarometer)
+library(dplyr)
 ```
 
 There is no final metadata solution now.  There are two main functions, [gesis_metadata_create](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html), which mainly helps with normalizing the variable names, and [gesis_vocabulary_create](http://eurobarometer.danielantal.eu/reference/gesis_vocabulary_create.html) (wrapped by [gesis_corpus_create](http://eurobarometer.danielantal.eu/reference/gesis_corpus_create.html)), which help consolidating the vocabulary of questionnaire items.
