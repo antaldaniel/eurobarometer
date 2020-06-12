@@ -6,4 +6,4 @@
 
 # eurobarometer 0.1.0
 * `gesis_vocabulary_create()` 
-* New `vignette(vocabulary)` is developed as a working article to start creating meaningful metadata files.
+* New `vignette(vocabulary)` is developed as a working article to start creating meaningful metadata files. This is at this stage intended for contributors. See [Working With Vocabularies](http://eurobarometer.danielantal.eu/articles/vocabulary.html)

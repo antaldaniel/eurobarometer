@@ -206,7 +206,7 @@ As far as I see, this can be a bulding block of an important metadata table, for
 ```{r}
 saveRDS(trust_table, file.path(
   "..",   # we're in vignettes
-  "data-raw", "trust_table.rds"),
+  "data-raw", "trust_value_labels.rds"),
   version = 2 # downward compatibility on CRAN
   )
 ```
@@ -251,3 +251,11 @@ trust_variable_table %>%
 I think that this can be the basis of a metadata table to use canonical names for 2-level factors.
 
 We should make an effort to harmonize the keywords(s) with accepted thesauri, in this case, for example, with the [ELSST](https://elsst.ukdataservice.ac.uk/thesaurus-search/view-concept/?id=78e0b701-e501-48a1-864f-2d74fb12a37c&lang=EN).
+
+```{r}
+saveRDS(trust_variable_table, file.path(
+  "..",   # we're in vignettes
+  "data-raw", "trust_variables.rds"),
+  version = 2 # downward compatibility on CRAN
+  )
+```
