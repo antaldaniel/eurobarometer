@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   harmonization: harmonization.html
   metadata: metadata.html
+  variable_names: variable_names.html
   vocabulary: vocabulary.html
-last_built: 2020-06-11T16:02Z
+last_built: 2020-06-12T20:30Z
 

@@ -1,0 +1,100 @@
+---
+title: "Harmonizing Variable Names"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Harmonizing Variable Names}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE, warnings=FALSE}
+library(eurobarometer)
+library(knitr)
+library(kableExtra)
+library(dplyr)
+```
+
+
+# Harmonizing Variable Names
+
+## Normalization
+
+We are using the SPSS `.sav` files as a data resource from GESIS.  The SPSS files are combining data with metadata labels.  Furthermore, GESIS often includes metadata, including constants, into the SPSS file. The [normalize_names()](http://eurobarometer.danielantal.eu/reference/normalize_names.html) function is used to create a first suggestion for a variable name using the GESIS SPSS file's variable labels. 
+
+The normalization rules can be reviewed in the source code of the `normalize_names()` function. 
+
+The variable names are following the `underscore_separated`naming convention which is often called the `snake_case_convention`.  We are using prefix and suffix conventions for easy separation and detachments of certain special variables and types.
+ 
+* we are removing all special characters that may be understood as regular expressions, such as `%`, `]`, and all whitespace.
+
+* We use Eurostat abbreviations similar to some Eurostat metadata vocabularies for `greater than`, `lesser than` and similar quasi-arithmetic expressions, and `pct` for percent, percentage or the `%` sign.  
+
+### Prefix conventions
+* `id_`: easy selection and detachments of constant metadata, such as the document object identifier or the version number of the data file; except for the uniqid variable, which is an observation / row identifier in almost all files.
+
+* `mc_` : multiple choice question items.  These are logically related variables that are given in the questionnaire in tabular format, but they are coded both in SPSS and R item by item as separate variables (columns).  For the same (structured) question, we always use the `mc_this_question_item_1`, `mc_this_question_item_2`, `mc_this_question_item_dk`  naming convention, where the `_dk` suffix contains the indication that the respondent rejected the entire complex question.
+
+* `is_` : indicator questions, which may created from binary answer options, or from multiple-choice like questions without clear structure. 
+
+These questions can easily be selected for example with the `tidyselect::starts_with(“mc_”)` selector which is widely used in the `tidyverse`.
+
+### Suffix conventions
+
+Currently we are only using suffixes for questionnaire variations.  The most likely variation is related to the fact that some fieldwork areas are not part of the core Eurobarometer territory, and for some reason they separated in the original data file, because the respondent received a shorter, or slightly modified questionnaire. In these cases, some of the questions are the same as in the core questionnaire, and can be imputed to the core question.
+
+* `_tcc`: Question variation for members of the Turkish Cypriot community
+
+* `_mk`: Question variation used in North Macedonia.
+
+## Preferred expressions
+With often used variables, we try to use the nearest lower_snake_case version of the regularly used questionnaire name without alphanumeric IDs, because we believe that the researchers of Eurobarometer are familiar with these names.  We use this for example with `age_exact`, `type_of_community` and some other often used variables.
+
+Often, repeating (trend) questions can be found under several, often dissimilar labels.  In these cases, we are choosing a preferred version of the variable name, and we are creating metadata tables to bring other variations to this format. 
+
+## Less frequent questions and variables
+In less frequently used questions, questionnaire items we are creating programmatic variable names using roughly the convention of rOpenSci.  In these cases the creation of time series or data panels is less likely, or requires more work, because the questions or the questionnaire items are not the same. Our approach in this case is to create metadata tables for naming that are following topics.  We hope to find contributors who are familiar with certain topics, and can organize the similar but not exactly the same variables into topical groups with similar variable names, such as variables related to trust in institutions or climate change. 
+In these cases we follow general rules:
+
+* The variable name starts with a more general concept and goes towards a specificity
+
+* When applicable, we prefer the rOpenSci `object_verb()` organization (see: [Function and argument naming](https://devguide.ropensci.org/building.html#package-api)), but overrule it for convenience or avoiding awkward variable names.
+
+* Only fully identical questionnaire items have identical names
+
+* Similar questionnaire items have similarly structured names for easier selection and comparison
+
+* We try to avoid extremely long variable names
+
+The preferred variable names are stored in a topical metadata table that contains standardized topical keywords, and serves as a data and questionnaire map to the researcher.
+
+## Example Metadata Table
+
+This metadata table is created by `not_included/vignette_vocabulary_examples.R`.  It is a good practice to create the metadata tables programatically for reproducability. 
+
+After the modification of the source code of this R file, `data-raw/create_categorical_var.R` can update the data file.  The documetation of the metadata table should be updated in `R/data-category_label_2.R`
+
+Similar metadata tables should help the naming for similar variables (for example, in this case, often used two-level categories) or for topics (such as trust in institutions for not two-level variables, or air pollution and climate change related questions.)
+
+```{r}
+data("categorical_variables_2", package = "eurobarometer")
+
+categorical_variables_2 %>%
+  kable() %>%
+  kable_styling(bootstrap_options = 
+                  c("striped", "hover", "condensed"), 
+                  fixed_thead = T, 
+                  font_size = 10 ) %>%
+    add_header_above(c("Filtering" = 3, 
+                       "Preferred Term" = 1, 
+                       "Keywords" = 2)
+                     )
+```
+
+We must decide early on the column names of the metadata table itself, i.e. `filename`, `r_name`, `normalized_names`, `canonical_names`, `keyword_1`, `geo_qualifier`.

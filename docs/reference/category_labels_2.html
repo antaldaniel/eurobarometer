@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get A Metadata File — gesis_metadata_create • eurobarometer</title>
+<title>Vocabulary To Rename Categorical Variables With Two Valid Categories — category_labels_2 • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="Get A Metadata File — gesis_metadata_create" />
-<meta property="og:description" content="Retrieve a metadata file with from your data directory or the
-temporary directory of your current R session." />
+<meta property="og:title" content="Vocabulary To Rename Categorical Variables With Two Valid Categories — category_labels_2" />
+<meta property="og:description" content="Later the filename may be omitted.
+The canonical_name is suggested for programmatic use in R files.
+The topic_1, topic_2 keywords should be later replaced with
+consistent keywords from various thesauri, if necessary. Or they may be
+omitted." />
 
 
 
@@ -133,49 +136,43 @@ temporary directory of your current R session." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get A Metadata File</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/gesis_metadata_create.R'><code>R/gesis_metadata_create.R</code></a></small>
-    <div class="hidden name"><code>gesis_metadata_create.Rd</code></div>
+    <h1>Vocabulary To Rename Categorical Variables With Two Valid Categories</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/data-category_labels_2.R'><code>R/data-category_labels_2.R</code></a></small>
+    <div class="hidden name"><code>category_labels_2.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Retrieve a metadata file with from your data directory or the
-temporary directory of your current R session.</p>
+    <p>Later the filename may be omitted.
+The <code>canonical_name</code> is suggested for programmatic use in R files.
+The <code>topic_1</code>, <code>topic_2</code> keywords should be later replaced with
+consistent keywords from various thesauri, if necessary. Or they may be
+omitted.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gesis_metadata_create</span>(<span class='no'>dat</span>)</pre>
+    <pre class="usage"><span class='no'>category_labels_2</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>zacat_id</th>
-      <td><p>For example, <code>"ZA5688_v6-0-0"</code>, as analyzed and saved by
-<code>analyze_gesis_file</code>.
-Defaults to <code>"last_data_frame"</code>, which is
-the last file in the temporary directory of the current session.</p></td>
-    </tr>
-    <tr>
-      <th>data_dir</th>
-      <td><p>Defaults to <code>"NULL"</code>. In this case the <code>"tempdir()"</code>
-of your current R session will be used.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with the original file names, the suggested canonical
-names, factor lists, suggested class conversions.</p>
+    <p>A data frame with 6 rows in 9 variables:</p><dl'>
+  <dt>topic_1</dt><dd><p>A temporary first level keyword.</p></dd>
+  <dt>topic_2</dt><dd><p>A temporary second level keyword.</p></dd>
+  <dt>label_normalized</dt><dd><p>The variable label after normalization, as imported from the GESIS SPSS file.</p></dd>
+  <dt>level</dt><dd><p>The number of levels excluding decline.</p></dd>
+  <dt>character_value</dt><dd><p>The preferred variable label as.character</p></dd>
+  <dt>numeric_value</dt><dd><p>A suggested numerical coding, when applicable.</p></dd>
+  <dt>missing</dt><dd><p>A logical variable to indicate if the label in the row represents some level of missingess.</p></dd>
+  
+</dl>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The treatment of declined answers in <code>level</code> should probably be
+excluded later, but in a harmonized way.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>canonical_name_create</p></div>
+    <div class='dont-index'><p>categorical_variables_2</p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>##use your own file:</span>
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></span>( <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>gesis_dir</span>, <span class='no'>gesis_file</span>) )
-<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'>gesis_metadata_create</span>(<span class='no'>tmp</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
