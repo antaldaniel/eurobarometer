@@ -4,11 +4,10 @@
 \alias{canonical_names}
 \title{Create Canonical Names for GESIS Columns}
 \usage{
-canonical_names(metadata)
+canonical_names(var_names, var_name_orig)
 }
 \arguments{
-\item{metadata}{A metadata data frame created by
-\code{\link{gesis_metadata_create}}}
+\item{var_names}{A character string of variable names.}
 }
 \description{
 Create canonical names that do not vary across several SPSS files

@@ -5,8 +5,8 @@
 #'
 #' This function may get a new name and some new functionality.
 #'
-#' @param metadata A metadata data frame created by
-#' \code{\link{gesis_metadata_create}}
+#' @param var_names A character string of variable labels.
+#' @param var_name_orig A character string of variable names.
 #' @importFrom stringr str_sub
 #' @family naming functions
 #' @examples
@@ -14,13 +14,14 @@
 #'                     "tns_unique_case_id") )
 #' @export
 
-canonical_names <- function(metadata) {
+canonical_names <- function(var_names,
+                            var_name_orig) {
 
-  x <- trimws(tolower(as.character(metadata$var_label_norm)))
-  x <- label_noralize (x)
-  x <- ifelse (metadata$r_name == "caseid", "caseid", x)
-  x <- ifelse (metadata$r_name == "uniqid", "uniqid", x)
-  x <- ifelse (metadata$r_name == "doi", "doi", x)
+  x <- trimws(tolower(as.character(var_names)))
+  x <- label_normalize (x)
+  x <- ifelse (var_name_orig == "caseid", "caseid", x)
+  x <- ifelse (var_name_orig == "uniqid", "uniqid", x)
+  x <- ifelse (var_name_orig == "doi", "doi", x)
 
   ## Hard replacmenet ------------------------
   x <- ifelse ( grepl("unique_case_id", x),
