@@ -16,12 +16,23 @@ the last file in the temporary directory of the current session.}
 of your current R session will be used.}
 }
 \value{
-A data frame with the original file names, the suggested canonical
-names, factor lists, suggested class conversions.
+A data frame with the original variable attributes and
+suggested conversions and changes.
 }
 \description{
 Retrieve a metadata file with from your data directory or the
 temporary directory of your current R session.
+}
+\details{
+The structure of the returned tibble (data frame)
+\emph{var_name_orig}: The original variable name in SPSS;
+\emph{class_orig}: The original variable class after importing
+\emph{class_orig}: The original variable class after importing
+with \code{\link{haven::read_spss}};
+\emph{var_label_orig}: The original variable label in SPSS;
+\emph{var_label_norm}: A normalized version of the variable labels;
+\emph{factor_levels}: A list of factor levels, i.e. value labels in SPSS;
+\emph{class_suggested}: A suggested class conversion.
 }
 \examples{
 \dontrun{
@@ -29,7 +40,4 @@ temporary directory of your current R session.
 tmp <- haven::read_spss( file.path(gesis_dir, gesis_file) )
 metadata <- gesis_metadata_create(tmp)
 }
-}
-\seealso{
-canonical_name_create
 }

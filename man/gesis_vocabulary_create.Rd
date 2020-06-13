@@ -7,23 +7,25 @@
 gesis_vocabulary_create(dat)
 }
 \arguments{
-\item{dat}{For example,}
+\item{dat}{A data frame read by \code{\link{haven::read_spss}}.}
 }
 \value{
 The vocabulary of the survey in a data frame. The return
 data frame has 7 columns:
-\describe{
-  \item{r_name}{The name of the variable in the data file.}
-  \item{numeric_value}{The original SPSS numeric values, if applicable}
-  \item{character_value}{The original SPSS character value, if applicable}
-  \item{label}{The label of the questionnaire item}
-  \item{item_no}{The rank number of the alphabetically sorted answer option.}
-  \item{item_of}{The number of answer options in the questionnaire item.}
-  \item{label_normalized}{Normalized version of the questionnaire item}
-}
 }
 \description{
 Get every single unique questionnaire item from a survey file.
+}
+\details{
+The variables in the returned data frame
+\describe{
+  \item{var_label_orig}{The name of the variable in the data file.}
+  \item{val_numeric_orig}{The original SPSS numeric values, if applicable}
+  \item{val_label_orig}{The original SPSS character value, if applicable}
+  \item{val_order_alpha}{The rank number of the alphabetically sorted answer option.}
+  \item{val_order_length}{The number of answer options in the questionnaire item.}
+  \item{val_label_normalized}{Normalized version of the questionnaire item}
+}
 }
 \examples{
 \dontrun{

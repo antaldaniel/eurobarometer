@@ -10,3 +10,4 @@
 # eurobarometer 0.1.1
 * The [Harmonizing Variable Names](http://eurobarometer.danielantal.eu/articles/variable_names.html) vignette/article started for an early standardization of variable names. 
 * `canonical_names()` will be deprecated, because the metadata tables will be used to suggest canonical names.
+* The `gesis_vocabulary_create()` and The `gesis_metadata_create()` have better variable names.  The `normalize_names()` function is renamed to `label_normalize`

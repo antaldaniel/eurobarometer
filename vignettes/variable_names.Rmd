@@ -26,7 +26,7 @@ library(dplyr)
 
 ## Normalization
 
-We are using the SPSS `.sav` files as a data resource from GESIS.  The SPSS files are combining data with metadata labels.  Furthermore, GESIS often includes metadata, including constants, into the SPSS file. The [normalize_names()](http://eurobarometer.danielantal.eu/reference/normalize_names.html) function is used to create a first suggestion for a variable name using the GESIS SPSS file's variable labels. 
+We are using the SPSS `.sav` files as a data resource from GESIS.  The SPSS files are combining data with metadata labels.  Furthermore, GESIS often includes metadata, including constants, into the SPSS file. The [label_normalize()](http://eurobarometer.danielantal.eu/reference/label_normalize.html) function is used to create a first suggestion for a variable name using the GESIS SPSS file's variable labels. 
 
 The normalization rules can be reviewed in the source code of the `normalize_names()` function. 
 
