@@ -4,10 +4,10 @@
 #' @importFrom stringr str_sub
 #' @family naming functions
 #' @examples
-#' normalize_names ( c("UPPER CASE VAR", "VAR NAME WITH % SYMBOL") )
+#' label_normalize ( c("UPPER CASE VAR", "VAR NAME WITH % SYMBOL") )
 #' @export
 
-normalize_names <- function(x) {
+label_normalize <- function(x) {
 
   y <- trimws(tolower(as.character(x)))
 
@@ -72,6 +72,10 @@ normalize_names <- function(x) {
   y  <- gsub("wex_weight_extra_population_gt_15", "wex", y)
   y  <- ifelse ( substr(y,1,3) =="w1_",
                  'w1', y)
+
+  y <- ifelse ( test = stringr::str_sub ( y, 1,  1 ) == '_',
+                yes  = stringr::str_sub ( y, 2, -1 ),
+                no   = y  )
 
   y <- ifelse ( test = stringr::str_sub ( y, 1,  1 ) == '_',
                 yes  = stringr::str_sub ( y, 2, -1 ),
