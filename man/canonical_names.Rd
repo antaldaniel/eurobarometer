@@ -14,6 +14,9 @@ canonical_names(metadata)
 Create canonical names that do not vary across several SPSS files
 from different years.
 }
+\details{
+This function may get a new name and some new functionality.
+}
 \examples{
 canonical_names ( c("digital_object_identifier",
                     "tns_unique_case_id") )

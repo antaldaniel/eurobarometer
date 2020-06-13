@@ -23,7 +23,7 @@ of the method.}
 
 \item{rename}{Default to \code{TRUE} which creates machine-readable
 variable names from the original SPSS variable names with calling the
-function \code{\link{canonical_name_create}}. If you set it to
+function \code{\link{canonical_names}}. If you set it to
 \code{FALSE} it will create serial variable names, given that the SPSS
 file names cannot be directly used because of the their special characters.}
 

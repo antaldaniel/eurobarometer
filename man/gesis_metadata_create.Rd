@@ -7,13 +7,7 @@
 gesis_metadata_create(dat)
 }
 \arguments{
-\item{zacat_id}{For example, \code{"ZA5688_v6-0-0"}, as analyzed and saved by
-\code{\link{analyze_gesis_file}}.
-Defaults to \code{"last_data_frame"}, which is
-the last file in the temporary directory of the current session.}
-
-\item{data_dir}{Defaults to \code{"NULL"}. In this case the \code{"tempdir()"}
-of your current R session will be used.}
+\item{dat}{A data frame read by \code{\link[haven]{read_spss}}.}
 }
 \value{
 A data frame with the original variable attributes and
@@ -24,15 +18,7 @@ Retrieve a metadata file with from your data directory or the
 temporary directory of your current R session.
 }
 \details{
-The structure of the returned tibble (data frame)
-\emph{var_name_orig}: The original variable name in SPSS;
-\emph{class_orig}: The original variable class after importing
-\emph{class_orig}: The original variable class after importing
-with \code{\link{haven::read_spss}};
-\emph{var_label_orig}: The original variable label in SPSS;
-\emph{var_label_norm}: A normalized version of the variable labels;
-\emph{factor_levels}: A list of factor levels, i.e. value labels in SPSS;
-\emph{class_suggested}: A suggested class conversion.
+
 }
 \examples{
 \dontrun{

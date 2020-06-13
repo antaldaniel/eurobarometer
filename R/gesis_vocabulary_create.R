@@ -11,13 +11,13 @@
 #'   \item{val_order_length}{The number of answer options in the questionnaire item.}
 #'   \item{val_label_normalized}{Normalized version of the questionnaire item}
 #' }
-#' @param dat A data frame read by \code{\link{haven::read_spss}}.
+#' @param dat A data frame read by \code{\link[haven]{read_spss}}.
 #' @importFrom dplyr bind_rows mutate arrange
 #' @importFrom labelled var_label
 #' @importFrom tibble tibble
 #' @seealso canonical_name_create
 #' @return The vocabulary of the survey in a data frame. The return
-#' data frame has 7 columns:
+#' data frame has 6 columns.
 #' @examples
 #' \dontrun{
 #' ##use your own file:

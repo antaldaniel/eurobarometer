@@ -7,11 +7,11 @@
 gesis_vocabulary_create(dat)
 }
 \arguments{
-\item{dat}{A data frame read by \code{\link{haven::read_spss}}.}
+\item{dat}{A data frame read by \code{\link[haven]{read_spss}}.}
 }
 \value{
 The vocabulary of the survey in a data frame. The return
-data frame has 7 columns:
+data frame has 6 columns.
 }
 \description{
 Get every single unique questionnaire item from a survey file.

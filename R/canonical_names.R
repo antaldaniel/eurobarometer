@@ -2,6 +2,9 @@
 #'
 #' Create canonical names that do not vary across several SPSS files
 #' from different years.
+#'
+#' This function may get a new name and some new functionality.
+#'
 #' @param metadata A metadata data frame created by
 #' \code{\link{gesis_metadata_create}}
 #' @importFrom stringr str_sub
@@ -13,8 +16,8 @@
 
 canonical_names <- function(metadata) {
 
-  x <- trimws(tolower(as.character(metadata$normalized_name)))
-  x <- normalize_names (x)
+  x <- trimws(tolower(as.character(metadata$var_label_norm)))
+  x <- label_noralize (x)
   x <- ifelse (metadata$r_name == "caseid", "caseid", x)
   x <- ifelse (metadata$r_name == "uniqid", "uniqid", x)
   x <- ifelse (metadata$r_name == "doi", "doi", x)

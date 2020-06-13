@@ -13,13 +13,12 @@
 #' from \code{\link{gesis_vocabulary_create}}. The returned data frame has
 #' 8 variables:
 #' \describe{
-#'   \item{r_name}{The name of the variable in the data file.}
-#'   \item{numeric_value}{The original SPSS numeric values, if applicable}
-#'   \item{character_value}{The original SPSS character value, if applicable}
-#'   \item{label}{The label of the questionnaire item}
-#'   \item{item_no}{The rank number of the alphabetically sorted answer option.}
-#'   \item{item_of}{The number of answer options in the questionnaire item.}
-#'   \item{label_normalized}{Normalized version of the questionnaire item}
+#'   \item{var_name_orig}{The name of the variable in the data file.}
+#'   \item{val_numeric_orig}{The original SPSS numeric values, if applicable}
+#'   \item{var_label_orig}{The original SPSS character value, if applicable}
+#'   \item{val_order_alpha}{The rank number of the alphabetically sorted answer option.}
+#'   \item{val_order_length}{The number of answer options in the questionnaire item.}
+#'   \item{val_label_normalized}{Normalized version of the questionnaire item}
 #'   \item{filename}{The name of the original GESIS file.}
 #' }
 #' @seealso gesis_vocabulary_create
