@@ -30,30 +30,31 @@ library(kableExtra)
 
 There is no final metadata solution now.  There are two main functions, [gesis_metadata_create](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html), which mainly helps with normalizing the variable names, and [gesis_vocabulary_create](http://eurobarometer.danielantal.eu/reference/gesis_vocabulary_create.html) (wrapped by [gesis_corpus_create](http://eurobarometer.danielantal.eu/reference/gesis_corpus_create.html)), which help consolidating the vocabulary of questionnaire items.
 
-They are both referring back to [normalize_names](http://eurobarometer.danielantal.eu/reference/normalize_names.html) in normalizing labels. The  [canonical_names](http://eurobarometer.danielantal.eu/reference/canonical_names.html) is a very early attempt to use a canonical form of same questions that appear under different normalized forms.
+They are both referring back to [normalize_names](http://eurobarometer.danielantal.eu/reference/normalize_names.html) in normalizing labels. The  [var_name_suggested](http://eurobarometer.danielantal.eu/reference/var_name_suggested.html) is a very early attempt to use a canonical form of same questions that appear under different normalized forms.
 
 This is a database created from 28 Eurobarometer SPSS files.
 
 ```{r}
-metadata_database <-  readRDS( 
-  file.path('..', 'data-raw',
-  'eb_metadata_database.rds')) 
+metadata_database <- readRDS(
+  file.path("..", "data-raw", "eb_metadata_database.rds")
+  )
 ```
 
 Let's filter out a typical question type that has `Tend to trust` and `Tend not to trust` answer options, with differently encoded `Declined` to answer options.
 
 ```{r}
-select_metadata_vars <- c("filename", "r_name", "normalized_names", 
-                          "canonical_names",
-                          "label_normalized" , "label",
-                          "item_no", "item_of")
+select_metadata_vars <- c("filename", "var_name_orig",
+                          "var_label_norm", 
+                          "var_name_suggested",
+                          "val_label_norm" , "val_label_orig",
+                          "val_order_alpha", "val_order_length")
 
 trust_metadata <- metadata_database  %>%
   filter (
-    grepl( "tend_to_trust|tend_not_to_trust", label_normalized )
+    grepl( "tend_to_trust|tend_not_to_trust", val_label_norm )
   )  %>%
   select ( all_of(select_metadata_vars)) %>%
-  arrange ( normalized_names, label_normalized, filename )
+  arrange ( var_label_norm, val_label_norm, filename )
 ```
 
 To get the unique questions, let's leave out the `Tend not to trust` negative answer options. 
@@ -61,7 +62,7 @@ To get the unique questions, let's leave out the `Tend not to trust` negative an
 ```{r}
 require(kableExtra)
 trust_metadata %>% filter ( 
-   grepl( "tend_to_trust", label_normalized )
+   grepl( "tend_to_trust", val_label_norm )
   ) %>%
   sample_n(15) %>% # Print only a sample of 15 rows
 kable() %>%
@@ -77,7 +78,7 @@ Let's add back all value labels:
 trust_metadata %>%
   select (
     # previously we filtered tend to (not) agree, remove it
-    -all_of(c("label_normalized", "label"))
+    -all_of(c("val_label_norm", "val_label_orig"))
     ) %>%
   left_join ( 
     # add back all value labels, i.e. various declines
@@ -100,13 +101,14 @@ Let's review the problems here.
 trust_with_decline  <- metadata_database %>%
   select ( all_of(select_metadata_vars) ) %>%
   semi_join ( trust_metadata %>%
-                select ( all_of(c("filename", "r_name"))), 
-              by = c("filename", "r_name"))
+                select ( all_of(c("filename", "var_name_orig"))), 
+              by = c("filename", "var_name_orig"))
 
 trust_var_labels <- trust_with_decline %>%
-  select ( all_of(c("label", "label_normalized", "item_no", "item_of"))) %>%
+  select ( all_of(c("label", "val_label_norm",
+                    "val_order_alpha", "val_order_length"))) %>%
   distinct_all () %>%
-  arrange ( label_normalized, label, item_of)
+  arrange ( val_label_norm, label, val_order_length)
 
 trust_var_labels %>% 
 kable() %>%
@@ -122,14 +124,14 @@ Some variables appear to have four categories, because the declined answers are 
 
 ```{r}
 trust_2_with_decline  <- trust_with_decline %>%
-  filter ( item_of <= 4)
+  filter ( val_order_length <= 4)
 
 trust_2_value_labels <- trust_2_with_decline %>%
-  select ( all_of(c("label", "label_normalized", 
-                    "item_no", "item_of"))
+  select ( all_of(c("label", "val_label_norm", 
+                    "val_order_alpha", "val_order_length"))
            ) %>%
   distinct_all () %>%
-  arrange ( label_normalized, label, item_of)
+  arrange ( val_label_norm, label, val_order_length)
 
 trust_2_value_labels %>% 
 kable() %>%
@@ -162,10 +164,10 @@ trust_vocabulary <- tibble::tibble (
   topic_1 = 'trust',
   # And if we find them, we can add GESIS or TNS/Kantar keywords here
   topic_2 = 'trust, binary',
-  label_normalized = trust_2_value_labels %>%
+  val_label_norm = trust_2_value_labels %>%
     filter ( 
-      grepl("tend_to|tend_not_to|inap|dk", label_normalized)) %>%
-    distinct ( label_normalized ) %>%
+      grepl("tend_to|tend_not_to|inap|dk", val_label_norm)) %>%
+    distinct ( val_label_norm ) %>%
     unlist () %>%
     as.character(), 
   level = 3 # missingness should be harmonized in character form 
@@ -175,8 +177,8 @@ trust_table <- trust_vocabulary %>%
   mutate( 
     character_value = case_when(
       # and create a surely harmonized character representation 
-      grepl("dk|inap", label_normalized) ~ NA_character_, 
-      substr(label_normalized, 1,7) == "tend_to" ~ "tend_to_trust", 
+      grepl("dk|inap", val_label_norm) ~ NA_character_, 
+      substr(val_label_norm, 1,7) == "tend_to" ~ "tend_to_trust", 
     TRUE ~ "tend_not_to_trust"), 
     numeric_value = case_when ( 
       character_value == "tend_to" ~ 1,
@@ -229,20 +231,20 @@ Please review [Harmonizing Variable Names](http://eurobarometer.danielantal.eu/a
 
 ```{r}
 trust_variable_table <- trust_with_decline %>%
-  filter ( label_normalized %in% trust_table$label_normalized ) %>%
-  filter ( ! grepl("_recoded", normalized_names ) ) %>%
-  distinct ( label_normalized, .keep_all = TRUE ) %>%
+  filter ( val_label_norm %in% trust_table$val_label_norm ) %>%
+  filter ( ! grepl("_recoded", var_label_norm ) ) %>%
+  distinct ( val_label_norm, .keep_all = TRUE ) %>%
   mutate ( institution =      gsub("trust_in_institutions_|trust_in_|_trust", "",
-                                   normalized_names )) %>%
+                                   var_label_norm )) %>%
   mutate ( geo_qualifier = case_when(
     grepl("_tcc", institution) ~ "tcc",
     TRUE ~ NA_character_),
     institution = gsub("_tcc", "", institution)
   ) %>%
-  mutate ( canonical_names = paste0("trust_in_",
+  mutate ( var_name_suggested = paste0("trust_in_",
                                     institution, "_",
                                     geo_qualifier) ) %>%
-  mutate ( canonical_names = gsub("_NA", "", canonical_names)) %>%
+  mutate ( var_name_suggested = gsub("_NA", "", var_name_suggested)) %>%
   select ( -contains("label"),
            -contains("item")) %>%
   rename ( keyword_1 = institution )
