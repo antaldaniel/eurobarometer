@@ -9,7 +9,7 @@ this_corpus <- gesis_corpus_create( file_path=gesis_dir)
 eurobarometer_corpus <- this_corpus
 
 usethis::use_data(eurobarometer_corpus, overwrite =TRUE, internal = FALSE)
-
+names(eurobarometer_corpus)
 
 
 

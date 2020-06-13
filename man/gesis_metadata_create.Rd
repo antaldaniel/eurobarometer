@@ -18,7 +18,15 @@ Retrieve a metadata file with from your data directory or the
 temporary directory of your current R session.
 }
 \details{
-
+The structure of the returned tibble:
+\describe{
+  \item{var_name_orig}{The original variable name in SPSS}
+  \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}}
+  \item{var_label_orig}{The original variable label in SPSS}
+  \item{var_label_norm}{A normalized version of the variable labels}
+  \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
+  \item{class_suggested}{A suggested class conversion.}
+}
 }
 \examples{
 \dontrun{
