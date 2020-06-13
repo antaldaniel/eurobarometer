@@ -18,9 +18,11 @@ class_suggest <- function(metadata) {
     dplyr::select ( class_orig,
                     factor_levels, n_categories ) %>%
     mutate ( first_level  = first_level,
-             second_level = second_level ) %>%
-    mutate ( suggestion = case_when (
-      class_orig %in% c("numeric","character") ~ orig_class,
+             second_level = second_level )
+
+  suggestions <-suggestions %>%
+    mutate ( suggestion = dplyr::case_when (
+      class_orig %in% c("numeric","character") ~ class_orig,
       class_orig == 'haven_labelled' & n_categories  == 1 ~ 'character',
       first_level == "mentioned" & second_level == "not mentioned" ~  'dummy',
       TRUE ~ "factor" ))

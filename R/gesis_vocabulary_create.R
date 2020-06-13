@@ -32,9 +32,6 @@ gesis_vocabulary_create <- function ( dat ) {
     dat, function(x) class(x)[1], character(1)
   )
 
-  var_label_orig <- vapply ( dat, labelled::var_label, character(1) )
-  var_label_norm <- label_normalize(x = var_label_orig )
-
   get_items <- function ( this_var_name_orig  = 'nuts') {
 
     itemize <- dat[, this_var_name_orig ]
@@ -53,13 +50,12 @@ gesis_vocabulary_create <- function ( dat ) {
     } else if  (
       any(c("integer", "numeric", "double") %in% class(items))
       ) {
-      numeric_value <- as.numeric(items)
-      character_value <- rep(NA_character_, length(items))
+      numeric_value <- NA_real_
+      character_value <- NA_character_
     }
 
     tmp_metadata <- tibble(
-      var_label_orig  = rep(this_var_name_orig,
-                            length(numeric_value)),
+      var_name_orig = this_var_name_orig,
       val_numeric_orig = numeric_value,
       val_label_orig = character_value
       ) %>%
@@ -67,46 +63,92 @@ gesis_vocabulary_create <- function ( dat ) {
       dplyr::mutate ( val_order_alpha = 1:nrow(.),
                       val_order_length = length(items))
 
+    if ( nrow(tmp_metadata) == 1 ) {
+      if ( is.na(tmp_metadata$val_numeric_orig) &
+           is.na(tmp_metadata$val_label_orig) ){
+        tmp_metadata$val_order_length <- NA_real_
+        tmp_metadata$val_order_alpha <- NA_real_
+      }
+    }
+
     tmp_metadata
   }
 
-  ## Creating the basic metadata ----
-  metadata <- tibble::tibble (
-    var_name_orig = names ( dat ),
-    class_orig  = class_orig,
-    var_label_orig = var_label_orig,
-    var_label_norm = var_label_norm
-  )
-
   vocabulary <- NULL
 
-  haven_labelled_vars <- which(
-    metadata$class_orig == "haven_labelled" )
+  haven_labelled_vars <- which(class_orig == "haven_labelled" )
+  character_vars <- which(class_orig == "character" )
+  numeric_vars <- which(class_orig == "numeric" )
 
-  for (v in  haven_labelled_vars ) {
+  for (v in haven_labelled_vars ) {
     if ( ! is.null(vocabulary) ) {
       vocabulary <- dplyr::bind_rows(
         vocabulary,
-        get_items(metadata$var_name_orig[v])
+        get_items(names(dat)[v])
         )
     } else {
       vocabulary <- get_items(
-        this_var_name_orig = metadata$var_name_orig[v]
+        this_var_name_orig = names(dat)[v]
         )
     }
   }
 
-  vocabulary$label_normalized <- label_normalize(
+  char_vocabulary <- NULL
+
+  for (c in character_vars ) {
+    if ( ! is.null(char_vocabulary) ) {
+      char_vocabulary <- dplyr::bind_rows(
+        char_vocabulary,
+        get_items(names(dat)[c])
+      )
+    } else {
+      char_vocabulary <- get_items(
+        this_var_name_orig = names(dat)[c]
+      )
+    }
+  }
+
+  nrow(vocabulary)
+
+  if (!is.null(char_vocabulary)) {
+    vocabulary <- dplyr::bind_rows(
+      vocabulary, char_vocabulary)
+  }
+
+  nrow(vocabulary)
+
+  num_vocabulary <- NULL
+
+  for (n in numeric_vars ) {
+    if ( ! is.null(num_vocabulary) ) {
+      num_vocabulary <- dplyr::bind_rows(
+        num_vocabulary,
+        get_items(names(dat)[n])
+      )
+    } else {
+      num_vocabulary <- get_items(
+        this_var_name_orig = names(dat)[n]
+      )
+    }
+  }
+
+  if (!is.null(num_vocabulary)) {
+    vocabulary <- dplyr::bind_rows(
+      vocabulary, num_vocabulary)
+  }
+
+  nrow(vocabulary)
+
+  vocabulary$val_label_norm <- label_normalize(
              vocabulary$val_label_orig )
 
-  vocabulary$label_normalized <- ifelse (
+  vocabulary$val_label_norm <- ifelse (
     ## mark potentially missing labels
-    vocabulary$label_normalized %in% c("_", " ", "", "-"),
+    vocabulary$val_label_norm %in% c("_", " ", "", "-"),
     yes = "<missing_label>",
-    no = vocabulary$label_normalized
+    no = vocabulary$val_label_norm
     )
 
   vocabulary
-
 }
 

@@ -24,6 +24,7 @@ The structure of the returned tibble:
   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}}
   \item{var_label_orig}{The original variable label in SPSS}
   \item{var_label_norm}{A normalized version of the variable labels}
+  \item{var_name_suggested}{A partly canonized variable name.}
   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
   \item{class_suggested}{A suggested class conversion.}
 }

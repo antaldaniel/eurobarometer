@@ -9,6 +9,7 @@
 #'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}}
 #'   \item{var_label_orig}{The original variable label in SPSS}
 #'   \item{var_label_norm}{A normalized version of the variable labels}
+#'   \item{var_name_suggested}{A partly canonized variable name.}
 #'   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
 #'   \item{class_suggested}{A suggested class conversion.}
 #' }
@@ -34,14 +35,16 @@ gesis_metadata_create <- function ( dat ) {
 
   var_label_orig <- vapply ( dat, labelled::var_label, character(1) )
   var_label_norm <- label_normalize(x = var_label_orig )
-  var_label_norm
+  var_label_suggested <- canonical_names(var_label_norm,
+                                         names(dat))
 
   ## Creating the basic metadata ----
   metadata <- tibble::tibble (
     var_name_orig = names ( dat ),
     class_orig  = class_orig,
     var_label_orig = var_label_orig,
-    var_label_norm = var_label_norm
+    var_label_norm = var_label_norm,
+    var_name_suggested = var_label_suggested
   )
 
   ## Creating a catalog of possible categories / factor levels ----
