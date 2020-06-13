@@ -1,10 +1,12 @@
 #' Suggest Conversion
 #'
 #' @param metadata A metadata file created by gesis_metadata_create
+#' @return The metadata tibble augmented with the \code{class_suggested}
+#' variable.
 #' @importFrom magrittr %>%
 #' @importFrom dplyr select mutate case_when
 
-suggest_conversion <- function(metadata) {
+class_suggest <- function(metadata) {
 
   factor_levels <- sapply ( metadata$factor_levels,
                         function(x) sort(tolower(unlist(x))) )
@@ -13,15 +15,16 @@ suggest_conversion <- function(metadata) {
   second_level <- unlist(lapply(factor_levels, function(x) x[2]))
 
   suggestions <- metadata %>%
-    dplyr::select ( r_class,factor_levels, level_length ) %>%
+    dplyr::select ( class_orig,
+                    factor_levels, n_categories ) %>%
     mutate ( first_level  = first_level,
              second_level = second_level ) %>%
     mutate ( suggestion = case_when (
-      r_class %in% c("numeric","character") ~ r_class,
-      r_class == 'haven_labelled' & level_length == 1 ~ 'character',
+      class_orig %in% c("numeric","character") ~ orig_class,
+      class_orig == 'haven_labelled' & n_categories  == 1 ~ 'character',
       first_level == "mentioned" & second_level == "not mentioned" ~  'dummy',
       TRUE ~ "factor" ))
 
-  metadata$conversion_suggestion <- suggestions$suggestion
+  metadata$class_suggested <- suggestions$suggestion
   metadata
 }

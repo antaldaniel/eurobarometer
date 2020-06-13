@@ -20,6 +20,6 @@ canonical_names ( c("digital_object_identifier",
 }
 \seealso{
 Other naming functions: 
-\code{\link{normalize_names}()}
+\code{\link{label_normalize}()}
 }
 \concept{naming functions}
