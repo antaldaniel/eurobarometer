@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -64,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
+    </li>
+    <li>
+      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -108,180 +111,43 @@
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">sample</span> <span class="kw">&lt;-</span> <span class="kw pkg">eurobarometer</span><span class="kw ns">:::</span><span class="no">eb_sample</span>
 <span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="kw">dat</span> <span class="kw">=</span> <span class="no">sample</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">sample_metadata</span>)
-<span class="co">#&gt; [1] "r_name"                "r_class"               "spss_name"            </span>
-<span class="co">#&gt; [4] "normalized_names"      "factor_levels"         "level_length"         </span>
-<span class="co">#&gt; [7] "conversion_suggestion"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "var_name_orig"      "class_orig"         "var_label_orig"    </span>
+<span class="co">#&gt; [4] "var_label_norm"     "var_name_suggested" "factor_levels"     </span>
+<span class="co">#&gt; [7] "n_categories"       "class_suggested"</span></pre></body></html></div>
 <p>The function <code>gesis_metadta_create</code> normalizes those variable names that are not machine readable. These names are still often problematic and require adjustment.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">adjusted_metadata</span> <span class="kw">&lt;-</span> <span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">canonical_names</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span> (
-    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">normalized_names</span>, <span class="fl">1</span>,<span class="fl">3</span>) <span class="kw">==</span> <span class="st">"p6_|p7_"</span> ~ <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">normalized_names</span>, <span class="fl">4</span>,-<span class="fl">1</span>),
-    <span class="no">normalized_names</span> <span class="kw">==</span> <span class="st">"w1_weight_result_from_target"</span> ~ <span class="st">'w1'</span>,
-    <span class="fl">TRUE</span> ~ <span class="no">normalized_names</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">var_name_suggested</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span> (
+    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_label_norm</span>, <span class="fl">1</span>,<span class="fl">3</span>) <span class="kw">==</span> <span class="st">"p6_|p7_"</span> ~
+      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_label_norm</span>, <span class="fl">4</span>,-<span class="fl">1</span>),
+    <span class="no">var_label_norm</span> <span class="kw">==</span> <span class="st">"w1_weight_result_from_target"</span> ~ <span class="st">'w1'</span>,
+    <span class="fl">TRUE</span> ~ <span class="no">var_label_norm</span>
   ))</pre></body></html></div>
 <p>You can, if you know what you are doing, change the suggested base R representation of your survey data in the column:</p>
+<p>[MUST BE REWRITTEN WITH RECENT VAR NAME AND FUCNTION NAME CHANGES]</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">renamed_sample</span> <span class="kw">&lt;-</span> <span class="no">sample</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">adjusted_metadata</span>$<span class="no">canonical_names</span>)
+  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">adjusted_metadata</span>$<span class="no">var_name_suggested</span>)
 
 <span class="no">converted</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/convert_class.html">convert_class</a></span> (<span class="kw">dat</span> <span class="kw">=</span> <span class="no">renamed_sample</span>,
                <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">adjusted_metadata</span>,
-               <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"canonical_names"</span>,
-               <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"conversion_suggestion"</span>)
+               <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+               <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span>)
 
 <span class="no">converted</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"w1"</span>,
-                          <span class="st">"age_exact"</span>,
-                          <span class="st">"is_energy_saving_action_used_car_less"</span>))) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"w1"</span>,<span class="st">"age_exact"</span>,
+             <span class="st">"is_energy_saving_action_used_car_less"</span>))
+    ) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="no">.</span>, <span class="fl">10</span>) <span class="kw">%&gt;%</span>
   <span class="fu">kable</span>()</pre></body></html></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">w1</th>
-<th align="left">age_exact</th>
-<th align="right">is_energy_saving_action_used_car_less</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">1.5883</td>
-<td align="left">25</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="right">0.4561</td>
-<td align="left">38</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.1286</td>
-<td align="left">63</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">1.2919</td>
-<td align="left">46</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.2327</td>
-<td align="left">51</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">1.9220</td>
-<td align="left">73</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">0.3443</td>
-<td align="left">27</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">1.7984</td>
-<td align="left">44</td>
-<td align="right">0</td>
-</tr>
-<tr class="odd">
-<td align="right">1.0970</td>
-<td align="left">42</td>
-<td align="right">0</td>
-</tr>
-<tr class="even">
-<td align="right">0.7211</td>
-<td align="left">77</td>
-<td align="right">0</td>
-</tr>
-</tbody>
-</table>
-<p><code>GESIS</code> and/or <code>TNS</code> did not use some variable names consistently over the years and decades. Canonizing these variables names is a subjective matter. A subjective canonization is coded in ’canonical_names()`, which uses both the variable names and their labels from the SPSS file.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">sample_metadata</span>$<span class="no">canonical_names</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/canonical_names.html">canonical_names</a></span>(<span class="no">sample_metadata</span>)
+<p><code>GESIS</code> and/or <code>TNS</code> did not use some variable names consistently over the years and decades. Canonizing these variables names is a subjective matter. A subjective canonization is coded in ’var_name_suggested()`, which uses both the variable names and their labels from the SPSS file.</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">sample_metadata</span>$<span class="no">var_name_suggested</span>  <span class="kw">&lt;-</span> <span class="fu">var_name_suggested</span>(<span class="no">sample_metadata</span>)
 
 <span class="no">sample</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">sample_metadata</span>$<span class="no">canonical_names</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">sample_metadata</span>$<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"age"</span>)) <span class="kw">%&gt;%</span>
   <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">10</span>) <span class="kw">%&gt;%</span>
   <span class="fu">kable</span>()</pre></body></html></div>
-<table class="table">
-<thead><tr class="header">
-<th align="right">age_education</th>
-<th align="right">age_education_recoded</th>
-<th align="right">age_exact</th>
-<th align="right">age_rec_4</th>
-<th align="right">age_rec_6</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="right">14</td>
-<td align="right">1</td>
-<td align="right">67</td>
-<td align="right">4</td>
-<td align="right">6</td>
-</tr>
-<tr class="even">
-<td align="right">16</td>
-<td align="right">3</td>
-<td align="right">74</td>
-<td align="right">4</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="right">16</td>
-<td align="right">3</td>
-<td align="right">64</td>
-<td align="right">4</td>
-<td align="right">5</td>
-</tr>
-<tr class="even">
-<td align="right">97</td>
-<td align="right">11</td>
-<td align="right">72</td>
-<td align="right">4</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="right">36</td>
-<td align="right">9</td>
-<td align="right">47</td>
-<td align="right">3</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td align="right">14</td>
-<td align="right">1</td>
-<td align="right">80</td>
-<td align="right">4</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="right">17</td>
-<td align="right">4</td>
-<td align="right">31</td>
-<td align="right">2</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="right">15</td>
-<td align="right">2</td>
-<td align="right">29</td>
-<td align="right">2</td>
-<td align="right">2</td>
-</tr>
-<tr class="odd">
-<td align="right">34</td>
-<td align="right">9</td>
-<td align="right">61</td>
-<td align="right">4</td>
-<td align="right">5</td>
-</tr>
-<tr class="even">
-<td align="right">21</td>
-<td align="right">8</td>
-<td align="right">25</td>
-<td align="right">2</td>
-<td align="right">2</td>
-</tr>
-</tbody>
-</table>
-</div>
+  </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 

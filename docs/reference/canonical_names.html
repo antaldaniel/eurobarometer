@@ -73,7 +73,7 @@ from different years." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -106,6 +106,9 @@ from different years." />
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
+    </li>
+    <li>
+      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -143,26 +146,28 @@ from different years." />
 from different years.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>canonical_names</span>(<span class='no'>metadata</span>)</pre>
+    <pre class="usage"><span class='fu'>canonical_names</span>(<span class='no'>var_names</span>, <span class='no'>var_name_orig</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>metadata</th>
-      <td><p>A metadata data frame created by
-<code><a href='gesis_metadata_create.html'>gesis_metadata_create</a></code></p></td>
+      <th>var_names</th>
+      <td><p>A character string of variable names.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function may get a new name and some new functionality.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other naming functions: 
-<code><a href='normalize_names.html'>normalize_names</a>()</code></p></div>
+<code><a href='label_normalize.html'>label_normalize</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>canonical_names</span> ( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"digital_object_identifier"</span>,
-                    <span class='st'>"tns_unique_case_id"</span>) )</div><div class='output co'>#&gt; <span class='error'>Error: $ operator is invalid for atomic vectors</span></div></pre>
+                    <span class='st'>"tns_unique_case_id"</span>) )</div><div class='output co'>#&gt; <span class='error'>Error in ifelse(var_name_orig == "caseid", "caseid", x): argument "var_name_orig" is missing, with no default</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

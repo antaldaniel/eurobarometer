@@ -40,8 +40,6 @@
 
 
 <meta property="og:title" content="eurobarometer: A package to create tidy Eurobarometer microdata files. — eurobarometer" />
-<meta property="og:description" content="The regions package provides four categories of important functions:
-validate, recode, impute and aggregate." />
 
 
 
@@ -73,7 +71,7 @@ validate, recode, impute and aggregate." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -107,6 +105,9 @@ validate, recode, impute and aggregate." />
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
     </li>
+    <li>
+      <a href="../articles/workflow.html">Workflow</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -139,8 +140,6 @@ validate, recode, impute and aggregate." />
     </div>
 
     <div class="ref-description">
-    <p>The regions package provides four categories of important functions:
-validate, recode, impute and aggregate.</p>
     </div>
 
 
@@ -151,10 +150,19 @@ validate, recode, impute and aggregate.</p>
 
 <p>The naming functions make the GESIS SPSS files usable in a programmatic
 context.
-<code><a href='normalize_names.html'>normalize_names</a></code> removes regex symbols, whitespace, and
+<code><a href='label_normalize.html'>label_normalize</a></code> removes regex symbols, whitespace, and
 basic inconsistencies in abbreviations.
 <code><a href='canonical_names.html'>canonical_names</a></code> harmonizes the names across various GESIS
 files, so that they can be joined into panels across time.</p>
+    <h2 class="hasAnchor" id="metadata-functions"><a class="anchor" href="#metadata-functions"></a>metadata functions</h2>
+
+    
+
+<p>The metadata functions map the SPSS file and suggest variable names,
+re-labelling and class conversions.
+<code><a href='gesis_metadata_create.html'>gesis_metadata_create</a></code>
+<code><a href='gesis_vocabulary_create.html'>gesis_vocabulary_create</a></code>
+<code><a href='gesis_corpus_create.html'>gesis_corpus_create</a></code> is a wrapper the two former functions.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

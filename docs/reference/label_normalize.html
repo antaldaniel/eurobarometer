@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get The Vocabulary Of A Survey — gesis_vocabulary_create • eurobarometer</title>
+<title>Create Normalized Variable Names for GESIS Columns — label_normalize • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get The Vocabulary Of A Survey — gesis_vocabulary_create" />
-<meta property="og:description" content="Get every single unique questionnaire item from a survey file." />
+<meta property="og:title" content="Create Normalized Variable Names for GESIS Columns — label_normalize" />
+<meta property="og:description" content="Create Normalized Variable Names for GESIS Columns" />
 
 
 
@@ -135,52 +135,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get The Vocabulary Of A Survey</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/gesis_vocabulary_create.R'><code>R/gesis_vocabulary_create.R</code></a></small>
-    <div class="hidden name"><code>gesis_vocabulary_create.Rd</code></div>
+    <h1>Create Normalized Variable Names for GESIS Columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/label_normalize.R'><code>R/label_normalize.R</code></a></small>
+    <div class="hidden name"><code>label_normalize.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get every single unique questionnaire item from a survey file.</p>
+    <p>Create Normalized Variable Names for GESIS Columns</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gesis_vocabulary_create</span>(<span class='no'>dat</span>)</pre>
+    <pre class="usage"><span class='fu'>label_normalize</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat</th>
-      <td><p>A data frame read by <code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code>.</p></td>
+      <th>x</th>
+      <td><p>A vector of the GESIS variable names</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>The vocabulary of the survey in a data frame. The return
-data frame has 6 columns.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The variables in the returned data frame</p><dl'>
-  <dt>var_label_orig</dt><dd><p>The name of the variable in the data file.</p></dd>
-  <dt>val_numeric_orig</dt><dd><p>The original SPSS numeric values, if applicable</p></dd>
-  <dt>val_label_orig</dt><dd><p>The original SPSS character value, if applicable</p></dd>
-  <dt>val_order_alpha</dt><dd><p>The rank number of the alphabetically sorted answer option.</p></dd>
-  <dt>val_order_length</dt><dd><p>The number of answer options in the questionnaire item.</p></dd>
-  <dt>val_label_normalized</dt><dd><p>Normalized version of the questionnaire item</p></dd>
-
-</dl>
-
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>canonical_name_create</p></div>
+    <div class='dont-index'><p>Other naming functions: 
+<code><a href='canonical_names.html'>canonical_names</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>##use your own file:</span>
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></span>( <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>gesis_dir</span>, <span class='no'>gesis_file</span>) )
-<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'>gesis_vocabulary_create</span> (<span class='no'>tmp</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>label_normalize</span> ( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UPPER CASE VAR"</span>, <span class='st'>"VAR NAME WITH % SYMBOL"</span>) )</div><div class='output co'>#&gt; [1] "upper_case_var"           "var_name_with_pct_symbol"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

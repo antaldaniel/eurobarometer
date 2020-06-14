@@ -12,3 +12,8 @@
 * In the future, `canonical_names()` may be renamed, and it may receive a new functionality.
 * The `gesis_vocabulary_create()` and The `gesis_metadata_create()` have better variable names.  The `normalize_names()` function is renamed to `label_normalize()`. 
 * Internal function is renamed to `class_suggest()` from `suggest_conversion()`.
+* The [Workflow](http://eurobarometer.danielantal.eu/articles/workflow.html) vignette is open for consultation.
+
+# Foreseen changes
+
+* `code_nuts1()` and `code_nuts2()` will be deprecated, and included in the [regions](http://regions.danielantal.eu/) package.  A vignette will connect the two packages.

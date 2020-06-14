@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -64,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
+    </li>
+    <li>
+      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -111,8 +114,8 @@
 <div id="normalization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#normalization" class="anchor"></a>Normalization</h2>
-<p>We are using the SPSS <code>.sav</code> files as a data resource from GESIS. The SPSS files are combining data with metadata labels. Furthermore, GESIS often includes metadata, including constants, into the SPSS file. The <a href="http://eurobarometer.danielantal.eu/reference/normalize_names.html">normalize_names()</a> function is used to create a first suggestion for a variable name using the GESIS SPSS file’s variable labels.</p>
-<p>The normalization rules can be reviewed in the source code of the <code><a href="../reference/normalize_names.html">normalize_names()</a></code> function.</p>
+<p>We are using the SPSS <code>.sav</code> files as a data resource from GESIS. The SPSS files are combining data with metadata labels. Furthermore, GESIS often includes metadata, including constants, into the SPSS file. The <a href="http://eurobarometer.danielantal.eu/reference/label_normalize.html">label_normalize()</a> function is used to create a first suggestion for a variable name using the GESIS SPSS file’s variable labels.</p>
+<p>The normalization rules can be reviewed in the source code of the <code>normalize_names()</code> function.</p>
 <p>The variable names are following the <code>underscore_separated</code>naming convention which is often called the <code>snake_case_convention</code>. We are using prefix and suffix conventions for easy separation and detachments of certain special variables and types.</p>
 <ul>
 <li><p>we are removing all special characters that may be understood as regular expressions, such as <code>%</code>, <code>]</code>, and all whitespace.</p></li>

@@ -33,39 +33,43 @@ The function `gesis_metadta_create` normalizes those variable names that are not
 
 ```{r}
 adjusted_metadata <- sample_metadata %>%
-  mutate ( canonical_names = case_when (
-    str_sub(normalized_names, 1,3) == "p6_|p7_" ~ str_sub(normalized_names, 4,-1), 
-    normalized_names == "w1_weight_result_from_target" ~ 'w1', 
-    TRUE ~ normalized_names
+  mutate ( var_name_suggested = case_when (
+    str_sub(var_label_norm, 1,3) == "p6_|p7_" ~
+      str_sub(var_label_norm, 4,-1), 
+    var_label_norm == "w1_weight_result_from_target" ~ 'w1', 
+    TRUE ~ var_label_norm
   ))
 ```
 
 You can, if you know what you are doing, change the suggested base R representation of your survey data in the column:
 
-```{r}
+[MUST BE REWRITTEN WITH RECENT VAR NAME AND FUCNTION NAME CHANGES]
+
+```{r, eval=FALSE}
 renamed_sample <- sample %>%
-  purrr::set_names ( adjusted_metadata$canonical_names)
+  purrr::set_names ( adjusted_metadata$var_name_suggested)
 
 converted <- convert_class (dat = renamed_sample, 
                metadata = adjusted_metadata,
-               var_name = "canonical_names",
-               conversion = "conversion_suggestion")
+               var_name = "var_name_suggested",
+               conversion = "class_suggested")
 
 converted %>%
-  dplyr::select( all_of(c("w1", 
-                          "age_exact", 
-                          "is_energy_saving_action_used_car_less"))) %>%
+  dplyr::select( 
+    all_of(c("w1","age_exact", 
+             "is_energy_saving_action_used_car_less"))
+    ) %>%
   dplyr::sample_n(., 10) %>%
   kable()
 ```
 
-`GESIS` and/or `TNS` did not use some variable names consistently over the years and decades.  Canonizing these variables names is a subjective matter. A subjective canonization is coded in 'canonical_names()`, which uses both the variable names and their labels from the SPSS file.
+`GESIS` and/or `TNS` did not use some variable names consistently over the years and decades.  Canonizing these variables names is a subjective matter. A subjective canonization is coded in 'var_name_suggested()`, which uses both the variable names and their labels from the SPSS file.
 
-```{r}
-sample_metadata$canonical_names  <- canonical_names(sample_metadata)
+```{r, eval=FALSE}
+sample_metadata$var_name_suggested  <- var_name_suggested(sample_metadata)
 
 sample %>%
-  purrr::set_names ( sample_metadata$canonical_names) %>%
+  purrr::set_names ( sample_metadata$var_name_suggested) %>%
   dplyr::select ( starts_with("age")) %>%
   dplyr::sample_n(10) %>%
   kable()

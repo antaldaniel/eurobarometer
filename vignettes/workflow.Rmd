@@ -1,0 +1,260 @@
+---
+title: "Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  eval = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+example_panel_id <- data.frame(
+  panel_id = rep(NA_character_, 8),
+  id_uniqid = c(101,102,103,104, 108,199,104,188), 
+  id_survey = c( rep("eb_23.4", 4), 
+                 rep("eb_28.9", 4)),
+  filename = c( rep("GESIS_A.sav", 4), 
+                rep("GESIS_B.sav", 4)), 
+  w1 =  round(runif(8, 0, 1.5),2),
+  wex = round(runif(8, 0, 1.5)*runif(8, 1000,9000),2)
+  )
+example_panel_id$panel_id <- paste0(
+  example_panel_id$id_survey, "_", 
+  example_panel_id$id_uniqid, "_",
+  example_panel_id$filename
+)
+
+my_panel <- example_panel_id
+```
+
+```{r setup, eval=TRUE, echo=TRUE}
+## This vignette is hypothetical at this stage, and the chunks, 
+## unless stated otherwise, are NOT evaluated.
+library(eurobarometer)
+library(knitr)
+```
+
+At this point this workflow if purely hypothetical, the functions are not written, and they are not evaluated.
+
+## Acquiring the data from GESIS
+
+I do not see a lot of sense in automating this, because the new GESIS interface requires a lot of approvals and interaction. However, I think that the files should be in a single folder. Maybe this could be a `tempdir()` but I am not very enthusiastic about it because it causes documentation issues.
+
+## Reading in the files
+
+Working with native SPSS files is extremely slow, and I think it would make sense to first read and re-save them as .rds files or .rda files.
+
+
+```{r}
+## read in all GESIS SPSS files and validated the 
+## reading process, save only those that are valid GESIS files.
+## must canonize some id vars, such as uniqid, and filename
+##or anything that is present in all files. 
+
+gesis_spss_to_rds ( import_dir, working_dir )
+```
+
+It is important that at this stage we have a few variables that are absolutely consistent for `bind_row` operations.
+
+## Creating a skeleton panel
+
+```{r}
+## filter out the most basic and omnipresent id variables, and the
+## most basic weights, w1 and its projected version wex
+
+my_panel <- panel_create ( working_dir, 
+               # do not start with id_ to make filtering other IDs 
+               # easier later 
+                          panel_id = "panel_id", 
+               ## must be at least two, and one must be the uniqid
+               ## of the file or row_id 
+                          id_components = c("uniqid", "filename")
+               )
+```
+
+This should return a very basic file for joining, a data.frame/tibble with
+* a truly unique id
+* id elements for joining in individual survey data, in this example, * The two most basic weight vars, `w1` and `wex`, because I would not leave the pain of harmonizing weights to the end.
+
+`id_uniqid`, `id_survey`, `filename` must be present in all `.rds` files. 
+
+```{r, eval=TRUE}
+kable(my_panel)
+```
+
+## Identifying variables 
+
+```{r}
+## read in all GESIS SPSS files and validated the reading process,
+## save only those that are valid GESIS files.
+working_metadata <- gesis_metadata_create ( working_dir ) 
+
+# the researcher at this point can tweak the metadata, for example, adjust variable names.
+
+## read in .rds files and save them to renamed rds files with corrected metadata
+survey_rename (working_metadata, working_dir)
+
+```
+
+
+## Harmonizing various aspects of the survey
+
+```{r}
+## this is how I would envision a pipeline to join various survey 
+## files with limited number of variables, ending in a 
+## a panel of data stretching across several surveys (time)
+
+my_panel %>%
+  left_join ( 
+               harmonize_demography ( 
+                 #harmonizes variables identified by survey rename
+                 #with the help of demography_table
+                          working_metadata, 
+                          working_dir), 
+               by = c("id_uniq", "filename")
+               ) %>%
+   left_join ( 
+               harmonize_metadata  ( 
+                 # harmonizes variables identified by survey rename
+                 # with the help of survey_metadata_table
+                 # such as date, people present, etc.
+                          working_metadata, 
+                          working_dir), 
+               by = c("id_uniq", "filename")
+               ) %>%
+   left_join ( 
+               harmonize_qb ( 
+                 # harmonizes variables identified by survey rename
+                 # from a particular question block
+                 # table part of the package 
+                          working_metadata, 
+                          working_dir, 
+                          harmonize_table = trust_table), 
+               by = c("id_uniq", "filename")
+               ) %>%
+   left_join ( 
+               harmonize_qb ( 
+                 # harmonizes variables identified by survey rename
+                 # from a particular question block
+                 # designed by the user 
+                          working_metadata, 
+                          working_dir, 
+                          harmonize_table = user_table_1 ), 
+               by = c("id_uniq", "filename")
+               ) %>% 
+  filter (
+    # if only a few survey files had trust variables, then many 
+    # trust_vars are missing, chose one for filtering
+    !is.na(my_trust_var)
+    )
+
+```
+
+
+The advantage of this workflow is that we can separately work on the 
+`demography_table`, `survey_metadata_table`, `trust_table`.
+
+The `harmonize_metadata` and the `harmonize_demography` are just pre-set wrappers around the `harmonize_qb`.  With the help ofa vignette [vocabulary](http://eurobarometer.danielantal.eu/articles/vocabulary.html), the user can set up her own `user_table_1`.
+
+The harmonize_qb in turn cares systematically for variables types, such as _multiple_choice_questions_,  _two-level_factors_, _three-level_factors_, _numeric_, _character_ for constants, etc.
+
+This approach is not sensitive to missing questions.  If some trust questions are present in all files, and others only in a few, you will still get a full panel.
+
+## Work Documentation
+
+In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.
+
+We create a generic function  `document_qb` that orders the variable renaming, value label harmonization, class convsersion steps into a neat table. 
+
+```{r}
+## This is how I envision the basic documentation workflow
+
+my_workflow %>%
+  left_join ( 
+    document_demography ( 
+      #documents variables identified by survey rename
+      #with the help of demography_table
+      working_metadata, 
+      working_dir), 
+    by = c("id_uniq", "filename")
+  ) %>%
+  left_join ( 
+    document_metadata  ( 
+      # documents variables identified by survey rename
+      # with the help of survey_metadata_table
+      # such as date, people present, etc.
+      working_metadata, 
+      working_dir), 
+    by = c("id_uniq", "filename")
+  ) %>%
+  left_join ( 
+    document_qb ( 
+      # documents variables identified by survey rename
+      # from a particular question block
+      # table part of the package 
+      working_metadata, 
+      working_dir, 
+      document_table = trust_table), 
+    by = c("id_uniq", "filename")
+  ) %>%
+  left_join ( 
+    document_qb ( 
+      # documents variables identified by survey rename
+      # from a particular question block
+      # designed by the user 
+      working_metadata, 
+      working_dir, 
+      document_table = user_table_1 ), 
+    by = c("id_uniq", "filename")
+  ) %>% 
+  filter (
+    # if only a few survey files had trust variables, then many 
+    # trust_vars are missing, chose one for filtering
+    !is.na(my_trust_var)
+  )
+```
+
+Then it creates a standard html or latex table:
+
+```{r}
+## this produces as latex or html output with knitr::kable and 
+## kableExtra 
+## that the user can follow up on
+
+workflow_table ( my_workflow ) %>%
+  kableExtra::add_footnote( <users own additions> )
+    
+```
+
+## Panel Summary
+
+At last we help the user with documenting the panel a bit. 
+
+```{r}
+## this produces a readable summary with a package such as 
+## stargazer or sjMisc or whatever we chose as a dependency 
+## about number of observations, mean, median values, missingness, 
+## etc. 
+
+panel_summarize ( my_panel ) 
+    
+```
+
+## Published results
+
+What I had been corresponding with GESIS is that from there we could have the following outputs:
+
+* When we first finish a big batch, and include it in the panel, we create a trend file that will be published on GESIS, and it will be a separate data publication with its own doi. We can place it, for example, on [Zenodo](https://zenodo.org/record/3759811#.XuYTKkUzbIU) or [figshare](https://figshare.com/account/projects/80837/articles/12389384), too.
+
+* We can also create a methodological publication from the standard steps we made
+
+* We can produce publications of the topical trend elements, probably with other researchers who know more about the topic, such as climate change.
+
+Therefore, we have the possibility to first exploit whatever we create, and the workflow remains transparent and reproducible. Other users can clear up other elements, and if they are good, we can ask them to join their part in as a contribution to the package.
+
+* We can also see how much we are Eurobarometer-specific, and modify the package, or create a mutant for other surveys.  I think we will not be very Eurobarometer specific.

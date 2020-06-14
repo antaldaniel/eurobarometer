@@ -73,7 +73,7 @@ temporary directory of your current R session." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -106,6 +106,9 @@ temporary directory of your current R session." />
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
+    </li>
+    <li>
+      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -149,26 +152,28 @@ temporary directory of your current R session.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>zacat_id</th>
-      <td><p>For example, <code>"ZA5688_v6-0-0"</code>, as analyzed and saved by
-<code>analyze_gesis_file</code>.
-Defaults to <code>"last_data_frame"</code>, which is
-the last file in the temporary directory of the current session.</p></td>
-    </tr>
-    <tr>
-      <th>data_dir</th>
-      <td><p>Defaults to <code>"NULL"</code>. In this case the <code>"tempdir()"</code>
-of your current R session will be used.</p></td>
+      <th>dat</th>
+      <td><p>A data frame read by <code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with the original file names, the suggested canonical
-names, factor lists, suggested class conversions.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A data frame with the original variable attributes and
+suggested conversions and changes.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p>canonical_name_create</p></div>
+    <p>The structure of the returned tibble:</p><dl'>
+  <dt>var_name_orig</dt><dd><p>The original variable name in SPSS</p></dd>
+  <dt>class_orig</dt><dd><p>The original variable class after importing with<code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code></p></dd>
+  <dt>var_label_orig</dt><dd><p>The original variable label in SPSS</p></dd>
+  <dt>var_label_norm</dt><dd><p>A normalized version of the variable labels</p></dd>
+  <dt>var_name_suggested</dt><dd><p>A partly canonized variable name.</p></dd>
+  <dt>factor_levels</dt><dd><p>A list of factor levels, i.e. value labels in SPSS</p></dd>
+  <dt>class_suggested</dt><dd><p>A suggested class conversion.</p></dd>
+
+</dl>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
