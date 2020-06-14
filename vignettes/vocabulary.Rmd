@@ -32,7 +32,25 @@ There is no final metadata solution now.  There are two main functions, [gesis_m
 
 They are both referring back to [normalize_names](http://eurobarometer.danielantal.eu/reference/normalize_names.html) in normalizing labels. The  [var_name_suggested](http://eurobarometer.danielantal.eu/reference/var_name_suggested.html) is a very early attempt to use a canonical form of same questions that appear under different normalized forms.
 
-This is a database created from 28 Eurobarometer SPSS files.
+`metadata_database` is a table with variable metadata created from 28 Eurobarometer SPSS files. It has the following columns:
+
+`var_name_orig`: variable name in the original dataset  
+`class_orig`: column class in the original dataset   
+`var_label_orig`: variable label in the original dataset  
+`var_label_norm`: normalized variable label  
+`var_name_suggested`: suggested variable label  
+`factor_levels`: vector of value labels  
+`n_categories`: total number of response options `= length(factor_levels)`   
+`class_suggested`: suggested conversion to format  
+`filename`: original name of file as obtained from GESIS  
+`val_numeric_orig`: numeric value code (if available, empty otherwise)   
+`val_label_orig`: value label in the original dataset corresponding to a response option   
+`val_order_alpha`: number (position) of response option in the set of value labels  
+`val_order_length`: **what's this, and why is it equal to `n_categories` - 1?**  
+`val_label_norm`: value label normalized
+
+**Can we also have the number of categories of non-missing response options? For binary variables this would be 2.**
+
 
 ```{r}
 metadata_database <- readRDS(
@@ -57,7 +75,7 @@ trust_metadata <- metadata_database  %>%
   arrange ( var_label_norm, val_label_norm, filename )
 ```
 
-To get the unique questions, let's leave out the `Tend not to trust` negative answer options. 
+To get unique questions, let's leave out the `Tend not to trust` negative answer options. 
 
 ```{r}
 require(kableExtra)
@@ -105,10 +123,10 @@ trust_with_decline  <- metadata_database %>%
               by = c("filename", "var_name_orig"))
 
 trust_var_labels <- trust_with_decline %>%
-  select ( all_of(c("label", "val_label_norm",
+  select ( all_of(c("val_label_orig", "val_label_norm",
                     "val_order_alpha", "val_order_length"))) %>%
   distinct_all () %>%
-  arrange ( val_label_norm, label, val_order_length)
+  arrange ( val_label_norm, val_label_orig, val_order_length)
 
 trust_var_labels %>% 
 kable() %>%
@@ -127,11 +145,11 @@ trust_2_with_decline  <- trust_with_decline %>%
   filter ( val_order_length <= 4)
 
 trust_2_value_labels <- trust_2_with_decline %>%
-  select ( all_of(c("label", "val_label_norm", 
+  select ( all_of(c("val_label_orig", "val_label_norm", 
                     "val_order_alpha", "val_order_length"))
            ) %>%
   distinct_all () %>%
-  arrange ( val_label_norm, label, val_order_length)
+  arrange ( val_label_norm, val_label_orig, val_order_length)
 
 trust_2_value_labels %>% 
 kable() %>%
@@ -142,16 +160,21 @@ kable() %>%
 
 ```
 
-My approach would be this:
-1. filter out all questions with normalized answer options `tend_to_trust` and `tend_not_to_trust`.  These can be safely harmonized.
+My approach would be this:  
 
-2. There is clearly a lot of work to be done with the refusal options. I think that this would merit a different function and a different vocabulary, because missingness should consistently treated anyway. The treatment of missinginess in the R language will also raise issues, because the `NA` values is not class independent.
+1. Filter out all questions with normalized answer options `tend_to_trust` and `tend_not_to_trust`.  These can be safely harmonized.
+
+* A more conservative approach would be to screen the variables in terms of variable labels and value labels, to get an understanding of how these labels are constructed and how they reflect the content of the variable. Consulting the questionnaires might be inevitable in some cases.
+
+2. There is clearly a lot of work to be done with the non-response options (don't knows, refusals, logical skips / inapplicables, etc.). I think that this would merit a different function and a different vocabulary, because missingness should consistently treated anyway. The treatment of missinginess in the R language will also raise issues, because the `NA` values is not class independent.
 
 3. Agree on a class representation of the value labels and the missingness. A binary variable would lend itself to be numerically represented, but if we want to treat trust as a topic, which is sometimes coded differently, then a factor or character representation is better (and we should probably use their more modern vctrs versions.).
 
 4. A factor representation is useful if we want to use the ordinary scale of the variable. In this case we must make sure that at each table join, the number and ordering of the factor levels is consistent.
 
 5. I tend to belive that it is better to add back the ordinary scaling later, becasue it is not always necessary at all. (For example, the researcher may want to use this variables in PCA or select a few of them as indicators/dummies.) It is far more simple to give a character representation to these labels. 
+
+* Another idea would be to have everything stored as string variables, which would ofrce the user to decide for themselves what they want to do.
 
 6. Manually find out what is going on with 	`tend_to_trust_7_8_in_qa8` `tend_not_to_trust_1_4_in_qa8`. If they can be safely treated as an exception and recoded to `tend_to_trust` and `tend_not_to_trust`, add them to the controlled vocabulary.
 
@@ -245,8 +268,7 @@ trust_variable_table <- trust_with_decline %>%
                                     institution, "_",
                                     geo_qualifier) ) %>%
   mutate ( var_name_suggested = gsub("_NA", "", var_name_suggested)) %>%
-  select ( -contains("label"),
-           -contains("item")) %>%
+  select ( filename, var_name_orig, var_label_norm, var_name_suggested, institution, geo_qualifier) %>%
   rename ( keyword_1 = institution )
 
 trust_variable_table %>%
@@ -285,4 +307,4 @@ The `categorical_variables_2` should be extended by similar, two-level categoric
 
 ## Renaming Suggestions
 
-If you are unhappy with any names used in this package itself (see all functions and arguments on the  [reference](http://eurobarometer.danielantal.eu/reference/index.html)page), please, let me know in an email.  We should agree on all column names of metadata files, function names and function parameters as early as possible, because it will be extremely difficult to make name changes later as more and more code piles up.  
+If you are unhappy with any names used in this package itself (see all functions and arguments on the  [reference](http://eurobarometer.danielantal.eu/reference/index.html) page), please, let me know in an email.  We should agree on all column names of metadata files, function names and function parameters as early as possible, because it will be extremely difficult to make name changes later as more and more code piles up.  
