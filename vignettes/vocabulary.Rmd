@@ -40,17 +40,23 @@ They are both referring back to [normalize_names](http://eurobarometer.danielant
 `var_label_orig`: variable label in the original dataset  
 `var_label_norm`: normalized variable label  
 `var_name_suggested`: suggested variable label  
-`factor_levels`: vector of value labels  
+`factor_levels`: vector of value labels as a list (they have no fixed length)
 `n_categories`: total number of response options `= length(factor_levels)`   
-`class_suggested`: suggested conversion to format  
-`filename`: original name of file as obtained from GESIS  
+`class_suggested`: suggested conversion to an R class, it should correspond later to a conversion function, so that the researcher can just simply approve and get a correct R representation.  
+`filename`: original name of file as obtained from GESIS; it contains a disambigous version information, too.
 `val_numeric_orig`: numeric value code (if available, empty otherwise)   
-`val_label_orig`: value label in the original dataset corresponding to a response option   
-`val_order_alpha`: number (position) of response option in the set of value labels  
+`val_label_orig`: value label in the original dataset corresponding to a response option
+`val_label_norm`: value label normalized with `label_normalize()`
+`val_order_alpha`: alphabetical number (position) of response option in the set of value labels, aftering sorting with `sort()`. We use alphabetical order instead of `levels()` because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting. 
 `val_order_length`: **what's this, and why is it equal to `n_categories` - 1?**  
-`val_label_norm`: value label normalized
+
 
 **Can we also have the number of categories of non-missing response options? For binary variables this would be 2.**
+
+Thta is a very good question, and relates back to the treatment of `NA` vars.  `val_order_alpha` shows the distinct values after converting from `haven_labelled`, and `n_categories` the number of labels.  I fear that sometimes certain value labels have no numeric value in SPSS, and they convert to `NA`, in other cases they have a numeric value like `9` or `999` and they convert to a number. 
+
+I believe that we must put the a lot of energies into understanding various forms of 'missingness' and refused answers, and come up with a coding that is practical for programmatic use, applicable in the R language, and gives a faithful representation of the original survey.
+
 
 
 ```{r}
