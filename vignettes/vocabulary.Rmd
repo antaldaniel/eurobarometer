@@ -2,7 +2,7 @@
 title: "Working With Vocabularies"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vocabulary_ad}
+  %\VignetteIndexEntry{vocabulary}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,12 +11,13 @@ vignette: >
 knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE, 
+  eval=FALSE,
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup, message=FALSE, echo=FALSE, warning=FALSE}
+```{r setup}
 library(eurobarometer)
 library(dplyr)
 library(tibble)

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -104,6 +104,9 @@
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
+    </li>
+    <li>
+      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -156,8 +159,10 @@
 <a href="#eurobarometer-011" class="anchor"></a>eurobarometer 0.1.1</h1>
 <ul>
 <li>The <a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">Harmonizing Variable Names</a> vignette/article started for an early standardization of variable names.</li>
-<li>
-<code><a href="../reference/canonical_names.html">canonical_names()</a></code> will be deprecated, because the metadata tables will be used to suggest canonical names.</li>
+<li>In the future, <code><a href="../reference/canonical_names.html">canonical_names()</a></code> may be renamed, and it may receive a new functionality.</li>
+<li>The <code><a href="../reference/gesis_vocabulary_create.html">gesis_vocabulary_create()</a></code> and The <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> have better variable names. The <code>normalize_names()</code> function is renamed to <code><a href="../reference/label_normalize.html">label_normalize()</a></code>.</li>
+<li>Internal function is renamed to <code><a href="../reference/class_suggest.html">class_suggest()</a></code> from <code>suggest_conversion()</code>.</li>
+<li>The <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> vignette is open for consultation.</li>
 </ul>
 </div>
   </div>
