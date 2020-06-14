@@ -115,7 +115,9 @@
 <span class="co">#  )</span></pre></body></html></div>
 <p>There is no final metadata solution now. There are two main functions, <a href="http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html">gesis_metadata_create</a>, which mainly helps with normalizing the variable names, and <a href="http://eurobarometer.danielantal.eu/reference/gesis_vocabulary_create.html">gesis_vocabulary_create</a> (wrapped by <a href="http://eurobarometer.danielantal.eu/reference/gesis_corpus_create.html">gesis_corpus_create</a>), which help consolidating the vocabulary of questionnaire items.</p>
 <p>They are both referring back to <a href="http://eurobarometer.danielantal.eu/reference/normalize_names.html">normalize_names</a> in normalizing labels. The <a href="http://eurobarometer.danielantal.eu/reference/var_name_suggested.html">var_name_suggested</a> is a very early attempt to use a canonical form of same questions that appear under different normalized forms.</p>
-<p>This is a database created from 28 Eurobarometer SPSS files.</p>
+<p><code>metadata_database</code> is a table with variable metadata created from 28 Eurobarometer SPSS files. It has the following columns:</p>
+<p><code>var_name_orig</code>: variable name in the original dataset<br><code>class_orig</code>: column class in the original dataset<br><code>var_label_orig</code>: variable label in the original dataset<br><code>var_label_norm</code>: normalized variable label<br><code>var_name_suggested</code>: suggested variable label<br><code>factor_levels</code>: vector of value labels<br><code>n_categories</code>: total number of response options <code>= length(factor_levels)</code><br><code>class_suggested</code>: suggested conversion to format<br><code>filename</code>: original name of file as obtained from GESIS<br><code>val_numeric_orig</code>: numeric value code (if available, empty otherwise)<br><code>val_label_orig</code>: value label in the original dataset corresponding to a response option<br><code>val_order_alpha</code>: number (position) of response option in the set of value labels<br><code>val_order_length</code>: <strong>what’s this, and why is it equal to <code>n_categories</code> - 1?</strong><br><code>val_label_norm</code>: value label normalized</p>
+<p><strong>Can we also have the number of categories of non-missing response options? For binary variables this would be 2.</strong></p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">metadata_database</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">".."</span>, <span class="st">"data-raw"</span>, <span class="st">"eb_metadata_database.rds"</span>)
   )</pre></body></html></div>
@@ -132,7 +134,7 @@
   )  <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="no">select_metadata_vars</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span> ( <span class="no">var_label_norm</span>, <span class="no">val_label_norm</span>, <span class="no">filename</span> )</pre></body></html></div>
-<p>To get the unique questions, let’s leave out the <code>Tend not to trust</code> negative answer options.</p>
+<p>To get unique questions, let’s leave out the <code>Tend not to trust</code> negative answer options.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">kableExtra</span>)
 <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
    <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>( <span class="st">"tend_to_trust"</span>, <span class="no">val_label_norm</span> )
@@ -171,10 +173,10 @@
               <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"filename"</span>, <span class="st">"var_name_orig"</span>))
 
 <span class="no">trust_var_labels</span> <span class="kw">&lt;-</span> <span class="no">trust_with_decline</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"label"</span>, <span class="st">"val_label_norm"</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"val_label_orig"</span>, <span class="st">"val_label_norm"</span>,
                     <span class="st">"val_order_alpha"</span>, <span class="st">"val_order_length"</span>))) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct_all.html">distinct_all</a></span> () <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span> ( <span class="no">val_label_norm</span>, <span class="no">label</span>, <span class="no">val_order_length</span>)
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span> ( <span class="no">val_label_norm</span>, <span class="no">val_label_orig</span>, <span class="no">val_order_length</span>)
 
 <span class="no">trust_var_labels</span> <span class="kw">%&gt;%</span>
 <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>() <span class="kw">%&gt;%</span>
@@ -188,11 +190,11 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">val_order_length</span> <span class="kw">&lt;=</span> <span class="fl">4</span>)
 
 <span class="no">trust_2_value_labels</span> <span class="kw">&lt;-</span> <span class="no">trust_2_with_decline</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"label"</span>, <span class="st">"val_label_norm"</span>,
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"val_label_orig"</span>, <span class="st">"val_label_norm"</span>,
                     <span class="st">"val_order_alpha"</span>, <span class="st">"val_order_length"</span>))
            ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct_all.html">distinct_all</a></span> () <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span> ( <span class="no">val_label_norm</span>, <span class="no">label</span>, <span class="no">val_order_length</span>)
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span> ( <span class="no">val_label_norm</span>, <span class="no">val_label_orig</span>, <span class="no">val_order_length</span>)
 
 <span class="no">trust_2_value_labels</span> <span class="kw">%&gt;%</span>
 <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>() <span class="kw">%&gt;%</span>
@@ -200,12 +202,23 @@
                 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>),
                 <span class="kw">fixed_thead</span> <span class="kw">=</span> <span class="no">T</span>,
                 <span class="kw">font_size</span> <span class="kw">=</span> <span class="fl">10</span> )</pre></body></html></div>
-<p>My approach would be this: 1. filter out all questions with normalized answer options <code>tend_to_trust</code> and <code>tend_not_to_trust</code>. These can be safely harmonized.</p>
+<p>My approach would be this:</p>
+<ol style="list-style-type: decimal">
+<li>Filter out all questions with normalized answer options <code>tend_to_trust</code> and <code>tend_not_to_trust</code>. These can be safely harmonized.</li>
+</ol>
+<ul>
+<li>A more conservative approach would be to screen the variables in terms of variable labels and value labels, to get an understanding of how these labels are constructed and how they reflect the content of the variable. Consulting the questionnaires might be inevitable in some cases.</li>
+</ul>
 <ol start="2" style="list-style-type: decimal">
-<li><p>There is clearly a lot of work to be done with the refusal options. I think that this would merit a different function and a different vocabulary, because missingness should consistently treated anyway. The treatment of missinginess in the R language will also raise issues, because the <code>NA</code> values is not class independent.</p></li>
+<li><p>There is clearly a lot of work to be done with the non-response options (don’t knows, refusals, logical skips / inapplicables, etc.). I think that this would merit a different function and a different vocabulary, because missingness should consistently treated anyway. The treatment of missinginess in the R language will also raise issues, because the <code>NA</code> values is not class independent.</p></li>
 <li><p>Agree on a class representation of the value labels and the missingness. A binary variable would lend itself to be numerically represented, but if we want to treat trust as a topic, which is sometimes coded differently, then a factor or character representation is better (and we should probably use their more modern vctrs versions.).</p></li>
 <li><p>A factor representation is useful if we want to use the ordinary scale of the variable. In this case we must make sure that at each table join, the number and ordering of the factor levels is consistent.</p></li>
 <li><p>I tend to belive that it is better to add back the ordinary scaling later, becasue it is not always necessary at all. (For example, the researcher may want to use this variables in PCA or select a few of them as indicators/dummies.) It is far more simple to give a character representation to these labels.</p></li>
+</ol>
+<ul>
+<li>Another idea would be to have everything stored as string variables, which would ofrce the user to decide for themselves what they want to do.</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
 <li><p>Manually find out what is going on with <code>tend_to_trust_7_8_in_qa8</code> <code>tend_not_to_trust_1_4_in_qa8</code>. If they can be safely treated as an exception and recoded to <code>tend_to_trust</code> and <code>tend_not_to_trust</code>, add them to the controlled vocabulary.</p></li>
 <li><p>Leave out anything that has different labels than <code>tend_to_trust</code>, <code>tend_not_to_trust</code> or their missingness value.</p></li>
 </ol>
@@ -283,8 +296,7 @@
                                     <span class="no">institution</span>, <span class="st">"_"</span>,
                                     <span class="no">geo_qualifier</span>) ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">var_name_suggested</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"_NA"</span>, <span class="st">""</span>, <span class="no">var_name_suggested</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( -<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"label"</span>),
-           -<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"item"</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">filename</span>, <span class="no">var_name_orig</span>, <span class="no">var_label_norm</span>, <span class="no">var_name_suggested</span>, <span class="no">institution</span>, <span class="no">geo_qualifier</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span> ( <span class="kw">keyword_1</span> <span class="kw">=</span> <span class="no">institution</span> )
 
 <span class="no">trust_variable_table</span> <span class="kw">%&gt;%</span>
@@ -313,7 +325,7 @@
 <div id="renaming-suggestions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#renaming-suggestions" class="anchor"></a>Renaming Suggestions</h2>
-<p>If you are unhappy with any names used in this package itself (see all functions and arguments on the <a href="http://eurobarometer.danielantal.eu/reference/index.html">reference</a>page), please, let me know in an email. We should agree on all column names of metadata files, function names and function parameters as early as possible, because it will be extremely difficult to make name changes later as more and more code piles up.</p>
+<p>If you are unhappy with any names used in this package itself (see all functions and arguments on the <a href="http://eurobarometer.danielantal.eu/reference/index.html">reference</a> page), please, let me know in an email. We should agree on all column names of metadata files, function names and function parameters as early as possible, because it will be extremely difficult to make name changes later as more and more code piles up.</p>
 </div>
   </div>
 

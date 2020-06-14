@@ -8,7 +8,7 @@
 * New `vignette(vocabulary)` is developed as a working article to start creating meaningful metadata files. This is at this stage intended for contributors. See [Working With Vocabularies](http://eurobarometer.danielantal.eu/articles/vocabulary.html).
 
 # eurobarometer 0.1.1
-* The [Harmonizing Variable Names](http://eurobarometer.danielantal.eu/articles/variable_names.html) vignette/article started for an early standardization of variable names. 
+* The [Harmonizing Variable Names](http://eurobarometer.danielantal.eu/articles/variable_names.html) vignette/article started for an early standardization of variable names. Thanks for the contribution from [Marta](https://github.com/mkolczynska).
 * In the future, `canonical_names()` may be renamed, and it may receive a new functionality.
 * The `gesis_vocabulary_create()` and The `gesis_metadata_create()` have better variable names.  The `normalize_names()` function is renamed to `label_normalize()`. 
 * Internal function is renamed to `class_suggest()` from `suggest_conversion()`.
