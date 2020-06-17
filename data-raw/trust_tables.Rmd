@@ -1,8 +1,8 @@
 ---
-title: "Creating variable and values tables"
+title: "Creating Variable and Values Tables"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vocabulary}
+  %\VignetteIndexEntry{create_tables}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
