@@ -110,7 +110,16 @@
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co">## This vignette is hypothetical at this stage, and the chunks, </span>
 <span class="co">## unless stated otherwise, are NOT evaluated.</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'dplyr'</span>
+<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from 'package:base':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span></pre></body></html></div>
 <p>At this point this workflow if purely hypothetical, the functions are not written, and they are not evaluated.</p>
 <div id="acquiring-the-data-from-gesis" class="section level2">
 <h2 class="hasAnchor">
@@ -121,7 +130,13 @@
 <h2 class="hasAnchor">
 <a href="#reading-in-the-files" class="anchor"></a>Reading in the files</h2>
 <p>Working with native SPSS files is extremely slow, and I think it would make sense to first read and re-save them as .rds files or .rda files.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the </span>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">import_file_names</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<span class="st">'ZA7576_sample'</span>,<span class="st">'ZA7562_sample'</span>,<span class="st">'ZA7489_sample'</span>
+)
+
+<span class="no">survey_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/eurobarometer/man/read_surveys.html">read_surveys</a></span> (
+   <span class="no">import_file_names</span>, <span class="kw">.f</span> <span class="kw">=</span> <span class="st">'read_example_file'</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the </span>
 <span class="co">## reading process, save only those that are valid GESIS files.</span>
 <span class="co">## must canonize some id vars, such as uniqid, and filename</span>
 <span class="co">##or anything that is present in all files. </span>
@@ -132,101 +147,65 @@
 <div id="creating-a-skeleton-panel" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-a-skeleton-panel" class="anchor"></a>Creating a skeleton panel</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
 <span class="co">## most basic weights, w1 and its projected version wex</span>
 
-<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu">panel_create</span> ( <span class="no">working_dir</span>,
-               <span class="co"># do not start with id_ to make filtering other IDs </span>
-               <span class="co"># easier later </span>
-                          <span class="kw">panel_id</span> <span class="kw">=</span> <span class="st">"panel_id"</span>,
+<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/eurobarometer/man/panel_create.html">panel_create</a></span> ( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">survey_list</span>,
                <span class="co">## must be at least two, and one must be the uniqid</span>
                <span class="co">## of the file or row_id </span>
-                          <span class="kw">id_components</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"filename"</span>)
-               )</pre></body></html></div>
-<p>This should return a very basic file for joining, a data.frame/tibble with * a truly unique id * id elements for joining in individual survey data, in this example, * The two most basic weight vars, <code>w1</code> and <code>wex</code>, because I would not leave the pain of harmonizing weights to the end.</p>
-<p><code>id_uniqid</code>, <code>id_survey</code>, <code>filename</code> must be present in all <code>.rds</code> files.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="no">my_panel</span>)</pre></body></html></div>
+                          <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"filename"</span>)
+               )
+
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_panel</span>)
+<span class="co">#&gt; [1] "panel_id" "uniqid"   "filename"</span></pre></body></html></div>
+<p>Let’s have a look at 6 randomly selected rows:</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>( <span class="no">my_panel</span>, <span class="fl">6</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</pre></body></html></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">panel_id</th>
-<th align="right">id_uniqid</th>
-<th align="left">id_survey</th>
+<th align="right">uniqid</th>
 <th align="left">filename</th>
-<th align="right">w1</th>
-<th align="right">wex</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">eb_23.4_101_GESIS_A.sav</td>
-<td align="right">101</td>
-<td align="left">eb_23.4</td>
-<td align="left">GESIS_A.sav</td>
-<td align="right">0.32</td>
-<td align="right">1142.82</td>
+<td align="left">350001751_za7562_sample</td>
+<td align="right">350001751</td>
+<td align="left">ZA7562_sample</td>
 </tr>
 <tr class="even">
-<td align="left">eb_23.4_102_GESIS_A.sav</td>
-<td align="right">102</td>
-<td align="left">eb_23.4</td>
-<td align="left">GESIS_A.sav</td>
-<td align="right">0.35</td>
-<td align="right">5104.08</td>
+<td align="left">350001407_za7562_sample</td>
+<td align="right">350001407</td>
+<td align="left">ZA7562_sample</td>
 </tr>
 <tr class="odd">
-<td align="left">eb_23.4_103_GESIS_A.sav</td>
-<td align="right">103</td>
-<td align="left">eb_23.4</td>
-<td align="left">GESIS_A.sav</td>
-<td align="right">1.03</td>
-<td align="right">1853.71</td>
+<td align="left">390002489_za7562_sample</td>
+<td align="right">390002489</td>
+<td align="left">ZA7562_sample</td>
 </tr>
 <tr class="even">
-<td align="left">eb_23.4_104_GESIS_A.sav</td>
-<td align="right">104</td>
-<td align="left">eb_23.4</td>
-<td align="left">GESIS_A.sav</td>
-<td align="right">0.09</td>
-<td align="right">6447.29</td>
+<td align="left">220002885_za7576_sample</td>
+<td align="right">220002885</td>
+<td align="left">ZA7576_sample</td>
 </tr>
 <tr class="odd">
-<td align="left">eb_28.9_108_GESIS_B.sav</td>
-<td align="right">108</td>
-<td align="left">eb_28.9</td>
-<td align="left">GESIS_B.sav</td>
-<td align="right">1.13</td>
-<td align="right">942.42</td>
+<td align="left">210000970_za7562_sample</td>
+<td align="right">210000970</td>
+<td align="left">ZA7562_sample</td>
 </tr>
 <tr class="even">
-<td align="left">eb_28.9_199_GESIS_B.sav</td>
-<td align="right">199</td>
-<td align="left">eb_28.9</td>
-<td align="left">GESIS_B.sav</td>
-<td align="right">0.77</td>
-<td align="right">1026.92</td>
-</tr>
-<tr class="odd">
-<td align="left">eb_28.9_104_GESIS_B.sav</td>
-<td align="right">104</td>
-<td align="left">eb_28.9</td>
-<td align="left">GESIS_B.sav</td>
-<td align="right">0.83</td>
-<td align="right">3727.75</td>
-</tr>
-<tr class="even">
-<td align="left">eb_28.9_188_GESIS_B.sav</td>
-<td align="right">188</td>
-<td align="left">eb_28.9</td>
-<td align="left">GESIS_B.sav</td>
-<td align="right">0.01</td>
-<td align="right">8986.93</td>
+<td align="left">320000929_za7576_sample</td>
+<td align="right">320000929</td>
+<td align="left">ZA7576_sample</td>
 </tr>
 </tbody>
 </table>
+<p>This should return a very basic file for joining, a data.frame/tibble with * a truly unique id * id elements for joining in individual survey data, in this example, <code>uniqid</code> and <code>filename</code> must be present in all imported files. The filename was added by <code><a href="https://rdrr.io/pkg/eurobarometer/man/read_surveys.html">read_surveys()</a></code>.</p>
 </div>
 <div id="identifying-variables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#identifying-variables" class="anchor"></a>Identifying variables</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the reading process,</span>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the reading process,</span>
 <span class="co">## save only those that are valid GESIS files.</span>
 <span class="no">working_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span> ( <span class="no">working_dir</span> )
 
@@ -238,12 +217,12 @@
 <div id="harmonizing-various-aspects-of-the-survey" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonizing-various-aspects-of-the-survey" class="anchor"></a>Harmonizing various aspects of the survey</h2>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">## this is how I would envision a pipeline to join various survey </span>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co">## this is how I would envision a pipeline to join various survey </span>
 <span class="co">## files with limited number of variables, ending in a </span>
 <span class="co">## a panel of data stretching across several surveys (time)</span>
 
 <span class="no">my_panel</span> <span class="kw">%&gt;%</span>
-  <span class="fu">left_join</span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
                <span class="fu">harmonize_demography</span> (
                  <span class="co">#harmonizes variables identified by survey rename</span>
                  <span class="co">#with the help of demography_table</span>
@@ -251,7 +230,7 @@
                           <span class="no">working_dir</span>),
                <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
                ) <span class="kw">%&gt;%</span>
-   <span class="fu">left_join</span> (
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
                <span class="fu">harmonize_metadata</span>  (
                  <span class="co"># harmonizes variables identified by survey rename</span>
                  <span class="co"># with the help of survey_metadata_table</span>
@@ -260,7 +239,7 @@
                           <span class="no">working_dir</span>),
                <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
                ) <span class="kw">%&gt;%</span>
-   <span class="fu">left_join</span> (
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
                <span class="fu">harmonize_qb</span> (
                  <span class="co"># harmonizes variables identified by survey rename</span>
                  <span class="co"># from a particular question block</span>
@@ -270,7 +249,7 @@
                           <span class="kw">harmonize_table</span> <span class="kw">=</span> <span class="no">trust_table</span>),
                <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
                ) <span class="kw">%&gt;%</span>
-   <span class="fu">left_join</span> (
+   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
                <span class="fu">harmonize_qb</span> (
                  <span class="co"># harmonizes variables identified by survey rename</span>
                  <span class="co"># from a particular question block</span>
@@ -280,7 +259,7 @@
                           <span class="kw">harmonize_table</span> <span class="kw">=</span> <span class="no">user_table_1</span> ),
                <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
                ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="co"># if only a few survey files had trust variables, then many </span>
     <span class="co"># trust_vars are missing, chose one for filtering</span>
     !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">my_trust_var</span>)
@@ -295,10 +274,10 @@
 <a href="#work-documentation" class="anchor"></a>Work Documentation</h2>
 <p>In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.</p>
 <p>We create a generic function <code>document_qb</code> that orders the variable renaming, value label harmonization, class convsersion steps into a neat table.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
 
 <span class="no">my_workflow</span> <span class="kw">%&gt;%</span>
-  <span class="fu">left_join</span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
     <span class="fu">document_demography</span> (
       <span class="co">#documents variables identified by survey rename</span>
       <span class="co">#with the help of demography_table</span>
@@ -306,7 +285,7 @@
       <span class="no">working_dir</span>),
     <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
   ) <span class="kw">%&gt;%</span>
-  <span class="fu">left_join</span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
     <span class="fu">document_metadata</span>  (
       <span class="co"># documents variables identified by survey rename</span>
       <span class="co"># with the help of survey_metadata_table</span>
@@ -315,7 +294,7 @@
       <span class="no">working_dir</span>),
     <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
   ) <span class="kw">%&gt;%</span>
-  <span class="fu">left_join</span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
     <span class="fu">document_qb</span> (
       <span class="co"># documents variables identified by survey rename</span>
       <span class="co"># from a particular question block</span>
@@ -325,7 +304,7 @@
       <span class="kw">document_table</span> <span class="kw">=</span> <span class="no">trust_table</span>),
     <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
   ) <span class="kw">%&gt;%</span>
-  <span class="fu">left_join</span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
     <span class="fu">document_qb</span> (
       <span class="co"># documents variables identified by survey rename</span>
       <span class="co"># from a particular question block</span>
@@ -335,13 +314,13 @@
       <span class="kw">document_table</span> <span class="kw">=</span> <span class="no">user_table_1</span> ),
     <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
   ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span> (
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="co"># if only a few survey files had trust variables, then many </span>
     <span class="co"># trust_vars are missing, chose one for filtering</span>
     !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">my_trust_var</span>)
   )</pre></body></html></div>
 <p>Then it creates a standard html or latex table:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
+<div class="sourceCode" id="cb9"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
 ## kableExtra 
 ## that the user can follow up on
 
@@ -353,7 +332,7 @@ workflow_table ( my_workflow ) %&gt;%
 <h2 class="hasAnchor">
 <a href="#panel-summary" class="anchor"></a>Panel Summary</h2>
 <p>At last we help the user with documenting the panel a bit.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
 <span class="co">## stargazer or sjMisc or whatever we chose as a dependency </span>
 <span class="co">## about number of observations, mean, median values, missingness, </span>
 <span class="co">## etc. </span>
