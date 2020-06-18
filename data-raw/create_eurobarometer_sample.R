@@ -9,3 +9,10 @@ usethis::use_data(eb_sample, internal = FALSE, overwrite = TRUE)
 
 
 sample <- eurobarometer:::eb_sample
+
+paste0( "item{",
+        names(eb_sample), "}{",
+        as.character(sapply ( eb_sample, function(x) attr(x, "label"))),
+        "}")
+
+gsub ("item", "\\\\\\item","item")

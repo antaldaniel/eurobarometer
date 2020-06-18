@@ -1,22 +1,108 @@
-#' Vocabulary To Rename Categorical Variables With Two Valid Categories
+#' Eurobarometer Sample
 #'
-#' Later the filename may be omitted.
-#' The \code{canonical_name} is suggested for programmatic use in R files.
-#' The \code{topic_1}, \code{topic_2} keywords should be later replaced with
-#' consistent keywords from various thesauri, if necessary. Or they may be
-#' omitted.
+#' A reduced part of a raw GESIS file to demonstrate changes in
+#' variable labels and variable names.
 #'
-#' The treatment of declined answers in \code{level} should probably be
-#' excluded later, but in a harmonized way.
-#'
-#' @format A data frame with 6 rows in 9 variables:
+#' @format A data frame with 2000 rows in 97 variables:
 #' \describe{
-#'   \item{topic_1}{A temporary first level keyword.}
-#'   \item{topic_2}{A temporary second level keyword.}
-#'   \item{label_normalized}{The variable label after normalization, as imported from the GESIS SPSS file.}
-#'   \item{level}{The number of levels excluding decline.}
-#'   \item{character_value}{The preferred variable label as.character}
-#'   \item{numeric_value}{A suggested numerical coding, when applicable.}
-#'   \item{missing}{A logical variable to indicate if the label in the row represents some level of missingess.}
+#'   \item{v1}{STUDY NUMBER - DISTRIBUTOR}
+#'   \item{v2}{STUDY NUMBER - PUBLISHER}
+#'   \item{v3}{GESIS ARCHIVE VERSION}
+#'   \item{v4}{EUROBAROMETER NUMBER}
+#'   \item{v5}{UNIQUE CASE ID (TNS COUNTRY ID + INTERVIEW ID)}
+#'   \item{v6}{NATION - ALL SAMPLES}
+#'   \item{v7}{NATION - ALL SAMPLES ISO 3166}
+#'   \item{v8}{W1 WEIGHT RESULT FROM TARGET}
+#'   \item{v53}{WEX WEIGHT EXTRA POPULATION 15+}
+#'   \item{v104}{QA16 ENERGY SAVING ACTION: HEATING/AIR CONDITION}
+#'   \item{v105}{QA16 ENERGY SAVING ACTION: LIGHTING/ELECTR APPL}
+#'   \item{v106}{QA16 ENERGY SAVING ACTION: HOUSE INSULATION}
+#'   \item{v107}{QA16 ENERGY SAVING ACTION: INITIATIVE AT WORK}
+#'   \item{v108}{QA16 ENERGY SAVING ACTION: USED CAR LESS}
+#'   \item{v109}{QA16 ENERGY SAVING ACTION: REDUCED DRV SPEED}
+#'   \item{v110}{QA16 ENERGY SAVING ACTION: CHANGED CAR}
+#'   \item{v111}{QA16 ENERGY SAVING ACTION: PUBLIC TRANSPORT}
+#'   \item{v112}{QA16 ENERGY SAVING ACTION: NONE}
+#'   \item{v113}{QA16 ENERGY SAVING ACTION: OTHER}
+#'   \item{v114}{QA16 ENERGY SAVING ACTION: DK}
+#'   \item{v520}{D8 AGE EDUCATION}
+#'   \item{v521}{D8 AGE EDUCATION - RECODED}
+#'   \item{v522}{D11 AGE EXACT}
+#'   \item{v523}{D11 AGE RECODED - FOUR GROUPS}
+#'   \item{v524}{D11 AGE RECODED - SIX GROUPS}
+#'   \item{v551}{P6 SIZE OF COMMUNITY - FRANCE}
+#'   \item{v552}{P6 SIZE OF COMMUNITY - BELGIUM}
+#'   \item{v553}{P6 SIZE OF COMMUNITY - NETHERLANDS}
+#'   \item{v554}{P6 SIZE OF COMMUNITY - GERMANY}
+#'   \item{v555}{P6 SIZE OF COMMUNITY - ITALY}
+#'   \item{v556}{P6 SIZE OF COMMUNITY - LUXEMBOURG}
+#'   \item{v557}{P6 SIZE OF COMMUNITY - DENMARK}
+#'   \item{v558}{P6 SIZE OF COMMUNITY - IRELAND}
+#'   \item{v559}{P6 SIZE OF COMMUNITY - UNITED KINGDOM}
+#'   \item{v560}{P6 SIZE OF COMMUNITY - GREECE}
+#'   \item{v561}{P6 SIZE OF COMMUNITY - SPAIN}
+#'   \item{v562}{P6 SIZE OF COMMUNITY - PORTUGAL}
+#'   \item{v563}{P6 SIZE OF COMMUNITY - FINLAND}
+#'   \item{v564}{P6 SIZE OF COMMUNITY - SWEDEN}
+#'   \item{v565}{P6 SIZE OF COMMUNITY - AUSTRIA}
+#'   \item{v566}{P6 SIZE OF COMMUNITY - CYPRUS (REPUBLIC)}
+#'   \item{v567}{P6 SIZE OF COMMUNITY - CZECH REPUBLIC}
+#'   \item{v568}{P6 SIZE OF COMMUNITY - ESTONIA}
+#'   \item{v569}{P6 SIZE OF COMMUNITY - HUNGARY}
+#'   \item{v570}{P6 SIZE OF COMMUNITY - LATVIA}
+#'   \item{v571}{P6 SIZE OF COMMUNITY - LITHUANIA}
+#'   \item{v572}{P6 SIZE OF COMMUNITY - MALTA}
+#'   \item{v573}{P6 SIZE OF COMMUNITY - POLAND}
+#'   \item{v574}{P6 SIZE OF COMMUNITY - SLOVAKIA}
+#'   \item{v575}{P6 SIZE OF COMMUNITY - SLOVENIA}
+#'   \item{v576}{P6 SIZE OF COMMUNITY - BULGARIA}
+#'   \item{v577}{P6 SIZE OF COMMUNITY - ROMANIA}
+#'   \item{v578}{P7 REGION - FRANCE NUTS 2}
+#'   \item{v579}{P7 REGION - FRANCE NUTS 1}
+#'   \item{v580}{P7 REGION - BELGIUM NUTS 2}
+#'   \item{v581}{P7 REGION - BELGIUM NUTS 1}
+#'   \item{v582}{P7 REGION - NETHERLANDS NUTS 2}
+#'   \item{v583}{P7 REGION - NETHERLANDS NUTS 1}
+#'   \item{v584}{P7 REGION - GERMANY NUTS 1}
+#'   \item{v585}{P7 REGION - ITALY NUTS 2 MOD}
+#'   \item{v586}{P7 REGION - ITALY NUTS 1}
+#'   \item{v587}{P7 REGION - ITALY NUTS 1 MOD}
+#'   \item{v588}{P7 REGION - LUXEMBOURG}
+#'   \item{v589}{P7 REGION - DENMARK NUTS 2}
+#'   \item{v590}{P7 REGION - IRELAND}
+#'   \item{v591}{P7 REGION - UNITED KINGDOM NUTS 1}
+#'   \item{v592}{P7 REGION - UNITED KINGDOM NUTS 1 MOD}
+#'   \item{v593}{P7 REGION - GREECE NUTS 2}
+#'   \item{v594}{P7 REGION - GREECE NUTS 1}
+#'   \item{v595}{P7 REGION - SPAIN NUTS 2}
+#'   \item{v596}{P7 REGION - SPAIN NUTS 1}
+#'   \item{v597}{P7 REGION - SPAIN NUTS 1 MOD}
+#'   \item{v598}{P7 REGION - PORTUGAL NUTS 2}
+#'   \item{v599}{P7 REGION - FINLAND NUTS 3}
+#'   \item{v600}{P7 REGION - FINLAND NUTS 2}
+#'   \item{v601}{P7 REGION - SWEDEN NUTS 2}
+#'   \item{v602}{P7 REGION - SWEDEN NUTS 1}
+#'   \item{v603}{P7 REGION - AUSTRIA NUTS 2}
+#'   \item{v604}{P7 REGION - AUSTRIA NUTS 1}
+#'   \item{v605}{P7 REGION - CYPRUS (REPUBLIC)}
+#'   \item{v606}{P7 REGION - CZECH REPUBLIC NUTS 2}
+#'   \item{v607}{P7 REGION - ESTONIA}
+#'   \item{v608}{P7 REGION - HUNGARY NUTS 2}
+#'   \item{v609}{P7 REGION - HUNGARY NUTS 1}
+#'   \item{v610}{P7 REGION - LATVIA NUTS 3}
+#'   \item{v611}{P7 REGION - LITHUANIA NUTS 3}
+#'   \item{v612}{P7 REGION - POLAND NUTS 2}
+#'   \item{v613}{P7 REGION - POLAND NUTS 1}
+#'   \item{v614}{P7 REGION - SLOVAKIA NUTS 2}
+#'   \item{v615}{P7 REGION - SLOVENIA NUTS 3}
+#'   \item{v616}{P7 REGION - SLOVENIA NUTS 2}
+#'   \item{v617}{P7 REGION - BULGARIA NUTS 3}
+#'   \item{v618}{P7 REGION - BULGARIA NUTS 2}
+#'   \item{v619}{P7 REGION - ROMANIA NUTS 2}
+#'   \item{v620}{P7 REGION - ROMANIA NUTS 1}
+#'   \item{v621}{REGION - NUTS CODES}
+#'   \item{v622}{REGION - NUTS LEVEL}
 #'   }
-"data-eb_sample"
+#'   @seealso \code{\link{label_normalize}} for text normalization and
+#'   \code{\link{label_suggest}} for canonisation.
+"eb_sample"
