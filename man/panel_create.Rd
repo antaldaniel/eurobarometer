@@ -14,7 +14,7 @@ defaults to \code{c("uniqid", "doi")}.}
 }
 \value{
 A tibble with the number of original ID vars and their
-\code[panel_id] as their concatenation.
+\code{panel_id} as their concatenation.
 }
 \description{
 Create A Skeleton Survey Panel With Unique ID
