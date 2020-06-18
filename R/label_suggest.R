@@ -5,7 +5,7 @@
 #'
 #' @param var_names A character vector of variable labels.
 #' @param var_name_orig A character vector of variable names.
-#' @importFrom stringr str_sub
+#' @importFrom stringr str_sub str_trim
 #' @family labelling functions
 #' @return A character vector with the same length as the two
 #' input character vectors.
@@ -39,12 +39,10 @@ label_suggest <- function(var_label_orig,
   x <- ifelse (var_name_orig == "uniqid", "uniqid", x)
   x <- ifelse (var_name_orig == "doi", "doi", x)
 
-
-  x  <- gsub("wex_weight_extra_population_gt_15", "wex", x)
-  x  <- ifelse ( substr(y,1,3) =="w1_",
-                 'w1', x)
-
   ## Hard replacmenet ------------------------
+  x  <- gsub("wex_weight_extra_population_gt_15", "wex", x)
+  x  <- ifelse ( substr(x,1,3) =="w1_",
+                 'w1', x)
   x <- ifelse ( grepl("unique_case_id", x),
                 yes = "uniqid",
                 no  = x )
@@ -105,5 +103,6 @@ label_suggest <- function(var_label_orig,
   x <- ifelse ( test = stringr::str_sub ( x, 1,  1 ) == '_',
                 yes  = stringr::str_sub ( x, 2, -1 ),
                 no   = x  )
-  x
+
+  stringr::str_trim(x, side = "both")
 }
