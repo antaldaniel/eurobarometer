@@ -4,18 +4,17 @@
 \alias{gesis_metadata_create}
 \title{Get A Metadata File}
 \usage{
-gesis_metadata_create(dat)
+gesis_metadata_create(survey_list)
 }
 \arguments{
-\item{dat}{A data frame read by \code{\link[haven]{read_spss}}.}
+\item{survey_list}{A list of data frames containing surveys.}
 }
 \value{
 A data frame with the original variable attributes and
 suggested conversions and changes.
 }
 \description{
-Retrieve a metadata file with from your data directory or the
-temporary directory of your current R session.
+Retrieve a metadata file with from your surveys.
 }
 \details{
 The structure of the returned tibble:
