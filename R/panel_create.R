@@ -20,12 +20,13 @@
 #' @export
 
 
-panel_create <- function (survey_list, id_vars = c("uniqid", "doi") ) {
+panel_create <- function (survey_list,
+                          id_vars = c("uniqid", "doi") ) {
 
   # in case of unexpected results, after fixing add a unique test
   # to tests/testthat/test-panel_create.R
 
-  create_id <- function (dat, id_vars = c("uniqid", "doi") ) {
+  create_id <- function (dat ) {
 
     if ( ! all(id_vars %in% names(dat)) ) {
       stop ( "Not (all) of ",

@@ -37,6 +37,7 @@ my_panel <- example_panel_id
 ## unless stated otherwise, are NOT evaluated.
 library(eurobarometer)
 library(knitr)
+library(dplyr)
 ```
 
 At this point this workflow if purely hypothetical, the functions are not written, and they are not evaluated.
@@ -71,29 +72,29 @@ It is important that at this stage we have a few variables that are absolutely c
 
 ## Creating a skeleton panel
 
-```{r}
+```{r, eval= TRUE}
 ## filter out the most basic and omnipresent id variables, and the
 ## most basic weights, w1 and its projected version wex
 
-my_panel <- panel_create ( working_dir, 
-               # do not start with id_ to make filtering other IDs 
-               # easier later 
-                          panel_id = "panel_id", 
+my_panel <- panel_create ( survey_list = survey_list, 
                ## must be at least two, and one must be the uniqid
                ## of the file or row_id 
-                          id_components = c("uniqid", "filename")
+                          id_vars = c("uniqid", "filename")
                )
+
+names(my_panel)
+```
+
+Let's have a look at 6 randomly selected rows: 
+
+```{r, eval=TRUE, results='asis'}
+sample_n( my_panel, 6) %>%
+  kable()
 ```
 
 This should return a very basic file for joining, a data.frame/tibble with
 * a truly unique id
-* id elements for joining in individual survey data, in this example, * The two most basic weight vars, `w1` and `wex`, because I would not leave the pain of harmonizing weights to the end.
-
-`id_uniqid`, `id_survey`, `filename` must be present in all `.rds` files. 
-
-```{r, eval=TRUE}
-kable(my_panel)
-```
+* id elements for joining in individual survey data, in this example, `uniqid` and  `filename` must be present in all imported files. The filename was added by `read_surveys()`.
 
 ## Identifying variables 
 
