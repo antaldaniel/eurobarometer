@@ -11,6 +11,20 @@ selected_trust_vars <- trust_metadata %>%
     all_of(c("filename", "var_name_orig", "var_label_norm"))
     )
 
+id_vars <- metadata_database %>%
+  select (
+    all_of(c("filename", "var_name_orig", "var_name_suggested"))
+  ) %>%
+  filter (
+    filename %in% selected_files
+  ) %>%
+  filter (
+    grepl( 'gesis_archive', var_name_suggested) |
+    var_name_suggested %in% c("uniqid", "doi")
+  ) %>%
+  distinct_all()
+
+
 demography_var_name_orig <- c("d7", "d7r2", "d8", "d8r2",
                               "d15a",  "d15a_r2", "d25", 'd60')
 
@@ -25,10 +39,6 @@ demography_vars <- metadata_database %>%
     substr( var_name_orig, 1,3) %in% demography_var_name_orig ) %>%
   distinct_all()
 
-
-
-metadata_var_names_orig <- c("p1", "p2", "p3", "p4", "p5", "isocntry", "doi")
-
 #p7, p13 should be one
 
 weight_vars <- metadata_database %>%
@@ -42,6 +52,8 @@ weight_vars <- metadata_database %>%
     var_name_orig %in% c("w1", "w3", "wex")) %>%
   distinct_all()
 
+
+metadata_var_names_orig <- c("p1", "p2", "p3", "p4", "p5", "isocntry", "doi")
 
 metadata_vars <- metadata_database %>%
   select (
@@ -66,7 +78,9 @@ other_vars <- metadata_database %>%
                   var_name_suggested )) %>%
   distinct_all()
 
-subsetting_vars <- full_join ( metadata_vars, demography_vars ) %>%
+subsetting_vars <- id_vars %>%
+  full_join ( metadata_vars ) %>%
+  full_join ( demography_vars ) %>%
   full_join ( selected_trust_vars ) %>%
   full_join ( other_vars ) %>%
   full_join ( weight_vars ) %>%
@@ -135,6 +149,8 @@ ZA7576_sample_documentation <- paste0(
   as.character(sapply (  ZA7576_sample, function(x) attr ( x , "label"))),
   "}\n"
 )
+
+cat (ZA7576_sample_documentation )
 
 ZA7562_sample_documentation <- paste0(
   "item{",

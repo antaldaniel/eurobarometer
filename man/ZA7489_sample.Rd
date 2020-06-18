@@ -5,9 +5,11 @@
 \alias{ZA7489_sample}
 \title{ZA7489 Eurobarometer Sample}
 \format{
-A data frame with 6613 rows in 131 variables:
+A data frame with 6613 rows in 133 variables:
 \describe{
   \item{doi}{DIGITAL OBJECT IDENTIFIER}
+  \item{version}{GESIS ARCHIVE VERSION & DATE}
+  \item{uniqid}{UNIQUE RESPONDENT ID (CASEID BY KANTAR COUNTRY CODE)}
   \item{isocntry}{COUNTRY CODE - ISO 3166}
   \item{p1}{DATE OF INTERVIEW}
   \item{p2}{TIME OF INTERVIEW}
