@@ -32,12 +32,13 @@ example_panel_id$panel_id <- paste0(
 my_panel <- example_panel_id
 ```
 
-```{r setup, eval=TRUE, echo=TRUE}
+```{r setup, eval=TRUE, echo=TRUE, message=FALSE}
 ## This vignette is hypothetical at this stage, and the chunks, 
 ## unless stated otherwise, are NOT evaluated.
 library(eurobarometer)
 library(knitr)
 library(dplyr)
+library(kableExtra)
 ```
 
 At this point this workflow if purely hypothetical, the functions are not written, and they are not evaluated.
@@ -56,6 +57,38 @@ import_file_names <- c(
 
 survey_list <- read_surveys (
    import_file_names, .f = 'read_example_file' )
+```
+
+## Analyze the metadata in the surveys
+
+```{r, eval=TRUE}
+my_metadata <- gesis_metadata_create( survey_list )
+```
+
+```{r, echo=FALSE, results='asis', eval=TRUE}
+
+my_metadata %>%
+  dplyr::sample_n(8) %>%
+  select ( all_of(c("filename", "var_name_orig", "var_label_orig", "var_label_norm"))) %>%
+  kable () %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )  
+
+```
+
+```{r, echo=FALSE, results='asis', eval=TRUE}
+
+my_metadata %>%
+  dplyr::sample_n(8) %>%
+  select ( all_of(c("var_label_norm", "var_name_suggested", "class_suggested", "n_categories"))) %>%
+  kable () %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )  
+
 ```
 
 
@@ -87,9 +120,13 @@ names(my_panel)
 
 Let's have a look at 6 randomly selected rows: 
 
-```{r, eval=TRUE, results='asis'}
+```{r, eval=TRUE, echo=FALSE, results='asis'}
 sample_n( my_panel, 6) %>%
-  kable()
+  kable() %>%  
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                fixed_thead = T,
+                font_size = 10 )
 ```
 
 This should return a very basic file for joining, a data.frame/tibble with
