@@ -1,13 +1,6 @@
 library(eurobarometer)
 library(dplyr)
 library(tibble)
-library(knitr)
-library(kableExtra)
-# The examples of this vignette can be found run with
-# source(
-#  file.path("not_included", "vignette_vocabulary_examples.R")
-#  )
-
 
 metadata_database <-  readRDS(
   file.path('data-raw',
