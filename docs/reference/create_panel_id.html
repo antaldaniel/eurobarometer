@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • eurobarometer</title>
+<title>Create A Panel Skeleton With Unique ID — create_panel_id • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Create A Panel Skeleton With Unique ID — create_panel_id" />
+<meta property="og:description" content="Create A Panel Skeleton With Unique ID" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -137,63 +138,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Create A Panel Skeleton With Unique ID</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/create_panel_id.R'><code>R/create_panel_id.R</code></a></small>
+    <div class="hidden name"><code>create_panel_id.Rd</code></div>
     </div>
 
-    <div id="eurobarometer-009" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.9">
-<a href="#eurobarometer-009" class="anchor"></a>eurobarometer 0.0.9</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>Added <code>canonical_names()</code> to create a subjective canonical name for GESIS variables.</li>
-</ul>
-</div>
-    <div id="eurobarometer-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#eurobarometer-010" class="anchor"></a>eurobarometer 0.1.0</h1>
-<ul>
-<li>The <code><a href="../reference/gesis_vocabulary_create.html">gesis_vocabulary_create()</a></code> helper function is added to make variable label and value label harmonization easier.</li>
-<li>New <code>vignette(vocabulary)</code> is developed as a working article to start creating meaningful metadata files. This is at this stage intended for contributors. See <a href="http://eurobarometer.danielantal.eu/articles/vocabulary.html">Working With Vocabularies</a>.</li>
-</ul>
-</div>
-    <div id="eurobarometer-011" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.1">
-<a href="#eurobarometer-011" class="anchor"></a>eurobarometer 0.1.1</h1>
-<ul>
-<li>The <a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">Harmonizing Variable Names</a> vignette/article started for an early standardization of variable names. Thanks for the contribution from <a href="https://github.com/mkolczynska">Marta</a>.</li>
-<li>In the future, <code>canonical_names()</code> may be renamed, and it may receive a new functionality.</li>
-<li>The <code><a href="../reference/gesis_vocabulary_create.html">gesis_vocabulary_create()</a></code> and The <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> have better variable names. The <code>normalize_names()</code> function is renamed to <code><a href="../reference/label_normalize.html">label_normalize()</a></code>.</li>
-<li>Internal function is renamed to <code><a href="../reference/class_suggest.html">class_suggest()</a></code> from <code>suggest_conversion()</code>.</li>
-<li>The <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> vignette is open for consultation.</li>
-</ul>
-</div>
-    <div id="eurobarometer-012" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.2">
-<a href="#eurobarometer-012" class="anchor"></a>eurobarometer 0.1.2</h1>
-<ul>
-<li>
-<code><a href="../reference/label_normalize.html">label_normalize()</a></code> has unit tests, new documentation, and the inputs parameters are synchronized with the other variable name conventions (in metadata). Open question: what to do with non-standard latin characters? [To be resolved in 0.1.3].</li>
-<li>
-<code>canonical_names()</code> is renamed to <code><a href="../reference/label_suggest.html">label_suggest()</a></code>
-</li>
-<li>
-<code>naming functions</code> is renamed to <code>labelling functions</code> with the British spelling.</li>
-<li>Three new Eurobarometer sample files to be used in vignettes and unit testing: <code>ZA7489_sample</code>, <code>ZA7576_sample</code>, <code>ZA7562_sample</code>. These samples contain countries that require special attention (<code>DE</code>, <code>GB</code>, <code>CY</code>, <code>MK</code>), some metadata, some demograpy variables, some trending (trust) variables and some ad hoc variables.</li>
-<li>
-<code><a href="../reference/read_example_file.html">read_example_file()</a></code> is a simple wrapper around <code><a href="https://rdrr.io/r/utils/data.html">utils::data()</a></code> to mimick the data importing workflow with <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code> or other importing functions in vignette examples and unit tests.</li>
-<li>
-<code><a href="../reference/create_panel_id.html">create_panel_id()</a></code> creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Create A Panel Skeleton With Unique ID</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>create_panel_id</span>(<span class='no'>survey_list</span>, <span class='kw'>id_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>))</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>survey_list</th>
+      <td><p>A list of data frames containing surveys.</p></td>
+    </tr>
+    <tr>
+      <th>id_vars</th>
+      <td><p>A vector of ID variables to form a panel ID var,
+defaults to <code><a href='https://rdrr.io/r/base/c.html'>c("uniqid", "doi")</a></code>.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble with the number of original ID vars and their
+[panel_id] as their concatenation.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7576_sample</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7562_sample</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7489_sample</span>)
+
+<span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> ( <span class='st'>'ZA7576_sample'</span> <span class='kw'>=</span> <span class='no'>ZA7576_sample</span>,
+                      <span class='st'>'ZA7562_sample'</span> <span class='kw'>=</span> <span class='no'>ZA7562_sample</span>,
+                      <span class='st'>'ZA7489_sample'</span> <span class='kw'>=</span> <span class='no'>ZA7489_sample</span>)
+<span class='fu'>create_panel_id</span> (<span class='no'>survey_list</span>, <span class='kw'>id_vars</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>) )</div><div class='output co'>#&gt; # A tibble: 18,266 x 3
+#&gt;    panel_id                         uniqid doi                
+#&gt;  * &lt;chr&gt;                             &lt;dbl&gt; &lt;chr&gt;              
+#&gt;  1 200000291_doi_10_4232_1_13393 200000291 doi:10.4232/1.13393
+#&gt;  2 200000299_doi_10_4232_1_13393 200000299 doi:10.4232/1.13393
+#&gt;  3 200000313_doi_10_4232_1_13393 200000313 doi:10.4232/1.13393
+#&gt;  4 200000314_doi_10_4232_1_13393 200000314 doi:10.4232/1.13393
+#&gt;  5 200000326_doi_10_4232_1_13393 200000326 doi:10.4232/1.13393
+#&gt;  6 200000330_doi_10_4232_1_13393 200000330 doi:10.4232/1.13393
+#&gt;  7 200000333_doi_10_4232_1_13393 200000333 doi:10.4232/1.13393
+#&gt;  8 200000362_doi_10_4232_1_13393 200000362 doi:10.4232/1.13393
+#&gt;  9 200000365_doi_10_4232_1_13393 200000365 doi:10.4232/1.13393
+#&gt; 10 200000374_doi_10_4232_1_13393 200000374 doi:10.4232/1.13393
+#&gt; # ... with 18,256 more rows</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

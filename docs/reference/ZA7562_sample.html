@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • eurobarometer</title>
+<title>ZA7562 Eurobarometer Sample — ZA7562_sample • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="ZA7562 Eurobarometer Sample — ZA7562_sample" />
+<meta property="og:description" content="A reduced part of a raw GESIS file to demonstrate changes in
+variable labels and variable names." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -137,63 +139,83 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>ZA7562 Eurobarometer Sample</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/data-za7562_sample.R'><code>R/data-za7562_sample.R</code></a></small>
+    <div class="hidden name"><code>ZA7562_sample.Rd</code></div>
     </div>
 
-    <div id="eurobarometer-009" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.9">
-<a href="#eurobarometer-009" class="anchor"></a>eurobarometer 0.0.9</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>Added <code>canonical_names()</code> to create a subjective canonical name for GESIS variables.</li>
-</ul>
-</div>
-    <div id="eurobarometer-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#eurobarometer-010" class="anchor"></a>eurobarometer 0.1.0</h1>
-<ul>
-<li>The <code><a href="../reference/gesis_vocabulary_create.html">gesis_vocabulary_create()</a></code> helper function is added to make variable label and value label harmonization easier.</li>
-<li>New <code>vignette(vocabulary)</code> is developed as a working article to start creating meaningful metadata files. This is at this stage intended for contributors. See <a href="http://eurobarometer.danielantal.eu/articles/vocabulary.html">Working With Vocabularies</a>.</li>
-</ul>
-</div>
-    <div id="eurobarometer-011" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.1">
-<a href="#eurobarometer-011" class="anchor"></a>eurobarometer 0.1.1</h1>
-<ul>
-<li>The <a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">Harmonizing Variable Names</a> vignette/article started for an early standardization of variable names. Thanks for the contribution from <a href="https://github.com/mkolczynska">Marta</a>.</li>
-<li>In the future, <code>canonical_names()</code> may be renamed, and it may receive a new functionality.</li>
-<li>The <code><a href="../reference/gesis_vocabulary_create.html">gesis_vocabulary_create()</a></code> and The <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> have better variable names. The <code>normalize_names()</code> function is renamed to <code><a href="../reference/label_normalize.html">label_normalize()</a></code>.</li>
-<li>Internal function is renamed to <code><a href="../reference/class_suggest.html">class_suggest()</a></code> from <code>suggest_conversion()</code>.</li>
-<li>The <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> vignette is open for consultation.</li>
-</ul>
-</div>
-    <div id="eurobarometer-012" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.2">
-<a href="#eurobarometer-012" class="anchor"></a>eurobarometer 0.1.2</h1>
-<ul>
-<li>
-<code><a href="../reference/label_normalize.html">label_normalize()</a></code> has unit tests, new documentation, and the inputs parameters are synchronized with the other variable name conventions (in metadata). Open question: what to do with non-standard latin characters? [To be resolved in 0.1.3].</li>
-<li>
-<code>canonical_names()</code> is renamed to <code><a href="../reference/label_suggest.html">label_suggest()</a></code>
-</li>
-<li>
-<code>naming functions</code> is renamed to <code>labelling functions</code> with the British spelling.</li>
-<li>Three new Eurobarometer sample files to be used in vignettes and unit testing: <code>ZA7489_sample</code>, <code>ZA7576_sample</code>, <code>ZA7562_sample</code>. These samples contain countries that require special attention (<code>DE</code>, <code>GB</code>, <code>CY</code>, <code>MK</code>), some metadata, some demograpy variables, some trending (trust) variables and some ad hoc variables.</li>
-<li>
-<code><a href="../reference/read_example_file.html">read_example_file()</a></code> is a simple wrapper around <code><a href="https://rdrr.io/r/utils/data.html">utils::data()</a></code> to mimick the data importing workflow with <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code> or other importing functions in vignette examples and unit tests.</li>
-<li>
-<code><a href="../reference/create_panel_id.html">create_panel_id()</a></code> creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>A reduced part of a raw GESIS file to demonstrate changes in
+variable labels and variable names.</p>
+    </div>
 
+    <pre class="usage"><span class='no'>ZA7562_sample</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 5074 rows in 50 variables:</p><dl'>
+  <dt>doi</dt><dd><p>DIGITAL OBJECT IDENTIFIER</p></dd>
+  <dt>version</dt><dd><p>GESIS ARCHIVE VERSION &amp; DATE</p></dd>
+  <dt>uniqid</dt><dd><p>UNIQUE RESPONDENT ID (CASEID BY KANTAR COUNTRY CODE)</p></dd>
+  <dt>isocntry</dt><dd><p>COUNTRY CODE - ISO 3166</p></dd>
+  <dt>p1</dt><dd><p>DATE OF INTERVIEW</p></dd>
+  <dt>p2</dt><dd><p>TIME OF INTERVIEW</p></dd>
+  <dt>p3</dt><dd><p>DURATION OF INTERVIEW</p></dd>
+  <dt>p4</dt><dd><p>N OF PERSONS PRESENT DURING INTERVIEW</p></dd>
+  <dt>p5</dt><dd><p>RESPONDENT COOPERATION</p></dd>
+  <dt>d7</dt><dd><p>MARITAL STATUS</p></dd>
+  <dt>d8</dt><dd><p>AGE EDUCATION</p></dd>
+  <dt>d25</dt><dd><p>TYPE OF COMMUNITY</p></dd>
+  <dt>d60</dt><dd><p>DIFFICULTIES PAYING BILLS - LAST YEAR</p></dd>
+  <dt>qa3_6</dt><dd><p>TRUST IN INSTITUTIONS: EUROPEAN UNION</p></dd>
+  <dt>qa3_6</dt><dd><p>TRUST IN INSTITUTIONS: EUROPEAN UNION</p></dd>
+  <dt>qa3_6</dt><dd><p>TRUST IN INSTITUTIONS: EUROPEAN UNION</p></dd>
+  <dt>qa3_1</dt><dd><p>TRUST IN INSTITUTIONS: MEDIA</p></dd>
+  <dt>qa3_1</dt><dd><p>TRUST IN INSTITUTIONS: MEDIA</p></dd>
+  <dt>qa3_1</dt><dd><p>TRUST IN INSTITUTIONS: MEDIA</p></dd>
+  <dt>qa3_4</dt><dd><p>TRUST IN INSTITUTIONS: NATIONAL GOVERNMENT</p></dd>
+  <dt>qa3_4</dt><dd><p>TRUST IN INSTITUTIONS: NATIONAL GOVERNMENT</p></dd>
+  <dt>qa3_4</dt><dd><p>TRUST IN INSTITUTIONS: NATIONAL GOVERNMENT</p></dd>
+  <dt>qa3_5</dt><dd><p>TRUST IN INSTITUTIONS: NATIONAL PARLIAMENT</p></dd>
+  <dt>qa3_5</dt><dd><p>TRUST IN INSTITUTIONS: NATIONAL PARLIAMENT</p></dd>
+  <dt>qa3_5</dt><dd><p>TRUST IN INSTITUTIONS: NATIONAL PARLIAMENT</p></dd>
+  <dt>qa3_2</dt><dd><p>TRUST IN INSTITUTIONS: POLITICAL PARTIES</p></dd>
+  <dt>qa3_2</dt><dd><p>TRUST IN INSTITUTIONS: POLITICAL PARTIES</p></dd>
+  <dt>qa3_2</dt><dd><p>TRUST IN INSTITUTIONS: POLITICAL PARTIES</p></dd>
+  <dt>qa3_3</dt><dd><p>TRUST IN INSTITUTIONS: REG/LOCAL PUBLIC AUTHORITIES</p></dd>
+  <dt>qa3_3</dt><dd><p>TRUST IN INSTITUTIONS: REG/LOCAL PUBLIC AUTHORITIES</p></dd>
+  <dt>qa3_3</dt><dd><p>TRUST IN INSTITUTIONS: REG/LOCAL PUBLIC AUTHORITIES</p></dd>
+  <dt>d71_1</dt><dd><p>POLITICAL DISCUSSION - NATIONAL MATTERS</p></dd>
+  <dt>d71_2</dt><dd><p>POLITICAL DISCUSSION - EUROPEAN MATTERS</p></dd>
+  <dt>d71_3</dt><dd><p>POLITICAL DISCUSSION - LOCAL MATTERS</p></dd>
+  <dt>qc9.1</dt><dd><p>VACCINE INFO SOURCES: FAMILY</p></dd>
+  <dt>qc9.2</dt><dd><p>VACCINE INFO SOURCES: FRIENDS</p></dd>
+  <dt>qc9.3</dt><dd><p>VACCINE INFO SOURCES: DOCTOR ETC</p></dd>
+  <dt>qc9.4</dt><dd><p>VACCINE INFO SOURCES: OTHER HEALTH CARE WORKERS</p></dd>
+  <dt>qc9.5</dt><dd><p>VACCINE INFO SOURCES: PHARMACISTS</p></dd>
+  <dt>qc9.6</dt><dd><p>VACCINE INFO SOURCES: ONLINE SOCIAL NETWORKS</p></dd>
+  <dt>qc9.7</dt><dd><p>VACCINE INFO SOURCES: OTHER INTERNET SITES</p></dd>
+  <dt>qc9.8</dt><dd><p>VACCINE INFO SOURCES: HEALTH AUTHORITIES</p></dd>
+  <dt>qc9.9</dt><dd><p>VACCINE INFO SOURCES: OTHER (SPONT)</p></dd>
+  <dt>qc9.10</dt><dd><p>VACCINE INFO SOURCES: NONE (SPONT)</p></dd>
+  <dt>qc9.11</dt><dd><p>VACCINE INFO SOURCES: DK</p></dd>
+  <dt>qc10</dt><dd><p>MOST TRUSTED VACCINE INFO SOURCE</p></dd>
+  <dt>d77</dt><dd><p>POLITICAL DISCUSSION - CONVINCE FRIENDS</p></dd>
+  <dt>w1</dt><dd><p>WEIGHT RESULT FROM TARGET (REDRESSMENT)</p></dd>
+  <dt>w3</dt><dd><p>WEIGHT GERMANY</p></dd>
+  <dt>wex</dt><dd><p>WEIGHT EXTRAPOLATED POPULATION AGED 15+</p></dd>
+  
+</dl><p>@source <a href='https://www.gesis.org/index.php?id=12374'>Eurobarometer 91.2, March 2019, ZA No. 7562 on gesis.org</a>
+  @seealso <code><a href='label_normalize.html'>label_normalize</a></code> for text normalization and
+  <code><a href='label_suggest.html'>label_suggest</a></code> for canonisation.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
