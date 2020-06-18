@@ -30,5 +30,5 @@ element of the list.
 import_file_names <- c(
 'ZA7576_sample','ZA7562_sample','ZA7489_sample'
 )
-read_surveys (( import_file_names, .f = 'read_example_file' ) )
+read_surveys (import_file_names, .f = 'read_example_file' )
 }
