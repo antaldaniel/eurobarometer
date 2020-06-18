@@ -10,7 +10,6 @@
 #' read_example_file ( sample_file_name = 'ZA7576_sample')
 #' @export
 
-
 read_example_file <- function( sample_file_name = 'ZA7576_sample' ) {
 
   sample_file_name <- substr( sample_file_name,1,6)
