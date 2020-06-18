@@ -22,6 +22,9 @@
 
 create_panel_id <- function (survey_list, id_vars = c("uniqid", "doi") ) {
 
+  # in case of unexpected results, after fixing add a unique test
+  # to tests/testthat/test-create_panel_id.R
+
   create_id <- function (dat, id_vars = c("uniqid", "doi") ) {
 
     if ( ! all(id_vars %in% names(dat)) ) {
