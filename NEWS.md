@@ -18,6 +18,9 @@
 * `canonical_names()` is renamed to `label_suggest()`
 * `naming functions` is renamed to `labelling functions` with the British spelling. 
 * Three new Eurobarometer sample files to be used in vignettes and unit testing: `ZA7489_sample`, `ZA7576_sample`, `ZA7562_sample`. These samples contain countries that require special attention (`DE`, `GB`, `CY`, `MK`), some metadata, some demograpy variables, some trending (trust) variables and some ad hoc variables. 
+* `read_example_file()` is a simple wrapper around `utils::data()` to 
+mimick the data importing workflow with `haven::read_spss()` or other
+importing functions in vignette examples and unit tests.
 
 # Foreseen changes
 
