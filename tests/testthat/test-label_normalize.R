@@ -1,5 +1,3 @@
-
-
 ### Test based on trust variable labels --------------------------------
 #paste0("'",
 #       paste( var_label_orig[c(1,122,455,899,1234,1989, 2400)], collapse = "', '"),
