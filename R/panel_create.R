@@ -7,7 +7,7 @@
 #' @importFrom tidyr unite
 #' @importFrom tidyselect all_of
 #' @return A tibble with the number of original ID vars and their
-#' \code[panel_id] as their concatenation.
+#' \code{panel_id} as their concatenation.
 #' @examples
 #' data (ZA7576_sample)
 #' data (ZA7562_sample)
@@ -41,7 +41,7 @@ panel_create <- function (survey_list,
 
   }
 
-  results_id <- lapply ( survey_list, create_id)
+  results_id <- lapply ( survey_list, create_id )
   do.call(rbind,results_id )
 
 }
