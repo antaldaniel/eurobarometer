@@ -35,5 +35,5 @@ metadata <- gesis_vocabulary_create (tmp)
 }
 }
 \seealso{
-canonical_name_create
+label_suggest
 }

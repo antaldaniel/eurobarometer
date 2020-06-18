@@ -1,5 +1,4 @@
 # eurobarometer 0.0.9
-
 * Added a `NEWS.md` file to track changes to the package.
 * Added `canonical_names()` to create a subjective canonical name for GESIS variables.
 
@@ -13,6 +12,11 @@
 * The `gesis_vocabulary_create()` and The `gesis_metadata_create()` have better variable names.  The `normalize_names()` function is renamed to `label_normalize()`. 
 * Internal function is renamed to `class_suggest()` from `suggest_conversion()`.
 * The [Workflow](http://eurobarometer.danielantal.eu/articles/workflow.html) vignette is open for consultation.
+
+# eurobarometer 0.1.2
+* `label_normalize()` has unit tests, new documentation, and the inputs parameters are synchronized with the other variable name conventions (in metadata). Open question: what to do with non-standard latin characters? [To be resolved in 0.1.3].
+* `canonical_names()` is renamed to `label_suggest()`
+* `naming functions` is renamed to `labelling functions` with the British spelling. 
 
 # Foreseen changes
 

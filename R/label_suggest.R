@@ -1,27 +1,30 @@
-#' Create Canonical Names for GESIS Columns
+#' Create Suggested Names for GESIS Columns
 #'
-#' Create canonical names that do not vary across several SPSS files
-#' from different years.
-#'
-#' This function may get a new name and some new functionality.
+#' Create canonical variable names (labels) that do not vary across
+#' several SPSS files from different years.
 #'
 #' @param var_names A character string of variable labels.
 #' @param var_name_orig A character string of variable names.
 #' @importFrom stringr str_sub
-#' @family naming functions
+#' @family labelling functions
 #' @examples
-#' canonical_names ( c("digital_object_identifier",
-#'                     "tns_unique_case_id") )
+#' label_suggest( c("digital_object_identifier",
+#'                  "tns_unique_case_id") )
 #' @export
 
-canonical_names <- function(var_names,
-                            var_name_orig) {
+label_suggest <- function(var_label_orig,
+                          var_name_orig) {
 
-  x <- trimws(tolower(as.character(var_names)))
+  x <- trimws(tolower(as.character(var_label_orig)))
   x <- label_normalize (x)
   x <- ifelse (var_name_orig == "caseid", "caseid", x)
   x <- ifelse (var_name_orig == "uniqid", "uniqid", x)
   x <- ifelse (var_name_orig == "doi", "doi", x)
+
+
+  y  <- gsub("wex_weight_extra_population_gt_15", "wex", y)
+  y  <- ifelse ( substr(y,1,3) =="w1_",
+                 'w1', y)
 
   ## Hard replacmenet ------------------------
   x <- ifelse ( grepl("unique_case_id", x),

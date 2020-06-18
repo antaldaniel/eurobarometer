@@ -35,8 +35,8 @@ gesis_metadata_create <- function ( dat ) {
 
   var_label_orig <- vapply ( dat, labelled::var_label, character(1) )
   var_label_norm <- label_normalize(x = var_label_orig )
-  var_label_suggested <- canonical_names(var_label_norm,
-                                         names(dat))
+  var_label_suggested <- label_suggest( var_label_norm,
+                                        names(dat) )
 
   ## Creating the basic metadata ----
   metadata <- tibble::tibble (

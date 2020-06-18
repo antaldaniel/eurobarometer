@@ -2,7 +2,7 @@
 title: "Survey Data Harmonization"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{harmonization}
+  %\VignetteIndexEntry{Survey Data Harmonization}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

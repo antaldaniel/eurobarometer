@@ -29,7 +29,9 @@ sample_metadata <- gesis_metadata_create(dat = sample)
 names(sample_metadata)
 ```
 
-The function `gesis_metadta_create` normalizes those variable names that are not machine readable.  These names are still often problematic and require adjustment.
+The function `gesis_metadta_create` normalizes those variable names that are not machine readable, using two functions under the hood (see: `?label_normalize` and `?label_suggest`.) 
+
+These names are still often problematic and require adjustment.
 
 ```{r}
 adjusted_metadata <- sample_metadata %>%
@@ -43,7 +45,6 @@ adjusted_metadata <- sample_metadata %>%
 
 You can, if you know what you are doing, change the suggested base R representation of your survey data in the column:
 
-[MUST BE REWRITTEN WITH RECENT VAR NAME AND FUCNTION NAME CHANGES]
 
 ```{r, eval=FALSE}
 renamed_sample <- sample %>%
@@ -57,16 +58,18 @@ converted <- convert_class (dat = renamed_sample,
 converted %>%
   dplyr::select( 
     all_of(c("w1","age_exact", 
-             "is_energy_saving_action_used_car_less"))
+             "energy_saving_action_used_car_less"))
     ) %>%
   dplyr::sample_n(., 10) %>%
   kable()
 ```
 
-`GESIS` and/or `TNS` did not use some variable names consistently over the years and decades.  Canonizing these variables names is a subjective matter. A subjective canonization is coded in 'var_name_suggested()`, which uses both the variable names and their labels from the SPSS file.
+`GESIS` and/or `TNS` did not use some variable names consistently over the years and decades.  Canonizing these variables names is a subjective matter. A subjective canonization is coded in `?label_suggest`, which uses both the variable names and their labels from the SPSS file.
 
 ```{r, eval=FALSE}
-sample_metadata$var_name_suggested  <- var_name_suggested(sample_metadata)
+sample_metadata$var_name_suggested  <- label_suggest(
+  var_name_orig = sample_metadata$var_name_orig, 
+  var_label_orig = sample_metadata$var_label_orig                       )
 
 sample %>%
   purrr::set_names ( sample_metadata$var_name_suggested) %>%

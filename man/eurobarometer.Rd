@@ -4,13 +4,13 @@
 \name{eurobarometer}
 \alias{eurobarometer}
 \title{eurobarometer: A package to create tidy Eurobarometer microdata files.}
-\section{naming functions}{
+\section{labelling functions}{
 
 The naming functions make the GESIS SPSS files usable in a programmatic
 context.
 \code{\link{label_normalize}} removes regex symbols, whitespace, and
 basic inconsistencies in abbreviations.
-\code{\link{canonical_names}} harmonizes the names across various GESIS
+\code{\link{label_suggest}} harmonizes the names across various GESIS
 files, so that they can be joined into panels across time.
 }
 

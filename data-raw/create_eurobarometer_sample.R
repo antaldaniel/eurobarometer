@@ -5,7 +5,7 @@ ZA5479_sample <- dplyr::sample_n( ZA5479_sample, 2000 )
 ZA5479_sample <- ZA5479_sample[, c(1:8, 53, 104:114, 520:524, 551:622)]
 eb_sample <- ZA5479_sample
 
-usethis::use_data(eb_sample, internal = TRUE, overwrite = TRUE)
+usethis::use_data(eb_sample, internal = FALSE, overwrite = TRUE)
 
 
 sample <- eurobarometer:::eb_sample

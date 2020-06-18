@@ -15,7 +15,7 @@
 #' @importFrom dplyr bind_rows mutate arrange
 #' @importFrom labelled var_label
 #' @importFrom tibble tibble
-#' @seealso canonical_name_create
+#' @seealso label_suggest
 #' @return The vocabulary of the survey in a data frame. The return
 #' data frame has 6 columns.
 #' @examples

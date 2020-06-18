@@ -21,7 +21,6 @@ library(kableExtra)
 library(dplyr)
 ```
 
-
 # Harmonizing Variable Names
 
 ## Normalization

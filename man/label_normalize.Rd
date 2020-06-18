@@ -2,21 +2,25 @@
 % Please edit documentation in R/label_normalize.R
 \name{label_normalize}
 \alias{label_normalize}
-\title{Create Normalized Variable Names for GESIS Columns}
+\title{Create Normalized Variable & Value Labels}
 \usage{
 label_normalize(x)
 }
 \arguments{
-\item{x}{A vector of the GESIS variable names}
+\item{x}{A vector of the (GESIS) variable or value labels}
+}
+\value{
+A character vector with the normalized labels
 }
 \description{
-Create Normalized Variable Names for GESIS Columns
+Remove relative reference to question blocks, special characters
+used in regular expressions, whitespace and bring the variable and
+value labels to snake_case_format.
 }
 \examples{
-label_normalize ( c("UPPER CASE VAR", "VAR NAME WITH \% SYMBOL") )
-}
-\seealso{
-Other naming functions: 
-\code{\link{canonical_names}()}
+label_normalize ( c(
+"QA17_1 EUROPEAN PARLIAMENT - TRUST",
+"QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT" )
+ )
 }
 \concept{naming functions}
