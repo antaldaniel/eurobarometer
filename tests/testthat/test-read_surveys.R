@@ -9,4 +9,5 @@ test_that("Correct structure returned", {
   expect_equal(length( surveys_read), 3)
   expect_equal(all(vapply ( surveys_read, function(x) 'filename' %in% names(x),
                             logical(1))), TRUE)
+  expect_equal(attr(surveys_read[[1]]$filename, "label"), "filename")
 })

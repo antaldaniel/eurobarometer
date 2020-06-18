@@ -22,6 +22,7 @@ read_surveys <- function ( import_file_names, .f = 'read_example_file' ) {
 
   for (i in 1:length(import_file_names)) {
     tmp[[i]]$filename <- import_file_names[i]
+    attr(tmp[[i]]$filename, "label") <- "filename"
   }
 
   tmp
