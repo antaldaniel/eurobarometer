@@ -1,4 +1,4 @@
-#' @title Create A Panel Skeleton With Unique ID
+#' @title Create A Skeleton Survey Panel With Unique ID
 #'
 #' @param survey_list A list of data frames containing surveys.
 #' @param id_vars A vector of ID variables to form a panel ID var,
@@ -16,14 +16,14 @@
 #' survey_list <- list ( 'ZA7576_sample' = ZA7576_sample,
 #'                       'ZA7562_sample' = ZA7562_sample,
 #'                       'ZA7489_sample' = ZA7489_sample)
-#' create_panel_id (survey_list, id_vars =c("uniqid", "doi") )
+#' panel_create (survey_list, id_vars =c("uniqid", "doi") )
 #' @export
 
 
-create_panel_id <- function (survey_list, id_vars = c("uniqid", "doi") ) {
+panel_create <- function (survey_list, id_vars = c("uniqid", "doi") ) {
 
   # in case of unexpected results, after fixing add a unique test
-  # to tests/testthat/test-create_panel_id.R
+  # to tests/testthat/test-panel_create.R
 
   create_id <- function (dat, id_vars = c("uniqid", "doi") ) {
 

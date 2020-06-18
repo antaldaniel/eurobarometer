@@ -9,8 +9,8 @@ survey_list <- list ( 'ZA7576_sample' = ZA7576_sample,
                       'ZA7489_sample' = ZA7489_sample)
 
 
-panel_skeleton <- create_panel_id (survey_list,
-                                   id_vars =c("uniqid", "doi") )
+panel_skeleton <- panel_create (survey_list,
+                                id_vars =c("uniqid", "doi") )
 
 test_that("Correct data frame is created", {
   expect_equal(nrow ( panel_skeleton),
