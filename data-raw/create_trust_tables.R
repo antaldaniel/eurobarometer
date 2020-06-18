@@ -10,7 +10,7 @@ library(kableExtra)
 
 
 metadata_database <-  readRDS(
-  file.path( 'data-raw',
+  file.path('data-raw',
   'eb_metadata_database_large.rds'))
 
 select_metadata_vars <- c("filename", "var_name_orig", "var_label_orig", "var_label_norm",
@@ -23,6 +23,14 @@ trust_metadata <- metadata_database  %>%
   )  %>%
   select ( all_of(select_metadata_vars)) %>%
   arrange ( var_label_norm, val_label_norm, filename )
+
+trust_metadata %>%
+  head(10) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
 
 trust_metadata <- trust_metadata %>%
   filter (
@@ -39,15 +47,47 @@ trust_metadata %>%
                   fixed_thead = T,
                   font_size = 10 )
 
+trust_metadata %>%
+  arrange(val_label_norm) %>%
+  select(val_label_norm, everything()) %>%
+  count(n_categories) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+
+trust_metadata %>%
+  filter(n_categories == 13) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
 
 trust_metadata <- trust_metadata %>%
-  filter( ! (filename == "ZA3938_v1-0-1.sav" &
-               var_name_orig == "v511"))
+  filter( ! (filename == "ZA3938_v1-0-1.sav" & var_name_orig == "v511"))
 
+trust_metadata %>%
+  count(val_label_norm) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+
+trust_metadata %>%
+  filter( grepl("you_generally_do_not_trust", val_label_norm)) %>%
+  select(-var_label_norm) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
 
 trust_metadata <- trust_metadata %>%
-  filter( ! (filename == "ZA6861_v1-2-0.sav" &
-               var_name_orig == "qd5.6"))
+  filter( ! (filename == "ZA6861_v1-2-0.sav" & var_name_orig == "qd5.6"))
+
 
 exclusions <- trust_metadata %>%
   filter(val_label_norm %in% c("mentioned", "not_mentioned")) %>%
@@ -55,9 +95,15 @@ exclusions <- trust_metadata %>%
   count(filename, var_name_orig)
 
 trust_metadata <- trust_metadata %>%
-  anti_join(exclusions,
-            by = c("filename", "var_name_orig"))
+  anti_join(exclusions)
 
+trust_metadata %>%
+  count(val_label_norm) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
 
 val_labels_trust <- trust_metadata %>%
   count(val_label_norm)
@@ -91,6 +137,12 @@ trust_values_table <- trust_vocabulary %>%
   ) %>%
   arrange(numeric_value)
 
+trust_values_table %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
 
 trust_variable_table <- trust_metadata %>%
   filter ( val_label_norm %in% trust_values_table$val_label_norm ) %>%
@@ -133,3 +185,14 @@ trust_variable_table <- trust_metadata %>%
   mutate(var_name_suggested = ifelse(var_name_suggested == "trust_political_partiess_tcc",
                                     "trust_political_parties_tcc", var_name_suggested)) %>%
   arrange(var_name_suggested)
+
+
+trust_variable_table %>%
+  count(var_name_suggested) %>%
+  # arrange(desc(n)) %>%
+  # head(10) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )

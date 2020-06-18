@@ -3,18 +3,18 @@ library(dplyr)
 library(tibble)
 library(knitr)
 library(kableExtra)
-# The examples of this vignette can be found run with  
+# The examples of this vignette can be found run with
 # source(
 #  file.path("not_included", "vignette_vocabulary_examples.R")
 #  )
 
 
-metadata_database <-  readRDS( 
-  file.path('..', 'data-raw',
-  'eb_metadata_database_large.rds')) 
+metadata_database <-  readRDS(
+  file.path( 'data-raw',
+  'eb_metadata_database_large.rds'))
 
-select_metadata_vars <- c("filename", "var_name_orig", "var_label_orig", "var_label_norm", 
-                          "val_label_orig", "val_label_norm" , "val_numeric_orig", 
+select_metadata_vars <- c("filename", "var_name_orig", "var_label_orig", "var_label_norm",
+                          "val_label_orig", "val_label_norm" , "val_numeric_orig",
                           "val_order_alpha", "n_categories")
 
 trust_metadata <- metadata_database  %>%
@@ -24,15 +24,7 @@ trust_metadata <- metadata_database  %>%
   select ( all_of(select_metadata_vars)) %>%
   arrange ( var_label_norm, val_label_norm, filename )
 
-trust_metadata %>%
-  head(10) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
-
-trust_metadata <- trust_metadata %>% 
+trust_metadata <- trust_metadata %>%
   filter (
     grepl( "trust_in_institutions|trust_political_parties|_trust$", var_label_norm )
   ) %>%
@@ -47,53 +39,15 @@ trust_metadata %>%
                   fixed_thead = T,
                   font_size = 10 )
 
-trust_metadata %>%
-  arrange(val_label_norm) %>%
-  select(val_label_norm, everything()) %>% 
-  count(n_categories) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
-
-trust_metadata %>%
-  filter(n_categories == 13) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
 
 trust_metadata <- trust_metadata %>%
-  filter( ! (filename == "ZA3938_v1-0-1.sav" & var_name_orig == "v511"))
+  filter( ! (filename == "ZA3938_v1-0-1.sav" &
+               var_name_orig == "v511"))
 
-trust_metadata %>%
-  count(val_label_norm) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
 
-trust_metadata %>% 
-  filter( grepl("you_generally_do_not_trust", val_label_norm)) %>%
-  select(-var_label_norm) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
-
-trust_metadata <- trust_metadata %>% 
-  filter( ! (filename == "ZA6861_v1-2-0.sav" & var_name_orig == "qd5.6"))
-
-trust_metadata %>%
-  count(val_label_norm) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
+trust_metadata <- trust_metadata %>%
+  filter( ! (filename == "ZA6861_v1-2-0.sav" &
+               var_name_orig == "qd5.6"))
 
 exclusions <- trust_metadata %>%
   filter(val_label_norm %in% c("mentioned", "not_mentioned")) %>%
@@ -101,15 +55,9 @@ exclusions <- trust_metadata %>%
   count(filename, var_name_orig)
 
 trust_metadata <- trust_metadata %>%
-  anti_join(exclusions)
+  anti_join(exclusions,
+            by = c("filename", "var_name_orig"))
 
-trust_metadata %>%
-  count(val_label_norm) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
 
 val_labels_trust <- trust_metadata %>%
   count(val_label_norm)
@@ -120,35 +68,29 @@ trust_vocabulary <- tibble::tibble (
   topic_1 = 'trust institutions',
   # And if we find them, we can add GESIS or TNS/Kantar keywords here
   topic_2 = 'trust, binary',
-  val_label_norm = val_labels_trust %>% pull(val_label_norm), 
-  level = 3 # missingness should be harmonized in character form 
+  val_label_norm = val_labels_trust %>% pull(val_label_norm),
+  level = 3 # missingness should be harmonized in character form
 )
 
 trust_values_table <- trust_vocabulary %>%
   mutate(character_value = case_when(
-      # and create a surely harmonized character representation 
-      grepl("dk|inap|na", val_label_norm) ~ NA_character_, 
+      # and create a surely harmonized character representation
+      grepl("dk|inap|na", val_label_norm) ~ NA_character_,
       substr(val_label_norm, 1,7) == "tend_to" ~ "tend_to_trust",
       substr(val_label_norm, 1,11) == "tend_not_to" ~ "tend_not_to_trust",
-    TRUE ~ "ERROR"), 
-    numeric_value = case_when ( 
+    TRUE ~ "ERROR"),
+    numeric_value = case_when (
       character_value == "tend_to_trust" ~ 1,
       character_value == "tend_not_to_trust" ~ 0,
       TRUE ~ NA_real_),
     missing = case_when (
       # it is useful for faster filtering of missingness
-      # and true value labels  
-      is.na(numeric_value) ~ TRUE, 
+      # and true value labels
+      is.na(numeric_value) ~ TRUE,
       TRUE ~ FALSE)
   ) %>%
   arrange(numeric_value)
 
-trust_values_table %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
 
 trust_variable_table <- trust_metadata %>%
   filter ( val_label_norm %in% trust_values_table$val_label_norm ) %>%
@@ -191,14 +133,3 @@ trust_variable_table <- trust_metadata %>%
   mutate(var_name_suggested = ifelse(var_name_suggested == "trust_political_partiess_tcc",
                                     "trust_political_parties_tcc", var_name_suggested)) %>%
   arrange(var_name_suggested)
-
-
-trust_variable_table %>%
-  count(var_name_suggested) %>%
-  # arrange(desc(n)) %>%
-  # head(10) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
