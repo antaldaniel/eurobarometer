@@ -25,7 +25,8 @@ The `eb_sample` is a small fraction of the GESIS datafile `ZA5479_v6-0-0.sav`.  
 
 ```{r}
 data ( "eb_sample", package = "eurobarometer")
-sample_metadata <- gesis_metadata_create(dat = eb_sample)
+eb_sample$filename <- 'eb_sample'
+sample_metadata <- gesis_metadata_create(eb_sample)
 names(sample_metadata)
 ```
 
