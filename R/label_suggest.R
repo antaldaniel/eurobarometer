@@ -40,9 +40,9 @@ label_suggest <- function(var_label_orig,
   x <- ifelse (var_name_orig == "doi", "doi", x)
 
 
-  y  <- gsub("wex_weight_extra_population_gt_15", "wex", y)
-  y  <- ifelse ( substr(y,1,3) =="w1_",
-                 'w1', y)
+  x  <- gsub("wex_weight_extra_population_gt_15", "wex", x)
+  x  <- ifelse ( substr(y,1,3) =="w1_",
+                 'w1', x)
 
   ## Hard replacmenet ------------------------
   x <- ifelse ( grepl("unique_case_id", x),
