@@ -115,3 +115,36 @@ ZA7576_sample <- ZA7576_sample [ ZA7576_sample$isocntry %in% c("PL", "HU",
 
 
 usethis::use_data(ZA7489_sample, ZA7576_sample, ZA7562_sample, overwrite = TRUE )
+
+ZA7489_sample_documentation <- paste0(
+  "item{",
+  names ( ZA7489_sample ),
+  "}",
+  "{",
+  as.character(sapply (  ZA7489_sample, function(x) attr ( x , "label"))),
+  "}\n"
+)
+
+cat (ZA7489_sample_documentation )
+
+ZA7576_sample_documentation <- paste0(
+  "item{",
+  names ( ZA7576_sample ),
+  "}",
+  "{",
+  as.character(sapply (  ZA7576_sample, function(x) attr ( x , "label"))),
+  "}\n"
+)
+
+ZA7562_sample_documentation <- paste0(
+  "item{",
+  names ( ZA7562_sample ),
+  "}",
+  "{",
+  as.character(sapply (  ZA7562_sample, function(x) attr ( x , "label"))),
+  "}\n"
+)
+
+cat ( ZA7562_sample_documentation )
+
+nrow ( ZA7562_sample)
