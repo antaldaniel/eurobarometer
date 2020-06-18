@@ -17,6 +17,7 @@
 * `label_normalize()` has unit tests, new documentation, and the inputs parameters are synchronized with the other variable name conventions (in metadata). Open question: what to do with non-standard latin characters? [To be resolved in 0.1.3].
 * `canonical_names()` is renamed to `label_suggest()`
 * `naming functions` is renamed to `labelling functions` with the British spelling. 
+* Three new Eurobarometer sample files to be used in vignettes and unit testing: `ZA7489_sample`, `ZA7576_sample`, `ZA7562_sample`. These samples contain countries that require special attention (`DE`, `GB`, `CY`, `MK`), some metadata, some demograpy variables, some trending (trust) variables and some ad hoc variables. 
 
 # Foreseen changes
 
