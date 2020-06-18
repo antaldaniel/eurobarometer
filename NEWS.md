@@ -21,7 +21,7 @@
 * `read_example_file()` is a simple wrapper around `utils::data()` to 
 mimick the data importing workflow with `haven::read_spss()` or other
 importing functions in vignette examples and unit tests.
-* `create_panel_id()` creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey. 
+* `panel_create()` creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey. 
 * `gesis_metadata_create()` can now take either a list of surveys, or a single survey data frame as an input, and returns the `filename` in a column. 
 
 # Foreseen changes
