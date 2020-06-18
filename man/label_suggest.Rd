@@ -7,16 +7,36 @@
 label_suggest(var_label_orig, var_name_orig)
 }
 \arguments{
-\item{var_name_orig}{A character string of variable names.}
+\item{var_name_orig}{A character vector of variable names.}
 
-\item{var_names}{A character string of variable labels.}
+\item{var_names}{A character vector of variable labels.}
+}
+\value{
+A character vector with the same length as the two
+input character vectors.
 }
 \description{
 Create canonical variable names (labels) that do not vary across
 several SPSS files from different years.
 }
 \examples{
-label_suggest( c("digital_object_identifier",
-                 "tns_unique_case_id") )
+ var_name_orig = c(
+ 'v335', 'v121', 'v150', 'v83', 'qa6a_3', 'qa8a_5', 'qa10_9'
+ ),
+ var_label_orig = c(
+ 'QA17_1 EUROPEAN PARLIAMENT - TRUST',
+ 'Q26 COUNCIL OF MINISTERS - TRUST',
+ 'Q17 EUROPEAN COMMISSION - TRUST',
+ 'Q10 TRUST IN INSTITUTIONS: CIVIL SERVICE',
+ 'TRUST IN INSTITUTIONS: JUSTICE / LEGAL SYSTEM',
+ 'TRUST IN INSTITUTIONS: REG/LOC PUBLIC AUTHORITIES',
+ 'TRUST IN INSTITUTIONS: UNITED NATIONS'
+ )
+
+ label_suggest(
+ var_label_orig = var_label_orig,
+ var_name_orig = var_name_orig
+ )
+
 }
 \concept{labelling functions}
