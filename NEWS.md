@@ -21,6 +21,7 @@
 * `read_example_file()` is a simple wrapper around `utils::data()` to 
 mimick the data importing workflow with `haven::read_spss()` or other
 importing functions in vignette examples and unit tests.
+* `create_panel_id()` creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey. 
 
 # Foreseen changes
 
