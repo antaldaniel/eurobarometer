@@ -4,6 +4,7 @@
 #'
 #' @details The structure of the returned tibble:
 #' \describe{
+#'   \item{filename}{The original file name}
 #'   \item{var_name_orig}{The original variable name in SPSS}
 #'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}}
 #'   \item{var_label_orig}{The original variable label in SPSS}
@@ -12,7 +13,9 @@
 #'   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
 #'   \item{class_suggested}{A suggested class conversion.}
 #' }
-#' @param survey_list A list of data frames containing surveys.
+#' @param survey_list A list of data frames containing surveys, or a
+#' single survey in a single data frame. The filename should be added
+#' in the column \code{filename}.
 #' @importFrom labelled val_labels var_label
 #' @importFrom dplyr full_join
 #' @importFrom tibble tibble
@@ -27,6 +30,19 @@
 #' @export
 
 gesis_metadata_create <- function ( survey_list ) {
+
+  if ( ! "list" %in% class(survey_list) ) {
+    if ( "data.frame" %in% class(survey_list) ) {
+
+      if ( ! "filename" %in% names(survey_list) )
+        survey_list$filename = "not_given"
+        attr(survey_list$filename, "label") <- "not_given"
+
+      survey_list <- list ( survey = survey_list )
+    }
+  }
+
+
 
   metadata_create <- function (dat) {
     class_orig   <- vapply (
@@ -46,6 +62,7 @@ gesis_metadata_create <- function ( survey_list ) {
 
     ## Creating the basic metadata ----
     metadata <- tibble::tibble (
+      filename = unique(dat$filename)[1],
       var_name_orig = names ( dat ),
       class_orig  = class_orig,
       var_label_orig = var_label_orig,

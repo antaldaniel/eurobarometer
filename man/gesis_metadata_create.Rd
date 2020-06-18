@@ -7,7 +7,9 @@
 gesis_metadata_create(survey_list)
 }
 \arguments{
-\item{survey_list}{A list of data frames containing surveys.}
+\item{survey_list}{A list of data frames containing surveys, or a
+single survey in a single data frame. The filename should be added
+in the column \code{filename}.}
 }
 \value{
 A data frame with the original variable attributes and
