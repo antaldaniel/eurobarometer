@@ -24,8 +24,8 @@ library(stringr)
 The `eb_sample` is a small fraction of the GESIS datafile `ZA5479_v6-0-0.sav`.  It cannot be used to retrieve any statistical data from the original dataset.  In scope it is limited to some important metadata columns, a few demographic variables and one question block.  In geographic coverage, it takes a sample from the responses from the United Kingdom and Germany. These two countries are targeting parts of the countries separately, i.e. for Great Britain and Northern Ireland, and the former West Germany and East Germany. 
 
 ```{r}
-sample <- eurobarometer:::eb_sample
-sample_metadata <- gesis_metadata_create(dat = sample)
+data ( "eb_sample", package = "eurobarometer")
+sample_metadata <- gesis_metadata_create(dat = eb_sample)
 names(sample_metadata)
 ```
 
@@ -39,8 +39,8 @@ adjusted_metadata <- sample_metadata %>%
     str_sub(var_label_norm, 1,3) == "p6_|p7_" ~
       str_sub(var_label_norm, 4,-1), 
     var_label_norm == "w1_weight_result_from_target" ~ 'w1', 
-    TRUE ~ var_label_norm
-  ))
+    TRUE ~ var_label_norm )
+    )
 ```
 
 You can, if you know what you are doing, change the suggested base R representation of your survey data in the column:

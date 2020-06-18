@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read in a GESIS SPSS file
-
-Read in an SPSS file archived in GESIS and change the variables to
-R classes for further use. — gesis_spss_read • eurobarometer</title>
+<title>Create Suggested Names for GESIS Columns — label_suggest • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -42,13 +39,9 @@ R classes for further use. — gesis_spss_read • eurobarometer</title>
 
 
 
-<meta property="og:title" content="Read in a GESIS SPSS file
-
-Read in an SPSS file archived in GESIS and change the variables to
-R classes for further use. — gesis_spss_read" />
-<meta property="og:description" content="Read in a GESIS SPSS file
-Read in an SPSS file archived in GESIS and change the variables to
-R classes for further use." />
+<meta property="og:title" content="Create Suggested Names for GESIS Columns — label_suggest" />
+<meta property="og:description" content="Create canonical variable names (labels) that do not vary across
+several SPSS files from different years." />
 
 
 
@@ -146,74 +139,38 @@ R classes for further use." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read in a GESIS SPSS file
-
-Read in an SPSS file archived in GESIS and change the variables to
-R classes for further use.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/gesis_spss_read.R'><code>R/gesis_spss_read.R</code></a></small>
-    <div class="hidden name"><code>gesis_spss_read.Rd</code></div>
+    <h1>Create Suggested Names for GESIS Columns</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/label_suggest.R'><code>R/label_suggest.R</code></a></small>
+    <div class="hidden name"><code>label_suggest.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read in a GESIS SPSS file</p>
-<p>Read in an SPSS file archived in GESIS and change the variables to
-R classes for further use.</p>
+    <p>Create canonical variable names (labels) that do not vary across
+several SPSS files from different years.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gesis_spss_read</span>(
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>zacat_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rename</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>unique_id</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"labelled"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>label_suggest</span>(<span class='no'>var_label_orig</span>, <span class='no'>var_name_orig</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>An object to be converted to character</p></td>
+      <th>var_name_orig</th>
+      <td><p>A character vector of variable names.</p></td>
     </tr>
     <tr>
-      <th>zacat_id</th>
-      <td><p>Default to <code>NULL</code>. Not used in this instance
-of the method.</p></td>
-    </tr>
-    <tr>
-      <th>rename</th>
-      <td><p>Default to <code>TRUE</code> which creates machine-readable
-variable names from the original SPSS variable names with calling the
-function <code>canonical_names</code>. If you set it to
-<code>FALSE</code> it will create serial variable names, given that the SPSS
-file names cannot be directly used because of the their special characters.</p></td>
-    </tr>
-    <tr>
-      <th>unique_id</th>
-      <td><p>It makes sense to call harmonize the variable name which
-contains the unique, serial identifier within the SPSS file. Defaults to
-<code>TRUE</code> which calls <code><a href='unique_id_create.html'>unique_id_create</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>conversion</th>
-      <td><p>Defaults to <code>'labelled'</code>.
-<code>'factor'</code> converts all SPSS labelled variables to factors.
-Alternative is <code>'character'</code> which behaves better with visualization.</p></td>
+      <th>var_names</th>
+      <td><p>A character vector of variable labels.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble (data.frame) with R classes defined by the user in the
-case of non-numeric data (i.e.<code>'labelled'</code>, <code>'factor'</code>,
-or <code>'character'</code>)</p>
+    <p>A character vector with the same length as the two
+input character vectors.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>##use your own file:</span>
-<span class='fu'>gesis_spss_read</span>(    <span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span> ( <span class='st'>'not_included'</span>, <span class='st'>'example.sav'</span>),
-                    <span class='kw'>zacat_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span> )
-}</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

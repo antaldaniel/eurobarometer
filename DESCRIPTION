@@ -1,7 +1,7 @@
 Package: eurobarometer
 Type: Package
 Title: Tidy Eurobarometer Survey Microdata
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",

@@ -146,7 +146,7 @@
 <a href="#eurobarometer-009" class="anchor"></a>eurobarometer 0.0.9</h1>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>Added <code><a href="../reference/canonical_names.html">canonical_names()</a></code> to create a subjective canonical name for GESIS variables.</li>
+<li>Added <code>canonical_names()</code> to create a subjective canonical name for GESIS variables.</li>
 </ul>
 </div>
     <div id="eurobarometer-010" class="section level1">
@@ -162,10 +162,23 @@
 <a href="#eurobarometer-011" class="anchor"></a>eurobarometer 0.1.1</h1>
 <ul>
 <li>The <a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">Harmonizing Variable Names</a> vignette/article started for an early standardization of variable names. Thanks for the contribution from <a href="https://github.com/mkolczynska">Marta</a>.</li>
-<li>In the future, <code><a href="../reference/canonical_names.html">canonical_names()</a></code> may be renamed, and it may receive a new functionality.</li>
+<li>In the future, <code>canonical_names()</code> may be renamed, and it may receive a new functionality.</li>
 <li>The <code><a href="../reference/gesis_vocabulary_create.html">gesis_vocabulary_create()</a></code> and The <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> have better variable names. The <code>normalize_names()</code> function is renamed to <code><a href="../reference/label_normalize.html">label_normalize()</a></code>.</li>
 <li>Internal function is renamed to <code><a href="../reference/class_suggest.html">class_suggest()</a></code> from <code>suggest_conversion()</code>.</li>
 <li>The <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> vignette is open for consultation.</li>
+</ul>
+</div>
+    <div id="eurobarometer-012" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.2">
+<a href="#eurobarometer-012" class="anchor"></a>eurobarometer 0.1.2</h1>
+<ul>
+<li>
+<code><a href="../reference/label_normalize.html">label_normalize()</a></code> has unit tests, new documentation, and the inputs parameters are synchronized with the other variable name conventions (in metadata). Open question: what to do with non-standard latin characters? [To be resolved in 0.1.3].</li>
+<li>
+<code>canonical_names()</code> is renamed to <code><a href="../reference/label_suggest.html">label_suggest()</a></code>
+</li>
+<li>
+<code>naming functions</code> is renamed to <code>labelling functions</code> with the British spelling.</li>
 </ul>
 </div>
   </div>

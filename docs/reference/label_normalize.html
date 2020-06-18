@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Normalized Variable Names for GESIS Columns — label_normalize • eurobarometer</title>
+<title>Create Normalized Variable &amp; Value Labels — label_normalize • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Create Normalized Variable Names for GESIS Columns — label_normalize" />
-<meta property="og:description" content="Create Normalized Variable Names for GESIS Columns" />
+<meta property="og:title" content="Create Normalized Variable &amp; Value Labels — label_normalize" />
+<meta property="og:description" content="Remove relative reference to question blocks, special characters
+used in regular expressions, whitespace and bring the variable and
+value labels to snake_case_format." />
 
 
 
@@ -138,13 +140,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Normalized Variable Names for GESIS Columns</h1>
+    <h1>Create Normalized Variable &amp; Value Labels</h1>
     <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/label_normalize.R'><code>R/label_normalize.R</code></a></small>
     <div class="hidden name"><code>label_normalize.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create Normalized Variable Names for GESIS Columns</p>
+    <p>Remove relative reference to question blocks, special characters
+used in regular expressions, whitespace and bring the variable and
+value labels to snake_case_format.</p>
     </div>
 
     <pre class="usage"><span class='fu'>label_normalize</span>(<span class='no'>x</span>)</pre>
@@ -154,17 +158,20 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A vector of the GESIS variable names</p></td>
+      <td><p>A vector of the (GESIS) variable or value labels</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <div class='dont-index'><p>Other naming functions: 
-<code><a href='canonical_names.html'>canonical_names</a>()</code></p></div>
+    <p>A character vector with the normalized labels</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>label_normalize</span> ( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"UPPER CASE VAR"</span>, <span class='st'>"VAR NAME WITH % SYMBOL"</span>) )</div><div class='output co'>#&gt; [1] "upper_case_var"           "var_name_with_pct_symbol"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>label_normalize</span> ( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+<span class='st'>"QA17_1 EUROPEAN PARLIAMENT - TRUST"</span>,
+<span class='st'>"QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT"</span> )
+ )</div><div class='output co'>#&gt; [1] "european_parliament_trust"           
+#&gt; [2] "trust_in_institutions_nat_government"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -120,7 +120,7 @@
 <a href="#data-preparation-for-programmatic-use" class="anchor"></a>Data Preparation For Programmatic Use</h2>
 <p>The SPSS files in GESIS are not ready for programmatic use in R, because the variable names often contain reserved special characters. You should use <code><a href="reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a>)</p>
 <ul>
-<li><p>The naming functions <code>normalize_names()</code> removes regex symbols, whitespace, and basic inconsistencies in abbreviations. The function <code><a href="reference/canonical_names.html">canonical_names()</a></code>harmonizes the names across various GESIS files, so that they can be joined into panels across time.</p></li>
+<li><p>The naming functions <code>normalize_names()</code> removes regex symbols, whitespace, and basic inconsistencies in abbreviations. The function <code>canonical_names()</code>harmonizes the names across various GESIS files, so that they can be joined into panels across time.</p></li>
 <li><p>You can read in the SPSS file to R in <a href="https://haven.tidyverse.org/">haven</a>, which will result in many <code>labelled</code> variables. The metadata file contains a suggestion of the most practical class conversion for data analysis. You can review and change this suggestion and then make the conversions at once with <code><a href="reference/convert_class.html">convert_class()</a></code></p></li>
 </ul>
 <p>See <code><a href="articles/metadata.html">vignette("metadata")</a></code></p>
