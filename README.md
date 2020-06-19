@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.com/antaldaniel/eurobarometer.svg?branch=master)](https://travis-ci.com/antaldaniel/eurobarometer)
 [![Codecov test
 coverage](https://codecov.io/gh/antaldaniel/eurobarometer/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/eurobarometer?branch=master)
 [![Project Status: Minimal or no implementation has been done yet, or
@@ -17,8 +19,6 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 [![Follow
 contributor](https://img.shields.io/twitter/follow/martakolcz.svg?style=social)](https://twitter.com/martakolcz?lang=en)
-[![Travis build
-status](https://travis-ci.com/antaldaniel/eurobarometer.svg?branch=master)](https://travis-ci.com/antaldaniel/eurobarometer)
 <!-- badges: end -->
 
 The goal of `eurobarometer` is converting Eurobarometer microdata files,
