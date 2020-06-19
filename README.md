@@ -11,14 +11,14 @@ coverage](https://codecov.io/gh/antaldaniel/eurobarometer/branch/master/graph/ba
 the repository is only intended to be a limited example, demo, or
 proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
 “[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)”
-“[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/regions)](https://cran.r-project.org/package=eurobarometer)”
+“[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/eurobarometer)](https://cran.r-project.org/package=eurobarometer)”
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3825700.svg)](https://doi.org/10.5281/zenodo.3825700)
 [![Follow
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 
 <!-- badges: end -->
 
-The goal of eurobarometer is converting Eurobarometer microdata files,
+The goal of `eurobarometer` is converting Eurobarometer microdata files,
 as stored by GESIS, into tidy R data frames and help common
 pre-processing problems.
 
