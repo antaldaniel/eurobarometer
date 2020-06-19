@@ -39,7 +39,7 @@ class_suggest <- function(metadata) {
 #' \code{\link{gesis_metadata_create}}
 #' @return The metadata data frame with a new column \code{qb}.
 #' @importFrom magrittr %>%
-#' @importFrom dplyr case_when mutate
+#' @importFrom dplyr case_when mutate select
 #' @importFrom tidyselect all_of
 #'
 
@@ -58,7 +58,6 @@ question_block_identify <- function (metadata) {
       orig_2 = tolower(substr(var_name_orig, 1, 2))
       ) %>%
     mutate (qb  = case_when (
-
     var_name_suggested %in%
       c("filename", "doi", "uniqid" )              ~  "id",
     grepl( "gesis_archive", var_name_suggested)    ~  "id",
@@ -69,8 +68,7 @@ question_block_identify <- function (metadata) {
     orig_1 == "w"                                  ~  "weights",
     grepl ( "trust_in|_trust", var_name_suggested) &
       n_categories  == 4                           ~  "trust",
-
-
+    ## add further cases here
     TRUE ~ 'not_identified')
     )
 

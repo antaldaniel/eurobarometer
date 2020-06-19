@@ -19,8 +19,9 @@
 #' single survey in a single data frame. The filename should be added
 #' in the column \code{filename}.
 #' @importFrom labelled val_labels var_label
-#' @importFrom dplyr full_join
+#' @importFrom dplyr full_join mutate
 #' @importFrom tibble tibble
+#' @importfrom tidyselect all_of
 #' @return A data frame with the original variable attributes and
 #' suggested conversions and changes.
 #' @examples
