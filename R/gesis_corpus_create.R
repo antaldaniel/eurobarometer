@@ -4,7 +4,7 @@
 #' \code{\link{gesis_vocabulary_create}} as a wrapper function
 #' and binds the results into a single data.frame.
 #'
-#' @param dat For example,
+#' @param file_path A file path to work from (will be changed)
 #' @seealso gesis_vocabulary_create
 #' @importFrom purrr possibly
 #' @importFrom haven read_spss
