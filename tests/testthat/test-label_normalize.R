@@ -40,4 +40,9 @@ test_that("no whitespace or clutter on end", {
 })
 
 
+### Example code -----------------------
 
+label_normalize (
+  c("QA17_1 EUROPEAN PARLIAMENT - TRUST",
+    "QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT" )
+ )
