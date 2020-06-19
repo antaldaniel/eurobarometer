@@ -22,7 +22,8 @@ several SPSS files from different years.
 \examples{
  var_name_orig = c(
  'v335', 'v121', 'v150', 'v83', 'qa6a_3', 'qa8a_5', 'qa10_9'
- ),
+ )
+
  var_label_orig = c(
  'QA17_1 EUROPEAN PARLIAMENT - TRUST',
  'Q26 COUNCIL OF MINISTERS - TRUST',

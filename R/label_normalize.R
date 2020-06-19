@@ -9,12 +9,10 @@
 #' @family naming functions
 #' @return A character vector with the normalized labels
 #' @examples
-#' \dontrun
 #' label_normalize (
 #'     c("QA17_1 EUROPEAN PARLIAMENT - TRUST",
 #'       "QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT" )
 #' )
-#' }
 #' @export
 
 label_normalize <- function(x) {

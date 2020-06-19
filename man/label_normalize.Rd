@@ -17,4 +17,10 @@ Remove relative reference to question blocks, special characters
 used in regular expressions, whitespace and bring the variable and
 value labels to snake_case_format.
 }
+\examples{
+label_normalize (
+    c("QA17_1 EUROPEAN PARLIAMENT - TRUST",
+      "QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT" )
+)
+}
 \concept{naming functions}
