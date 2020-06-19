@@ -133,7 +133,14 @@
 <div id="analyze-the-metadata-in-the-surveys" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analyze-the-metadata-in-the-surveys" class="anchor"></a>Analyze the metadata in the surveys</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">my_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>( <span class="no">survey_list</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">my_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>( <span class="no">survey_list</span> )
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_metadata</span>)
+<span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
+<span class="co">#&gt;  [4] "var_label_orig"     "var_label_norm"     "var_name_suggested"</span>
+<span class="co">#&gt;  [7] "factor_levels"      "n_categories"       "class_orig"        </span>
+<span class="co">#&gt; [10] "class_suggested"</span></pre></body></html></div>
+<p>The my_metadata table is rather large, so let’s review random samples from a few columns.</p>
+<p>The variable names need to be harmonized, and you will get suggestions on how to do it. Only a very small subset of the entire table is shown here:</p>
 <table class="table table table-striped table-hover table-condensed">
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
@@ -146,64 +153,22 @@ var_name_orig
 var_label_orig
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-var_label_norm
+var_name_suggested
 </th>
 </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-ZA7489_sample
+ZA7576_sample
 </td>
 <td style="text-align:left;">
-qa8b_8
+isocntry
 </td>
 <td style="text-align:left;">
-TRUST IN INSTITUTIONS: UNITED NATIONS (TCC)
+COUNTRY CODE - ISO 3166
 </td>
 <td style="text-align:left;">
-trust_in_institutions_united_nations_tcc
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ZA7489_sample
-</td>
-<td style="text-align:left;">
-qa8b_1
-</td>
-<td style="text-align:left;">
-TRUST IN INSTITUTIONS: WRITTEN PRESS (TCC)
-</td>
-<td style="text-align:left;">
-trust_in_institutions_written_press_tcc
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ZA7489_sample
-</td>
-<td style="text-align:left;">
-qa8b_4
-</td>
-<td style="text-align:left;">
-TRUST IN INSTITUTIONS: INTERNET (TCC)
-</td>
-<td style="text-align:left;">
-trust_in_institutions_internet_tcc
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ZA7489_sample
-</td>
-<td style="text-align:left;">
-qa8b_8
-</td>
-<td style="text-align:left;">
-TRUST IN INSTITUTIONS: UNITED NATIONS (TCC)
-</td>
-<td style="text-align:left;">
-trust_in_institutions_united_nations_tcc
+country_code_iso_3166
 </td>
 </tr>
 <tr>
@@ -211,27 +176,13 @@ trust_in_institutions_united_nations_tcc
 ZA7576_sample
 </td>
 <td style="text-align:left;">
-qa14_1
+p1
 </td>
 <td style="text-align:left;">
-EUROPEAN PARLIAMENT - TRUST
+DATE OF INTERVIEW
 </td>
 <td style="text-align:left;">
-european_parliament_trust
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-ZA7576_sample
-</td>
-<td style="text-align:left;">
-version
-</td>
-<td style="text-align:left;">
-GESIS ARCHIVE VERSION &amp; DATE
-</td>
-<td style="text-align:left;">
-gesis_archive_version_and_date
+date_of_interview
 </td>
 </tr>
 <tr>
@@ -239,13 +190,13 @@ gesis_archive_version_and_date
 ZA7576_sample
 </td>
 <td style="text-align:left;">
-qa14_4
+doi
 </td>
 <td style="text-align:left;">
-EUROPEAN COUNCIL - TRUST
+DIGITAL OBJECT IDENTIFIER
 </td>
 <td style="text-align:left;">
-european_council_trust
+doi
 </td>
 </tr>
 <tr>
@@ -253,17 +204,74 @@ european_council_trust
 ZA7576_sample
 </td>
 <td style="text-align:left;">
-qa6a_6
+qa14_3
 </td>
 <td style="text-align:left;">
-TRUST IN INSTITUTIONS: PUBLIC ADMINISTRATION
+EUROPEAN CENTRAL BANK - TRUST
 </td>
 <td style="text-align:left;">
-trust_in_institutions_public_administration
+european_central_bank_trust
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+filename
+</td>
+<td style="text-align:left;">
+filename
+</td>
+<td style="text-align:left;">
+filename
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+d7
+</td>
+<td style="text-align:left;">
+MARITAL STATUS
+</td>
+<td style="text-align:left;">
+marital_status
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+d71b_3
+</td>
+<td style="text-align:left;">
+POLITICAL DISCUSSION - LOCAL MATTERS (CY-TCC)
+</td>
+<td style="text-align:left;">
+political_discussion_local_matters_cy_tcc
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+w1
+</td>
+<td style="text-align:left;">
+WEIGHT RESULT FROM TARGET (REDRESSMENT)
+</td>
+<td style="text-align:left;">
+weight_result_from_target_redressment
 </td>
 </tr>
 </tbody>
 </table>
+<p>The metadata can help identifying questionnaire item types and it suggests conversion to R classes. Again, only a very small subset of the entire table is shown below:</p>
 <table class="table table table-striped table-hover table-condensed">
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
@@ -282,10 +290,52 @@ n_categories
 <tbody>
 <tr>
 <td style="text-align:left;">
-trust_in_institutions_television
+country_code_iso_3166
 </td>
 <td style="text-align:left;">
-trust_in_institutions_television
+country_code_iso_3166
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+date_of_interview
+</td>
+<td style="text-align:left;">
+date_of_interview
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+digital_object_identifier
+</td>
+<td style="text-align:left;">
+doi
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+european_central_bank_trust
+</td>
+<td style="text-align:left;">
+european_central_bank_trust
 </td>
 <td style="text-align:left;">
 factor
@@ -310,102 +360,191 @@ character
 </tr>
 <tr>
 <td style="text-align:left;">
-difficulties_paying_bills_last_year
+marital_status
 </td>
 <td style="text-align:left;">
-difficulties_paying_bills_last_year
+marital_status
 </td>
 <td style="text-align:left;">
 factor
 </td>
 <td style="text-align:right;">
-4
+16
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-trust_in_institutions_public_administration
+political_discussion_local_matters_cy_tcc
 </td>
 <td style="text-align:left;">
-trust_in_institutions_public_administration
+political_discussion_local_matters_cy_tcc
 </td>
 <td style="text-align:left;">
 factor
 </td>
 <td style="text-align:right;">
-4
+5
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-european_parliament_trust
+weight_result_from_target_redressment
 </td>
 <td style="text-align:left;">
-european_parliament_trust
+weight_result_from_target_redressment
 </td>
 <td style="text-align:left;">
-factor
+numeric
 </td>
 <td style="text-align:right;">
-3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trust_in_institutions_political_parties
-</td>
-<td style="text-align:left;">
-trust_in_institutions_political_parties
-</td>
-<td style="text-align:left;">
-factor
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-european_parliament_trust
-</td>
-<td style="text-align:left;">
-european_parliament_trust
-</td>
-<td style="text-align:left;">
-factor
-</td>
-<td style="text-align:right;">
-4
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-trust_in_institutions_internet_tcc
-</td>
-<td style="text-align:left;">
-trust_in_institutions_internet_tcc
-</td>
-<td style="text-align:left;">
-factor
-</td>
-<td style="text-align:right;">
-4
+0
 </td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the </span>
-<span class="co">## reading process, save only those that are valid GESIS files.</span>
-<span class="co">## must canonize some id vars, such as uniqid, and filename</span>
-<span class="co">##or anything that is present in all files. </span>
-
-<span class="fu">gesis_spss_to_rds</span> ( <span class="no">import_dir</span>, <span class="no">working_dir</span> )</pre></body></html></div>
-<p>It is important that at this stage we have a few variables that are absolutely consistent for <code>bind_row</code> operations.</p>
+<table class="table table table-striped table-hover table-condensed">
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+qb
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_suggested
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+class_suggested
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+id
+</td>
+<td style="text-align:left;">
+doi
+</td>
+<td style="text-align:left;">
+doi
+</td>
+<td style="text-align:left;">
+character
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+id
+</td>
+<td style="text-align:left;">
+filename
+</td>
+<td style="text-align:left;">
+filename
+</td>
+<td style="text-align:left;">
+character
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+metadata
+</td>
+<td style="text-align:left;">
+isocntry
+</td>
+<td style="text-align:left;">
+country_code_iso_3166
+</td>
+<td style="text-align:left;">
+character
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+metadata
+</td>
+<td style="text-align:left;">
+p1
+</td>
+<td style="text-align:left;">
+date_of_interview
+</td>
+<td style="text-align:left;">
+factor
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+not_identified
+</td>
+<td style="text-align:left;">
+d71b_3
+</td>
+<td style="text-align:left;">
+political_discussion_local_matters_cy_tcc
+</td>
+<td style="text-align:left;">
+factor
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+socio-demography
+</td>
+<td style="text-align:left;">
+d7
+</td>
+<td style="text-align:left;">
+marital_status
+</td>
+<td style="text-align:left;">
+factor
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust
+</td>
+<td style="text-align:left;">
+qa14_3
+</td>
+<td style="text-align:left;">
+european_central_bank_trust
+</td>
+<td style="text-align:left;">
+factor
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weights
+</td>
+<td style="text-align:left;">
+w1
+</td>
+<td style="text-align:left;">
+weight_result_from_target_redressment
+</td>
+<td style="text-align:left;">
+numeric
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The <code>id</code> groups serve only identification purposes, and will be used in the skeleton of the panel.</li>
+<li>The <code>metadata</code> group relate to information about the responses. We include here the country ID because it determines the weight(s) to be used.</li>
+<li>The <code>weigths</code> group shows the weights calculated by Kantar or GESIS.</li>
+<li>The <code>socio-demography</code> group shows <strong>identified</strong> socio-demography variables for which <code>eurobarometer</code> provides a built-in harmonization tool. There may be other variables that the research would like to add into this group by overrideing the <code>qb</code> value of certain question IDs.</li>
+<li>The <code>trust</code> group relates to a variable group covered by our example harmonization table <code>trust_table</code>.</li>
+<li>The <code>not_identified</code> group contains variables for which we do not offer a full-scale built-in harmonization. However, some of our helper functions do help harmonizing these variables, too, but they require more manual programming work by the user.</li>
+</ul>
 </div>
 <div id="creating-a-skeleton-panel" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-a-skeleton-panel" class="anchor"></a>Creating a skeleton panel</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
 <span class="co">## most basic weights, w1 and its projected version wex</span>
 
 <span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/panel_create.html">panel_create</a></span> ( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">survey_list</span>,
@@ -432,21 +571,10 @@ filename
 <tbody>
 <tr>
 <td style="text-align:left;">
-630000384_za7489_sample
+220002127_za7576_sample
 </td>
 <td style="text-align:right;">
-630000384
-</td>
-<td style="text-align:left;">
-ZA7489_sample
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-999999999_za7576_sample
-</td>
-<td style="text-align:right;">
-999999999
+220002127
 </td>
 <td style="text-align:left;">
 ZA7576_sample
@@ -454,10 +582,10 @@ ZA7576_sample
 </tr>
 <tr>
 <td style="text-align:left;">
-630000543_za7576_sample
+210006011_za7576_sample
 </td>
 <td style="text-align:right;">
-630000543
+210006011
 </td>
 <td style="text-align:left;">
 ZA7576_sample
@@ -465,10 +593,21 @@ ZA7576_sample
 </tr>
 <tr>
 <td style="text-align:left;">
-320000102_za7562_sample
+220002232_za7576_sample
 </td>
 <td style="text-align:right;">
-320000102
+220002232
+</td>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+210004146_za7562_sample
+</td>
+<td style="text-align:right;">
+210004146
 </td>
 <td style="text-align:left;">
 ZA7562_sample
@@ -476,46 +615,34 @@ ZA7562_sample
 </tr>
 <tr>
 <td style="text-align:left;">
-390002155_za7489_sample
+350000833_za7576_sample
 </td>
 <td style="text-align:right;">
-390002155
+350000833
 </td>
 <td style="text-align:left;">
-ZA7489_sample
+ZA7576_sample
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-220003153_za7576_sample
+320001241_za7489_sample
 </td>
 <td style="text-align:right;">
-220003153
+320001241
 </td>
 <td style="text-align:left;">
-ZA7576_sample
+ZA7489_sample
 </td>
 </tr>
 </tbody>
 </table>
 <p>This should return a very basic file for joining, a data.frame/tibble with * a truly unique id * id elements for joining in individual survey data, in this example, <code>uniqid</code> and <code>filename</code> must be present in all imported files. The filename was added by <code><a href="../reference/read_surveys.html">read_surveys()</a></code>.</p>
 </div>
-<div id="identifying-variables" class="section level2">
-<h2 class="hasAnchor">
-<a href="#identifying-variables" class="anchor"></a>Identifying variables</h2>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the reading process,</span>
-<span class="co">## save only those that are valid GESIS files.</span>
-<span class="no">working_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span> ( <span class="no">working_dir</span> )
-
-<span class="co"># the researcher at this point can tweak the metadata, for example, adjust variable names.</span>
-
-<span class="co">## read in .rds files and save them to renamed rds files with corrected metadata</span>
-<span class="fu">survey_rename</span> (<span class="no">working_metadata</span>, <span class="no">working_dir</span>)</pre></body></html></div>
-</div>
 <div id="harmonizing-various-aspects-of-the-survey" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonizing-various-aspects-of-the-survey" class="anchor"></a>Harmonizing various aspects of the survey</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co">## this is how I would envision a pipeline to join various survey </span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">## this is how I would envision a pipeline to join various survey </span>
 <span class="co">## files with limited number of variables, ending in a </span>
 <span class="co">## a panel of data stretching across several surveys (time)</span>
 
@@ -572,7 +699,7 @@ ZA7576_sample
 <a href="#work-documentation" class="anchor"></a>Work Documentation</h2>
 <p>In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.</p>
 <p>We create a generic function <code>document_qb</code> that orders the variable renaming, value label harmonization, class convsersion steps into a neat table.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
 
 <span class="no">my_workflow</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
@@ -618,7 +745,7 @@ ZA7576_sample
     !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">my_trust_var</span>)
   )</pre></body></html></div>
 <p>Then it creates a standard html or latex table:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
+<div class="sourceCode" id="cb7"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
 ## kableExtra 
 ## that the user can follow up on
 
@@ -630,7 +757,7 @@ workflow_table ( my_workflow ) %&gt;%
 <h2 class="hasAnchor">
 <a href="#panel-summary" class="anchor"></a>Panel Summary</h2>
 <p>At last we help the user with documenting the panel a bit.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
 <span class="co">## stargazer or sjMisc or whatever we chose as a dependency </span>
 <span class="co">## about number of observations, mean, median values, missingness, </span>
 <span class="co">## etc. </span>

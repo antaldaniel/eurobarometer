@@ -21,7 +21,7 @@
 #' @importFrom labelled val_labels var_label
 #' @importFrom dplyr full_join mutate
 #' @importFrom tibble tibble
-#' @importfrom tidyselect all_of
+#' @importFrom tidyselect all_of
 #' @return A data frame with the original variable attributes and
 #' suggested conversions and changes.
 #' @examples

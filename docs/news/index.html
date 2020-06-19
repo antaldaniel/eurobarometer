@@ -175,17 +175,19 @@
 <li>
 <code><a href="../reference/label_normalize.html">label_normalize()</a></code> has unit tests, new documentation, and the inputs parameters are synchronized with the other variable name conventions (in metadata). Open question: what to do with non-standard latin characters? [To be resolved in 0.1.3].</li>
 <li>
-<code>canonical_names()</code> is renamed to <code><a href="../reference/label_suggest.html">label_suggest()</a></code>
-</li>
+<code>canonical_names()</code> is renamed to <code><a href="../reference/label_suggest.html">label_suggest()</a></code> and has unit tests.</li>
 <li>
 <code>naming functions</code> is renamed to <code>labelling functions</code> with the British spelling.</li>
-<li>Three new Eurobarometer sample files to be used in vignettes and unit testing: <code>ZA7489_sample</code>, <code>ZA7576_sample</code>, <code>ZA7562_sample</code>. These samples contain countries that require special attention (<code>DE</code>, <code>GB</code>, <code>CY</code>, <code>MK</code>), some metadata, some demograpy variables, some trending (trust) variables and some ad hoc variables.</li>
+<li>Three new Eurobarometer sample files to be used in vignettes and unit testing: <code>ZA7489_sample</code>, <code>ZA7576_sample</code>, <code>ZA7562_sample</code>. These samples contain countries that require special attention (<code>DE</code>, <code>GB</code>, <code>CY</code>, <code>MK</code>), some metadata, some demograpy variables, some trending (trust) variables and some <em>ad hoc</em> variables.</li>
 <li>
 <code><a href="../reference/read_example_file.html">read_example_file()</a></code> is a simple wrapper around <code><a href="https://rdrr.io/r/utils/data.html">utils::data()</a></code> to mimick the data importing workflow with <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code> or other importing functions in vignette examples and unit tests.</li>
 <li>
 <code><a href="../reference/panel_create.html">panel_create()</a></code> creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey.</li>
 <li>
-<code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> can now take either a list of surveys, or a single survey data frame as an input, and returns the <code>filename</code> in a column.</li>
+<code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> can now take either a list of surveys, or a single survey data frame as an input, and returns the <code>filename</code> in a column. Two new columns, the filename and the suggested question block is added to the metadata (see <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a>)</li>
+<li>
+<code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> is replaced with the more generic <code><a href="../reference/read_surveys.html">read_surveys()</a></code>.</li>
+<li>Started continuous integration on Travis-CI.</li>
 </ul>
 </div>
   </div>

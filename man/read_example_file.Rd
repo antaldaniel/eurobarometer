@@ -20,5 +20,5 @@ This function is created to make panel data creation examples
 without relying on importing large SPSS files.
 }
 \examples{
-read_example_file ( sample_file_name = 'ZA7576_sample')
+read_example_file ( sample_file_name = 'ZA7576_sample' )
 }

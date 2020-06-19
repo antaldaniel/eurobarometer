@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create A Corpus Of Survey Answer Items — gesis_corpus_create • eurobarometer</title>
+<title>Identify A Question Block — question_block_identify • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Create A Corpus Of Survey Answer Items — gesis_corpus_create" />
-<meta property="og:description" content="Reads in all SPSS files in a directory, runs
-gesis_vocabulary_create as a wrapper function
-and binds the results into a single data.frame." />
+<meta property="og:title" content="Identify A Question Block — question_block_identify" />
+<meta property="og:description" content="Add a question block identifier in column qb." />
 
 
 
@@ -140,50 +138,31 @@ and binds the results into a single data.frame." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create A Corpus Of Survey Answer Items</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/gesis_corpus_create.R'><code>R/gesis_corpus_create.R</code></a></small>
-    <div class="hidden name"><code>gesis_corpus_create.Rd</code></div>
+    <h1>Identify A Question Block</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>question_block_identify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Reads in all SPSS files in a directory, runs
-<code><a href='gesis_vocabulary_create.html'>gesis_vocabulary_create</a></code> as a wrapper function
-and binds the results into a single data.frame.</p>
+    <p>Add a question block identifier in column <code>qb</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gesis_corpus_create</span>(<span class='no'>file_path</span>)</pre>
+    <pre class="usage"><span class='fu'>question_block_identify</span>(<span class='no'>metadata</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>file_path</th>
-      <td><p>A file path to work from (will be changed)</p></td>
+      <th>metadata</th>
+      <td><p>A metadata file created by metadata_create within
+<code><a href='gesis_metadata_create.html'>gesis_metadata_create</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with seven variables, results binded together
-from <code><a href='gesis_vocabulary_create.html'>gesis_vocabulary_create</a></code>. The returned data frame has
-8 variables:</p><dl'>
-  <dt>var_name_orig</dt><dd><p>The name of the variable in the data file.</p></dd>
-  <dt>val_numeric_orig</dt><dd><p>The original SPSS numeric values, if applicable</p></dd>
-  <dt>var_label_orig</dt><dd><p>The original SPSS character value, if applicable</p></dd>
-  <dt>val_order_alpha</dt><dd><p>The rank number of the alphabetically sorted answer option.</p></dd>
-  <dt>val_order_length</dt><dd><p>The number of answer options in the questionnaire item.</p></dd>
-  <dt>val_label_normalized</dt><dd><p>Normalized version of the questionnaire item</p></dd>
-  <dt>filename</dt><dd><p>The name of the original GESIS file.</p></dd>
+    <p>The metadata data frame with a new column <code>qb</code>.</p>
 
-</dl>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>gesis_vocabulary_create</p>
-<p>gesis_vocabulary_create</p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

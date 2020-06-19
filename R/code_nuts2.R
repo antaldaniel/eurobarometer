@@ -20,6 +20,7 @@
 #' is supported.
 #' @importFrom dplyr left_join mutate_all mutate add_count filter
 #' @importFrom utils data
+#' @importFrom magrittr %>%
 #' @examples
 #' code_nuts2  (region_nuts_names = c("Tirol", "Praha", NA))
 #'

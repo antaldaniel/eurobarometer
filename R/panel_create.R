@@ -5,6 +5,7 @@
 #' defaults to \code{c("uniqid", "doi")}.
 #' @importFrom dplyr select mutate
 #' @importFrom tidyr unite
+#' @importFrom magrittr %>%
 #' @importFrom tidyselect all_of
 #' @return A tibble with the number of original ID vars and their
 #' \code{panel_id} as their concatenation.

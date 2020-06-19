@@ -7,7 +7,7 @@
 #' \code{ZA7562_sample} or \code{ZA7489_sample}.
 #' @importFrom utils data
 #' @examples
-#' read_example_file ( sample_file_name = 'ZA7576_sample')
+#' read_example_file ( sample_file_name = 'ZA7576_sample' )
 #' @export
 
 read_example_file <- function( sample_file_name = 'ZA7576_sample' ) {

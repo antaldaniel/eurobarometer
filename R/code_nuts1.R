@@ -20,6 +20,7 @@
 #' @param nuts_code Currently only \code{code10} and \code{code13}
 #' is supported.
 #' @importFrom dplyr left_join mutate_all mutate filter add_count
+#' @importFrom magrittr %>%
 #' @importFrom utils data
 #' @examples
 #'code_nuts1 (
