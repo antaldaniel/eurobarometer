@@ -36,7 +36,8 @@ panel_create <- function (survey_list,
 
     dat %>%
       select ( all_of ( id_vars )) %>%
-      unite ( col = 'panel_id', all_of(id_vars), remove=FALSE) %>%
+      tidyr::unite ( col = 'panel_id',
+                     all_of(id_vars), remove=FALSE ) %>%
       mutate ( panel_id = label_normalize(panel_id))
 
   }
