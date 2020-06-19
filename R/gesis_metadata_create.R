@@ -12,6 +12,8 @@
 #'   \item{var_name_suggested}{A partly canonized variable name.}
 #'   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
 #'   \item{class_suggested}{A suggested class conversion.}
+#'   \item{n_categories}{Number of categories of the variable.}
+#'   \item{qb}{Identifier of a question block for further tasks.}
 #' }
 #' @param survey_list A list of data frames containing surveys, or a
 #' single survey in a single data frame. The filename should be added
@@ -31,6 +33,7 @@
 
 gesis_metadata_create <- function ( survey_list ) {
 
+  ## if input is a data.frame, place it in a list -----------
   if ( ! "list" %in% class(survey_list) ) {
     if ( "data.frame" %in% class(survey_list) ) {
 
@@ -41,8 +44,6 @@ gesis_metadata_create <- function ( survey_list ) {
       survey_list <- list ( survey = survey_list )
     }
   }
-
-
 
   metadata_create <- function (dat) {
     class_orig   <- vapply (
@@ -86,6 +87,17 @@ gesis_metadata_create <- function ( survey_list ) {
     metadata$n_categories <- vapply (
       sapply ( metadata$factor_levels, unlist ),
       length, numeric(1) )  #number of categories in categorical variables
+
+    metadata$qb <- question_block_identify(metadata)
+
+    metadata <- metadata %>%
+      select ( all_of(c("filename", "qb", "var_name_orig",
+                        "var_label_orig",
+                        "var_label_norm", "var_name_suggested",
+                        "factor_levels", "n_categories",
+                        "class_orig")
+                      )
+               )
 
     ## class_suggest is not exported, it is in utils.R
     ## Can be directly called as eurobarometer:::class_suggest(metadata)
