@@ -132,9 +132,15 @@
 <a href="#metadata" class="anchor"></a>Metadata</h2>
 <p><code>metadata_database</code> is a table with variable metadata created from Eurobarometer SPSS files. It has the following columns:</p>
 <p><code>var_name_orig</code>: variable name in the original dataset<br><code>class_orig</code>: column class in the original dataset<br><code>var_label_orig</code>: variable label in the original dataset<br><code>var_label_norm</code>: normalized variable label<br><code>var_name_suggested</code>: suggested variable label<br><code>factor_levels</code>: vector of value labels as a list (they have no fixed length)<br><code>n_categories</code>: total number of response options <code>= length(factor_levels)</code><br><code>class_suggested</code>: suggested conversion to an R class, it should correspond later to a conversion function, so that the researcher can just simply approve and get a correct R representation.<br><code>filename</code>: original name of file as obtained from GESIS; it contains a disambigous version information, too. <code>val_numeric_orig</code>: numeric value code (if available, empty otherwise)<br><code>val_label_orig</code>: value label in the original dataset corresponding to a response option <code>val_order_alpha</code>: alphabetical number (position) of response option in the set of value labels, aftering sorting with <code><a href="https://rdrr.io/r/base/sort.html">sort()</a></code> (we use alphabetical order instead of <code><a href="https://rdrr.io/r/base/levels.html">levels()</a></code> because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting)<br><code>val_order_length</code>:<br><code>val_label_norm</code>: value label normalized with <code><a href="../reference/label_normalize.html">label_normalize()</a></code></p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">metadata_database</span> <span class="kw">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">'..'</span>, <span class="st">'data-raw'</span>,
-  <span class="st">'eb_metadata_database_large.rds'</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span>(<span class="st">'data-raw'</span>)) {
+  <span class="no">metadata_database</span> <span class="kw">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(
+    <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">'data-raw'</span>,
+              <span class="st">'eb_metadata_database_large.rds'</span>))
+} <span class="kw">else</span> {
+  <span class="no">metadata_database</span> <span class="kw">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(
+    <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">'..'</span>, <span class="st">'data-raw'</span>,
+              <span class="st">'eb_metadata_database_large.rds'</span>))
+}</pre></body></html></div>
 </div>
 <div id="selection-of-variables" class="section level2">
 <h2 class="hasAnchor">

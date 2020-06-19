@@ -39,7 +39,7 @@ r_github_packages:
 
 env:
   global:
-  - WARNINGS_ARE_ERRORS=1
+  - WARNINGS_ARE_ERRORS=0
   - GITHUB_REPO: antaldaniel/eurobarometer
 
 r_build_args: "--no-resave-data"
