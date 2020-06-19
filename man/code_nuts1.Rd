@@ -32,6 +32,8 @@ is available.
 The region codes of Greece (GR) start with EL.
 }
 \examples{
+\dontrun{
+#this function will be replaced
 code_nuts1 (
  region_nuts_names = c("Brandenburg", "London", "Centro", NA),
  country_code = c("DE", "GB", "IT", NA)
@@ -39,4 +41,5 @@ code_nuts1 (
 code_nuts1 (
    region_nuts_names = c("Brandenburg", "London", "Centro", NA)
   )
+}
 }

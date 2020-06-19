@@ -23,13 +23,16 @@
 #' @importFrom magrittr %>%
 #' @importFrom utils data
 #' @examples
-#'code_nuts1 (
+#' \dontrun{
+#' #this function will be replaced
+#' code_nuts1 (
 #'  region_nuts_names = c("Brandenburg", "London", "Centro", NA),
 #'  country_code = c("DE", "GB", "IT", NA)
 #'  )
 #' code_nuts1 (
 #'    region_nuts_names = c("Brandenburg", "London", "Centro", NA)
 #'   )
+#' }
 #' @export
 
 code_nuts1 <- function ( country_code = NULL,
