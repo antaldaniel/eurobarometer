@@ -23,7 +23,8 @@ mimick the data importing workflow with `haven::read_spss()` or other
 importing functions in vignette examples and unit tests.
 * `panel_create()` creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey. 
 * `gesis_metadata_create()` can now take either a list of surveys, or a single survey data frame as an input, and returns the `filename` in a column. Two new columns, the filename and the suggested question block is added to the metadata (see [Workflow](http://eurobarometer.danielantal.eu/articles/workflow.html))
-*  Started continuous integration on Travis-CI. 
+* `gesis_metadata_create()` is replaced with the more generic `read_surveys()`.
+* Started continuous integration on Travis-CI. 
 
 # Foreseen changes
 

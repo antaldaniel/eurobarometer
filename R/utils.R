@@ -9,6 +9,8 @@
 
 class_suggest <- function(metadata) {
 
+  . <- n_categories <- class_orig <- NULL
+
   factor_levels <- sapply ( metadata$factor_levels,
                         function(x) sort(tolower(unlist(x))) )
 

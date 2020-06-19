@@ -7,7 +7,7 @@
 gesis_corpus_create(file_path)
 }
 \arguments{
-\item{dat}{For example,}
+\item{file_path}{A file path to work from (will be changed)}
 }
 \value{
 A data frame with seven variables, results binded together

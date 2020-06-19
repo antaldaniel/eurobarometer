@@ -34,6 +34,8 @@ gesis_vocabulary_create <- function ( dat ) {
 
   get_items <- function ( this_var_name_orig  = 'nuts') {
 
+    . <- val_label_orig <- val_numeric_orig <- NULL
+
     itemize <- dat[, this_var_name_orig ]
     names(itemize) <- "item"
     items <- unique(itemize$item)

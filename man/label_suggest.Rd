@@ -7,9 +7,9 @@
 label_suggest(var_label_orig, var_name_orig)
 }
 \arguments{
-\item{var_name_orig}{A character vector of variable names.}
+\item{var_label_orig}{A character vector of original variable labels.}
 
-\item{var_names}{A character vector of variable labels.}
+\item{var_name_orig}{A character vector of original variable names.}
 }
 \value{
 A character vector with the same length as the two

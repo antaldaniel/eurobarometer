@@ -12,14 +12,14 @@ convert_class(
 )
 }
 \arguments{
+\item{dat}{A data frame like object with the raw statistical data.}
+
 \item{metadata}{A metadata data frame created by
 \code{\link{gesis_metadata_create}}.}
 
 \item{var_name}{Defaults to \code{"normalized_name"}.}
 
-\item{df}{A data frame like object with the raw statistical data.}
-
-\item{converstion}{Defaults to \code{"conversion_suggestion"}.}
+\item{conversion}{Defaults to \code{"conversion_suggestion"}.}
 }
 \value{
 The \code{df} converted to numeric, character, factor classes.
