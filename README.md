@@ -45,6 +45,12 @@ on [GitHub](https://github.com/):
 devtools::install_github("antaldaniel/eurobarometer")
 ```
 
+## Workflow
+
+Not all elements of the
+[Workflow](http://eurobarometer.danielantal.eu/articles/workflow.html)
+are implemented yet.
+
 ## Data Preparation For Programmatic Use
 
 The SPSS files in GESIS are not ready for programmatic use in R, because
