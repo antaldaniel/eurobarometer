@@ -88,7 +88,7 @@ gesis_metadata_create <- function ( survey_list ) {
       sapply ( metadata$factor_levels, unlist ),
       length, numeric(1) )  #number of categories in categorical variables
 
-    metadata$qb <- question_block_identify(metadata)
+    metadata <- question_block_identify(metadata)
 
     metadata <- metadata %>%
       select ( all_of(c("filename", "qb", "var_name_orig",

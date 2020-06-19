@@ -92,7 +92,9 @@ The metadata can help identifying questionnaire item types and it suggests conve
 
 my_metadata %>%
   dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
-  select ( all_of(c("var_label_norm", "var_name_suggested", "class_suggested", "n_categories"))) %>%
+  select ( all_of(
+    c("var_label_norm", "var_name_suggested",
+      "class_suggested", "n_categories"))) %>%
   distinct_all() %>%
     distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
   arrange ( var_name_suggested ) %>%
@@ -104,17 +106,31 @@ my_metadata %>%
 
 ```
 
+```{r, echo=FALSE, results='asis', eval=TRUE}
 
-```{r}
-## read in all GESIS SPSS files and validated the 
-## reading process, save only those that are valid GESIS files.
-## must canonize some id vars, such as uniqid, and filename
-##or anything that is present in all files. 
+my_metadata %>%
+  dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
+  select ( all_of(
+    c("qb", "var_name_orig", "var_name_suggested",
+      "class_suggested"))) %>%
+  distinct_all() %>%
+    distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
+  arrange ( qb ) %>%
+  kable () %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )  
 
-gesis_spss_to_rds ( import_dir, working_dir )
 ```
 
-It is important that at this stage we have a few variables that are absolutely consistent for `bind_row` operations.
+* The `id` groups serve only identification purposes, and will be used in the skeleton of the panel.
+* The `metadata` group relate to information about the responses. We include here the country ID because it determines the weight(s) to be used. 
+* The `weigths` group shows the weights calculated by Kantar or GESIS.
+* The `socio-demography` group shows **identified** socio-demography variables for which `eurobarometer` provides a built-in harmonization tool. There may be other variables that the research would like to add into this group by overrideing the `qb` value of certain question IDs.
+* The `trust` group relates to a variable group covered by our example harmonization table `trust_table`.
+* The `not_identified` group contains variables for which we do not offer a full-scale built-in harmonization. However, some of our helper functions do help harmonizing these variables, too, but they require more manual programming work by the user.
+
 
 ## Creating a skeleton panel
 
@@ -145,21 +161,6 @@ sample_n( my_panel, 6) %>%
 This should return a very basic file for joining, a data.frame/tibble with
 * a truly unique id
 * id elements for joining in individual survey data, in this example, `uniqid` and  `filename` must be present in all imported files. The filename was added by `read_surveys()`.
-
-## Identifying variables 
-
-```{r}
-## read in all GESIS SPSS files and validated the reading process,
-## save only those that are valid GESIS files.
-working_metadata <- gesis_metadata_create ( working_dir ) 
-
-# the researcher at this point can tweak the metadata, for example, adjust variable names.
-
-## read in .rds files and save them to renamed rds files with corrected metadata
-survey_rename (working_metadata, working_dir)
-
-```
-
 
 ## Harmonizing various aspects of the survey
 

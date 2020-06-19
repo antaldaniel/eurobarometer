@@ -34,37 +34,46 @@ class_suggest <- function(metadata) {
 
 #' Identify A Question Block
 #'
+#' Add a question block identifier in column \code{qb}.
 #' @param metadata A metadata file created by metadata_create within
 #' \code{\link{gesis_metadata_create}}
-#' @return A question block identifier.
+#' @return The metadata data frame with a new column \code{qb}.
 #' @importFrom magrittr %>%
-#' @importFrom dplyr case_when
+#' @importFrom dplyr case_when mutate
+#' @importFrom tidyselect all_of
 #'
 
 question_block_identify <- function (metadata) {
 
-  suggested <- as.character(metadata$var_name_suggested)
+  var_name_suggested <- as.character(metadata$var_name_suggested)
   var_label_orig <- as.character(metadata$var_label_orig)
   n_categories <- metadata$n_categories
 
-  qb <- vector ( mode = 'character', length = length(suggested))
-  orig_1 <- tolower(substr(var_label_orig, 1, 1))
-  orig_2 <- tolower(substr(var_label_orig, 1, 2))
+  qb <- vector ( mode = 'character', length = length(var_name_suggested))
 
- qb <- dplyr::case_when (
 
-    suggested %in% c("filename", "doi", "uniqid" ) ~  "id",
-    grepl( "gesis_archive", suggested)             ~  "id",
+  metadata_tmp <- metadata %>%
+    mutate (
+      orig_1 = tolower(substr(var_name_orig, 1, 1)),
+      orig_2 = tolower(substr(var_name_orig, 1, 2))
+      ) %>%
+    mutate (qb  = case_when (
+
+    var_name_suggested %in%
+      c("filename", "doi", "uniqid" )              ~  "id",
+    grepl( "gesis_archive", var_name_suggested)    ~  "id",
     orig_1 == "p"                                  ~  "metadata",
-    var_label_orig %in%
-      c("d7", "d8", "d25", "d60")                  ~  "demography",
+    var_name_orig == "isocntry"                    ~  "metadata",
+    var_name_orig %in%
+      c("d7", "d8", "d25", "d60")                  ~  "socio-demography",
     orig_1 == "w"                                  ~  "weights",
-    grepl ( "trust_in|_trust", suggested) &
+    grepl ( "trust_in|_trust", var_name_suggested) &
       n_categories  == 4                           ~  "trust",
 
 
-    TRUE ~ 'not_identified'
+    TRUE ~ 'not_identified')
     )
 
- qb
-}
+ metadata_tmp %>%
+   select ( -all_of(c("orig_1", "orig_2")) )
+ }
