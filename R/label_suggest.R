@@ -3,8 +3,8 @@
 #' Create canonical variable names (labels) that do not vary across
 #' several SPSS files from different years.
 #'
-#' @param var_names A character vector of variable labels.
-#' @param var_name_orig A character vector of variable names.
+#' @param var_label_orig A character vector of original variable labels.
+#' @param var_name_orig A character vector of original variable names.
 #' @importFrom stringr str_sub str_trim
 #' @family labelling functions
 #' @return A character vector with the same length as the two
