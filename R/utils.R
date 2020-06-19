@@ -47,6 +47,8 @@ class_suggest <- function(metadata) {
 
 question_block_identify <- function (metadata) {
 
+  var_name_orig <- panel_id <- NULL
+
   var_name_suggested <- as.character(metadata$var_name_suggested)
   var_label_orig <- as.character(metadata$var_label_orig)
   n_categories <- metadata$n_categories

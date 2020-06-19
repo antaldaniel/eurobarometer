@@ -102,9 +102,8 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#eurobarometer" class="anchor"></a>eurobarometer</h1></div>
 <!-- badges: start -->
-
-<!-- badges: end -->
-<p>The goal of eurobarometer is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems.</p>
+<p><a href="https://travis-ci.com/antaldaniel/eurobarometer"><img src="https://travis-ci.com/antaldaniel/eurobarometer.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/antaldaniel/eurobarometer?branch=master"><img src="https://codecov.io/gh/antaldaniel/eurobarometer/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://www.repostatus.org/#concept"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept."></a> “<a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="license"></a>” “<a href="https://cran.r-project.org/package=eurobarometer"><img src="https://www.r-pkg.org/badges/version/eurobarometer" alt="CRAN_Status_Badge"></a>” <a href="https://doi.org/10.5281/zenodo.3825700"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3825700.svg" alt="DOI"></a> <a href="https://twitter.com/intent/follow?screen_name=antaldaniel"><img src="https://img.shields.io/twitter/follow/antaldaniel.svg?style=social" alt="Follow author"></a> <a href="https://twitter.com/martakolcz?lang=en"><img src="https://img.shields.io/twitter/follow/martakolcz.svg?style=social" alt="Follow contributor"></a> <!-- badges: end --></p>
+<p>The goal of <code>eurobarometer</code> is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems.</p>
 <p>Please report all issues to <a href="https://github.com/antaldaniel/eurobarometer/issues">github.com/antaldaniel/eurobarometer/issues</a>.</p>
 <p>Pull requests are welcome on <a href="(https://github.com/antaldaniel/eurobarometer/issues)">github.com/antaldaniel/eurobarometer</a> from all potential contributors who abide by the terms of the <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.</p>
 <p>If you use <code>eurobarometer</code> in your work, please <a href="https://doi.org/10.5281/zenodo.3825700">cite the package</a>.</p>
@@ -114,6 +113,11 @@
 <p>At this moment you cannot install yest the packgae from <a href="https://CRAN.R-project.org">CRAN</a>, but there is a development version on <a href="https://github.com/">GitHub</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"antaldaniel/eurobarometer"</span>)</pre></div>
+</div>
+<div id="workflow" class="section level2">
+<h2 class="hasAnchor">
+<a href="#workflow" class="anchor"></a>Workflow</h2>
+<p>Not all elements of the <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> are implemented yet.</p>
 </div>
 <div id="data-preparation-for-programmatic-use" class="section level2">
 <h2 class="hasAnchor">
@@ -125,23 +129,13 @@
 </ul>
 <p>See <code><a href="articles/metadata.html">vignette("metadata")</a></code></p>
 </div>
-<div id="joining-serveral-files" class="section level2">
-<h2 class="hasAnchor">
-<a href="#joining-serveral-files" class="anchor"></a>Joining Serveral Files</h2>
-<p>The vocabulary functions help to create data panels across Eurobarometer surveys taken in different times.</p>
-<p>There are two main issues that need to be resolved in such cases</p>
-<ul>
-<li><p>Make sure that the same questions are used, and they are consistently named (this problem is treated in the metadata level)</p></li>
-<li><p>In case of structured questions or question blocks the answer options are coded exactly the same (for example “Fully agree”and “Totally agree” are the same.) This will be handled by the vocabulary functions. (Not yet implemented.)</p></li>
-</ul>
-</div>
 <div id="joining-with-eurostat--other-data-tables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#joining-with-eurostat--other-data-tables" class="anchor"></a>Joining With Eurostat &amp; Other Data Tables</h2>
 <ul>
 <li><p>The regional boundaries are consistently used, coded and named - this will be harmonized with the package <a href="http://regions.danielantal.eu/">regions</a>, which helps resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.</p></li>
 <li><p>This will also allow you to create regional statistics from Eurobarometer microdata files.</p></li>
-<li><p>Currently <code><a href="reference/code_nuts1.html">code_nuts1()</a></code> and <code><a href="reference/code_nuts2.html">code_nuts2()</a></code> is implemented but this will be replaced with a more comprehensive NUTS0-NUTS3 level helper function to make the regional coding consistent.</p></li>
+<li><p>Currently <code><a href="reference/code_nuts1.html">code_nuts1()</a></code> and <code><a href="reference/code_nuts2.html">code_nuts2()</a></code> is implemented but this will be replaced with a more comprehensive <code>NUTS0</code>-<code>NUTS3</code> level helper function to make the regional coding consistent.</p></li>
 </ul>
 </div>
 <div id="code-of-conduct" class="section level2">
@@ -183,18 +177,7 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://codecov.io/gh/antaldaniel/eurobarometer?branch=master"><img src="https://codecov.io/gh/antaldaniel/eurobarometer/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://www.repostatus.org/#concept"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept."></a></li>
-<li><a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="license"></a></li>
-<li><a href="https://cran.r-project.org/package=eurobarometer"><img src="https://www.r-pkg.org/badges/version/regions" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.3825700"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3825700.svg" alt="DOI"></a></li>
-<li><a href="https://twitter.com/intent/follow?screen_name=antaldaniel"><img src="https://img.shields.io/twitter/follow/antaldaniel.svg?style=social" alt="Follow author"></a></li>
-</ul>
-</div>
-</div>
+  </div>
 </div>
 
 

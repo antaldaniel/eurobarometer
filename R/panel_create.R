@@ -23,6 +23,8 @@
 panel_create <- function (survey_list,
                           id_vars = c("uniqid", "doi") ) {
 
+  panel_id <- NULL
+
   # in case of unexpected results, after fixing add a unique test
   # to tests/testthat/test-panel_create.R
 
