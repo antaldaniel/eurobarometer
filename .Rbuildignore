@@ -9,3 +9,4 @@
 ^Meta$
 ^.git
 ^codecov\.yml$
+^\.travis\.yml$

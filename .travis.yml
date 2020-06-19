@@ -1,0 +1,56 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: R
+cache: packages
+
+notifications:
+  email:
+    - daniel.antal@ceemid.eu
+
+r_packages:
+  - backports
+  - vctrs
+  - rlang
+  - devtools
+  - dplyr
+  - tidyr
+  - magrittr
+  - purrr
+  - tibble
+  - ggplot2
+  - tidyselect
+  - stringr
+  - lubridate
+  - jsonlite
+  - knitr
+  - roxygen2
+  - rvest
+  - testthat
+  - usethis
+  - rmarkdown
+  - knitr
+  - kableExtra
+  - sjlabelled
+  - haven
+
+r_github_packages:
+  - jimhester/covr
+
+
+env:
+  global:
+  - WARNINGS_ARE_ERRORS=1
+  - GITHUB_REPO: antaldaniel/eurobarometer
+
+r_build_args: "--no-resave-data"
+r_check_args: "--as-cran --no-build-vignettes"
+
+before_install:
+  - pip install --user codecov
+
+r:
+- release
+- oldrel
+
+after_success:
+  - R -q -e 'covr::codecov(quiet = FALSE)'
