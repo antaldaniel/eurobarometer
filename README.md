@@ -15,7 +15,8 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3825700.svg)](https://doi.org/10.5281/zenodo.3825700)
 [![Follow
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
-
+[![Follow
+contributor](https://img.shields.io/twitter/follow/martakolcz.svg?style=social)](https://twitter.com/martakolcz?lang=en)
 [![Travis build
 status](https://travis-ci.com/antaldaniel/eurobarometer.svg?branch=master)](https://travis-ci.com/antaldaniel/eurobarometer)
 <!-- badges: end -->
