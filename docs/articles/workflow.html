@@ -94,7 +94,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="workflow_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Workflow</h1>
@@ -112,14 +112,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">kableExtra</span>)</pre></body></html></div>
 <p>At this point this workflow if purely hypothetical, the functions are not written, and they are not evaluated.</p>
 <div id="acquiring-the-data-from-gesis" class="section level2">
 <h2 class="hasAnchor">
@@ -134,9 +127,274 @@
 <span class="st">'ZA7576_sample'</span>,<span class="st">'ZA7562_sample'</span>,<span class="st">'ZA7489_sample'</span>
 )
 
-<span class="no">survey_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/eurobarometer/man/read_surveys.html">read_surveys</a></span> (
+<span class="no">survey_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_surveys.html">read_surveys</a></span> (
    <span class="no">import_file_names</span>, <span class="kw">.f</span> <span class="kw">=</span> <span class="st">'read_example_file'</span> )</pre></body></html></div>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the </span>
+</div>
+<div id="analyze-the-metadata-in-the-surveys" class="section level2">
+<h2 class="hasAnchor">
+<a href="#analyze-the-metadata-in-the-surveys" class="anchor"></a>Analyze the metadata in the surveys</h2>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">my_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>( <span class="no">survey_list</span> )</pre></body></html></div>
+<table class="table table table-striped table-hover table-condensed">
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA7489_sample
+</td>
+<td style="text-align:left;">
+qa8b_8
+</td>
+<td style="text-align:left;">
+TRUST IN INSTITUTIONS: UNITED NATIONS (TCC)
+</td>
+<td style="text-align:left;">
+trust_in_institutions_united_nations_tcc
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7489_sample
+</td>
+<td style="text-align:left;">
+qa8b_1
+</td>
+<td style="text-align:left;">
+TRUST IN INSTITUTIONS: WRITTEN PRESS (TCC)
+</td>
+<td style="text-align:left;">
+trust_in_institutions_written_press_tcc
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7489_sample
+</td>
+<td style="text-align:left;">
+qa8b_4
+</td>
+<td style="text-align:left;">
+TRUST IN INSTITUTIONS: INTERNET (TCC)
+</td>
+<td style="text-align:left;">
+trust_in_institutions_internet_tcc
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7489_sample
+</td>
+<td style="text-align:left;">
+qa8b_8
+</td>
+<td style="text-align:left;">
+TRUST IN INSTITUTIONS: UNITED NATIONS (TCC)
+</td>
+<td style="text-align:left;">
+trust_in_institutions_united_nations_tcc
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+qa14_1
+</td>
+<td style="text-align:left;">
+EUROPEAN PARLIAMENT - TRUST
+</td>
+<td style="text-align:left;">
+european_parliament_trust
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+version
+</td>
+<td style="text-align:left;">
+GESIS ARCHIVE VERSION &amp; DATE
+</td>
+<td style="text-align:left;">
+gesis_archive_version_and_date
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+qa14_4
+</td>
+<td style="text-align:left;">
+EUROPEAN COUNCIL - TRUST
+</td>
+<td style="text-align:left;">
+european_council_trust
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
+<td style="text-align:left;">
+qa6a_6
+</td>
+<td style="text-align:left;">
+TRUST IN INSTITUTIONS: PUBLIC ADMINISTRATION
+</td>
+<td style="text-align:left;">
+trust_in_institutions_public_administration
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table table-striped table-hover table-condensed">
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_suggested
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+class_suggested
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n_categories
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+trust_in_institutions_television
+</td>
+<td style="text-align:left;">
+trust_in_institutions_television
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+filename
+</td>
+<td style="text-align:left;">
+filename
+</td>
+<td style="text-align:left;">
+character
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+difficulties_paying_bills_last_year
+</td>
+<td style="text-align:left;">
+difficulties_paying_bills_last_year
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_in_institutions_public_administration
+</td>
+<td style="text-align:left;">
+trust_in_institutions_public_administration
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+european_parliament_trust
+</td>
+<td style="text-align:left;">
+european_parliament_trust
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_in_institutions_political_parties
+</td>
+<td style="text-align:left;">
+trust_in_institutions_political_parties
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+european_parliament_trust
+</td>
+<td style="text-align:left;">
+european_parliament_trust
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_in_institutions_internet_tcc
+</td>
+<td style="text-align:left;">
+trust_in_institutions_internet_tcc
+</td>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## read in all GESIS SPSS files and validated the </span>
 <span class="co">## reading process, save only those that are valid GESIS files.</span>
 <span class="co">## must canonize some id vars, such as uniqid, and filename</span>
 <span class="co">##or anything that is present in all files. </span>
@@ -147,10 +405,10 @@
 <div id="creating-a-skeleton-panel" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-a-skeleton-panel" class="anchor"></a>Creating a skeleton panel</h2>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
 <span class="co">## most basic weights, w1 and its projected version wex</span>
 
-<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/eurobarometer/man/panel_create.html">panel_create</a></span> ( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">survey_list</span>,
+<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/panel_create.html">panel_create</a></span> ( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">survey_list</span>,
                <span class="co">## must be at least two, and one must be the uniqid</span>
                <span class="co">## of the file or row_id </span>
                           <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"filename"</span>)
@@ -159,48 +417,88 @@
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_panel</span>)
 <span class="co">#&gt; [1] "panel_id" "uniqid"   "filename"</span></pre></body></html></div>
 <p>Let’s have a look at 6 randomly selected rows:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>( <span class="no">my_panel</span>, <span class="fl">6</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</pre></body></html></div>
-<table class="table">
-<thead><tr class="header">
-<th align="left">panel_id</th>
-<th align="right">uniqid</th>
-<th align="left">filename</th>
+<table class="table table table-striped table-hover table-condensed">
+<thead><tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+panel_id
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+uniqid
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
-<td align="left">350001751_za7562_sample</td>
-<td align="right">350001751</td>
-<td align="left">ZA7562_sample</td>
+<tr>
+<td style="text-align:left;">
+630000384_za7489_sample
+</td>
+<td style="text-align:right;">
+630000384
+</td>
+<td style="text-align:left;">
+ZA7489_sample
+</td>
 </tr>
-<tr class="even">
-<td align="left">350001407_za7562_sample</td>
-<td align="right">350001407</td>
-<td align="left">ZA7562_sample</td>
+<tr>
+<td style="text-align:left;">
+999999999_za7576_sample
+</td>
+<td style="text-align:right;">
+999999999
+</td>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
 </tr>
-<tr class="odd">
-<td align="left">390002489_za7562_sample</td>
-<td align="right">390002489</td>
-<td align="left">ZA7562_sample</td>
+<tr>
+<td style="text-align:left;">
+630000543_za7576_sample
+</td>
+<td style="text-align:right;">
+630000543
+</td>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
 </tr>
-<tr class="even">
-<td align="left">220002885_za7576_sample</td>
-<td align="right">220002885</td>
-<td align="left">ZA7576_sample</td>
+<tr>
+<td style="text-align:left;">
+320000102_za7562_sample
+</td>
+<td style="text-align:right;">
+320000102
+</td>
+<td style="text-align:left;">
+ZA7562_sample
+</td>
 </tr>
-<tr class="odd">
-<td align="left">210000970_za7562_sample</td>
-<td align="right">210000970</td>
-<td align="left">ZA7562_sample</td>
+<tr>
+<td style="text-align:left;">
+390002155_za7489_sample
+</td>
+<td style="text-align:right;">
+390002155
+</td>
+<td style="text-align:left;">
+ZA7489_sample
+</td>
 </tr>
-<tr class="even">
-<td align="left">320000929_za7576_sample</td>
-<td align="right">320000929</td>
-<td align="left">ZA7576_sample</td>
+<tr>
+<td style="text-align:left;">
+220003153_za7576_sample
+</td>
+<td style="text-align:right;">
+220003153
+</td>
+<td style="text-align:left;">
+ZA7576_sample
+</td>
 </tr>
 </tbody>
 </table>
-<p>This should return a very basic file for joining, a data.frame/tibble with * a truly unique id * id elements for joining in individual survey data, in this example, <code>uniqid</code> and <code>filename</code> must be present in all imported files. The filename was added by <code><a href="https://rdrr.io/pkg/eurobarometer/man/read_surveys.html">read_surveys()</a></code>.</p>
+<p>This should return a very basic file for joining, a data.frame/tibble with * a truly unique id * id elements for joining in individual survey data, in this example, <code>uniqid</code> and <code>filename</code> must be present in all imported files. The filename was added by <code><a href="../reference/read_surveys.html">read_surveys()</a></code>.</p>
 </div>
 <div id="identifying-variables" class="section level2">
 <h2 class="hasAnchor">

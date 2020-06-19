@@ -40,8 +40,7 @@
 
 
 <meta property="og:title" content="Get A Metadata File — gesis_metadata_create" />
-<meta property="og:description" content="Retrieve a metadata file with from your data directory or the
-temporary directory of your current R session." />
+<meta property="og:description" content="Retrieve a metadata file with from your surveys." />
 
 
 
@@ -145,18 +144,19 @@ temporary directory of your current R session." />
     </div>
 
     <div class="ref-description">
-    <p>Retrieve a metadata file with from your data directory or the
-temporary directory of your current R session.</p>
+    <p>Retrieve a metadata file with from your surveys.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gesis_metadata_create</span>(<span class='no'>dat</span>)</pre>
+    <pre class="usage"><span class='fu'>gesis_metadata_create</span>(<span class='no'>survey_list</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dat</th>
-      <td><p>A data frame read by <code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code>.</p></td>
+      <th>survey_list</th>
+      <td><p>A list of data frames containing surveys, or a
+single survey in a single data frame. The filename should be added
+in the column <code>filename</code>.</p></td>
     </tr>
     </table>
 
