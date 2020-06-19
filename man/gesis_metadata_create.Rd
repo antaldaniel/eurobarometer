@@ -21,6 +21,7 @@ Retrieve a metadata file with from your surveys.
 \details{
 The structure of the returned tibble:
 \describe{
+  \item{filename}{The original file name}
   \item{var_name_orig}{The original variable name in SPSS}
   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}}
   \item{var_label_orig}{The original variable label in SPSS}
@@ -28,6 +29,8 @@ The structure of the returned tibble:
   \item{var_name_suggested}{A partly canonized variable name.}
   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
   \item{class_suggested}{A suggested class conversion.}
+  \item{n_categories}{Number of categories of the variable.}
+  \item{qb}{Identifier of a question block for further tasks.}
 }
 }
 \examples{
