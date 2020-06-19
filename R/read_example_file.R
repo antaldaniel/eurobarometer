@@ -20,7 +20,8 @@ read_example_file <- function( sample_file_name = 'ZA7576_sample' ) {
   if ( ! sample_file_name %in% c('ZA7576',
                                  'ZA7562',
                                  'ZA7489') ) {
-    stop ( sample_file_name , "_sample is not among the package sample data files.")
+    stop ( sample_file_name ,
+           "_sample is not among the package sample data files.")
   }
 
   if (sample_file_name == 'ZA7576' ) {
