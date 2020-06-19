@@ -16,6 +16,8 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 [![Follow
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 
+[![Travis build
+status](https://travis-ci.com/antaldaniel/eurobarometer.svg?branch=master)](https://travis-ci.com/antaldaniel/eurobarometer)
 <!-- badges: end -->
 
 The goal of `eurobarometer` is converting Eurobarometer microdata files,
@@ -85,8 +87,8 @@ See `vignette("metadata")`
     Eurobarometer microdata files.
 
   - Currently `code_nuts1()` and `code_nuts2()` is implemented but this
-    will be replaced with a more comprehensive NUTS0-NUTS3 level helper
-    function to make the regional coding consistent.
+    will be replaced with a more comprehensive `NUTS0`-`NUTS3` level
+    helper function to make the regional coding consistent.
 
 ## Code of Conduct
 
