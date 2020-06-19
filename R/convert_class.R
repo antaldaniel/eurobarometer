@@ -1,10 +1,10 @@
 #' @title Convert To Basic R Classes
 #'
-#' @param df A data frame like object with the raw statistical data.
+#' @param dat A data frame like object with the raw statistical data.
 #' @param metadata A metadata data frame created by
 #' \code{\link{gesis_metadata_create}}.
 #' @param var_name Defaults to \code{"normalized_name"}.
-#' @param converstion Defaults to \code{"conversion_suggestion"}.
+#' @param conversion Defaults to \code{"conversion_suggestion"}.
 #' @return The \code{df} converted to numeric, character, factor classes.
 #' Dummies are converted to binary numeric variables and their name is
 #' prefixed with \code{'is_'}.
