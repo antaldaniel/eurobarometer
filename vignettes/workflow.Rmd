@@ -63,13 +63,21 @@ survey_list <- read_surveys (
 
 ```{r, eval=TRUE}
 my_metadata <- gesis_metadata_create( survey_list )
+names(my_metadata)
 ```
+
+The my_metadata table is rather large, so let's review random samples from a few columns.
+
+The variable names need to be harmonized, and you will get suggestions on how to do it. Only a very small subset of the entire table is shown here:
 
 ```{r, echo=FALSE, results='asis', eval=TRUE}
 
 my_metadata %>%
-  dplyr::sample_n(8) %>%
-  select ( all_of(c("filename", "var_name_orig", "var_label_orig", "var_label_norm"))) %>%
+  dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
+  select ( all_of(c("filename", "var_name_orig", "var_label_orig", "var_name_suggested"))) %>%
+  distinct_all() %>%
+  distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
+  arrange ( var_name_suggested ) %>%
   kable () %>%
   kable_styling(bootstrap_options =
                   c("striped", "hover", "condensed"),
@@ -78,11 +86,16 @@ my_metadata %>%
 
 ```
 
+The metadata can help identifying questionnaire item types and it suggests conversion to R classes. Again, only a very small subset of the entire table is shown below:
+
 ```{r, echo=FALSE, results='asis', eval=TRUE}
 
 my_metadata %>%
-  dplyr::sample_n(8) %>%
+  dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
   select ( all_of(c("var_label_norm", "var_name_suggested", "class_suggested", "n_categories"))) %>%
+  distinct_all() %>%
+    distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
+  arrange ( var_name_suggested ) %>%
   kable () %>%
   kable_styling(bootstrap_options =
                   c("striped", "hover", "condensed"),
