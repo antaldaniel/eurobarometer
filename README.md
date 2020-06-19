@@ -73,21 +73,6 @@ Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html))
 
 See `vignette("metadata")`
 
-## Joining Serveral Files
-
-The vocabulary functions help to create data panels across Eurobarometer
-surveys taken in different times.
-
-There are two main issues that need to be resolved in such cases
-
-  - Make sure that the same questions are used, and they are
-    consistently named (this problem is treated in the metadata level)
-
-  - In case of structured questions or question blocks the answer
-    options are coded exactly the same (for example “Fully agree”and
-    “Totally agree” are the same.) This will be handled by the
-    vocabulary functions. (Not yet implemented.)
-
 ## Joining With Eurostat & Other Data Tables
 
   - The regional boundaries are consistently used, coded and named -
