@@ -170,7 +170,31 @@ several SPSS files from different years.</p>
 input character vectors.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'> <span class='no'>var_name_orig</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+ <span class='st'>'v335'</span>, <span class='st'>'v121'</span>, <span class='st'>'v150'</span>, <span class='st'>'v83'</span>, <span class='st'>'qa6a_3'</span>, <span class='st'>'qa8a_5'</span>, <span class='st'>'qa10_9'</span>
+ )
+
+ <span class='no'>var_label_orig</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+ <span class='st'>'QA17_1 EUROPEAN PARLIAMENT - TRUST'</span>,
+ <span class='st'>'Q26 COUNCIL OF MINISTERS - TRUST'</span>,
+ <span class='st'>'Q17 EUROPEAN COMMISSION - TRUST'</span>,
+ <span class='st'>'Q10 TRUST IN INSTITUTIONS: CIVIL SERVICE'</span>,
+ <span class='st'>'TRUST IN INSTITUTIONS: JUSTICE / LEGAL SYSTEM'</span>,
+ <span class='st'>'TRUST IN INSTITUTIONS: REG/LOC PUBLIC AUTHORITIES'</span>,
+ <span class='st'>'TRUST IN INSTITUTIONS: UNITED NATIONS'</span>
+ )
+
+ <span class='fu'>label_suggest</span>(
+ <span class='kw'>var_label_orig</span> <span class='kw'>=</span> <span class='no'>var_label_orig</span>,
+ <span class='kw'>var_name_orig</span> <span class='kw'>=</span> <span class='no'>var_name_orig</span>
+ )</div><div class='output co'>#&gt; [1] "european_parliament_trust"                       
+#&gt; [2] "council_of_ministers_trust"                      
+#&gt; [3] "european_commission_trust"                       
+#&gt; [4] "trust_in_institutions_civil_service"             
+#&gt; [5] "trust_in_institutions_justice_legal_system"      
+#&gt; [6] "trust_in_institutions_reg_loc_public_authorities"
+#&gt; [7] "trust_in_institutions_united_nations"            </div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

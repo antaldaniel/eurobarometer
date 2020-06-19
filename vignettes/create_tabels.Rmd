@@ -60,9 +60,15 @@ The procedure involves four steps:
 
 
 ```{r}
-metadata_database <-  readRDS( 
-  file.path('..', 'data-raw',
-  'eb_metadata_database_large.rds')) 
+if (dir.exists('data-raw')) {
+  metadata_database <-  readRDS( 
+    file.path('data-raw',
+              'eb_metadata_database_large.rds')) 
+} else {
+  metadata_database <-  readRDS( 
+    file.path('..', 'data-raw',
+              'eb_metadata_database_large.rds')) 
+}
 ```
 
 ## Selection of variables
