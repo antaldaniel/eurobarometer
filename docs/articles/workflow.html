@@ -570,21 +570,10 @@ doi
 <tbody>
 <tr>
 <td style="text-align:left;">
-3485_350000902_doi_10_4232_1_13393
+5229_630000357_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-350000902
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6369_999999999_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-999999999
+630000357
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
@@ -592,21 +581,10 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-1728_220000748_doi_10_4232_1_13393
+4816_390001813_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-220000748
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1033_999999999_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-999999999
+390001813
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
@@ -614,10 +592,10 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-984_999999999_doi_10_4232_1_13393
+5866_630001284_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-999999999
+630001284
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
@@ -625,13 +603,35 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-1867_220001244_doi_10_4232_1_13393
+4919_390002156_doi_10_4232_1_13318
 </td>
 <td style="text-align:left;">
-220001244
+390002156
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5283_630000452_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
+630000452
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1797_220000929_doi_10_4232_1_13318
+</td>
+<td style="text-align:left;">
+220000929
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
 </td>
 </tr>
 </tbody>
@@ -706,8 +706,44 @@ doi
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">demography_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="no">demography_panel</span>))])</pre></body></html></div>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">trust_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fl">9</span>)])</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">demography_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="no">demography_panel</span>))])
+<span class="co">#&gt;                                 marital_status age_education </span>
+<span class="co">#&gt;  (Re-)Married: children this marriage  :3180   18     :2265  </span>
+<span class="co">#&gt;  (Re-)Married: without children        :3147   16     :1167  </span>
+<span class="co">#&gt;  Single: without children              :1611   17     :1011  </span>
+<span class="co">#&gt;  Widow: without children               :1063   19     : 961  </span>
+<span class="co">#&gt;  Single liv w partner: without children: 828   15     : 904  </span>
+<span class="co">#&gt;  Divorced/Separated: without children  : 577   14     : 713  </span>
+<span class="co">#&gt;  (Other)                               :1247   (Other):4632  </span>
+<span class="co">#&gt;                   type_of_community difficulties_paying_bills_last_year</span>
+<span class="co">#&gt;  Rural area or village     :3791    Most of the time  : 869            </span>
+<span class="co">#&gt;  Small/middle town         :2301    From time to time :2660            </span>
+<span class="co">#&gt;  Large town                :3745    Almost never/never:7898            </span>
+<span class="co">#&gt;  Small or middle sized town:1814    Refusal (SPONT.)  : 226            </span>
+<span class="co">#&gt;  DK                        :   1                                       </span>
+<span class="co">#&gt;  NA's                      :   1                                       </span>
+<span class="co">#&gt; </span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">trust_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fl">9</span>)])
+<span class="co">#&gt;           council_of_the_eu_trust    european_central_bank_trust</span>
+<span class="co">#&gt;  Tend to trust        :2098       Tend to trust    :2186        </span>
+<span class="co">#&gt;  Tend not to trust    :1646       Tend not to trust:1939        </span>
+<span class="co">#&gt;  DK                   :1318       DK               : 937        </span>
+<span class="co">#&gt;  Inap. (not 1 in eu28):1517       NA's             :1517        </span>
+<span class="co">#&gt;      european_commission_trust       european_council_trust</span>
+<span class="co">#&gt;  Tend to trust    :2795        Tend to trust    :2259      </span>
+<span class="co">#&gt;  Tend not to trust:1838        Tend not to trust:1635      </span>
+<span class="co">#&gt;  DK               : 929        DK               :1168      </span>
+<span class="co">#&gt;  NA's             :1017        NA's             :1517      </span>
+<span class="co">#&gt;      european_parliament_trust     trust_in_institutions_army</span>
+<span class="co">#&gt;  Tend to trust    :3097        Tend to trust    :4062        </span>
+<span class="co">#&gt;  Tend not to trust:1752        Tend not to trust:1580        </span>
+<span class="co">#&gt;  DK               : 713        DK               : 437        </span>
+<span class="co">#&gt;  NA's             :1017        NA's             : 500        </span>
+<span class="co">#&gt;  trust_in_institutions_european_union trust_in_institutions_european_union_tcc</span>
+<span class="co">#&gt;  Tend to trust    :2934               Tend to trust    : 237                  </span>
+<span class="co">#&gt;  Tend not to trust:2582               Tend not to trust: 223                  </span>
+<span class="co">#&gt;  DK               : 563               DK               :  40                  </span>
+<span class="co">#&gt;  NA's             : 500               NA's             :6079</span></pre></body></html></div>
 </div>
 <div id="work-documentation" class="section level2">
 <h2 class="hasAnchor">
