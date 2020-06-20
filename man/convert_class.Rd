@@ -7,7 +7,7 @@
 convert_class(
   dat,
   metadata,
-  var_name = "normalized_name",
+  var_name = "var_name_suggested",
   conversion = "conversion_suggestion"
 )
 }

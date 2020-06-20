@@ -21,7 +21,7 @@
 #' @export
 
 convert_class <- function(dat, metadata,
-                          var_name = "normalized_name",
+                          var_name = "var_name_suggested",
                           conversion = "conversion_suggestion" ) {
 
   class_conversion <- metadata %>%
@@ -40,7 +40,6 @@ convert_class <- function(dat, metadata,
   numeric_df <- dat %>%
     select ( tidyselect::all_of(numeric_vars) ) %>%
     mutate_all ( as.numeric )
-
 
   character_vars <- class_conversion %>%
     filter ( conversion == 'character') %>%

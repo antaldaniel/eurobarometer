@@ -1,12 +1,8 @@
-#' @title Create A Skeleton Survey Panel With Unique ID
+#' @title Create A Skeleton Survey
 #'
 #' @param survey_list A list of data frames containing surveys.
 #' @param id_vars A vector of ID variables to form a panel ID var,
 #' defaults to \code{c("uniqid", "doi")}.
-#' @importFrom dplyr select mutate
-#' @importFrom tidyr unite
-#' @importFrom magrittr %>%
-#' @importFrom tidyselect all_of
 #' @return A tibble with the number of original ID vars and their
 #' \code{panel_id} as their concatenation.
 #' @examples
@@ -24,28 +20,18 @@
 panel_create <- function (survey_list,
                           id_vars = c("uniqid", "doi") ) {
 
+  input_id_vars <- id_vars
   panel_id <- NULL
+  id_vars <- NULL
 
   # in case of unexpected results, after fixing add a unique test
   # to tests/testthat/test-panel_create.R
 
-  create_id <- function (dat ) {
+  results_id <- lapply (
+    survey_list,
+    function(x) id_create (dat = x, id_vars = input_id_vars)
+    )
 
-    if ( ! all(id_vars %in% names(dat)) ) {
-      stop ( "Not (all) of ",
-             paste ( id_vars, collapse = ", "),
-             " present in <dat>.")
-    }
-
-    dat %>%
-      select ( all_of ( id_vars )) %>%
-      tidyr::unite ( col = 'panel_id',
-                     all_of(id_vars), remove=FALSE ) %>%
-      mutate ( panel_id = label_normalize(panel_id))
-
-  }
-
-  results_id <- lapply ( survey_list, create_id )
   do.call(rbind,results_id )
 
 }
