@@ -5,7 +5,7 @@ import_file_names <- c(
 my_survey_list <- read_surveys (
   import_file_names, .f = 'read_example_file' )
 
-my_metadata <- gesis_metadata_create( survey_list )
+my_metadata <- gesis_metadata_create( survey_list = my_survey_list )
 
 wrong_character_input <- c("a", "b")
 

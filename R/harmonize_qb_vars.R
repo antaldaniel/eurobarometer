@@ -42,7 +42,7 @@ harmonize_qb_vars <- function ( survey_list,
   id_vars_input <- id_vars
   id_vars <- NULL
 
-  if ( ! "list" %in% class(survey_list)) {
+  if ( ! "list" %in% class(survey_list) ) {
     if ( "data.frame" %in% class(survey_list) ) {
       survey_list <- list ( dat = survey_list )
     } else {
