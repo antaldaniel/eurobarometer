@@ -88,7 +88,6 @@ my_metadata %>%
 The metadata can help identifying questionnaire item types and it suggests conversion to R classes. Again, only a very small subset of the entire table is shown below:
 
 ```{r, echo=FALSE, results='asis', eval=TRUE}
-
 my_metadata %>%
   dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
   select ( all_of(
@@ -101,8 +100,7 @@ my_metadata %>%
   kable_styling(bootstrap_options =
                   c("striped", "hover", "condensed"),
                   fixed_thead = T,
-                  font_size = 10 )  
-
+                  font_size = 10 )
 ```
 
 ```{r, echo=FALSE, results='asis', eval=TRUE}

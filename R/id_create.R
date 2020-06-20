@@ -3,21 +3,16 @@
 #' @param dat A data frames containing one survey.
 #' @param id_vars A vector of ID variables to form a panel ID var,
 #' defaults to \code{c("uniqid", "doi")}.
-#' @importFrom dplyr select mutate summarize_all
+#' @importFrom dplyr select mutate summarize_all mutate_all
 #' @importFrom tidyr unite
 #' @importFrom magrittr %>%
 #' @importFrom tidyselect all_of everything
 #' @return A tibble with the number of original ID vars and their
 #' \code{panel_id} as their concatenation.
+#' @seealso panel_create
 #' @examples
 #' data (ZA7576_sample)
-#' data (ZA7562_sample)
-#' data (ZA7489_sample)
-#'
-#' survey_list <- list ( 'ZA7576_sample' = ZA7576_sample,
-#'                       'ZA7562_sample' = ZA7562_sample,
-#'                       'ZA7489_sample' = ZA7489_sample)
-#' panel_create (survey_list, id_vars =c("uniqid", "doi") )
+#' id_create (dat=ZA7576_sample, id_vars =c("uniqid", "doi") )
 #' @export
 
 id_create <- function (dat,
