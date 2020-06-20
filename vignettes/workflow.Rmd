@@ -231,11 +231,11 @@ This approach is not sensitive to missing questions.  If some trust questions ar
 
 ## Summary
 
-```{r}
+```{r, eval=TRUE}
 summary(demography_panel[, c(2:ncol(demography_panel))])
 ```
 
-```{r}
+```{r, eval=TRUE}
 summary(trust_panel[, c(2:9)])
 ```
 
