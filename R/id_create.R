@@ -8,7 +8,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom tidyselect all_of everything
 #' @return A tibble with the number of original ID vars and their
-#' \code{panel_id} as their concatenation.
+#' \code{panel_id} as their concatenation for a single survey.
 #' @family harmonization functions
 #' @examples
 #' data (ZA7576_sample)

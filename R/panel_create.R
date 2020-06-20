@@ -4,7 +4,7 @@
 #' @param id_vars A vector of ID variables to form a panel ID var,
 #' defaults to \code{c("uniqid", "doi")}.
 #' @return A tibble with the number of original ID vars and their
-#' \code{panel_id} as their concatenation.
+#' \code{panel_id} as their concatenation for several surveys.
 #' @family harmonization functions
 #' @examples
 #' data (ZA7576_sample)

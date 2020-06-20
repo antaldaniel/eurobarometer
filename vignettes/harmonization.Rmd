@@ -21,11 +21,12 @@ library(knitr)
 ```
 
 ## Class conversion
+
 We are using the SPSS file version of the GESIS archive and recommend reading in these files with the haven package.  Haven uses a special R class, `labelled`, to preserve the metadata information of the SPSS file.  While `labelled` provides a consistent and full representation of the SPSS file, it is not very useful for our purposes, because it mixes data with metadata in a way that is particular to the SPSS software.
 
 The data part is not particularly useful for statistical analysis and visualization in the labelled class. We are looking for a practical representation of each typical questionnaire form: for example, multiple response questions are represented by indicator / dummy variables, and single choice questions can be usually represented with factors.
 
-The metadata elements must be detached, harmonized and re-joined with the data.  For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: `Mentioned` and `Not Mentioned`, with rare exceptions.  We are re-coding them into numerical 1,0 values.   Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.
+The metadata elements must be detached, harmonized and re-joined with the data.  For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: `Mentioned` and `Not Mentioned`, with rare exceptions.  We are re-coding them into numerical 1,0 values. Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.
   
 ###Harmonization of variable types
 In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.
