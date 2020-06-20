@@ -18,6 +18,8 @@
 id_create <- function (dat,
                        id_vars ) {
 
+  . <- panel_id <- NULL
+
   if ( ! all(id_vars %in% names(dat)) ) {
     stop ( "Not (all) of ",
            paste ( id_vars, collapse = ", "),
