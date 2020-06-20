@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add standard NUTS2 codes. — code_nuts2 • eurobarometer</title>
+<title>Create A Unique ID — id_create • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,20 +39,8 @@
 
 
 
-<meta property="og:title" content="Add standard NUTS2 codes. — code_nuts2" />
-<meta property="og:description" content="Currently works only with NUTS2010 (for years 2012-2014) and NUTS2013
-(for years 2015-2017). In the case of earlier and later data sets
-boundary changes may effect some regions. See
-[Eurostat History of NUTS](http://ec.europa.eu/eurostat/web/nuts/history).
-Small countries where Eurobarometer has NUT3 level data are aggregated
-to NUTS2 (Croatia, Ireland, Latvia, Lithuania, Slovenia). Malta, Cyprus
-and Luxembourg receive an auxilliary code MT00, CY00, LU00.
-In the United Kingdom, NUTS2 level data is available only for Northern
-Ireland. The country code of the United Kingdom in the GESIS files is
-GB, but in the NUTS2 vocubulary it is UK.
-In Germany, France, Italy and the United Kingdom only NUTS1 level data
-is available.
-The region codes of Greece (GR) start with EL." />
+<meta property="og:title" content="Create A Unique ID — id_create" />
+<meta property="og:description" content="Create A Unique ID" />
 
 
 
@@ -150,53 +138,55 @@ The region codes of Greece (GR) start with EL." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add standard NUTS2 codes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/code_nuts2.R'><code>R/code_nuts2.R</code></a></small>
-    <div class="hidden name"><code>code_nuts2.Rd</code></div>
+    <h1>Create A Unique ID</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/id_create.R'><code>R/id_create.R</code></a></small>
+    <div class="hidden name"><code>id_create.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Currently works only with NUTS2010 (for years 2012-2014) and NUTS2013
-(for years 2015-2017). In the case of earlier and later data sets
-boundary changes may effect some regions. See
-[Eurostat History of NUTS](http://ec.europa.eu/eurostat/web/nuts/history).
-Small countries where Eurobarometer has NUT3 level data are aggregated
-to NUTS2 (Croatia, Ireland, Latvia, Lithuania, Slovenia). Malta, Cyprus
-and Luxembourg receive an auxilliary code MT00, CY00, LU00.
-In the United Kingdom, NUTS2 level data is available only for Northern
-Ireland. The country code of the United Kingdom in the GESIS files is
-GB, but in the NUTS2 vocubulary it is UK.
-In Germany, France, Italy and the United Kingdom only NUTS1 level data
-is available.
-The region codes of Greece (GR) start with EL.</p>
+    <p>Create A Unique ID</p>
     </div>
 
-    <pre class="usage"><span class='fu'>code_nuts2</span>(<span class='kw'>country_code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>region_nuts_names</span>, <span class='kw'>nuts_code</span> <span class='kw'>=</span> <span class='st'>"code10"</span>)</pre>
+    <pre class="usage"><span class='fu'>id_create</span>(<span class='no'>dat</span>, <span class='no'>id_vars</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>country_code</th>
-      <td><p>To avoid ambigouity with NUTS name coding, provide country
-codes, if applicable. There are a few ambigous names in Europe.</p></td>
+      <th>dat</th>
+      <td><p>A data frames containing one survey.</p></td>
     </tr>
     <tr>
-      <th>region_nuts_names</th>
-      <td><p>A region_nuts_names column from a GESIS file.</p></td>
-    </tr>
-    <tr>
-      <th>nuts_code</th>
-      <td><p>Currently only <code>code10</code> and <code>code13</code>
-is supported.</p></td>
+      <th>id_vars</th>
+      <td><p>A vector of ID variables to form a panel ID var,
+defaults to <code><a href='https://rdrr.io/r/base/c.html'>c("uniqid", "doi")</a></code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble with the number of original ID vars and their
+<code>panel_id</code> as their concatenation.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>panel_create</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>code_nuts2</span>  (<span class='kw'>region_nuts_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tirol"</span>, <span class='st'>"Praha"</span>, <span class='fl'>NA</span>))</div><div class='output co'>#&gt; [1] "AT33" "CZ01"</div><div class='input'>
-<span class='fu'>code_nuts2</span>  (<span class='kw'>region_nuts_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tirol"</span>, <span class='st'>"Praha"</span>, <span class='st'>"MALTA"</span>))</div><div class='output co'>#&gt; [1] "AT33" "CZ01" "MT00"</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7576_sample</span>)
+<span class='fu'>id_create</span> (<span class='kw'>dat</span><span class='kw'>=</span><span class='no'>ZA7576_sample</span>, <span class='kw'>id_vars</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>) )</div><div class='output co'>#&gt; # A tibble: 6,579 x 3
+#&gt;    panel_id                         uniqid    doi                
+#&gt;    &lt;chr&gt;                            &lt;chr&gt;     &lt;chr&gt;              
+#&gt;  1 1_200000291_doi_10_4232_1_13393  200000291 doi:10.4232/1.13393
+#&gt;  2 2_200000299_doi_10_4232_1_13393  200000299 doi:10.4232/1.13393
+#&gt;  3 3_200000313_doi_10_4232_1_13393  200000313 doi:10.4232/1.13393
+#&gt;  4 4_200000314_doi_10_4232_1_13393  200000314 doi:10.4232/1.13393
+#&gt;  5 5_200000326_doi_10_4232_1_13393  200000326 doi:10.4232/1.13393
+#&gt;  6 6_200000330_doi_10_4232_1_13393  200000330 doi:10.4232/1.13393
+#&gt;  7 7_200000333_doi_10_4232_1_13393  200000333 doi:10.4232/1.13393
+#&gt;  8 8_200000362_doi_10_4232_1_13393  200000362 doi:10.4232/1.13393
+#&gt;  9 9_200000365_doi_10_4232_1_13393  200000365 doi:10.4232/1.13393
+#&gt; 10 10_200000374_doi_10_4232_1_13393 200000374 doi:10.4232/1.13393
+#&gt; # ... with 6,569 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

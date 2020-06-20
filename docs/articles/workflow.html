@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -124,16 +124,15 @@
 <a href="#reading-in-the-files" class="anchor"></a>Reading in the files</h2>
 <p>Working with native SPSS files is extremely slow, and I think it would make sense to first read and re-save them as .rds files or .rda files.</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">import_file_names</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
-<span class="st">'ZA7576_sample'</span>,<span class="st">'ZA7562_sample'</span>,<span class="st">'ZA7489_sample'</span>
-)
+<span class="st">'ZA7576_sample'</span>,<span class="st">'ZA7562_sample'</span>)
 
-<span class="no">survey_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_surveys.html">read_surveys</a></span> (
+<span class="no">my_survey_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_surveys.html">read_surveys</a></span> (
    <span class="no">import_file_names</span>, <span class="kw">.f</span> <span class="kw">=</span> <span class="st">'read_example_file'</span> )</pre></body></html></div>
 </div>
 <div id="analyze-the-metadata-in-the-surveys" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analyze-the-metadata-in-the-surveys" class="anchor"></a>Analyze the metadata in the surveys</h2>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">my_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>( <span class="no">survey_list</span> )
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">my_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>( <span class="no">my_survey_list</span> )
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_metadata</span>)
 <span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
 <span class="co">#&gt;  [4] "var_label_orig"     "var_label_norm"     "var_name_suggested"</span>
@@ -547,92 +546,92 @@ numeric
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co">## filter out the most basic and omnipresent id variables, and the</span>
 <span class="co">## most basic weights, w1 and its projected version wex</span>
 
-<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/panel_create.html">panel_create</a></span> ( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">survey_list</span>,
+<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/panel_create.html">panel_create</a></span> ( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
                <span class="co">## must be at least two, and one must be the uniqid</span>
                <span class="co">## of the file or row_id </span>
-                          <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"filename"</span>)
+                          <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>)
                )
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_panel</span>)
-<span class="co">#&gt; [1] "panel_id" "uniqid"   "filename"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "panel_id" "uniqid"   "doi"</span></pre></body></html></div>
 <p>Let’s have a look at 6 randomly selected rows:</p>
 <table class="table table table-striped table-hover table-condensed">
 <thead><tr>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 panel_id
 </th>
-<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 uniqid
 </th>
 <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
-filename
+doi
 </th>
 </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-390001748_za7576_sample
-</td>
-<td style="text-align:right;">
-390001748
+2724_320000470_doi_10_4232_1_13318
 </td>
 <td style="text-align:left;">
-ZA7576_sample
+320000470
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-630000929_za7489_sample
-</td>
-<td style="text-align:right;">
-630000929
+2111_220002220_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-ZA7489_sample
+220002220
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-999999999_za7489_sample
+1635_220000459_doi_10_4232_1_13318
 </td>
-<td style="text-align:right;">
+<td style="text-align:left;">
+220000459
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6130_999999999_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
 999999999
 </td>
 <td style="text-align:left;">
-ZA7489_sample
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-999999999_za7562_sample
-</td>
-<td style="text-align:right;">
-999999999
+2228_220002661_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-ZA7562_sample
+220002661
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-350000648_za7576_sample
-</td>
-<td style="text-align:right;">
-350000648
+3878_350001607_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-ZA7576_sample
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-220000754_za7489_sample
-</td>
-<td style="text-align:right;">
-220000754
+350001607
 </td>
 <td style="text-align:left;">
-ZA7489_sample
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
 </td>
 </tr>
 </tbody>
@@ -642,64 +641,80 @@ ZA7489_sample
 <div id="harmonizing-various-aspects-of-the-survey" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonizing-various-aspects-of-the-survey" class="anchor"></a>Harmonizing various aspects of the survey</h2>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">## this is how I would envision a pipeline to join various survey </span>
-<span class="co">## files with limited number of variables, ending in a </span>
-<span class="co">## a panel of data stretching across several surveys (time)</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r">
+<span class="no">id_panel</span>        <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
+                   <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+                   <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
+                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"id"</span>,
+                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
 
-<span class="no">my_panel</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
-               <span class="fu">harmonize_demography</span> (
-                 <span class="co">#harmonizes variables identified by survey rename</span>
-                 <span class="co">#with the help of demography_table</span>
-                          <span class="no">working_metadata</span>,
-                          <span class="no">working_dir</span>),
-               <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
-               ) <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
-               <span class="fu">harmonize_metadata</span>  (
-                 <span class="co"># harmonizes variables identified by survey rename</span>
-                 <span class="co"># with the help of survey_metadata_table</span>
-                 <span class="co"># such as date, people present, etc.</span>
-                          <span class="no">working_metadata</span>,
-                          <span class="no">working_dir</span>),
-               <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
-               ) <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
-               <span class="fu">harmonize_qb</span> (
-                 <span class="co"># harmonizes variables identified by survey rename</span>
-                 <span class="co"># from a particular question block</span>
-                 <span class="co"># table part of the package </span>
-                          <span class="no">working_metadata</span>,
-                          <span class="no">working_dir</span>,
-                          <span class="kw">harmonize_table</span> <span class="kw">=</span> <span class="no">trust_table</span>),
-               <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
-               ) <span class="kw">%&gt;%</span>
-   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
-               <span class="fu">harmonize_qb</span> (
-                 <span class="co"># harmonizes variables identified by survey rename</span>
-                 <span class="co"># from a particular question block</span>
-                 <span class="co"># designed by the user </span>
-                          <span class="no">working_metadata</span>,
-                          <span class="no">working_dir</span>,
-                          <span class="kw">harmonize_table</span> <span class="kw">=</span> <span class="no">user_table_1</span> ),
-               <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id_uniq"</span>, <span class="st">"filename"</span>)
-               ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
-    <span class="co"># if only a few survey files had trust variables, then many </span>
-    <span class="co"># trust_vars are missing, chose one for filtering</span>
-    !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">my_trust_var</span>)
-    )</pre></body></html></div>
-<p>The advantage of this workflow is that we can separately work on the <code>demography_table</code>, <code>survey_metadata_table</code>, <code>trust_table</code>.</p>
-<p>The <code>harmonize_metadata</code> and the <code>harmonize_demography</code> are just pre-set wrappers around the <code>harmonize_qb</code>. With the help ofa vignette <a href="http://eurobarometer.danielantal.eu/articles/vocabulary.html">vocabulary</a>, the user can set up her own <code>user_table_1</code>.</p>
+<span class="no">demography_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
+                   <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+                   <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
+                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"socio-demography"</span>,
+                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
+
+<span class="no">trust_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
+                  <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"trust"</span>,
+                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
+<span class="co">#&gt; Warning in harmonize_qb_vars(survey_list = my_survey_list, metadata =</span>
+<span class="co">#&gt; my_metadata, : The survey in position 2 of the input list contains no 'trust'</span>
+<span class="co">#&gt; variables.</span>
+
+<span class="no">weight_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"weights"</span>,
+                   <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
+                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
+
+<span class="no">metadata_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"metadata"</span>,
+                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )</pre></body></html></div>
+<p>It is likely that your computer’s memory will not be enough to left_join these data tables, so bind them in long format:</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">panels</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span> ( <span class="no">trust_panel</span>,
+                 <span class="no">demography_panel</span>,
+                 <span class="no">weight_panel</span>,
+                 <span class="no">metadata_panel</span>)
+
+<span class="no">long_panels</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> (<span class="no">panels</span>,
+                 <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span> (
+                   <span class="no">x</span>, -<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="st">"panel_id"</span>) )
+                )
+
+<span class="no">panel_long</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(
+  <span class="no">rbind</span>, <span class="no">long_panels</span> )
+<span class="co">#&gt; Warning in `[&lt;-.factor`(`*tmp*`, ri, value = c(0.8193, 0.94248, 44468.738281, :</span>
+<span class="co">#&gt; invalid factor level, NA generated</span>
+
+<span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="no">panel_long</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span> () <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> ( <span class="no">id_panel</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="st">'panel_id'</span>  )</pre></body></html></div>
+<p>The advantage of this workflow is that we can separately work on the <code>demography_panel</code>, <code>metadata_panel</code>, <code>trust_panel</code>.</p>
 <p>The harmonize_qb in turn cares systematically for variables types, such as <em>multiple_choice_questions</em>, <em>two-level_factors</em>, <em>three-level_factors</em>, <em>numeric</em>, <em>character</em> for constants, etc.</p>
 <p>This approach is not sensitive to missing questions. If some trust questions are present in all files, and others only in a few, you will still get a full panel.</p>
+</div>
+<div id="summary" class="section level2">
+<h2 class="hasAnchor">
+<a href="#summary" class="anchor"></a>Summary</h2>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">demography_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="no">demography_panel</span>))])</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">trust_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fl">9</span>)])</pre></body></html></div>
 </div>
 <div id="work-documentation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#work-documentation" class="anchor"></a>Work Documentation</h2>
 <p>In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.</p>
 <p>We create a generic function <code>document_qb</code> that orders the variable renaming, value label harmonization, class convsersion steps into a neat table.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
 
 <span class="no">my_workflow</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
@@ -745,7 +760,7 @@ ZA7489_sample
     !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">my_trust_var</span>)
   )</pre></body></html></div>
 <p>Then it creates a standard html or latex table:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
+<div class="sourceCode" id="cb10"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
 ## kableExtra 
 ## that the user can follow up on
 
@@ -757,7 +772,7 @@ workflow_table ( my_workflow ) %&gt;%
 <h2 class="hasAnchor">
 <a href="#panel-summary" class="anchor"></a>Panel Summary</h2>
 <p>At last we help the user with documenting the panel a bit.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
 <span class="co">## stargazer or sjMisc or whatever we chose as a dependency </span>
 <span class="co">## about number of observations, mean, median values, missingness, </span>
 <span class="co">## etc. </span>

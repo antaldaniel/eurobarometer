@@ -6,7 +6,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add standard NUTS2 codes. — code_nuts2 • eurobarometer</title>
+<title>Harmonize A Question Block in Surveys
+
+Harmonize the variable names and the class of a question block. — harmonize_qb_vars • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,20 +41,11 @@
 
 
 
-<meta property="og:title" content="Add standard NUTS2 codes. — code_nuts2" />
-<meta property="og:description" content="Currently works only with NUTS2010 (for years 2012-2014) and NUTS2013
-(for years 2015-2017). In the case of earlier and later data sets
-boundary changes may effect some regions. See
-[Eurostat History of NUTS](http://ec.europa.eu/eurostat/web/nuts/history).
-Small countries where Eurobarometer has NUT3 level data are aggregated
-to NUTS2 (Croatia, Ireland, Latvia, Lithuania, Slovenia). Malta, Cyprus
-and Luxembourg receive an auxilliary code MT00, CY00, LU00.
-In the United Kingdom, NUTS2 level data is available only for Northern
-Ireland. The country code of the United Kingdom in the GESIS files is
-GB, but in the NUTS2 vocubulary it is UK.
-In Germany, France, Italy and the United Kingdom only NUTS1 level data
-is available.
-The region codes of Greece (GR) start with EL." />
+<meta property="og:title" content="Harmonize A Question Block in Surveys
+
+Harmonize the variable names and the class of a question block. — harmonize_qb_vars" />
+<meta property="og:description" content="Harmonize A Question Block in Surveys
+Harmonize the variable names and the class of a question block." />
 
 
 
@@ -150,53 +143,78 @@ The region codes of Greece (GR) start with EL." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add standard NUTS2 codes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/code_nuts2.R'><code>R/code_nuts2.R</code></a></small>
-    <div class="hidden name"><code>code_nuts2.Rd</code></div>
+    <h1>Harmonize A Question Block in Surveys
+
+Harmonize the variable names and the class of a question block.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/harmonize_qb_vars.R'><code>R/harmonize_qb_vars.R</code></a></small>
+    <div class="hidden name"><code>harmonize_qb_vars.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Currently works only with NUTS2010 (for years 2012-2014) and NUTS2013
-(for years 2015-2017). In the case of earlier and later data sets
-boundary changes may effect some regions. See
-[Eurostat History of NUTS](http://ec.europa.eu/eurostat/web/nuts/history).
-Small countries where Eurobarometer has NUT3 level data are aggregated
-to NUTS2 (Croatia, Ireland, Latvia, Lithuania, Slovenia). Malta, Cyprus
-and Luxembourg receive an auxilliary code MT00, CY00, LU00.
-In the United Kingdom, NUTS2 level data is available only for Northern
-Ireland. The country code of the United Kingdom in the GESIS files is
-GB, but in the NUTS2 vocubulary it is UK.
-In Germany, France, Italy and the United Kingdom only NUTS1 level data
-is available.
-The region codes of Greece (GR) start with EL.</p>
+    <p>Harmonize A Question Block in Surveys</p>
+<p>Harmonize the variable names and the class of a question block.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>code_nuts2</span>(<span class='kw'>country_code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>region_nuts_names</span>, <span class='kw'>nuts_code</span> <span class='kw'>=</span> <span class='st'>"code10"</span>)</pre>
+    <pre class="usage"><span class='fu'>harmonize_qb_vars</span>(
+  <span class='no'>survey_list</span>,
+  <span class='no'>metadata</span>,
+  <span class='kw'>id_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>),
+  <span class='kw'>question_block</span> <span class='kw'>=</span> <span class='st'>"socio-demography"</span>,
+  <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_suggested"</span>,
+  <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"class_suggested"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>country_code</th>
-      <td><p>To avoid ambigouity with NUTS name coding, provide country
-codes, if applicable. There are a few ambigous names in Europe.</p></td>
+      <th>survey_list</th>
+      <td><p>A list of data frames containing surveys.</p></td>
     </tr>
     <tr>
-      <th>region_nuts_names</th>
-      <td><p>A region_nuts_names column from a GESIS file.</p></td>
+      <th>metadata</th>
+      <td><p>A metadata table that contains <code>var_name_orig</code> and
+<code>qb</code> for the questions blocks, and <code>var_name_suggested</code> or
+its user defined alternative, <code>class_suggested</code> or its user defined
+alternative.</p></td>
     </tr>
     <tr>
-      <th>nuts_code</th>
-      <td><p>Currently only <code>code10</code> and <code>code13</code>
-is supported.</p></td>
+      <th>id_vars</th>
+      <td><p>A vector of ID variables to form a panel ID var,
+defaults to <code><a href='https://rdrr.io/r/base/c.html'>c("uniqid", "doi")</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>question_block</th>
+      <td><p>A user defined question block, or pre-defined
+question blocks: <code>"id"</code>, <code>"metadata"</code>, <code>"weights"</code>,
+<code>"socio-demography"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>var_name</th>
+      <td><p>Defaults to <code>var_name_suggested</code>. Must be
+a column in <code>metadata</code>.</p></td>
+    </tr>
+    <tr>
+      <th>conversion</th>
+      <td><p>Defaults to <code>class_suggested</code>. Must be
+a column in <code>metadata</code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>code_nuts2</span>  (<span class='kw'>region_nuts_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tirol"</span>, <span class='st'>"Praha"</span>, <span class='fl'>NA</span>))</div><div class='output co'>#&gt; [1] "AT33" "CZ01"</div><div class='input'>
-<span class='fu'>code_nuts2</span>  (<span class='kw'>region_nuts_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tirol"</span>, <span class='st'>"Praha"</span>, <span class='st'>"MALTA"</span>))</div><div class='output co'>#&gt; [1] "AT33" "CZ01" "MT00"</div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'>harmonize_qb_vars</span> (
+   <span class='no'>survey_list</span>,
+   <span class='no'>metadata</span>,
+   <span class='kw'>question_block</span> <span class='kw'>=</span> <span class='st'>"socio-demography"</span>,
+   <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_suggested"</span>,
+   <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"class_suggested"</span>
+   )
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
