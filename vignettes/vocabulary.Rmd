@@ -2,7 +2,7 @@
 title: "Working With Vocabularies"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vocabulary}
+  %\VignetteIndexEntry{Working With Vocabularies}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

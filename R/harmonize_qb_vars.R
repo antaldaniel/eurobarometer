@@ -42,7 +42,8 @@ harmonize_qb_vars <- function ( survey_list,
                                 conversion = "class_suggested" ) {
 
   id_vars_input <- id_vars
-  id_vars <- NULL
+  id_vars <- qb <- survey_subset <- var_name_orig <- NULL
+  panel_id <- NULL
 
   if ( ! "list" %in% class(survey_list) ) {
     if ( "data.frame" %in% class(survey_list) ) {
