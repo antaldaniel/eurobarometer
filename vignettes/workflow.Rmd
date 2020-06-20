@@ -162,6 +162,15 @@ This should return a very basic file for joining, a data.frame/tibble with
 ## Harmonizing various aspects of the survey
 
 ```{r, eval=TRUE}
+
+id_panel        <- harmonize_qb_vars( 
+                   survey_list = my_survey_list,
+                   metadata = my_metadata,
+                   id_vars = c("uniqid", "doi"),
+                   question_block = "id",
+                   var_name = "var_name_suggested",
+                   conversion = "class_suggested" ) 
+
 demography_panel <- harmonize_qb_vars( 
                    survey_list = my_survey_list,
                    metadata = my_metadata,
