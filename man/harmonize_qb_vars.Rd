@@ -37,7 +37,8 @@ a column in \code{metadata}.}
 a column in \code{metadata}.}
 }
 \value{
-A tibble
+A tibble containing all variables with harmonized names and
+classes, and a unique key column named \code{panel_id}.
 }
 \description{
 Harmonize A Question Block in Surveys
@@ -55,3 +56,9 @@ harmonize_qb_vars (
    )
 }
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{id_create}()},
+\code{\link{panel_create}()}
+}
+\concept{harmonization functions}

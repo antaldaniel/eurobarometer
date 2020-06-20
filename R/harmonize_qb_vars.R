@@ -19,7 +19,9 @@
 #' @importFrom purrr set_names
 #' @importFrom magrittr %>%
 #' @importFrom tidyselect all_of
-#' @return A tibble
+#' @return A tibble containing all variables with harmonized names and
+#' classes, and a unique key column named \code{panel_id}.
+#' @family harmonization functions
 #' @examples
 #' \dontrun{
 #' harmonize_qb_vars (

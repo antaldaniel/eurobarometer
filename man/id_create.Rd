@@ -24,5 +24,8 @@ data (ZA7576_sample)
 id_create (dat=ZA7576_sample, id_vars =c("uniqid", "doi") )
 }
 \seealso{
-panel_create
+Other harmonization functions: 
+\code{\link{harmonize_qb_vars}()},
+\code{\link{panel_create}()}
 }
+\concept{harmonization functions}

@@ -5,6 +5,7 @@
 #' defaults to \code{c("uniqid", "doi")}.
 #' @return A tibble with the number of original ID vars and their
 #' \code{panel_id} as their concatenation.
+#' @family harmonization functions
 #' @examples
 #' data (ZA7576_sample)
 #' data (ZA7562_sample)

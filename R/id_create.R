@@ -9,7 +9,7 @@
 #' @importFrom tidyselect all_of everything
 #' @return A tibble with the number of original ID vars and their
 #' \code{panel_id} as their concatenation.
-#' @seealso panel_create
+#' @family harmonization functions
 #' @examples
 #' data (ZA7576_sample)
 #' id_create (dat=ZA7576_sample, id_vars =c("uniqid", "doi") )

@@ -29,3 +29,9 @@ survey_list <- list ( 'ZA7576_sample' = ZA7576_sample,
                       'ZA7489_sample' = ZA7489_sample)
 panel_create (survey_list, id_vars =c("uniqid", "doi") )
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{harmonize_qb_vars}()},
+\code{\link{id_create}()}
+}
+\concept{harmonization functions}

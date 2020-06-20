@@ -14,6 +14,13 @@
 #' \code{\link{gesis_metadata_create}}
 #' \code{\link{gesis_vocabulary_create}}
 #' \code{\link{gesis_corpus_create}} is a wrapper the two former functions.
+#'
+#' @section harmonization functions:
+#' \code{\link{id_create}} creates truly unique IDs, and its wrapper
+#' \code{\link{panel_create}} creates a skeleton panel with unique
+#' \code{panel_id} and other identification variables.
+#' \code{\link{harmonize_qb_vars}} is harmonizing the names and classes of
+#' questions in a question block.
 #' @docType package
 #' @name eurobarometer
 NULL
