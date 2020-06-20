@@ -52,17 +52,16 @@ I do not see a lot of sense in automating this, because the new GESIS interface 
 Working with native SPSS files is extremely slow, and I think it would make sense to first read and re-save them as .rds files or .rda files.
 ```{r, eval=TRUE}
 import_file_names <- c(
-'ZA7576_sample','ZA7562_sample','ZA7489_sample'
-)
+'ZA7576_sample','ZA7562_sample')
 
-survey_list <- read_surveys (
+my_survey_list <- read_surveys (
    import_file_names, .f = 'read_example_file' )
 ```
 
 ## Analyze the metadata in the surveys
 
 ```{r, eval=TRUE}
-my_metadata <- gesis_metadata_create( survey_list )
+my_metadata <- gesis_metadata_create( my_survey_list )
 names(my_metadata)
 ```
 
@@ -138,10 +137,10 @@ my_metadata %>%
 ## filter out the most basic and omnipresent id variables, and the
 ## most basic weights, w1 and its projected version wex
 
-my_panel <- panel_create ( survey_list = survey_list, 
+my_panel <- panel_create ( survey_list = my_survey_list, 
                ## must be at least two, and one must be the uniqid
                ## of the file or row_id 
-                          id_vars = c("uniqid", "filename")
+                          id_vars = c("uniqid", "doi")
                )
 
 names(my_panel)
@@ -164,66 +163,74 @@ This should return a very basic file for joining, a data.frame/tibble with
 
 ## Harmonizing various aspects of the survey
 
-```{r}
-## this is how I would envision a pipeline to join various survey 
-## files with limited number of variables, ending in a 
-## a panel of data stretching across several surveys (time)
+```{r, eval=TRUE}
+demography_panel <- harmonize_qb_vars( 
+                   survey_list = my_survey_list,
+                   metadata = my_metadata,
+                   id_vars = c("uniqid", "doi"),
+                   question_block = "socio-demography",
+                   var_name = "var_name_suggested",
+                   conversion = "class_suggested" ) 
 
-my_panel %>%
-  left_join ( 
-               harmonize_demography ( 
-                 #harmonizes variables identified by survey rename
-                 #with the help of demography_table
-                          working_metadata, 
-                          working_dir), 
-               by = c("id_uniq", "filename")
-               ) %>%
-   left_join ( 
-               harmonize_metadata  ( 
-                 # harmonizes variables identified by survey rename
-                 # with the help of survey_metadata_table
-                 # such as date, people present, etc.
-                          working_metadata, 
-                          working_dir), 
-               by = c("id_uniq", "filename")
-               ) %>%
-   left_join ( 
-               harmonize_qb ( 
-                 # harmonizes variables identified by survey rename
-                 # from a particular question block
-                 # table part of the package 
-                          working_metadata, 
-                          working_dir, 
-                          harmonize_table = trust_table), 
-               by = c("id_uniq", "filename")
-               ) %>%
-   left_join ( 
-               harmonize_qb ( 
-                 # harmonizes variables identified by survey rename
-                 # from a particular question block
-                 # designed by the user 
-                          working_metadata, 
-                          working_dir, 
-                          harmonize_table = user_table_1 ), 
-               by = c("id_uniq", "filename")
-               ) %>% 
-  filter (
-    # if only a few survey files had trust variables, then many 
-    # trust_vars are missing, chose one for filtering
-    !is.na(my_trust_var)
-    )
+trust_panel <- harmonize_qb_vars( 
+                  survey_list = my_survey_list,
+                   metadata = my_metadata,
+                   question_block = "trust",
+                   var_name = "var_name_suggested",
+                   conversion = "class_suggested" ) 
+   
+weight_panel <- harmonize_qb_vars( survey_list = my_survey_list,
+                   metadata = my_metadata,
+                   question_block = "weights",
+                   id_vars = c("uniqid", "doi"),
+                   var_name = "var_name_suggested",
+                   conversion = "class_suggested" )
 
+metadata_panel <- harmonize_qb_vars( survey_list = my_survey_list,
+                   metadata = my_metadata,
+                   question_block = "metadata",
+                   var_name = "var_name_suggested",
+                   conversion = "class_suggested" ) 
+```   
+
+It is likely that your computer's memory will not be enough to left_join these data tables, so bind them in long format:
+
+```{r, eval=TRUE}
+panels <- list ( trust_panel,
+                 demography_panel, 
+                 weights_panel, 
+                 metadata_panel)
+
+long_panels <- lapply (panels,
+                 function(x) tidyr::pivot_longer (
+                   x, -all_of("panel_id") )
+                )
+
+panel_long <- do.call(
+  rbind, long_panels )
+
+my_panel <- panel_long %>%
+  tidyr::pivot_wider () %>%
+  left_join ( id_panel, by = 'panel_id'  )
 ```
 
 
 The advantage of this workflow is that we can separately work on the 
-`demography_table`, `survey_metadata_table`, `trust_table`.
-
-The `harmonize_metadata` and the `harmonize_demography` are just pre-set wrappers around the `harmonize_qb`.  With the help ofa vignette [vocabulary](http://eurobarometer.danielantal.eu/articles/vocabulary.html), the user can set up her own `user_table_1`.
+`demography_panel`, `metadata_panel`, `trust_panel`.
 
 The harmonize_qb in turn cares systematically for variables types, such as _multiple_choice_questions_,  _two-level_factors_, _three-level_factors_, _numeric_, _character_ for constants, etc.
 
 This approach is not sensitive to missing questions.  If some trust questions are present in all files, and others only in a few, you will still get a full panel.
+
+## Summary
+
+```{r}
+summary(demography_panel[, c(2:ncol(demography_panel))])
+```
+
+```{r}
+summary(trust_panel[, c(2:9)])
+```
 
 ## Work Documentation
 

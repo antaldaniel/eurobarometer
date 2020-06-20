@@ -29,19 +29,32 @@ id_create <- function (dat,
            " present in <dat>.")
   }
 
+  first_id_var <- id_vars[1]
+  last_id_var <- id_vars[length(id_vars)]
+
   tmp <- dat %>%
-    select ( all_of ( id_vars ))
+    select ( all_of ( id_vars )) %>%
+    mutate_all ( as.character )
 
   if ( nrow(tmp) == 0 ) {
     stop ( "The id_vars are not present in the rows." )
   }
 
-  tmp %>%
+  tmp <- tmp %>%
     tidyr::unite ( col = 'panel_id',
-                   all_of(id_vars), remove=FALSE ) %>%
-    mutate ( panel_id = label_normalize(panel_id))
+                   !!first_id_var:!!last_id_var, remove=FALSE ) %>%
+    mutate ( panel_id = gsub("[^[:alnum:] ]", "_", panel_id)) %>%
+    select ( panel_id, everything())
 
+  unicity_test <- tmp %>% summarize_all ( n_unique )
+
+  if ( unicity_test$panel_id < nrow(tmp) ) {
+    #warning("The id_vars=c('", paste(id_vars, collapse = "', '"),
+    #        "') do not form unique IDs, row number is added as a prefix.")
+
+    tmp$panel_id <- paste0(1:nrow(tmp), "_", tmp$panel_id)
+  }
+
+  tmp
 }
-
-dat <- survey_list[[1]]
 
