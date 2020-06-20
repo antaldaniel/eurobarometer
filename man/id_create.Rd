@@ -21,11 +21,8 @@ Create A Unique ID
 }
 \examples{
 data (ZA7576_sample)
-data (ZA7562_sample)
-data (ZA7489_sample)
-
-survey_list <- list ( 'ZA7576_sample' = ZA7576_sample,
-                      'ZA7562_sample' = ZA7562_sample,
-                      'ZA7489_sample' = ZA7489_sample)
-panel_create (survey_list, id_vars =c("uniqid", "doi") )
+id_create (dat=ZA7576_sample, id_vars =c("uniqid", "doi") )
+}
+\seealso{
+panel_create
 }

@@ -26,6 +26,9 @@ importing functions in vignette examples and unit tests.
 * `gesis_metadata_create()` is replaced with the more generic `read_surveys()`.
 * Started continuous integration on Travis-CI. 
 
+# eurobarometer 0.1.3
+* `id_create` tests unicity and `panel_create` is a wrapper around it.
+
 # Foreseen changes
 
 * `code_nuts1()` and `code_nuts2()` will be deprecated, and included in the [regions](http://regions.danielantal.eu/) package.  A vignette will connect the two packages.

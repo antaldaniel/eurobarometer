@@ -3,10 +3,10 @@
 #' @param dat A data frames containing one survey.
 #' @param id_vars A vector of ID variables to form a panel ID var,
 #' defaults to \code{c("uniqid", "doi")}.
-#' @importFrom dplyr select mutate
+#' @importFrom dplyr select mutate summarize_all
 #' @importFrom tidyr unite
 #' @importFrom magrittr %>%
-#' @importFrom tidyselect all_of
+#' @importFrom tidyselect all_of everything
 #' @return A tibble with the number of original ID vars and their
 #' \code{panel_id} as their concatenation.
 #' @examples
@@ -31,6 +31,8 @@ id_create <- function (dat,
 
   first_id_var <- id_vars[1]
   last_id_var <- id_vars[length(id_vars)]
+
+  n_unique <- function(x) length(unique(x))
 
   tmp <- dat %>%
     select ( all_of ( id_vars )) %>%
