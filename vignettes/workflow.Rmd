@@ -196,7 +196,7 @@ It is likely that your computer's memory will not be enough to left_join these d
 ```{r, eval=TRUE}
 panels <- list ( trust_panel,
                  demography_panel, 
-                 weights_panel, 
+                 weight_panel, 
                  metadata_panel)
 
 long_panels <- lapply (panels,
