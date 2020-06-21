@@ -17,9 +17,9 @@ A data frame with 4743 observations and 14 variables:
   \item{n_categories}{The original number of categories}
   \item{val_label_norm}{A normalized version of the value labels}
   \item{val_label_orig}{The original value label}
-  \item{var_numeric_orig}{The original numeric value}
-  \item{var_order_alpha}{Sorted order of the value label}
-  \item{var_order_length}{Total number of value labels of the variable}
+  \item{val_numeric_orig}{The original numeric value}
+  \item{val_order_alpha}{Sorted order of the value label}
+  \item{val_order_length}{Total number of value labels of the variable}
   \item{var_label_orig}{The original variable label in SPSS}
   }
 }
