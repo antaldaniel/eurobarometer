@@ -31,6 +31,7 @@ panel_create (survey_list, id_vars =c("uniqid", "doi") )
 }
 \seealso{
 Other harmonization functions: 
+\code{\link{convert_class}()},
 \code{\link{harmonize_qb_vars}()},
 \code{\link{id_create}()}
 }

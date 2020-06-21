@@ -18,6 +18,7 @@
 #' @importFrom dplyr filter select mutate_all bind_cols
 #' @importFrom tidyselect all_of
 #' @importFrom labelled to_factor
+#' @family harmonization functions
 #' @export
 
 convert_class <- function(dat, metadata,

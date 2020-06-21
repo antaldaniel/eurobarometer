@@ -36,3 +36,10 @@ sample_metadata <- gesis_metadata_create(dat = sample)
 convert_class ( dat = sample, metadata = sample_metadata)
 }
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{harmonize_qb_vars}()},
+\code{\link{id_create}()},
+\code{\link{panel_create}()}
+}
+\concept{harmonization functions}
