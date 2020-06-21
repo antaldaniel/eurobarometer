@@ -60,15 +60,21 @@ The procedure involves four steps:
 `val_label_norm`: value label normalized with `label_normalize()`
 
 
-```{r}
+```{r, eval=FALSE}
 # Avoid changes in the working directory when building vignettes:
 metadata_rel_path_from_root <- find_root_file(
   "data-raw", "eb_metadata_database_large.rds", 
   criterion = has_file("DESCRIPTION"))
 
-metadata_database <-  readRDS( metadata_rel_path_from_root )
+metadata_database <- readRDS( metadata_rel_path_from_root )
 ```
 
+
+```{r}
+data("metadata_filter_example")
+metadata_database <- metadata_filter_example
+rm(metadata_filter_example)
+```
 ## Selection of variables
 
 This is an iterative process.
