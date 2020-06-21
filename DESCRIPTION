@@ -47,5 +47,6 @@ Suggests:
     knitr,
     rmarkdown,
     covr,
-    kableExtra
+    kableExtra,
+    rprojroot
 VignetteBuilder: knitr
