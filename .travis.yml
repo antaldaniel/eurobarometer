@@ -7,9 +7,13 @@ r:
 - release
 - oldrel
 
+os: osx
+osx_image: xcode11.6
+latex: false
+
 dist: trusty
 sudo: required
-group: edge
+
 warnings_are_errors: false
 
 notifications:
@@ -17,14 +21,6 @@ notifications:
     - daniel.antal@ceemid.eu
 
 warnings_are_errors: false
-
-r_binary_packages:
-  - devtools
-  - Rcpp
-  - RcppEigen
-  - roxygen2
-  - stringi
-
 
 r_packages:
   - backports
@@ -66,8 +62,6 @@ r_check_args: --no-build-vignettes --no-manual
 
 before_install:
   - pip install --user codecov
-
-
 
 after_success:
   - R -q -e 'covr::codecov(quiet = FALSE)'
