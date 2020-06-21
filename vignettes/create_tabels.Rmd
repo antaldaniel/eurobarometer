@@ -20,6 +20,7 @@ library(dplyr)
 library(tibble)
 library(knitr)
 library(kableExtra)
+library(rprojroot)
 # The examples of this vignette can be found run with  
 # source(
 #  file.path("not_included", "vignette_vocabulary_examples.R")
@@ -60,15 +61,12 @@ The procedure involves four steps:
 
 
 ```{r}
-if (dir.exists('data-raw')) {
-  metadata_database <-  readRDS( 
-    file.path('data-raw',
-              'eb_metadata_database_large.rds')) 
-} else {
-  metadata_database <-  readRDS( 
-    file.path('..', 'data-raw',
-              'eb_metadata_database_large.rds')) 
-}
+# Avoid changes in the working directory when building vignettes:
+metadata_rel_path_from_root <- find_root_file(
+  "data-raw", "eb_metadata_database_large.rds", 
+  criterion = has_file("DESCRIPTION"))
+
+metadata_database <-  readRDS( metadata_rel_path_from_root )
 ```
 
 ## Selection of variables
