@@ -40,6 +40,7 @@ r_github_packages:
   - jimhester/covr
 
 warnings_are_errors: false
+latex: false
 
 before_install:
   - pip install --user codecov
@@ -53,7 +54,6 @@ jobs:
      r: release
   - osx:
     osx_image: xcode11.6
-    latex: false
     r: release
   - os:
      linux:

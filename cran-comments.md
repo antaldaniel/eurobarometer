@@ -10,3 +10,5 @@
 0 errors | 0 warnings | 0 note
 
 * This is a new release.
+
+* CRAN win-builder (both release and devel) are suggesting that some URLs may not be valid in the vignettes; these URLs directly relate to the package website and they do work. 

@@ -19,4 +19,4 @@ BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageBuildArgs: --compact-vignettes=both
-PackageCheckArgs: --compact-vignettes=both
+PackageCheckArgs: _R_CHECK_CRAN_INCOMING_
