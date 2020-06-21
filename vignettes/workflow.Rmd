@@ -58,7 +58,7 @@ my_survey_list <- read_surveys (
    import_file_names, .f = 'read_example_file' )
 ```
 
-## Analyze the metadata in the surveys
+## Analyse the metadata in the surveys
 
 ```{r, eval=TRUE}
 my_metadata <- gesis_metadata_create( my_survey_list )
@@ -124,7 +124,7 @@ my_metadata %>%
 * The `id` groups serve only identification purposes, and will be used in the skeleton of the panel.
 * The `metadata` group relate to information about the responses. We include here the country ID because it determines the weight(s) to be used. 
 * The `weigths` group shows the weights calculated by Kantar or GESIS.
-* The `socio-demography` group shows **identified** socio-demography variables for which `eurobarometer` provides a built-in harmonization tool. There may be other variables that the research would like to add into this group by overrideing the `qb` value of certain question IDs.
+* The `socio-demography` group shows **identified** socio-demography variables for which `eurobarometer` provides a built-in harmonization tool. There may be other variables that the research would like to add into this group by overriding the `qb` value of certain question ids.
 * The `trust` group relates to a variable group covered by our example harmonization table `trust_table`.
 * The `not_identified` group contains variables for which we do not offer a full-scale built-in harmonization. However, some of our helper functions do help harmonizing these variables, too, but they require more manual programming work by the user.
 
@@ -243,7 +243,7 @@ summary(trust_panel[, c(2:9)])
 
 In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.
 
-We create a generic function  `document_qb` that orders the variable renaming, value label harmonization, class convsersion steps into a neat table. 
+We create a generic function  `document_qb` that orders the variable renaming, value label harmonization, class conversions steps into a neat table. 
 
 ```{r}
 ## This is how I envision the basic documentation workflow

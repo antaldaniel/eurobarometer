@@ -43,17 +43,17 @@ They are both referring back to [normalize_names](http://eurobarometer.danielant
 `factor_levels`: vector of value labels as a list (they have no fixed length)
 `n_categories`: total number of response options `= length(factor_levels)`   
 `class_suggested`: suggested conversion to an R class, it should correspond later to a conversion function, so that the researcher can just simply approve and get a correct R representation.  
-`filename`: original name of file as obtained from GESIS; it contains a disambigous version information, too.
+`filename`: original name of file as obtained from GESIS; it contains a unambiguous version information, too.
 `val_numeric_orig`: numeric value code (if available, empty otherwise)   
 `val_label_orig`: value label in the original dataset corresponding to a response option
 `val_label_norm`: value label normalized with `label_normalize()`
-`val_order_alpha`: alphabetical number (position) of response option in the set of value labels, aftering sorting with `sort()`. We use alphabetical order instead of `levels()` because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting. 
+`val_order_alpha`: alphabetical number (position) of response option in the set of value labels, after sorting with `sort()`. We use alphabetical order instead of `levels()` because levels may not be the same in different survey files, and we revert to a basic but unambiguous sorting. 
 `val_order_length`: **what's this, and why is it equal to `n_categories` - 1?**  
 
 
 **Can we also have the number of categories of non-missing response options? For binary variables this would be 2.**
 
-Thta is a very good question, and relates back to the treatment of `NA` vars.  `val_order_alpha` shows the distinct values after converting from `haven_labelled`, and `n_categories` the number of labels.  I fear that sometimes certain value labels have no numeric value in SPSS, and they convert to `NA`, in other cases they have a numeric value like `9` or `999` and they convert to a number. 
+That is a very good question, and relates back to the treatment of `NA` vars.  `val_order_alpha` shows the distinct values after converting from `haven_labelled`, and `n_categories` the number of labels.  I fear that sometimes certain value labels have no numeric value in SPSS, and they convert to `NA`, in other cases they have a numeric value like `9` or `999` and they convert to a number. 
 
 I believe that we must put the a lot of energies into understanding various forms of 'missingness' and refused answers, and come up with a coding that is practical for programmatic use, applicable in the R language, and gives a faithful representation of the original survey.
 
@@ -179,9 +179,9 @@ My approach would be this:
 
 4. A factor representation is useful if we want to use the ordinary scale of the variable. In this case we must make sure that at each table join, the number and ordering of the factor levels is consistent.
 
-5. I tend to belive that it is better to add back the ordinary scaling later, becasue it is not always necessary at all. (For example, the researcher may want to use this variables in PCA or select a few of them as indicators/dummies.) It is far more simple to give a character representation to these labels. 
+5. I tend to believe that it is better to add back the ordinary scaling later, because it is not always necessary at all. (For example, the researcher may want to use this variables in PCA or select a few of them as indicators/dummies.) It is far more simple to give a character representation to these labels. 
 
-* Another idea would be to have everything stored as string variables, which would ofrce the user to decide for themselves what they want to do.
+* Another idea would be to have everything stored as string variables, which would force the user to decide for themselves what they want to do.
 
 6. Manually find out what is going on with 	`tend_to_trust_7_8_in_qa8` `tend_not_to_trust_1_4_in_qa8`. If they can be safely treated as an exception and recoded to `tend_to_trust` and `tend_not_to_trust`, add them to the controlled vocabulary.
 
@@ -232,7 +232,7 @@ trust_table %>%
                        "Value Harmonization" = 3))
 ```
 
-As far as I see, this can be a bulding block of an important metadata table, for example, a table of two-level categories.  As far as I see it, this table is capable of harmonizing the two-level trust variables in all 28 Eurobarometers I checked.
+As far as I see, this can be a building block of an important metadata table, for example, a table of two-level categories.  As far as I see it, this table is capable of harmonizing the two-level trust variables in all 28 Eurobarometers I checked.
 
 The declined answers should be consistently added to the levels. Currently I used `NA_character_` in the character representation, but I think that a harmonized character version, such as the often used `declined` would be better. This could consistently treated as `NA_real_` in a suggested numerical representation, whenever that is applicable.
 
@@ -257,7 +257,7 @@ The `category_labels_2` should be extended by similar, two-level categorical var
 
 ## Harmonization of Variable Names
 
-Please review [Harmonizing Variable Names](http://eurobarometer.danielantal.eu/articles/harmonization.html) vignette.  Pull requests are welcome: if you want to make changes, or add details, please, modify the `variable_names.Rmd` file, and not the `.Rd` or `.html` or other compiled files.  If you are unsure that we are woking paralell, just make a copy of the file to `not_included` with your version.
+Please review [Harmonizing Variable Names](http://eurobarometer.danielantal.eu/articles/harmonization.html) vignette.  Pull requests are welcome: if you want to make changes, or add details, please, modify the `variable_names.Rmd` file, and not the `.Rd` or `.html` or other compiled files.  If you are unsure that we are working parallel, just make a copy of the file to `not_included` with your version.
 
 ```{r}
 trust_variable_table <- trust_with_decline %>%

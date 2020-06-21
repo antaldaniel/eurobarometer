@@ -39,7 +39,7 @@ package](https://doi.org/10.5281/zenodo.3825700).
 
 ## Installation
 
-At this moment you cannot install yest the packgae from
+At this moment you cannot install yet the package from
 [CRAN](https://CRAN.R-project.org), but there is a development version
 on [GitHub](https://github.com/):
 

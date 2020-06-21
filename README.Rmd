@@ -36,7 +36,7 @@ If you use `eurobarometer` in your work, please [cite the package](https://doi.o
 
 ## Installation
 
-At this moment you cannot install yest the packgae from [CRAN](https://CRAN.R-project.org), but there is a development version on [GitHub](https://github.com/):
+At this moment you cannot install yet the package from [CRAN](https://CRAN.R-project.org), but there is a development version on [GitHub](https://github.com/):
 
 ``` r
 # install.packages("devtools")
