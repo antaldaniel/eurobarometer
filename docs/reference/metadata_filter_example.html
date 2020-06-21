@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • eurobarometer</title>
+<title>Example file for the Creating Variable and Values Tables vignette — metadata_filter_example • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:title" content="Example file for the Creating Variable and Values Tables vignette — metadata_filter_example" />
+<meta property="og:description" content="Example file for the Creating Variable and Values Tables vignette" />
 
 
 
@@ -138,17 +138,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Example file for the Creating Variable and Values Tables vignette</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/data-metadata_filter_example.R'><code>R/data-metadata_filter_example.R</code></a></small>
+    <div class="hidden name"><code>metadata_filter_example.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>Example file for the Creating Variable and Values Tables vignette</p>
     </div>
 
-    <pre class="usage"><span class='no'>lhs</span> <span class='kw'>%&gt;%</span> <span class='no'>rhs</span></pre>
+    <pre class="usage"><span class='no'>metadata_filter_example</span></pre>
 
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 4743 observations and 14 variables:</p><dl'>
+  <dt>class_orig</dt><dd><p>The original variable class after importing with<code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code></p></dd>
+  <dt>var_name_orig</dt><dd><p>The original variable name in SPSS</p></dd>
+  <dt>var_label_norm</dt><dd><p>A normalized version of the variable labels</p></dd>
+  <dt>var_name_suggested</dt><dd><p>A partly canonized variable name.</p></dd>
+  <dt>factor_levels</dt><dd><p>A list of factor levels, i.e. value labels in SPSS</p></dd>
+  <dt>class_suggested</dt><dd><p>A suggested class conversion.</p></dd>
+  <dt>filename</dt><dd><p>The original file name</p></dd>
+  <dt>n_categories</dt><dd><p>The original number of categories</p></dd>
+  <dt>val_label_norm</dt><dd><p>A normalized version of the value labels</p></dd>
+  <dt>val_label_orig</dt><dd><p>The original value label</p></dd>
+  <dt>var_numeric_orig</dt><dd><p>The original numeric value</p></dd>
+  <dt>var_order_alpha</dt><dd><p>Sorted order of the value label</p></dd>
+  <dt>var_order_length</dt><dd><p>Total number of value labels of the variable</p></dd>
+  <dt>var_label_orig</dt><dd><p>The original variable label in SPSS</p></dd>
+  
+</dl>
 
 
   </div>

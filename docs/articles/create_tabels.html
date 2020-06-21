@@ -112,6 +112,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tibble</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">kableExtra</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rprojroot</span>)
 <span class="co"># The examples of this vignette can be found run with  </span>
 <span class="co"># source(</span>
 <span class="co">#  file.path("not_included", "vignette_vocabulary_examples.R")</span>
@@ -132,15 +133,15 @@
 <a href="#metadata" class="anchor"></a>Metadata</h2>
 <p><code>metadata_database</code> is a table with variable metadata created from Eurobarometer SPSS files. It has the following columns:</p>
 <p><code>var_name_orig</code>: variable name in the original dataset<br><code>class_orig</code>: column class in the original dataset<br><code>var_label_orig</code>: variable label in the original dataset<br><code>var_label_norm</code>: normalized variable label<br><code>var_name_suggested</code>: suggested variable label<br><code>factor_levels</code>: vector of value labels as a list (they have no fixed length)<br><code>n_categories</code>: total number of response options <code>= length(factor_levels)</code><br><code>class_suggested</code>: suggested conversion to an R class, it should correspond later to a conversion function, so that the researcher can just simply approve and get a correct R representation.<br><code>filename</code>: original name of file as obtained from GESIS; it contains a disambigous version information, too. <code>val_numeric_orig</code>: numeric value code (if available, empty otherwise)<br><code>val_label_orig</code>: value label in the original dataset corresponding to a response option <code>val_order_alpha</code>: alphabetical number (position) of response option in the set of value labels, aftering sorting with <code><a href="https://rdrr.io/r/base/sort.html">sort()</a></code> (we use alphabetical order instead of <code><a href="https://rdrr.io/r/base/levels.html">levels()</a></code> because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting)<br><code>val_order_length</code>:<br><code>val_label_norm</code>: value label normalized with <code><a href="../reference/label_normalize.html">label_normalize()</a></code></p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.exists</a></span>(<span class="st">'data-raw'</span>)) {
-  <span class="no">metadata_database</span> <span class="kw">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(
-    <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">'data-raw'</span>,
-              <span class="st">'eb_metadata_database_large.rds'</span>))
-} <span class="kw">else</span> {
-  <span class="no">metadata_database</span> <span class="kw">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(
-    <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">'..'</span>, <span class="st">'data-raw'</span>,
-              <span class="st">'eb_metadata_database_large.rds'</span>))
-}</pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Avoid changes in the working directory when building vignettes:</span>
+<span class="no">metadata_rel_path_from_root</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rprojroot/man/find_root_file.html">find_root_file</a></span>(
+  <span class="st">"data-raw"</span>, <span class="st">"eb_metadata_database_large.rds"</span>,
+  <span class="kw">criterion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/rprojroot/man/root_criterion.html">has_file</a></span>(<span class="st">"DESCRIPTION"</span>))
+
+<span class="no">metadata_database</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>( <span class="no">metadata_rel_path_from_root</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"metadata_filter_example"</span>)
+<span class="no">metadata_database</span> <span class="kw">&lt;-</span> <span class="no">metadata_filter_example</span>
+<span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span>(<span class="no">metadata_filter_example</span>)</pre></body></html></div>
 </div>
 <div id="selection-of-variables" class="section level2">
 <h2 class="hasAnchor">
@@ -150,7 +151,7 @@
 <h3 class="hasAnchor">
 <a href="#iteration-1" class="anchor"></a>Iteration 1</h3>
 <p>Let’s filter out questions with <code>trust</code> in their variable labels.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">select_metadata_vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">select_metadata_vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
   <span class="st">"filename"</span>, <span class="st">"var_name_orig"</span>, <span class="st">"var_label_orig"</span>,
   <span class="st">"var_label_norm"</span>, <span class="st">"val_label_orig"</span>, <span class="st">"val_label_norm"</span>,
   <span class="st">"val_numeric_orig"</span>, <span class="st">"val_order_alpha"</span>, <span class="st">"n_categories"</span>)
@@ -498,7 +499,7 @@ dk
 <div id="iteration-2" class="section level3">
 <h3 class="hasAnchor">
 <a href="#iteration-2" class="anchor"></a>Iteration 2</h3>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(
       <span class="st">"trust_in_institutions|trust_political_parties|_trust$"</span>,
@@ -842,7 +843,7 @@ tend_to_trust
 </tbody>
 </table>
 <p>Check how many unique response values do the selected variables have?</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">val_label_norm</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">val_label_norm</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">everything</a></span>()) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">n_categories</span>) <span class="kw">%&gt;%</span>
@@ -896,7 +897,7 @@ n
 </tbody>
 </table>
 <p>These variables have 2, 3 or 4, or as many as 13 unique response options. Let’s take a look at the one with 13 unique responses:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">n_categories</span> <span class="kw">==</span> <span class="fl">13</span>) <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
@@ -1319,11 +1320,11 @@ the_taxation_authorities
 <div id="iteration-3" class="section level3">
 <h3 class="hasAnchor">
 <a href="#iteration-3" class="anchor"></a>Iteration 3</h3>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>( ! ( <span class="no">filename</span> <span class="kw">==</span> <span class="st">"ZA3938_v1-0-1.sav"</span> <span class="kw">&amp;</span>
                 <span class="no">var_name_orig</span> <span class="kw">==</span> <span class="st">"v511"</span>)
           )</pre></body></html></div>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">val_label_norm</span>) <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
@@ -1536,7 +1537,7 @@ you_generally_do_not_trust_stories_published_on_online_social_networks
 <code>you generally do not trust stories published on online social networks</code> is a mystery.</li>
 </ul>
 <p>Let’s start with the mystery.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"you_generally_do_not_trust"</span>, <span class="no">val_label_norm</span>)
     ) <span class="kw">%&gt;%</span>
@@ -1607,12 +1608,12 @@ you_generally_do_not_trust_stories_published_on_online_social_networks
 <div id="iteration-4" class="section level3">
 <h3 class="hasAnchor">
 <a href="#iteration-4" class="anchor"></a>Iteration 4</h3>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>( ! ( <span class="no">filename</span> <span class="kw">==</span> <span class="st">"ZA6861_v1-2-0.sav"</span> <span class="kw">&amp;</span>
                 <span class="no">var_name_orig</span> <span class="kw">==</span> <span class="st">"qd5.6"</span>
               )
           )</pre></body></html></div>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">val_label_norm</span>) <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
@@ -1792,7 +1793,7 @@ tend_to_trust
 </tbody>
 </table>
 <p>Now let’s at the questions that have the <code>mentioned</code> - <code>not mentioned</code> response options. It’s not what we want.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">exclusions</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">exclusions</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">val_label_norm</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"mentioned"</span>, <span class="st">"not_mentioned"</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>() <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">filename</span>, <span class="no">var_name_orig</span>)
@@ -1813,13 +1814,13 @@ tend_to_trust
 <div id="iteration-5" class="section level3">
 <h3 class="hasAnchor">
 <a href="#iteration-5" class="anchor"></a>Iteration 5</h3>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">anti_join</a></span>(
     <span class="co"># with a filtering join exclude all from iteration 4</span>
     <span class="no">exclusions</span>,
     <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"filename"</span>, <span class="st">"var_name_orig"</span>)
     )</pre></body></html></div>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">val_label_norm</span>) <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
@@ -1988,7 +1989,7 @@ tend_to_trust
 <h2 class="hasAnchor">
 <a href="#standardizing-value-labels-across-questions" class="anchor"></a>Standardizing value labels across questions</h2>
 <p>Now we need to create a table with all value labels, as well as topics / variable types.</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">val_labels_trust</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">val_labels_trust</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">val_label_norm</span>)
 
 <span class="no">trust_vocabulary</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span> (
@@ -2000,7 +2001,7 @@ tend_to_trust
   <span class="kw">val_label_norm</span> <span class="kw">=</span> <span class="no">val_labels_trust</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span>(<span class="no">val_label_norm</span>),
   <span class="kw">level</span> <span class="kw">=</span> <span class="fl">3</span> <span class="co"># missingness should be harmonized in character form </span>
 )</pre></body></html></div>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">trust_vocabulary</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">trust_vocabulary</span> <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
                   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>, <span class="st">"condensed"</span>),
@@ -2277,7 +2278,7 @@ tend_to_trust
 </tbody>
 </table>
 <p>We add the harmonized values and labels, as well as a flag indicating whether the value is substantive of one of missing value codes, to create the <code>trust_values_table</code>.</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">trust_values_table</span> <span class="kw">&lt;-</span> <span class="no">trust_vocabulary</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">trust_values_table</span> <span class="kw">&lt;-</span> <span class="no">trust_vocabulary</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">character_value</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(
       <span class="co"># and create a surely harmonized character representation </span>
       <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"dk|inap|na"</span>, <span class="no">val_label_norm</span>) ~ <span class="fl">NA_character_</span>,
@@ -2296,7 +2297,7 @@ tend_to_trust
       <span class="fl">TRUE</span> ~ <span class="fl">FALSE</span>)
   ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">numeric_value</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb18"><html><body><pre class="r">
+<div class="sourceCode" id="cb19"><html><body><pre class="r">
 <span class="no">trust_values_table</span> <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
@@ -2749,7 +2750,7 @@ TRUE
 <h2 class="hasAnchor">
 <a href="#standardizing-variable-names" class="anchor"></a>Standardizing variable names</h2>
 <p>The <code>trust_variable_table</code> will include original and harmonized variable names, as well as keywords and topics to match with the <code>trust_values_table</code>.</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">trust_variable_table</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">trust_variable_table</span> <span class="kw">&lt;-</span> <span class="no">trust_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="no">val_label_norm</span> <span class="kw">%in%</span> <span class="no">trust_values_table</span>$<span class="no">val_label_norm</span>
     ) <span class="kw">%&gt;%</span>
@@ -2825,7 +2826,7 @@ TRUE
     ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">var_name_suggested</span>)</pre></body></html></div>
 <p>Let’s print the first 10 rows of the resulting table</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">trust_variable_table</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">trust_variable_table</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fl">10</span>) <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
@@ -3090,7 +3091,7 @@ trust, binary
 </tbody>
 </table>
 <p>How many different harmonized variables do we get? 54, each in between 1 and 42 Eurobarometer editions.</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">trust_variable_table</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">trust_variable_table</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span>(<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
   <span class="no">kable</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span>
