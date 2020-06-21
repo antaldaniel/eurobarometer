@@ -3,16 +3,24 @@
 language: R
 cache: packages
 
-r:
-- release
-- oldrel
+jobs:
+  include:
+  - os:
+     linux:
+     dist: trusty
+     sudo: required
+     r: release
+  - osx:
+    osx_image: xcode11.6
+    latex: false
+    r: release
+  - os:
+     linux:
+     dist: trusty
+     sudo: required
+     r: oldrel
 
-os: osx
-osx_image: xcode11.6
-latex: false
 
-dist: trusty
-sudo: required
 
 warnings_are_errors: false
 
