@@ -1,5 +1,9 @@
 #' eurobarometer: A package to create tidy Eurobarometer microdata files.
 #'
+#' The package eurobarometer has a number of related functions to
+#' analyze metadata; labelling variables with the help of metadata;
+#' harmonizing variable names, classes and labels.
+#'
 #' @section labelling functions:
 #' The naming functions make the GESIS SPSS files usable in a programmatic
 #' context.
@@ -19,6 +23,8 @@
 #' \code{\link{id_create}} creates truly unique IDs, and its wrapper
 #' \code{\link{panel_create}} creates a skeleton panel with unique
 #' \code{panel_id} and other identification variables.
+#' \code{\link{class_convert}} to make class conversions based on a
+#' metadata analyais.
 #' \code{\link{harmonize_qb_vars}} is harmonizing the names and classes of
 #' questions in a question block.
 #' @docType package

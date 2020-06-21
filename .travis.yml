@@ -3,9 +3,28 @@
 language: R
 cache: packages
 
+r:
+- release
+- oldrel
+
+dist: trusty
+sudo: required
+group: edge
+warnings_are_errors: false
+
 notifications:
   email:
     - daniel.antal@ceemid.eu
+
+warnings_are_errors: false
+
+r_binary_packages:
+  - devtools
+  - Rcpp
+  - RcppEigen
+  - roxygen2
+  - stringi
+
 
 r_packages:
   - backports
@@ -39,18 +58,15 @@ r_github_packages:
 
 env:
   global:
-  - WARNINGS_ARE_ERRORS=0
   - GITHUB_REPO: antaldaniel/eurobarometer
 
-r_build_args: "--no-resave-data"
-r_check_args: "--as-cran --no-build-vignettes"
+r_build_args: --no-build-vignettes --no-manual --no-resave-data
+r_check_args: --no-build-vignettes --no-manual
 
 before_install:
   - pip install --user codecov
 
-r:
-- release
-- oldrel
+
 
 after_success:
   - R -q -e 'covr::codecov(quiet = FALSE)'

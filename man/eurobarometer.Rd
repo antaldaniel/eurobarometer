@@ -4,6 +4,9 @@
 \name{eurobarometer}
 \alias{eurobarometer}
 \title{eurobarometer: A package to create tidy Eurobarometer microdata files.}
+\description{
+A package to work with surveys.
+}
 \section{labelling functions}{
 
 The naming functions make the GESIS SPSS files usable in a programmatic
