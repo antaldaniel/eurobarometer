@@ -52,7 +52,6 @@ r_packages:
 r_github_packages:
   - jimhester/covr
 
-
 env:
   global:
   - GITHUB_REPO: antaldaniel/eurobarometer
