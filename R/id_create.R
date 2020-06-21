@@ -29,7 +29,7 @@ id_create <- function (dat,
   first_id_var <- id_vars[1]
   last_id_var <- id_vars[length(id_vars)]
 
-  n_unique <- function(x) length(unique(x))
+  n_unique <- function(x) length( unique(x) )
 
   tmp <- dat %>%
     select ( all_of ( id_vars )) %>%
@@ -42,8 +42,8 @@ id_create <- function (dat,
   tmp <- tmp %>%
     tidyr::unite ( col = 'panel_id',
                    !!first_id_var:!!last_id_var, remove=FALSE ) %>%
-    mutate ( panel_id = gsub("[^[:alnum:] ]", "_", panel_id)) %>%
-    select ( panel_id, everything())
+    mutate ( panel_id = gsub("[^[:alnum:] ]", "_", panel_id) ) %>%
+    select ( panel_id, everything() )
 
   unicity_test <- tmp %>% summarize_all ( n_unique )
 
