@@ -49,14 +49,13 @@ jobs:
   include:
   - os:
      linux:
-     dist: trusty
-     sudo: required
-     r: release
-  - osx:
-    osx_image: xcode11.6
-    r: release
-  - os:
-     linux:
+       dist: trusty
+       sudo: required
+       r: release
+    osx:
+      osx_image: xcode11.6
+      r: release
+   linux:
      dist: trusty
      sudo: required
      r: oldrel
