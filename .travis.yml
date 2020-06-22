@@ -46,13 +46,12 @@ before_install:
   - pip install --user codecov
 
 os:
-  linux:
+  - linux:
      dist: trusty
      sudo: required
      r: release
-  osx:
+  - osx:
     osx_image: xcode11.6
-    r: release
 
 notifications:
   email:

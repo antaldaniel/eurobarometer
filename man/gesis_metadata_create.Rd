@@ -34,9 +34,9 @@ The structure of the returned tibble:
 }
 }
 \examples{
-\dontrun{
-##use your own file:
-tmp <- haven::read_spss( file.path(gesis_dir, gesis_file) )
+import_file_names <- c(
+  'ZA7576_sample','ZA5913_sample'
+)
+
 metadata <- gesis_metadata_create(tmp)
-}
 }

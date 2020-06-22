@@ -25,11 +25,11 @@
 #' @return A data frame with the original variable attributes and
 #' suggested conversions and changes.
 #' @examples
-#' \dontrun{
-#' ##use your own file:
-#' tmp <- haven::read_spss( file.path(gesis_dir, gesis_file) )
+#' import_file_names <- c(
+#'   'ZA7576_sample','ZA5913_sample'
+#' )
+#'
 #' metadata <- gesis_metadata_create(tmp)
-#' }
 #' @export
 
 gesis_metadata_create <- function ( survey_list ) {

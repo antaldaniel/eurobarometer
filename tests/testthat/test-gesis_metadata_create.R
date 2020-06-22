@@ -1,7 +1,7 @@
 library(testthat)
 
 import_file_names <- c(
-  'ZA7576_sample','ZA7562_sample','ZA7489_sample'
+  'ZA7576_sample','ZA5913_sample','ZA6863_sample'
 )
 
 survey_list_2 <- read_surveys (
@@ -9,7 +9,7 @@ survey_list_2 <- read_surveys (
 
 returned_metadata <- gesis_metadata_create( survey_list_2 )
 
-single_data_frame <- gesis_metadata_create( survey_list = ZA7489_sample )
+single_data_frame <- gesis_metadata_create( survey_list = ZA5913_sample )
 
 test_that("correct structure is returned", {
   expect_equal(names(returned_metadata),
