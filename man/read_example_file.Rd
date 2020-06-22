@@ -11,7 +11,7 @@ read_example_file(sample_file_name = "ZA7576_sample")
 }
 \arguments{
 \item{sample_file_name}{Any of \code{ZA7576_sample},
-\code{ZA7562_sample} or \code{ZA7489_sample}.}
+\code{ZA6863_sample} or \code{ZA5913_sample}.}
 }
 \description{
 Read A eurobarometer Package Example File

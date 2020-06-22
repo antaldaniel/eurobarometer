@@ -11,7 +11,7 @@
 #' constant column \code{filename}.
 #' @examples
 #' import_file_names <- c(
-#' 'ZA7576_sample','ZA7562_sample','ZA7489_sample'
+#' 'ZA7576_sample','ZA6863_sample','ZA5913_sample'
 #' )
 #' read_surveys (import_file_names, .f = 'read_example_file' )
 #' @export

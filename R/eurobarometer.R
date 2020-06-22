@@ -29,11 +29,20 @@
 #' questions in a question block.
 #'
 #' @section sample data files:
-#' \code{\link{ZA7489_sample}}
+#' \code{\link{ZA5913_sample}} A small subset of the ZA5913:
+#' Eurobarometer 81.2 (March 2014): Europeans in 2014,
+#' Financial and Economic Crisis, European Citizenship, and
+#' European Values survey.
 #'
-#' \code{\link{ZA7572_sample}}
+#' \code{\link{ZA6863_sample}} A small subset of the ZA6863:
+#' Standard Eurobarometer 87.3, May 2017 survey.
 #'
-#' \code{\link{ZA7576_sample}}
+#' \code{\link{ZA7576_sample}} A small subset of the ZA7576:
+#' Eurobarometer 91.5 (June-July 2019):
+#' Standard Eurobarometer, European Parliament
+#' Post-election survey 2019, and EU citizens and
+#' development cooperation survey.
+#'
 #' @docType package
 #' @name eurobarometer
 NULL
