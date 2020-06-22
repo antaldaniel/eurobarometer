@@ -45,20 +45,14 @@ latex: false
 before_install:
   - pip install --user codecov
 
-jobs:
-  include:
-  - os:
-     linux:
-       dist: trusty
-       sudo: required
-       r: release
-    osx:
-      osx_image: xcode11.6
-      r: release
-   linux:
+os:
+  linux:
      dist: trusty
      sudo: required
-     r: oldrel
+     r: release
+  osx:
+    osx_image: xcode11.6
+    r: release
 
 notifications:
   email:
