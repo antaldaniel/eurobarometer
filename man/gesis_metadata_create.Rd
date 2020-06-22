@@ -38,5 +38,9 @@ import_file_names <- c(
   'ZA7576_sample','ZA5913_sample'
 )
 
-metadata <- gesis_metadata_create(tmp)
+my_surveys <- read_surveys (
+    import_file_names,
+    .f = 'read_example_file' )
+
+metadata <- gesis_metadata_create(my_surveys)
 }
