@@ -139,7 +139,8 @@ ZA7576_sample <- ZA7576_sample [ ZA7576_sample$isocntry %in% c("PL", "HU",
                                               "GB"),]
 
 
-usethis::use_data(ZA5913_sample, ZA7576_sample, ZA6863_sample, overwrite = TRUE )
+usethis::use_data(ZA5913_sample, ZA7576_sample,
+                  ZA6863_sample, overwrite = TRUE )
 
 ZA5913_sample_documentation <- paste0(
   "item{",
