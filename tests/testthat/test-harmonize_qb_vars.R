@@ -1,6 +1,7 @@
 import_file_names <- c(
-  'ZA7576_sample','ZA7562_sample','ZA7489_sample'
+  'ZA7576_sample','ZA5913_sample','ZA6863_sample'
 )
+
 
 my_survey_list <- read_surveys (
   import_file_names, .f = 'read_example_file' )
@@ -31,8 +32,7 @@ test_that("data.frame converted to list and correctly returned", {
   expect_equal("data.frame" %in% class(data_frame_test ), TRUE)
 })
 
-
-test_that("error handling works", {
+test_that("error handling works in harmonize_qb_vars", {
   expect_error(harmonized_test <- harmonize_qb_vars (
     survey_list = my_survey_list,
     metadata = wrong_character_input,
@@ -64,7 +64,3 @@ test_that("error handling works", {
     var_name = "var_name_suggested",
     conversion = "class_suggested" ))
 })
-
-
-### remove large objects ----------------------------------
-rm (my_survey_list, my_metadata, wrong_character_input)
