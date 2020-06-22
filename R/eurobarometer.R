@@ -27,6 +27,13 @@
 #' metadata analyais.
 #' \code{\link{harmonize_qb_vars}} is harmonizing the names and classes of
 #' questions in a question block.
+#'
+#' @section sample data files:
+#' \code{\link{ZA7489_sample}}
+#'
+#' \code{\link{ZA7572_sample}}
+#'
+#' \code{\link{ZA7576_sample}}
 #' @docType package
 #' @name eurobarometer
 NULL

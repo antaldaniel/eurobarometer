@@ -39,3 +39,12 @@ metadata analyais.
 questions in a question block.
 }
 
+\section{sample data files}{
+
+\code{\link{ZA7489_sample}}
+
+\code{\link{ZA7572_sample}}
+
+\code{\link{ZA7576_sample}}
+}
+

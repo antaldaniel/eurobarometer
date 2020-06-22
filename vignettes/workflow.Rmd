@@ -52,7 +52,7 @@ I do not see a lot of sense in automating this, because the new GESIS interface 
 Working with native SPSS files is extremely slow, and I think it would make sense to first read and re-save them as .rds files or .rda files.
 ```{r, eval=TRUE}
 import_file_names <- c(
-'ZA7576_sample','ZA7562_sample')
+'ZA7576_sample','ZA6863_sample')
 
 my_survey_list <- read_surveys (
    import_file_names, .f = 'read_example_file' )

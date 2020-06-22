@@ -129,9 +129,9 @@
 <span class="no">my_survey_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_surveys.html">read_surveys</a></span> (
    <span class="no">import_file_names</span>, <span class="kw">.f</span> <span class="kw">=</span> <span class="st">'read_example_file'</span> )</pre></body></html></div>
 </div>
-<div id="analyze-the-metadata-in-the-surveys" class="section level2">
+<div id="analyse-the-metadata-in-the-surveys" class="section level2">
 <h2 class="hasAnchor">
-<a href="#analyze-the-metadata-in-the-surveys" class="anchor"></a>Analyze the metadata in the surveys</h2>
+<a href="#analyse-the-metadata-in-the-surveys" class="anchor"></a>Analyse the metadata in the surveys</h2>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">my_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>( <span class="no">my_survey_list</span> )
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_metadata</span>)
 <span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
@@ -535,7 +535,7 @@ numeric
 <li>The <code>id</code> groups serve only identification purposes, and will be used in the skeleton of the panel.</li>
 <li>The <code>metadata</code> group relate to information about the responses. We include here the country ID because it determines the weight(s) to be used.</li>
 <li>The <code>weigths</code> group shows the weights calculated by Kantar or GESIS.</li>
-<li>The <code>socio-demography</code> group shows <strong>identified</strong> socio-demography variables for which <code>eurobarometer</code> provides a built-in harmonization tool. There may be other variables that the research would like to add into this group by overrideing the <code>qb</code> value of certain question IDs.</li>
+<li>The <code>socio-demography</code> group shows <strong>identified</strong> socio-demography variables for which <code>eurobarometer</code> provides a built-in harmonization tool. There may be other variables that the research would like to add into this group by overriding the <code>qb</code> value of certain question ids.</li>
 <li>The <code>trust</code> group relates to a variable group covered by our example harmonization table <code>trust_table</code>.</li>
 <li>The <code>not_identified</code> group contains variables for which we do not offer a full-scale built-in harmonization. However, some of our helper functions do help harmonizing these variables, too, but they require more manual programming work by the user.</li>
 </ul>
@@ -570,21 +570,10 @@ doi
 <tbody>
 <tr>
 <td style="text-align:left;">
-5304_630000486_doi_10_4232_1_13393
+1323_999999999_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-630000486
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5672_630001030_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-630001030
+999999999
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
@@ -592,10 +581,10 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-2006_220001630_doi_10_4232_1_13318
+2126_220002030_doi_10_4232_1_13318
 </td>
 <td style="text-align:left;">
-220001630
+220002030
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
@@ -603,35 +592,46 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-4439_390000854_doi_10_4232_1_13393
+2208_220002185_doi_10_4232_1_13318
 </td>
 <td style="text-align:left;">
-390000854
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-220_200002088_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-200002088
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2506_220003180_doi_10_4232_1_13318
-</td>
-<td style="text-align:left;">
-220003180
+220002185
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+818_999999999_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
+999999999
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+687_999999999_doi_10_4232_1_13318
+</td>
+<td style="text-align:left;">
+999999999
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13318" class="uri">doi:10.4232/1.13318</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5706_630001075_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
+630001075
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
 </td>
 </tr>
 </tbody>
@@ -749,7 +749,7 @@ doi
 <h2 class="hasAnchor">
 <a href="#work-documentation" class="anchor"></a>Work Documentation</h2>
 <p>In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.</p>
-<p>We create a generic function <code>document_qb</code> that orders the variable renaming, value label harmonization, class convsersion steps into a neat table.</p>
+<p>We create a generic function <code>document_qb</code> that orders the variable renaming, value label harmonization, class conversions steps into a neat table.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
 
 <span class="no">my_workflow</span> <span class="kw">%&gt;%</span>
