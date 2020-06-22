@@ -63,6 +63,7 @@
 #'   \item{qg8}{NON-VOTERS - WHEN DECIDED NOT TO VOTE}
 #'   \item{w1}{WEIGHT RESULT FROM TARGET (REDRESSMENT)}
 #'   \item{w3}{WEIGHT GERMANY}
+#'   \item{wex}{WEIGHT EXTRAPOLATED POPULATION AGED 15+}
 #'   }
 #'   @source \href{https://www.gesis.org/index.php?id=12378}{Eurobarometer 91.5, June-July 2019, ZA No. 7576 on gesis.org}
 #'   @seealso \code{\link{label_normalize}} for text normalization and
