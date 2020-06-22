@@ -176,13 +176,14 @@ defaults to <code><a href='https://rdrr.io/r/base/c.html'>c("uniqid", "doi")</a>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7576_sample</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7562_sample</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA7489_sample</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA6863_sample</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> (<span class='no'>ZA5913_sample</span>)
 
 <span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> ( <span class='st'>'ZA7576_sample'</span> <span class='kw'>=</span> <span class='no'>ZA7576_sample</span>,
-                      <span class='st'>'ZA7562_sample'</span> <span class='kw'>=</span> <span class='no'>ZA7562_sample</span>,
-                      <span class='st'>'ZA7489_sample'</span> <span class='kw'>=</span> <span class='no'>ZA7489_sample</span>)
-<span class='fu'>panel_create</span> (<span class='no'>survey_list</span>, <span class='kw'>id_vars</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>) )</div><div class='output co'>#&gt; # A tibble: 18,266 x 3
+                      <span class='st'>'ZA6863_sample'</span> <span class='kw'>=</span> <span class='no'>ZA6863_sample</span>,
+                      <span class='st'>'ZA5913_sample'</span> <span class='kw'>=</span> <span class='no'>ZA5913_sample</span>)
+
+<span class='fu'>panel_create</span> (<span class='no'>survey_list</span>, <span class='kw'>id_vars</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>) )</div><div class='output co'>#&gt; # A tibble: 16,491 x 3
 #&gt;    panel_id                         uniqid    doi                
 #&gt;  * &lt;chr&gt;                            &lt;chr&gt;     &lt;chr&gt;              
 #&gt;  1 1_200000291_doi_10_4232_1_13393  200000291 doi:10.4232/1.13393
@@ -195,7 +196,7 @@ defaults to <code><a href='https://rdrr.io/r/base/c.html'>c("uniqid", "doi")</a>
 #&gt;  8 8_200000362_doi_10_4232_1_13393  200000362 doi:10.4232/1.13393
 #&gt;  9 9_200000365_doi_10_4232_1_13393  200000365 doi:10.4232/1.13393
 #&gt; 10 10_200000374_doi_10_4232_1_13393 200000374 doi:10.4232/1.13393
-#&gt; # ... with 18,256 more rows</div></pre>
+#&gt; # ... with 16,481 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

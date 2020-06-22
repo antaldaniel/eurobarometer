@@ -184,113 +184,82 @@ constant column <code>filename</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>import_file_names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
-<span class='st'>'ZA7576_sample'</span>,<span class='st'>'ZA7562_sample'</span>,<span class='st'>'ZA7489_sample'</span>
+<span class='st'>'ZA7576_sample'</span>,<span class='st'>'ZA6863_sample'</span>,<span class='st'>'ZA5913_sample'</span>
 )
 <span class='fu'>read_surveys</span> (<span class='no'>import_file_names</span>, <span class='kw'>.f</span> <span class='kw'>=</span> <span class='st'>'read_example_file'</span> )</div><div class='output co'>#&gt; [[1]]
-#&gt; # A tibble: 6,579 x 106
-#&gt;    doi   version uniqid isocntry       p1      p2    p3      p4      p5      d7
-#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
-#&gt;  1 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 2 [8 -~    64 1 [Two~ 3 [Ave~ 1 [(Re~
-#&gt;  2 doi:~ 1.0.0 ~ 2.00e8 DE-W     13 [Wed~ 3 [13 ~    78 1 [Two~ 2 [Fai~ 9 [Sin~
-#&gt;  3 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 1 [(Re~
-#&gt;  4 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 3 [13 ~    55 1 [Two~ 1 [Exc~ 3 [(Re~
-#&gt;  5 doi:~ 1.0.0 ~ 2.00e8 DE-W     19 [Tue~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 1 [(Re~
-#&gt;  6 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    41 1 [Two~ 1 [Exc~ 1 [(Re~
-#&gt;  7 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 3 [13 ~    29 1 [Two~ 2 [Fai~ 9 [Sin~
-#&gt;  8 doi:~ 1.0.0 ~ 2.00e8 DE-W      8 [Fri~ 3 [13 ~    41 1 [Two~ 2 [Fai~ 9 [Sin~
-#&gt;  9 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 5 [Sin~
-#&gt; 10 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 2 [(Re~
-#&gt; # ... with 6,569 more rows, and 96 more variables: d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;,
-#&gt; #   d60 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_5 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_3 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_2 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_4 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_1 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_5 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_10 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_2 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_3 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_1 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_4 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_8 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_9 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_4 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_2 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_1 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_6 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_7 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_11 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_3 &lt;dbl+lbl&gt;, d71a_1 &lt;dbl+lbl&gt;, d71a_2 &lt;dbl+lbl&gt;, d71a_3 &lt;dbl+lbl&gt;,
-#&gt; #   d71b_1 &lt;dbl+lbl&gt;, d71b_2 &lt;dbl+lbl&gt;, d71b_3 &lt;dbl+lbl&gt;, qg1b &lt;dbl+lbl&gt;,
-#&gt; #   qg8 &lt;dbl+lbl&gt;, d77 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;, wex &lt;dbl&gt;, filename &lt;chr&gt;
-#&gt; 
-#&gt; [[2]]
-#&gt; # A tibble: 5,074 x 51
-#&gt;    doi   version uniqid isocntry       p1      p2    p3      p4      p5       d7
-#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+lb&gt;
-#&gt;  1 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 3 [13 ~    29 1 [Two~ 2 [Fai~  1 [(Re~
-#&gt;  2 doi:~ 1.0.0 ~ 2.00e8 DE-W      4 [Mon~ 3 [13 ~    29 1 [Two~ 1 [Exc~  9 [Sin~
-#&gt;  3 doi:~ 1.0.0 ~ 2.00e8 DE-W     11 [Mon~ 2 [8 -~    24 1 [Two~ 1 [Exc~  2 [(Re~
-#&gt;  4 doi:~ 1.0.0 ~ 2.00e8 DE-W      5 [Tue~ 3 [13 ~    29 1 [Two~ 1 [Exc~  5 [Sin~
-#&gt;  5 doi:~ 1.0.0 ~ 2.00e8 DE-W      5 [Tue~ 3 [13 ~    42 1 [Two~ 1 [Exc~  2 [(Re~
-#&gt;  6 doi:~ 1.0.0 ~ 2.00e8 DE-W      5 [Tue~ 3 [13 ~    84 1 [Two~ 1 [Exc~  9 [Sin~
-#&gt;  7 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 2 [8 -~    34 1 [Two~ 1 [Exc~ 11 [Div~
-#&gt;  8 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 3 [13 ~    51 2 [Thr~ 1 [Exc~  1 [(Re~
-#&gt;  9 doi:~ 1.0.0 ~ 2.00e8 DE-W      4 [Mon~ 4 [17 ~    21 1 [Two~ 1 [Exc~  1 [(Re~
-#&gt; 10 doi:~ 1.0.0 ~ 2.00e8 DE-W     13 [Wed~ 3 [13 ~    40 1 [Two~ 1 [Exc~  1 [(Re~
-#&gt; # ... with 5,064 more rows, and 41 more variables: d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;,
-#&gt; #   d60 &lt;dbl+lbl&gt;, qa3_6 &lt;dbl+lbl&gt;, qa3_6 &lt;dbl+lbl&gt;, qa3_6 &lt;dbl+lbl&gt;,
-#&gt; #   qa3_1 &lt;dbl+lbl&gt;, qa3_1 &lt;dbl+lbl&gt;, qa3_1 &lt;dbl+lbl&gt;, qa3_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa3_4 &lt;dbl+lbl&gt;, qa3_4 &lt;dbl+lbl&gt;, qa3_5 &lt;dbl+lbl&gt;, qa3_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa3_5 &lt;dbl+lbl&gt;, qa3_2 &lt;dbl+lbl&gt;, qa3_2 &lt;dbl+lbl&gt;, qa3_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa3_3 &lt;dbl+lbl&gt;, qa3_3 &lt;dbl+lbl&gt;, qa3_3 &lt;dbl+lbl&gt;, d71_1 &lt;dbl+lbl&gt;,
-#&gt; #   d71_2 &lt;dbl+lbl&gt;, d71_3 &lt;dbl+lbl&gt;, qc9.1 &lt;dbl+lbl&gt;, qc9.2 &lt;dbl+lbl&gt;,
-#&gt; #   qc9.3 &lt;dbl+lbl&gt;, qc9.4 &lt;dbl+lbl&gt;, qc9.5 &lt;dbl+lbl&gt;, qc9.6 &lt;dbl+lbl&gt;,
-#&gt; #   qc9.7 &lt;dbl+lbl&gt;, qc9.8 &lt;dbl+lbl&gt;, qc9.9 &lt;dbl+lbl&gt;, qc9.10 &lt;dbl+lbl&gt;,
-#&gt; #   qc9.11 &lt;dbl+lbl&gt;, qc10 &lt;dbl+lbl&gt;, d77 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;,
+#&gt; # A tibble: 6,579 x 54
+#&gt;    doi   version uniqid isocntry       p1      p2    p3      p4      p5
+#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
+#&gt;  1 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 2 [8 -~    64 1 [Two~ 3 [Ave~
+#&gt;  2 doi:~ 1.0.0 ~ 2.00e8 DE-W     13 [Wed~ 3 [13 ~    78 1 [Two~ 2 [Fai~
+#&gt;  3 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt;  4 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 3 [13 ~    55 1 [Two~ 1 [Exc~
+#&gt;  5 doi:~ 1.0.0 ~ 2.00e8 DE-W     19 [Tue~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt;  6 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    41 1 [Two~ 1 [Exc~
+#&gt;  7 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 3 [13 ~    29 1 [Two~ 2 [Fai~
+#&gt;  8 doi:~ 1.0.0 ~ 2.00e8 DE-W      8 [Fri~ 3 [13 ~    41 1 [Two~ 2 [Fai~
+#&gt;  9 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt; 10 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt; # ... with 6,569 more rows, and 45 more variables: nuts &lt;chr+lbl&gt;,
+#&gt; #   d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;,
+#&gt; #   qa14_3 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_5 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_1 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_4 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_7 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;, qd6.1 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.2 &lt;dbl+lbl&gt;, qd6.3 &lt;dbl+lbl&gt;, qd6.4 &lt;dbl+lbl&gt;, qd6.5 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.6 &lt;dbl+lbl&gt;, qd6.7 &lt;dbl+lbl&gt;, qd6.8 &lt;dbl+lbl&gt;, qd6.9 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.10 &lt;dbl+lbl&gt;, qd6.11 &lt;dbl+lbl&gt;, qd6.12 &lt;dbl+lbl&gt;, qd6.13 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.14 &lt;dbl+lbl&gt;, qg1b &lt;dbl+lbl&gt;, qg8 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;,
 #&gt; #   wex &lt;dbl&gt;, filename &lt;chr&gt;
 #&gt; 
+#&gt; [[2]]
+#&gt; # A tibble: 5,789 x 48
+#&gt;    doi   version uniqid isocntry       p1      p2    p3      p4      p5
+#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
+#&gt;  1 doi:~ 1.0.0 ~ 1.00e9 DE-W      3 [Mon~ 3 [13 ~    47 1 [Two~ 3 [Ave~
+#&gt;  2 doi:~ 1.0.0 ~ 1.00e9 DE-W      8 [Sat~ 2 [8 -~    32 1 [Two~ 1 [Exc~
+#&gt;  3 doi:~ 1.0.0 ~ 1.00e9 DE-W      8 [Sat~ 2 [8 -~    46 1 [Two~ 1 [Exc~
+#&gt;  4 doi:~ 1.0.0 ~ 1.00e9 DE-W      4 [Tue~ 3 [13 ~    22 1 [Two~ 2 [Fai~
+#&gt;  5 doi:~ 1.0.0 ~ 1.00e9 DE-W      5 [Wed~ 2 [8 -~    30 1 [Two~ 2 [Fai~
+#&gt;  6 doi:~ 1.0.0 ~ 1.00e9 DE-W      7 [Fri~ 2 [8 -~    29 1 [Two~ 2 [Fai~
+#&gt;  7 doi:~ 1.0.0 ~ 1.00e9 DE-W      2 [Sun~ 2 [8 -~    29 1 [Two~ 2 [Fai~
+#&gt;  8 doi:~ 1.0.0 ~ 1.00e9 DE-W     10 [Mon~ 2 [8 -~    35 1 [Two~ 2 [Fai~
+#&gt;  9 doi:~ 1.0.0 ~ 1.00e9 DE-W      3 [Mon~ 2 [8 -~    32 1 [Two~ 2 [Fai~
+#&gt; 10 doi:~ 1.0.0 ~ 1.00e9 DE-W      3 [Mon~ 3 [13 ~    31 1 [Two~ 2 [Fai~
+#&gt; # ... with 5,779 more rows, and 39 more variables: nuts &lt;chr+lbl&gt;,
+#&gt; #   d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;,
+#&gt; #   qa14_2 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;, qa8a_3 &lt;dbl+lbl&gt;, qa8a_9 &lt;dbl+lbl&gt;,
+#&gt; #   qa8b_2 &lt;dbl+lbl&gt;, qa8a_1 &lt;dbl+lbl&gt;, qa8a_7 &lt;dbl+lbl&gt;, qa8a_8 &lt;dbl+lbl&gt;,
+#&gt; #   qa8a_2 &lt;dbl+lbl&gt;, qa8a_5 &lt;dbl+lbl&gt;, qa8b_1 &lt;dbl+lbl&gt;, qa8a_4 &lt;dbl+lbl&gt;,
+#&gt; #   qa8a_6 &lt;dbl+lbl&gt;, qa8a_10 &lt;dbl+lbl&gt;, qa8b_3 &lt;dbl+lbl&gt;, qd7.1 &lt;dbl+lbl&gt;,
+#&gt; #   qd7.2 &lt;dbl+lbl&gt;, qd7.3 &lt;dbl+lbl&gt;, qd7.4 &lt;dbl+lbl&gt;, qd7.5 &lt;dbl+lbl&gt;,
+#&gt; #   qd7.6 &lt;dbl+lbl&gt;, qd7.7 &lt;dbl+lbl&gt;, qd7.8 &lt;dbl+lbl&gt;, qd7.9 &lt;dbl+lbl&gt;,
+#&gt; #   qd7.10 &lt;dbl+lbl&gt;, qd7.11 &lt;dbl+lbl&gt;, qd7.12 &lt;dbl+lbl&gt;, qd7.13 &lt;dbl+lbl&gt;,
+#&gt; #   qd7.14 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;, wex &lt;dbl&gt;, filename &lt;chr&gt;
+#&gt; 
 #&gt; [[3]]
-#&gt; # A tibble: 6,613 x 134
-#&gt;    doi   version uniqid isocntry      p1      p2    p3      p4      p5       d7
-#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+lb&gt;
-#&gt;  1 doi:~ 1.0.0 ~ 1.00e9 DE-W     2 [Sun~ 4 [17 ~    51 1 [Two~ 2 [Fai~  1 [(Re~
-#&gt;  2 doi:~ 1.0.0 ~ 1.00e9 DE-W     6 [Thu~ 4 [17 ~    34 1 [Two~ 1 [Exc~  2 [(Re~
-#&gt;  3 doi:~ 1.0.0 ~ 1.00e9 DE-W     7 [Fri~ 2 [8 -~    30 1 [Two~ 2 [Fai~  2 [(Re~
-#&gt;  4 doi:~ 1.0.0 ~ 1.00e9 DE-W     9 [Sun~ 3 [13 ~    83 1 [Two~ 1 [Exc~  2 [(Re~
-#&gt;  5 doi:~ 1.0.0 ~ 1.00e9 DE-W     9 [Sun~ 2 [8 -~    76 1 [Two~ 2 [Fai~  2 [(Re~
-#&gt;  6 doi:~ 1.0.0 ~ 1.00e9 DE-W     8 [Sat~ 2 [8 -~    47 1 [Two~ 2 [Fai~  9 [Sin~
-#&gt;  7 doi:~ 1.0.0 ~ 1.00e9 DE-W     8 [Sat~ 3 [13 ~    47 1 [Two~ 2 [Fai~ 14 [Wid~
-#&gt;  8 doi:~ 1.0.0 ~ 1.00e9 DE-W     7 [Fri~ 2 [8 -~    46 1 [Two~ 2 [Fai~ 11 [Div~
-#&gt;  9 doi:~ 1.0.0 ~ 1.00e9 DE-W     9 [Sun~ 2 [8 -~    45 1 [Two~ 2 [Fai~  2 [(Re~
-#&gt; 10 doi:~ 1.0.0 ~ 1.00e9 DE-W     6 [Thu~ 2 [8 -~    43 1 [Two~ 2 [Fai~  1 [(Re~
-#&gt; # ... with 6,603 more rows, and 124 more variables: d8 &lt;dbl+lbl&gt;,
-#&gt; #   d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa13_5 &lt;dbl+lbl&gt;, qa13_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa13_5 &lt;dbl+lbl&gt;, qa13_5 &lt;dbl+lbl&gt;, qa13_3 &lt;dbl+lbl&gt;, qa13_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa13_3 &lt;dbl+lbl&gt;, qa13_3 &lt;dbl+lbl&gt;, qa13_2 &lt;dbl+lbl&gt;, qa13_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa13_2 &lt;dbl+lbl&gt;, qa13_4 &lt;dbl+lbl&gt;, qa13_4 &lt;dbl+lbl&gt;, qa13_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa13_4 &lt;dbl+lbl&gt;, qa13_1 &lt;dbl+lbl&gt;, qa13_1 &lt;dbl+lbl&gt;, qa13_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_9 &lt;dbl+lbl&gt;, qa8a_9 &lt;dbl+lbl&gt;, qa8a_9 &lt;dbl+lbl&gt;, qa8a_9 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_14 &lt;dbl+lbl&gt;, qa8a_14 &lt;dbl+lbl&gt;, qa8a_14 &lt;dbl+lbl&gt;, qa8a_14 &lt;dbl+lbl&gt;,
-#&gt; #   qa8b_7 &lt;dbl+lbl&gt;, qa8b_7 &lt;dbl+lbl&gt;, qa8b_7 &lt;dbl+lbl&gt;, qa8b_7 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_4 &lt;dbl+lbl&gt;, qa8a_4 &lt;dbl+lbl&gt;, qa8a_4 &lt;dbl+lbl&gt;, qa8a_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa8b_4 &lt;dbl+lbl&gt;, qa8b_4 &lt;dbl+lbl&gt;, qa8b_4 &lt;dbl+lbl&gt;, qa8b_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_7 &lt;dbl+lbl&gt;, qa8a_7 &lt;dbl+lbl&gt;, qa8a_7 &lt;dbl+lbl&gt;, qa8a_7 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_12 &lt;dbl+lbl&gt;, qa8a_12 &lt;dbl+lbl&gt;, qa8a_12 &lt;dbl+lbl&gt;, qa8a_12 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_13 &lt;dbl+lbl&gt;, qa8a_13 &lt;dbl+lbl&gt;, qa8a_13 &lt;dbl+lbl&gt;, qa8a_13 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_5 &lt;dbl+lbl&gt;, qa8a_5 &lt;dbl+lbl&gt;, qa8a_5 &lt;dbl+lbl&gt;, qa8a_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa8b_5 &lt;dbl+lbl&gt;, qa8b_5 &lt;dbl+lbl&gt;, qa8b_5 &lt;dbl+lbl&gt;, qa8b_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_8 &lt;dbl+lbl&gt;, qa8a_8 &lt;dbl+lbl&gt;, qa8a_8 &lt;dbl+lbl&gt;, qa8a_8 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_6 &lt;dbl+lbl&gt;, qa8a_6 &lt;dbl+lbl&gt;, qa8a_6 &lt;dbl+lbl&gt;, qa8a_6 &lt;dbl+lbl&gt;,
-#&gt; #   qa8b_6 &lt;dbl+lbl&gt;, qa8b_6 &lt;dbl+lbl&gt;, qa8b_6 &lt;dbl+lbl&gt;, qa8b_6 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_10 &lt;dbl+lbl&gt;, qa8a_10 &lt;dbl+lbl&gt;, qa8a_10 &lt;dbl+lbl&gt;, qa8a_10 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_2 &lt;dbl+lbl&gt;, qa8a_2 &lt;dbl+lbl&gt;, qa8a_2 &lt;dbl+lbl&gt;, qa8a_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa8b_2 &lt;dbl+lbl&gt;, qa8b_2 &lt;dbl+lbl&gt;, qa8b_2 &lt;dbl+lbl&gt;, qa8b_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_11 &lt;dbl+lbl&gt;, qa8a_11 &lt;dbl+lbl&gt;, qa8a_11 &lt;dbl+lbl&gt;, qa8a_11 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_3 &lt;dbl+lbl&gt;, qa8a_3 &lt;dbl+lbl&gt;, qa8a_3 &lt;dbl+lbl&gt;, qa8a_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa8b_3 &lt;dbl+lbl&gt;, qa8b_3 &lt;dbl+lbl&gt;, qa8b_3 &lt;dbl+lbl&gt;, qa8b_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa8a_15 &lt;dbl+lbl&gt;, qa8a_15 &lt;dbl+lbl&gt;, qa8a_15 &lt;dbl+lbl&gt;, ...
+#&gt; # A tibble: 4,123 x 38
+#&gt;    doi   version uniqid isocntry      p1    p3      p4      p5 nuts           d7
+#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+lbl&gt; &lt;dbl+l&gt;
+#&gt;  1 doi:~ 2.0.0 ~ 2.01e7 DE-W     8 [Tue~    24 1 [Two~ 1 [Exc~ DE9 [Nie~ 2 [(Re~
+#&gt;  2 doi:~ 2.0.0 ~ 2.02e7 DE-W     6 [Sun~    17 1 [Two~ 1 [Exc~ DE2 [Bay~ 9 [Sin~
+#&gt;  3 doi:~ 2.0.0 ~ 2.02e7 DE-W     6 [Sun~    18 1 [Two~ 1 [Exc~ DE2 [Bay~ 2 [(Re~
+#&gt;  4 doi:~ 2.0.0 ~ 2.02e7 DE-W     8 [Tue~    25 1 [Two~ 1 [Exc~ DE9 [Nie~ 1 [(Re~
+#&gt;  5 doi:~ 2.0.0 ~ 2.02e7 DE-W     9 [Wed~    29 1 [Two~ 1 [Exc~ DE9 [Nie~ 1 [(Re~
+#&gt;  6 doi:~ 2.0.0 ~ 2.02e7 DE-W     9 [Wed~    29 1 [Two~ 1 [Exc~ DE9 [Nie~ 9 [Sin~
+#&gt;  7 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    29 2 [Thr~ 2 [Fai~ DEF [Sch~ 2 [(Re~
+#&gt;  8 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    23 1 [Two~ 1 [Exc~ DEF [Sch~ 9 [Sin~
+#&gt;  9 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    38 1 [Two~ 2 [Fai~ DEF [Sch~ 2 [(Re~
+#&gt; 10 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    27 1 [Two~ 2 [Fai~ DEF [Sch~ 5 [Sin~
+#&gt; # ... with 4,113 more rows, and 28 more variables: d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;,
+#&gt; #   d60 &lt;dbl+lbl&gt;, qa10_3 &lt;dbl+lbl&gt;, qa10_2 &lt;dbl+lbl&gt;, qa10_1 &lt;dbl+lbl&gt;,
+#&gt; #   qa7_4 &lt;dbl+lbl&gt;, qa7_2 &lt;dbl+lbl&gt;, qa7_3 &lt;dbl+lbl&gt;, qa7_1 &lt;dbl+lbl&gt;,
+#&gt; #   qa7_5 &lt;dbl+lbl&gt;, qd3_1 &lt;dbl+lbl&gt;, qd3_2 &lt;dbl+lbl&gt;, qd3_3 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_4 &lt;dbl+lbl&gt;, qd3_5 &lt;dbl+lbl&gt;, qd3_6 &lt;dbl+lbl&gt;, qd3_7 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_8 &lt;dbl+lbl&gt;, qd3_9 &lt;dbl+lbl&gt;, qd3_10 &lt;dbl+lbl&gt;, qd3_11 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_12 &lt;dbl+lbl&gt;, qd3_13 &lt;dbl+lbl&gt;, qd3_14 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;,
+#&gt; #   filename &lt;chr&gt;
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

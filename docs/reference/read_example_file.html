@@ -168,49 +168,37 @@ without relying on importing large SPSS files.</p>
     <tr>
       <th>sample_file_name</th>
       <td><p>Any of <code>ZA7576_sample</code>,
-<code>ZA7562_sample</code> or <code>ZA7489_sample</code>.</p></td>
+<code>ZA6863_sample</code> or <code>ZA5913_sample</code>.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>read_example_file</span> ( <span class='kw'>sample_file_name</span> <span class='kw'>=</span> <span class='st'>'ZA7576_sample'</span> )</div><div class='output co'>#&gt; # A tibble: 6,579 x 105
-#&gt;    doi   version uniqid isocntry       p1      p2    p3      p4      p5      d7
-#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
-#&gt;  1 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 2 [8 -~    64 1 [Two~ 3 [Ave~ 1 [(Re~
-#&gt;  2 doi:~ 1.0.0 ~ 2.00e8 DE-W     13 [Wed~ 3 [13 ~    78 1 [Two~ 2 [Fai~ 9 [Sin~
-#&gt;  3 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 1 [(Re~
-#&gt;  4 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 3 [13 ~    55 1 [Two~ 1 [Exc~ 3 [(Re~
-#&gt;  5 doi:~ 1.0.0 ~ 2.00e8 DE-W     19 [Tue~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 1 [(Re~
-#&gt;  6 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    41 1 [Two~ 1 [Exc~ 1 [(Re~
-#&gt;  7 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 3 [13 ~    29 1 [Two~ 2 [Fai~ 9 [Sin~
-#&gt;  8 doi:~ 1.0.0 ~ 2.00e8 DE-W      8 [Fri~ 3 [13 ~    41 1 [Two~ 2 [Fai~ 9 [Sin~
-#&gt;  9 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 5 [Sin~
-#&gt; 10 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~ 2 [(Re~
-#&gt; # ... with 6,569 more rows, and 95 more variables: d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;,
-#&gt; #   d60 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_5 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_3 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_2 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_4 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa14_1 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_5 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_10 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_2 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_3 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_1 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_4 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_8 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_9 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_4 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_2 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_1 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_6 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_7 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;,
-#&gt; #   qa6a_11 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa6b_3 &lt;dbl+lbl&gt;, d71a_1 &lt;dbl+lbl&gt;, d71a_2 &lt;dbl+lbl&gt;, d71a_3 &lt;dbl+lbl&gt;,
-#&gt; #   d71b_1 &lt;dbl+lbl&gt;, d71b_2 &lt;dbl+lbl&gt;, d71b_3 &lt;dbl+lbl&gt;, qg1b &lt;dbl+lbl&gt;,
-#&gt; #   qg8 &lt;dbl+lbl&gt;, d77 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;, wex &lt;dbl&gt;</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>read_example_file</span> ( <span class='kw'>sample_file_name</span> <span class='kw'>=</span> <span class='st'>'ZA7576_sample'</span> )</div><div class='output co'>#&gt; # A tibble: 6,579 x 53
+#&gt;    doi   version uniqid isocntry       p1      p2    p3      p4      p5
+#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt;
+#&gt;  1 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 2 [8 -~    64 1 [Two~ 3 [Ave~
+#&gt;  2 doi:~ 1.0.0 ~ 2.00e8 DE-W     13 [Wed~ 3 [13 ~    78 1 [Two~ 2 [Fai~
+#&gt;  3 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt;  4 doi:~ 1.0.0 ~ 2.00e8 DE-W     18 [Mon~ 3 [13 ~    55 1 [Two~ 1 [Exc~
+#&gt;  5 doi:~ 1.0.0 ~ 2.00e8 DE-W     19 [Tue~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt;  6 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    41 1 [Two~ 1 [Exc~
+#&gt;  7 doi:~ 1.0.0 ~ 2.00e8 DE-W     12 [Tue~ 3 [13 ~    29 1 [Two~ 2 [Fai~
+#&gt;  8 doi:~ 1.0.0 ~ 2.00e8 DE-W      8 [Fri~ 3 [13 ~    41 1 [Two~ 2 [Fai~
+#&gt;  9 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt; 10 doi:~ 1.0.0 ~ 2.00e8 DE-W      7 [Thu~ 2 [8 -~    44 1 [Two~ 1 [Exc~
+#&gt; # ... with 6,569 more rows, and 44 more variables: nuts &lt;chr+lbl&gt;,
+#&gt; #   d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa14_5 &lt;dbl+lbl&gt;,
+#&gt; #   qa14_3 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;, qa14_1 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_5 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;, qa6a_3 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_1 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;, qa6a_9 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_4 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;, qa6a_6 &lt;dbl+lbl&gt;,
+#&gt; #   qa6a_7 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;, qd6.1 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.2 &lt;dbl+lbl&gt;, qd6.3 &lt;dbl+lbl&gt;, qd6.4 &lt;dbl+lbl&gt;, qd6.5 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.6 &lt;dbl+lbl&gt;, qd6.7 &lt;dbl+lbl&gt;, qd6.8 &lt;dbl+lbl&gt;, qd6.9 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.10 &lt;dbl+lbl&gt;, qd6.11 &lt;dbl+lbl&gt;, qd6.12 &lt;dbl+lbl&gt;, qd6.13 &lt;dbl+lbl&gt;,
+#&gt; #   qd6.14 &lt;dbl+lbl&gt;, qg1b &lt;dbl+lbl&gt;, qg8 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;,
+#&gt; #   wex &lt;dbl&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

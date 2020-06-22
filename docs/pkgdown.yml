@@ -1,4 +1,4 @@
-pandoc: 2.7.2
+pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
@@ -8,5 +8,5 @@ articles:
   variable_names: variable_names.html
   vocabulary: vocabulary.html
   workflow: workflow.html
-last_built: 2020-06-21T16:02Z
+last_built: 2020-06-22T21:25Z
 
