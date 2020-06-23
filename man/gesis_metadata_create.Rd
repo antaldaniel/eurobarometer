@@ -2,7 +2,7 @@
 % Please edit documentation in R/gesis_metadata_create.R
 \name{gesis_metadata_create}
 \alias{gesis_metadata_create}
-\title{Get A Metadata File}
+\title{Create A Metadata Table}
 \usage{
 gesis_metadata_create(survey_list)
 }
@@ -16,16 +16,16 @@ A data frame with the original variable attributes and
 suggested conversions and changes.
 }
 \description{
-Retrieve a metadata file with from your surveys.
+Create a metadata file from your surveys.
 }
 \details{
 The structure of the returned tibble:
 \describe{
   \item{filename}{The original file name}
-  \item{var_name_orig}{The original variable name in SPSS}
-  \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}}
-  \item{var_label_orig}{The original variable label in SPSS}
-  \item{var_label_norm}{A normalized version of the variable labels}
+  \item{var_name_orig}{The original variable name in SPSS.}
+  \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
+  \item{var_label_orig}{The original variable label in SPSS.}
+  \item{var_label_norm}{A normalized version of the variable labels.}
   \item{var_name_suggested}{A partly canonized variable name.}
   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
   \item{class_suggested}{A suggested class conversion.}
