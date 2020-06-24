@@ -32,7 +32,6 @@ for (i in 1:n_batches) {
                                           tmp_metadata)
   }
 
-
   metadata_database$filename <-  gsub( paste0(gesis_dir, "\\/"), "", metadata_database$filename)
 
   message ( "Added batch ", i,  "/", n_batches )
@@ -52,3 +51,4 @@ write.csv( metadata_database,
 saveRDS(metadata_database,
         file = file.path("data-raw", "eb_metadata_database_20200624.rds"))
 
+source(file.path('data-raw', 'create_binary_metadata_table.R'))
