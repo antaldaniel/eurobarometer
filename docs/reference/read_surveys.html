@@ -8,7 +8,7 @@
 
 <title>Read Survey Files
 
-Import surveys into a list. Add filename as a constant to each
+Import surveys into a list. Adds filename as a constant to each
 element of the list. — read_surveys • eurobarometer</title>
 
 
@@ -44,10 +44,10 @@ element of the list. — read_surveys • eurobarometer</title>
 
 <meta property="og:title" content="Read Survey Files
 
-Import surveys into a list. Add filename as a constant to each
+Import surveys into a list. Adds filename as a constant to each
 element of the list. — read_surveys" />
 <meta property="og:description" content="Read Survey Files
-Import surveys into a list. Add filename as a constant to each
+Import surveys into a list. Adds filename as a constant to each
 element of the list." />
 
 
@@ -80,7 +80,7 @@ element of the list." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@ element of the list." />
     <div class="page-header">
     <h1>Read Survey Files
 
-Import surveys into a list. Add filename as a constant to each
+Import surveys into a list. Adds filename as a constant to each
 element of the list.</h1>
     <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/read_surveys.R'><code>R/read_surveys.R</code></a></small>
     <div class="hidden name"><code>read_surveys.Rd</code></div>
@@ -156,7 +156,7 @@ element of the list.</h1>
 
     <div class="ref-description">
     <p>Read Survey Files</p>
-<p>Import surveys into a list. Add filename as a constant to each
+<p>Import surveys into a list. Adds filename as a constant to each
 element of the list.</p>
     </div>
 
@@ -172,7 +172,9 @@ element of the list.</p>
     <tr>
       <th>.f</th>
       <td><p>A function to import the surveys with.
-Defaults to <code>read_example_file</code>.</p></td>
+Defaults to <code>'read_example_file'</code>. For SPSS files,
+<code>'read_spss_survey'</code> is recommended, which is a
+well-parameterised version of <code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code>.</p></td>
     </tr>
     </table>
 
@@ -240,26 +242,26 @@ constant column <code>filename</code>.</p>
 #&gt; 
 #&gt; [[3]]
 #&gt; # A tibble: 4,123 x 38
-#&gt;    doi   version uniqid isocntry      p1    p3      p4      p5 nuts           d7
-#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+lbl&gt; &lt;dbl+l&gt;
-#&gt;  1 doi:~ 2.0.0 ~ 2.01e7 DE-W     8 [Tue~    24 1 [Two~ 1 [Exc~ DE9 [Nie~ 2 [(Re~
-#&gt;  2 doi:~ 2.0.0 ~ 2.02e7 DE-W     6 [Sun~    17 1 [Two~ 1 [Exc~ DE2 [Bay~ 9 [Sin~
-#&gt;  3 doi:~ 2.0.0 ~ 2.02e7 DE-W     6 [Sun~    18 1 [Two~ 1 [Exc~ DE2 [Bay~ 2 [(Re~
-#&gt;  4 doi:~ 2.0.0 ~ 2.02e7 DE-W     8 [Tue~    25 1 [Two~ 1 [Exc~ DE9 [Nie~ 1 [(Re~
-#&gt;  5 doi:~ 2.0.0 ~ 2.02e7 DE-W     9 [Wed~    29 1 [Two~ 1 [Exc~ DE9 [Nie~ 1 [(Re~
-#&gt;  6 doi:~ 2.0.0 ~ 2.02e7 DE-W     9 [Wed~    29 1 [Two~ 1 [Exc~ DE9 [Nie~ 9 [Sin~
-#&gt;  7 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    29 2 [Thr~ 2 [Fai~ DEF [Sch~ 2 [(Re~
-#&gt;  8 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    23 1 [Two~ 1 [Exc~ DEF [Sch~ 9 [Sin~
-#&gt;  9 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    38 1 [Two~ 2 [Fai~ DEF [Sch~ 2 [(Re~
-#&gt; 10 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    27 1 [Two~ 2 [Fai~ DEF [Sch~ 5 [Sin~
-#&gt; # ... with 4,113 more rows, and 28 more variables: d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;,
-#&gt; #   d60 &lt;dbl+lbl&gt;, qa10_3 &lt;dbl+lbl&gt;, qa10_2 &lt;dbl+lbl&gt;, qa10_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa7_4 &lt;dbl+lbl&gt;, qa7_2 &lt;dbl+lbl&gt;, qa7_3 &lt;dbl+lbl&gt;, qa7_1 &lt;dbl+lbl&gt;,
-#&gt; #   qa7_5 &lt;dbl+lbl&gt;, qd3_1 &lt;dbl+lbl&gt;, qd3_2 &lt;dbl+lbl&gt;, qd3_3 &lt;dbl+lbl&gt;,
-#&gt; #   qd3_4 &lt;dbl+lbl&gt;, qd3_5 &lt;dbl+lbl&gt;, qd3_6 &lt;dbl+lbl&gt;, qd3_7 &lt;dbl+lbl&gt;,
-#&gt; #   qd3_8 &lt;dbl+lbl&gt;, qd3_9 &lt;dbl+lbl&gt;, qd3_10 &lt;dbl+lbl&gt;, qd3_11 &lt;dbl+lbl&gt;,
-#&gt; #   qd3_12 &lt;dbl+lbl&gt;, qd3_13 &lt;dbl+lbl&gt;, qd3_14 &lt;dbl+lbl&gt;, w1 &lt;dbl&gt;, w3 &lt;dbl&gt;,
-#&gt; #   filename &lt;chr&gt;
+#&gt;    doi   version uniqid isocntry      p1    p3      p4      p5 nuts     
+#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+l&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+lbl&gt;
+#&gt;  1 doi:~ 2.0.0 ~ 2.01e7 DE-W     8 [Tue~    24 1 [Two~ 1 [Exc~ DE9 [Nie~
+#&gt;  2 doi:~ 2.0.0 ~ 2.02e7 DE-W     6 [Sun~    17 1 [Two~ 1 [Exc~ DE2 [Bay~
+#&gt;  3 doi:~ 2.0.0 ~ 2.02e7 DE-W     6 [Sun~    18 1 [Two~ 1 [Exc~ DE2 [Bay~
+#&gt;  4 doi:~ 2.0.0 ~ 2.02e7 DE-W     8 [Tue~    25 1 [Two~ 1 [Exc~ DE9 [Nie~
+#&gt;  5 doi:~ 2.0.0 ~ 2.02e7 DE-W     9 [Wed~    29 1 [Two~ 1 [Exc~ DE9 [Nie~
+#&gt;  6 doi:~ 2.0.0 ~ 2.02e7 DE-W     9 [Wed~    29 1 [Two~ 1 [Exc~ DE9 [Nie~
+#&gt;  7 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    29 2 [Thr~ 2 [Fai~ DEF [Sch~
+#&gt;  8 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    23 1 [Two~ 1 [Exc~ DEF [Sch~
+#&gt;  9 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    38 1 [Two~ 2 [Fai~ DEF [Sch~
+#&gt; 10 doi:~ 2.0.0 ~ 2.02e7 DE-W     4 [Fri~    27 1 [Two~ 2 [Fai~ DEF [Sch~
+#&gt; # ... with 4,113 more rows, and 29 more variables: d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;,
+#&gt; #   d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa10_3 &lt;dbl+lbl&gt;, qa10_2 &lt;dbl+lbl&gt;,
+#&gt; #   qa10_1 &lt;dbl+lbl&gt;, qa7_4 &lt;dbl+lbl&gt;, qa7_2 &lt;dbl+lbl&gt;, qa7_3 &lt;dbl+lbl&gt;,
+#&gt; #   qa7_1 &lt;dbl+lbl&gt;, qa7_5 &lt;dbl+lbl&gt;, qd3_1 &lt;dbl+lbl&gt;, qd3_2 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_3 &lt;dbl+lbl&gt;, qd3_4 &lt;dbl+lbl&gt;, qd3_5 &lt;dbl+lbl&gt;, qd3_6 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_7 &lt;dbl+lbl&gt;, qd3_8 &lt;dbl+lbl&gt;, qd3_9 &lt;dbl+lbl&gt;, qd3_10 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_11 &lt;dbl+lbl&gt;, qd3_12 &lt;dbl+lbl&gt;, qd3_13 &lt;dbl+lbl&gt;, qd3_14 &lt;dbl+lbl&gt;,
+#&gt; #   w1 &lt;dbl&gt;, w3 &lt;dbl&gt;, filename &lt;chr&gt;
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

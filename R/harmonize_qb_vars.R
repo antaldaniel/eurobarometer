@@ -15,7 +15,7 @@
 #' a column in \code{metadata}.
 #' @param conversion Defaults to \code{class_suggested}. Must be
 #' a column in \code{metadata}.
-#' @importFrom dplyr select filter bind_cols distinct_at
+#' @importFrom dplyr select filter bind_cols distinct_at distinct
 #' @importFrom purrr set_names
 #' @importFrom magrittr %>%
 #' @importFrom tidyselect all_of

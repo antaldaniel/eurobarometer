@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -136,8 +136,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">my_metadata</span>)
 <span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
 <span class="co">#&gt;  [4] "var_label_orig"     "var_label_norm"     "var_name_suggested"</span>
-<span class="co">#&gt;  [7] "factor_levels"      "n_categories"       "class_orig"        </span>
-<span class="co">#&gt; [10] "class_suggested"</span></pre></body></html></div>
+<span class="co">#&gt;  [7] "length_cat_range"   "length_na_range"    "n_categories"      </span>
+<span class="co">#&gt; [10] "factor_levels"      "valid_range"        "na_levels"         </span>
+<span class="co">#&gt; [13] "class_orig"         "class_suggested"</span></pre></body></html></div>
 <p>The my_metadata table is rather large, so let’s review random samples from a few columns.</p>
 <p>The variable names need to be harmonized, and you will get suggestions on how to do it. Only a very small subset of the entire table is shown here:</p>
 <table class="table table table-striped table-hover table-condensed">
@@ -295,7 +296,7 @@ date_of_interview
 date_of_interview
 </td>
 <td style="text-align:left;">
-factor
+harmonized_labelled
 </td>
 <td style="text-align:right;">
 21
@@ -323,7 +324,7 @@ european_central_bank_trust
 european_central_bank_trust
 </td>
 <td style="text-align:left;">
-factor
+harmonized_labelled
 </td>
 <td style="text-align:right;">
 4
@@ -351,7 +352,7 @@ marital_status
 marital_status
 </td>
 <td style="text-align:left;">
-factor
+harmonized_labelled
 </td>
 <td style="text-align:right;">
 16
@@ -442,7 +443,7 @@ p1
 date_of_interview
 </td>
 <td style="text-align:left;">
-factor
+harmonized_labelled
 </td>
 </tr>
 <tr>
@@ -456,7 +457,7 @@ d7
 marital_status
 </td>
 <td style="text-align:left;">
-factor
+harmonized_labelled
 </td>
 </tr>
 <tr>
@@ -470,7 +471,7 @@ qa14_3
 european_central_bank_trust
 </td>
 <td style="text-align:left;">
-factor
+harmonized_labelled
 </td>
 </tr>
 <tr>
@@ -528,7 +529,40 @@ doi
 <tbody>
 <tr>
 <td style="text-align:left;">
-734_999999999_doi_10_4232_1_12847
+3245_390000196_doi_10_4232_1_12847
+</td>
+<td style="text-align:left;">
+390000196
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4025_390002643_doi_10_4232_1_12847
+</td>
+<td style="text-align:left;">
+390002643
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4420_390000820_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
+390000820
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1358_999999999_doi_10_4232_1_12847
 </td>
 <td style="text-align:left;">
 999999999
@@ -539,57 +573,24 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-3871_390002162_doi_10_4232_1_12847
-</td>
-<td style="text-align:left;">
-390002162
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1674_220000646_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-220000646
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-549_200004831_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-200004831
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3714_350001261_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-350001261
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-520_999999999_doi_10_4232_1_12847
+1435_999999999_doi_10_4232_1_12847
 </td>
 <td style="text-align:left;">
 999999999
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4494_390000978_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
+390000978
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
 </td>
 </tr>
 </tbody>
@@ -601,45 +602,57 @@ doi
 <a href="#harmonizing-various-aspects-of-the-survey" class="anchor"></a>Harmonizing various aspects of the survey</h2>
 <div class="sourceCode" id="cb5"><html><body><pre class="r">
 <span class="no">id_panel</span>        <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
-                   <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
-                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
-                   <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
-                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"id"</span>,
-                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
-                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
+  <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+  <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+  <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
+  <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"id"</span>,
+  <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+  <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
 
-<span class="no">demography_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
+<span class="no">weight_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
+  <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+  <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+  <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"weights"</span>,
+  <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
+  <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+  <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">metadata_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
+                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
+                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"metadata"</span>,
+                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">demography_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
                    <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
                    <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
                    <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
                    <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"socio-demography"</span>,
                    <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
-                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
-
-<span class="no">trust_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
+                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">trust_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>(
                   <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
                    <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
                    <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"trust"</span>,
                    <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
-                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
-
-<span class="no">weight_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
-                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
-                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"weights"</span>,
-                   <span class="kw">id_vars</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"uniqid"</span>, <span class="st">"doi"</span>),
-                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
-                   <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )
-
-<span class="no">metadata_panel</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_qb_vars.html">harmonize_qb_vars</a></span>( <span class="kw">survey_list</span> <span class="kw">=</span> <span class="no">my_survey_list</span>,
-                   <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">my_metadata</span>,
-                   <span class="kw">question_block</span> <span class="kw">=</span> <span class="st">"metadata"</span>,
-                   <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
                    <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span> )</pre></body></html></div>
-<p>It is likely that your computer’s memory will not be enough to left_join these data tables, so bind them in long format:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">panels</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span> ( <span class="no">trust_panel</span>,
-                 <span class="no">demography_panel</span>,
-                 <span class="no">weight_panel</span>,
-                 <span class="no">metadata_panel</span>)
+<div id="value-harmonization" class="section level3">
+<h3 class="hasAnchor">
+<a href="#value-harmonization" class="anchor"></a>Value Harmonization</h3>
+<p>The trust panel contains harmonized labelled variables. They can be converted to a harmonized numeric value with consistent binary values and consistent treatment of <code>inappropriate</code> and <code>declined</code> values.</p>
+<blockquote>
+<p>This is not working fully yet.</p>
+</blockquote>
+<p>The trust_vector contains the harmonized numeric values, harmonized labels alongside the original values and the original labels. This means that all conversion is <em>reversible</em>.</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">trust_vector</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span> ( <span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">trust_vector</span>)</pre></body></html></div>
+<p>The <code><a href="../reference/harmonize_to_numeric.html">harmonize_to_numeric()</a></code> function correctly gives the numeric value, considering the two sources of missingness.</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">trust_panel</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span>( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(-<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="st">"panel_id"</span>)), <span class="no">harmonize_to_numeric</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise_all.html">summarize_if</a></span> ( <span class="no">is.numeric</span>, <span class="no">mean</span>, <span class="kw">na.rm</span><span class="kw">=</span><span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">everything</a></span>()) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</pre></body></html></div>
+<p>It is likely that your computer’s memory will not be enough to <code>left_join</code> these data tables, so bind them in long format:</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">panels</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span> ( <span class="no">trust_panel</span>,
+                 <span class="no">weight_panel</span> )
 
 <span class="no">long_panels</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> (<span class="no">panels</span>,
                  <span class="kw">function</span>(<span class="no">x</span>) <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span> (
@@ -648,8 +661,6 @@ doi
 
 <span class="no">panel_long</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(
   <span class="no">rbind</span>, <span class="no">long_panels</span> )
-<span class="co">#&gt; Warning in `[&lt;-.factor`(`*tmp*`, ri, value = c(0.8193, 0.94248, 44468.738281, :</span>
-<span class="co">#&gt; invalid factor level, NA generated</span>
 
 <span class="no">my_panel</span> <span class="kw">&lt;-</span> <span class="no">panel_long</span> <span class="kw">%&gt;%</span>
   <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span> () <span class="kw">%&gt;%</span>
@@ -658,58 +669,33 @@ doi
 <p>The harmonize_qb in turn cares systematically for variables types, such as <em>multiple_choice_questions</em>, <em>two-level_factors</em>, <em>three-level_factors</em>, <em>numeric</em>, <em>character</em> for constants, etc.</p>
 <p>This approach is not sensitive to missing questions. If some trust questions are present in all files, and others only in a few, you will still get a full panel.</p>
 </div>
+</div>
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">demography_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="no">demography_panel</span>))])
-<span class="co">#&gt;                                 marital_status        age_education </span>
-<span class="co">#&gt;  (Re-)Married: children this marriage  :3679   18            :2604  </span>
-<span class="co">#&gt;  (Re-)Married: without children        :3161   19            :1070  </span>
-<span class="co">#&gt;  Single: without children              :1869   16            : 987  </span>
-<span class="co">#&gt;  Widow: without children               :1040   17            : 967  </span>
-<span class="co">#&gt;  Single liv w partner: without children: 843   Still studying: 841  </span>
-<span class="co">#&gt;  Divorced/Separated: without children  : 498   14            : 819  </span>
-<span class="co">#&gt;  (Other)                               :1278   (Other)       :5080  </span>
-<span class="co">#&gt;              type_of_community difficulties_paying_bills_last_year</span>
-<span class="co">#&gt;  Rural area or village:4113    Most of the time  :1168            </span>
-<span class="co">#&gt;  Small/middle town    :4443    From time to time :3277            </span>
-<span class="co">#&gt;  Large town           :3811    Almost never/never:7645            </span>
-<span class="co">#&gt;  NA's                 :   1    Refusal (SPONT.)  : 278            </span>
-<span class="co">#&gt;                                                                   </span>
-<span class="co">#&gt;                                                                   </span>
-<span class="co">#&gt; </span></pre></body></html></div>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">trust_panel</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>:<span class="fl">9</span>)])
-<span class="co">#&gt;           council_of_the_eu_trust    european_central_bank_trust</span>
-<span class="co">#&gt;  Tend to trust        :2098       Tend to trust    :3743        </span>
-<span class="co">#&gt;  Tend not to trust    :1646       Tend not to trust:3927        </span>
-<span class="co">#&gt;  DK                   :1318       DK               :1620        </span>
-<span class="co">#&gt;  Inap. (not 1 in eu28):1517       NA's             :3078        </span>
-<span class="co">#&gt;  NA's                 :5789                                     </span>
-<span class="co">#&gt;      european_commission_trust       european_council_trust</span>
-<span class="co">#&gt;  Tend to trust    :5510        Tend to trust    :2259      </span>
-<span class="co">#&gt;  Tend not to trust:3955        Tend not to trust:1635      </span>
-<span class="co">#&gt;  DK               :1886        DK               :1168      </span>
-<span class="co">#&gt;  NA's             :1017        NA's             :7306      </span>
-<span class="co">#&gt;                                                            </span>
-<span class="co">#&gt;      european_parliament_trust     trust_in_institutions_army</span>
-<span class="co">#&gt;  Tend to trust    :5950        Tend to trust    :7275        </span>
-<span class="co">#&gt;  Tend not to trust:3887        Tend not to trust:3272        </span>
-<span class="co">#&gt;  DK               :1514        DK               : 821        </span>
-<span class="co">#&gt;  NA's             :1017        NA's             :1000        </span>
-<span class="co">#&gt;                                                              </span>
-<span class="co">#&gt;  trust_in_institutions_european_union trust_in_institutions_european_union_tcc</span>
-<span class="co">#&gt;  Tend to trust    :5310               Tend to trust    :  500                 </span>
-<span class="co">#&gt;  Tend not to trust:5004               Tend not to trust:  430                 </span>
-<span class="co">#&gt;  DK               :1054               DK               :   70                 </span>
-<span class="co">#&gt;  NA's             :1000               NA's             :11368                 </span>
-<span class="co">#&gt; </span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># Print the value labels</span>
+<span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>)
+<span class="co">#&gt;           decline     tend_to_trust tend_not_to_trust              inap </span>
+<span class="co">#&gt;              9998                 1                 0              9999</span>
+
+<span class="co"># Summarize them as factors</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span> ( <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/to_factor.html">to_factor</a></span>(<span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>))
+<span class="co">#&gt;           decline     tend_to_trust tend_not_to_trust              inap </span>
+<span class="co">#&gt;              1318              2098              1646              1517 </span>
+<span class="co">#&gt;              NA's </span>
+<span class="co">#&gt;              5789</span>
+
+<span class="co"># Summarize them as numeric</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span> ( <span class="fu"><a href="../reference/harmonize_to_numeric.html">harmonize_to_numeric</a></span>(<span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>))
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's </span>
+<span class="co">#&gt;    0.00    0.00    1.00    0.56    1.00    1.00    8624</span></pre></body></html></div>
 </div>
 <div id="work-documentation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#work-documentation" class="anchor"></a>Work Documentation</h2>
 <p>In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.</p>
 <p>We create a generic function <code>document_qb</code> that orders the variable renaming, value label harmonization, class conversions steps into a neat table.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co">## This is how I envision the basic documentation workflow</span>
 
 <span class="no">my_workflow</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span> (
@@ -755,7 +741,7 @@ doi
     !<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">my_trust_var</span>)
   )</pre></body></html></div>
 <p>Then it creates a standard html or latex table:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
+<div class="sourceCode" id="cb14"><html><body><pre class="r">## this produces as latex or html output with knitr::kable and 
 ## kableExtra 
 ## that the user can follow up on
 
@@ -767,7 +753,7 @@ workflow_table ( my_workflow ) %&gt;%
 <h2 class="hasAnchor">
 <a href="#panel-summary" class="anchor"></a>Panel Summary</h2>
 <p>At last we help the user with documenting the panel a bit.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co">## this produces a readable summary with a package such as </span>
 <span class="co">## stargazer or sjMisc or whatever we chose as a dependency </span>
 <span class="co">## about number of observations, mean, median values, missingness, </span>
 <span class="co">## etc. </span>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GESIS Eurobarometer Variable Labels — eurobarometer_corpus • eurobarometer</title>
+<title>Harmonize Value Labels — harmonize_value_labels • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="GESIS Eurobarometer Variable Labels — eurobarometer_corpus" />
-<meta property="og:description" content="Variable labels used for the harmonization of questionnaire items,
-created by gesis_corpus_create, which is in turn a
-wrapper around  gesis_vocabulary_create." />
+<meta property="og:title" content="Harmonize Value Labels — harmonize_value_labels" />
+<meta property="og:description" content="Harmonize the numeric values and the value labels of variables.
+Currently works only with binary values." />
 
 
 
@@ -140,37 +139,29 @@ wrapper around  gesis_vocabulary_create." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>GESIS Eurobarometer Variable Labels</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/data_eurobarometer_corpus.R'><code>R/data_eurobarometer_corpus.R</code></a></small>
-    <div class="hidden name"><code>eurobarometer_corpus.Rd</code></div>
+    <h1>Harmonize Value Labels</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/harmonize_value_labels.R'><code>R/harmonize_value_labels.R</code></a></small>
+    <div class="hidden name"><code>harmonize_value_labels.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Variable labels used for the harmonization of questionnaire items,
-created by <code><a href='gesis_corpus_create.html'>gesis_corpus_create</a></code>, which is in turn a
-wrapper around  <code><a href='gesis_vocabulary_create.html'>gesis_vocabulary_create</a></code>.</p>
+    <p>Harmonize the numeric values and the value labels of variables.
+Currently works only with binary values.</p>
     </div>
 
-    <pre class="usage"><span class='no'>eurobarometer_corpus</span></pre>
+    <pre class="usage"><span class='fu'>harmonize_value_labels</span>(<span class='no'>labelled_var</span>)</pre>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data_frame:</p><dl'>
-  <dt>var_label_orig</dt><dd><p>The name of the variable in the data file.</p></dd>
-  <dt>val_numeric_orig</dt><dd><p>The original SPSS numeric values, if applicable</p></dd>
-  <dt>val_label_orig</dt><dd><p>The original SPSS character value, if applicable</p></dd>
-  <dt>val_oder_orig</dt><dd><p>The rank number of the alphabetically sorted answer option.</p></dd>
-  <dt>val_order_length</dt><dd><p>The number of answer options in the questionnaire item.</p></dd>
-  <dt>label_normalized</dt><dd><p>Normalized version of the questionnaire item</p></dd>
-  <dt>filename</dt><dd><p>The name of the original GESIS file.</p></dd>
+    <p>A labelled vector containing harmonized numeric values and
+labels, and in <code><a href='https://rdrr.io/r/base/attr.html'>attr(v, num_orig)</a></code> the original numeric values,
+<code><a href='https://rdrr.io/r/base/attr.html'>attr(v, labels_orig)</a></code> the original labelling.</p>
 
-</dl>
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>gesis_corpus_create gesis_vocabulary_create</p></div>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
+             <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>YES</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>NO</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>wrong_label</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>refused</span> <span class='kw'>=</span> <span class='fl'>9</span>)
+             )</div><div class='output co'>#&gt; <span class='error'>Error in labelled(c(3, 4, 4, 3, 8, 9), c(YES = 3, NO = 4, wrong_label = 8,     refused = 9)): could not find function "labelled"</span></div><div class='input'><span class='fu'>harmonize_value_labels</span>(<span class='no'>v</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "haven_labelled_spss" %in% class(labelled_var): object 'v' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
