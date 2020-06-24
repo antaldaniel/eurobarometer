@@ -16,7 +16,6 @@ test_that("correct structure is returned", {
   expect_equal(names(returned_vocabulary),
                c('var_name_orig', 'val_numeric_orig', 'val_label_orig',
                  'val_order_alpha', 'val_order_length', 'val_label_norm'))
-  expect_equal(unique(single_data_frame$filename), "not_given")
 })
 
 names ( returned_vocabulary )
