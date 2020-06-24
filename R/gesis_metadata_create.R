@@ -84,8 +84,8 @@ gesis_metadata_create <- function ( survey_list ) {
     value_labels_df$na_levels <- sapply ( dat, labelled::na_values)
 
     fn_valid_range <- function ( x ) {
-      f <- unlist(value_labels_df$factor_levels[x])
-      n <- unlist(value_labels_df$na_levels[x])
+      f <- value_labels_df$factor_levels[x]
+      n <- value_labels_df$na_levels[x]
       f[ ! f %in% n]
     }
 
