@@ -40,17 +40,12 @@ gesis_metadata_create <- function ( survey_list ) {
 
   ## if input is a data.frame, place it in a list -----------
   if ( ! "list" %in% class(survey_list) ) {
-    if ( "data.frame" %in% class(survey_list) ) {
-
-      if ( ! "filename" %in% names(survey_list) )
-        survey_list$filename = "not_given"
-        attr(survey_list$filename, "label") <- "not_given"
-
-      survey_list <- list ( survey = survey_list )
-    }
+    to_survey_list( x = survey_list )
   }
 
+  ## start of internal function metadata_create -------------
   metadata_create <- function (dat) {
+
     class_orig   <- vapply (
       dat, function(x) class(x)[1], character(1)
     )
@@ -82,6 +77,8 @@ gesis_metadata_create <- function ( survey_list ) {
       var_name_orig = names ( all_val_labels  )
     )
 
+    sapply ( dat, labelled::na_range)
+
     value_labels_df$factor_levels <- all_val_labels
 
     ##Merging the basic metadata with the categories
@@ -108,6 +105,8 @@ gesis_metadata_create <- function ( survey_list ) {
     ## Can be directly called as eurobarometer:::class_suggest(metadata)
     class_suggest(metadata)
   }
+
+  metadata_create( dat = survey_list[[1]])
 
   metadata_list <- lapply ( survey_list, metadata_create )
   do.call(rbind,metadata_list)
