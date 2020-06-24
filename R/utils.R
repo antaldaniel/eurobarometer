@@ -78,4 +78,21 @@ question_block_identify <- function (metadata) {
 
  metadata_tmp %>%
    select ( -all_of(c("orig_1", "orig_2")) )
- }
+}
+
+
+to_survey_list <- function (x) {
+  if ( ! "list" %in% class(x) ) {
+    if ( "data.frame" %in% class(x) ) {
+
+      if ( ! "filename" %in% names(x) )
+        x$filename = "not_given"
+      attr(x$filename, "label") <- "not_given"
+
+      x <- list ( survey = x )
+    } else {
+      stop ( "Parameter 'survey_list' must be a list of data frames or a single data frame.")
+    }
+  }
+  x
+}
