@@ -209,7 +209,7 @@ str(trust_vector)
 ```
 The `harmonize_to_numeric()` function correctly gives the numeric value, considering the two sources of missingness.
 
-```{r, results='asis'}
+```{r, results='asis', eval=TRUE}
 trust_panel %>%
   mutate_at( vars(-all_of("panel_id")), harmonize_to_numeric ) %>%
   summarize_if ( is.numeric, mean, na.rm=TRUE) %>%
