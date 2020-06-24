@@ -106,11 +106,7 @@ to_survey_list <- function (x) {
 #' @importFrom tibble tibble
 #' @family harmonize functions
 #' @return A helper table to harmonize missing values.
-#' @examples
-#' v <- labelled(c(3,4,4,3,8, 9),
-#'              c(YES = 3, NO = 4, wrong_label =8, refused = 9)
-#'              )
-#' harmonize_missing_values(v)
+
 
 harmonize_missing_values <- function (x) {
 
