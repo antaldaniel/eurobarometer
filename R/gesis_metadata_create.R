@@ -40,7 +40,7 @@ gesis_metadata_create <- function ( survey_list ) {
 
   ## if input is a data.frame, place it in a list -----------
   if ( ! "list" %in% class(survey_list) ) {
-    to_survey_list( x = survey_list )
+    survey_list <- to_survey_list( x = survey_list )
   }
 
   ## start of internal function metadata_create -------------

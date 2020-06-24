@@ -4,6 +4,8 @@ import_file_names <- c(
   'ZA7576_sample','ZA5913_sample','ZA6863_sample'
 )
 
+data ("ZA5913_sample")
+
 survey_list_2 <- read_surveys (
   import_file_names, .f = 'read_example_file' )
 
