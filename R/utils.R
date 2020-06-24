@@ -28,7 +28,7 @@ class_suggest <- function(metadata) {
       class_orig %in% c("numeric","character") ~ class_orig,
       class_orig == 'haven_labelled' & n_categories  == 1 ~ 'character',
       first_level == "mentioned" & second_level == "not mentioned" ~  'dummy',
-      TRUE ~ "factor" ))
+      TRUE ~ "harmonized_labelled" ))
 
   metadata$class_suggested <- suggestions$suggestion
   metadata
@@ -95,4 +95,46 @@ to_survey_list <- function (x) {
     }
   }
   x
+}
+
+#' Harmonize Missing Values
+#'
+#' @param x A vector of labelled or the character vector of
+#' value labels.
+#' @importFrom labelled to_character labelled
+#' @importFrom dplyr case_when mutate
+#' @importFrom tibble tibble
+#' @family harmonize functions
+#' @return A helper table to harmonize missing values.
+#' @examples
+#' v <- labelled(c(3,4,4,3,8, 9),
+#'              c(YES = 3, NO = 4, wrong_label =8, refused = 9)
+#'              )
+#' harmonize_missing_values(v)
+
+harmonize_missing_values <- function (x) {
+
+  if ( all( c("haven_labelled", "double") %in% class(x)) ) {
+    x <- labelled::to_character(x)
+  } else {
+    x <- as.character(x)
+  }
+
+  tmp <- tibble::tibble (
+    label_norm = label_normalize(x)
+  )
+
+  tmp %>%
+    mutate ( na_harmonized = dplyr::case_when (
+      grepl("inap", label_norm) ~ "inap",
+      grepl("decline|dk|refuse", label_norm) ~ "decline",
+      grepl("dont_know", label_norm) ~ "do_not_know",
+      TRUE ~ label_norm )
+    ) %>%
+    mutate ( na_numeric_value =  case_when (
+      na_harmonized == "inap"  ~  9999,
+      na_harmonized == "decline" ~ 9998,
+      na_harmonized == "do_not_know" ~ 9997,
+      TRUE ~ 8999
+    ))
 }

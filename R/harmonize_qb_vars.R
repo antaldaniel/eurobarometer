@@ -46,11 +46,7 @@ harmonize_qb_vars <- function ( survey_list,
   . <- panel_id <- NULL
 
   if ( ! "list" %in% class(survey_list) ) {
-    if ( "data.frame" %in% class(survey_list) ) {
-      survey_list <- list ( dat = survey_list )
-    } else {
-      stop ( "'survey_list' must be a data frame or a list of data frames." )
-    }
+    survey_list <- to_survey_list(survey_list)
   }
 
   if ( ! var_name %in% names(metadata) ) {
@@ -90,8 +86,9 @@ harmonize_qb_vars <- function ( survey_list,
 
     if ( ncol(question_block) > 0 ) {
       question_block <- question_block %>%
-        purrr::set_names ( new_names ) %>%
-        convert_class (., subset_metadata,
+        purrr::set_names ( new_names )  %>%
+        convert_class (.,
+                       metadata = subset_metadata,
                        conversion = conversion )
 
       dplyr::bind_cols(skeleton, question_block)

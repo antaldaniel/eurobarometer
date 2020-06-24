@@ -51,6 +51,15 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(character_vars) ) %>%
     mutate_all ( as.character )
 
+  labelled_vars <- class_conversion %>%
+    filter ( conversion == 'harmonized_labelled') %>%
+    select ( all_of("var")) %>%
+    unlist() %>% as.character()
+
+  labelled_df <- dat %>%
+    select ( tidyselect::all_of(labelled_vars) ) %>%
+    mutate_all ( harmonize_value_labels )
+
   dummy_vars <- class_conversion %>%
     filter ( conversion == 'dummy') %>%
     select ( all_of("var")) %>%
@@ -85,7 +94,7 @@ convert_class <- function(dat, metadata,
     mutate_all ( relabel_factors  )
 
   remerged_dat <- dplyr::bind_cols (
-    factor_df, character_df, numeric_df, dummy_df
+    factor_df, character_df, numeric_df, dummy_df, labelled_df
   )
 
   missing_from_return <- names(dat) [! names(dat) %in% names (remerged_dat)]

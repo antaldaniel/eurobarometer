@@ -88,3 +88,28 @@ unique_na_3 <- unique( label_normalize(binary_metadata$na_lab_3))
 
 c( unique_na_1 , unique_na_2, unique_na_3 )
 c ( unique_val_1, unique_val_2 )
+
+binary_value_pairs <- binary_metadata %>%
+  select ( all_of (c("label_val_1", "label_val_2")) ) %>%
+  distinct_all() %>%
+  mutate_all ( label_normalize )
+
+write.csv(binary_value_pairs, file.path("data-raw", "binary_value_pairs.csv"))
+
+
+na_harmonization <- tibble (
+  normalized_labels = c( unique_na_1 , unique_na_2, unique_na_3 )
+  ) %>%
+  filter ( nchar (normalized_labels)>0 ) %>%
+  mutate ( na_harmonized = dplyr::case_when (
+   grepl("inap", normalized_labels) ~ "inap",
+   grepl("decline|dk|refuse", normalized_labels) ~ "decline",
+   grepl("dont_know", normalized_labels) ~ "do_not_know",
+   TRUE ~ normalized_labels )
+  ) %>%
+  mutate ( na_numeric_value =  case_when (
+    na_harmonized == "inap"  ~  9999,
+    na_harmonized == "decline" ~ 9998,
+    na_harmonized == "do_not_know" ~ 9997,
+    TRUE ~ 8999
+  ))

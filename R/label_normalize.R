@@ -78,6 +78,7 @@ label_normalize <- function(x) {
   y <- gsub( '\\s', '_', y)
   y <- gsub( '___', '_', y)
   y <- gsub( '__', '_', y)
+  y <- gsub( '\\,_', '_', y)
 
   # Shall we remove Central & Eastern European characters, Greek characters?
   #x <- gsub( 'á', 'a', x)
@@ -90,6 +91,10 @@ label_normalize <- function(x) {
 
   y <- ifelse ( test = stringr::str_sub ( y, 1,  1 ) == '_',
                 yes  = stringr::str_sub ( y, 2, -1 ),
+                no   = y  )
+
+  y <- ifelse ( test = stringr::str_sub(y, -3, -1) == " - ",
+                yes  = stringr::str_sub ( y, 1, -4 ),
                 no   = y  )
 
   stringr::str_trim(y, side = "both")

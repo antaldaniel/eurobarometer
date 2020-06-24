@@ -4,10 +4,12 @@
 \alias{gesis_vocabulary_create}
 \title{Get The Vocabulary Of A Survey}
 \usage{
-gesis_vocabulary_create(dat)
+gesis_vocabulary_create(survey_list)
 }
 \arguments{
-\item{dat}{A data frame read by \code{\link[haven]{read_spss}}.}
+\item{survey_list}{A list of data frames containing surveys, or a
+single survey in a single data frame. The filename should be added
+in the column \code{filename}.}
 }
 \value{
 The vocabulary of the survey in a data frame. The return
@@ -28,11 +30,15 @@ The variables in the returned data frame
 }
 }
 \examples{
-\dontrun{
-##use your own file:
-tmp <- haven::read_spss( file.path(gesis_dir, gesis_file) )
-metadata <- gesis_vocabulary_create (tmp)
-}
+import_file_names <- c(
+  'ZA7576_sample','ZA5913_sample'
+)
+
+my_surveys <- read_surveys (
+    import_file_names,
+    .f = 'read_example_file' )
+
+my_vocabulary <- gesis_vocabulary_create(my_surveys)
 }
 \seealso{
 label_suggest

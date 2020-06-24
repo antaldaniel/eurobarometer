@@ -6,8 +6,8 @@
 #' @param import_file_names A vector of file names to import.
 #' @param .f A function to import the surveys with.
 #' Defaults to \code{'read_example_file'}. For SPSS files,
-#' \code{'read_spss_survey'} is recommended, which is a well-parameterised
-#' version of \code{\link{[haven]{read_spss}}}.
+#' \code{'read_spss_survey'} is recommended, which is a
+#' well-parameterised version of \code{\link[haven]{read_spss}}.
 #' @return A list of the surveys.  Each element of the list is a data
 #' frame. The respective file names are added to each data frame as a
 #' constant column \code{filename}.

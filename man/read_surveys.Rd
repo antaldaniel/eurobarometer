@@ -14,8 +14,8 @@ read_surveys(import_file_names, .f = "read_example_file")
 
 \item{.f}{A function to import the surveys with.
 Defaults to \code{'read_example_file'}. For SPSS files,
-\code{'read_spss_survey'} is recommended, which is a well-parameterised
-version of \code{\link{[haven]{read_spss}}}.}
+\code{'read_spss_survey'} is recommended, which is a
+well-parameterised version of \code{\link[haven]{read_spss}}.}
 }
 \value{
 A list of the surveys.  Each element of the list is a data

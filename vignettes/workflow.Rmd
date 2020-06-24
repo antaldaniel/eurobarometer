@@ -13,23 +13,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-example_panel_id <- data.frame(
-  panel_id = rep(NA_character_, 8),
-  id_uniqid = c(101,102,103,104, 108,199,104,188), 
-  id_survey = c( rep("eb_23.4", 4), 
-                 rep("eb_28.9", 4)),
-  filename = c( rep("GESIS_A.sav", 4), 
-                rep("GESIS_B.sav", 4)), 
-  w1 =  round(runif(8, 0, 1.5),2),
-  wex = round(runif(8, 0, 1.5)*runif(8, 1000,9000),2)
-  )
-example_panel_id$panel_id <- paste0(
-  example_panel_id$id_survey, "_", 
-  example_panel_id$id_uniqid, "_",
-  example_panel_id$filename
-)
-
-my_panel <- example_panel_id
 ```
 
 ```{r setup, eval=TRUE, echo=TRUE, message=FALSE}
@@ -164,13 +147,34 @@ This should return a very basic file for joining, a data.frame/tibble with
 ```{r, eval=TRUE}
 
 id_panel        <- harmonize_qb_vars( 
-                   survey_list = my_survey_list,
+  survey_list = my_survey_list,
+  metadata = my_metadata,
+  id_vars = c("uniqid", "doi"),
+  question_block = "id",
+  var_name = "var_name_suggested",
+  conversion = "class_suggested" ) 
+
+weight_panel <- harmonize_qb_vars( 
+  survey_list = my_survey_list,
+  metadata = my_metadata,
+  question_block = "weights",
+  id_vars = c("uniqid", "doi"),
+  var_name = "var_name_suggested",
+  conversion = "class_suggested" )
+
+
+```   
+
+```{r, eval=FALSE}
+metadata_panel <- harmonize_qb_vars( survey_list = my_survey_list,
                    metadata = my_metadata,
-                   id_vars = c("uniqid", "doi"),
-                   question_block = "id",
+                   question_block = "metadata",
                    var_name = "var_name_suggested",
                    conversion = "class_suggested" ) 
+```
 
+
+```{r, eval=FALSE}
 demography_panel <- harmonize_qb_vars( 
                    survey_list = my_survey_list,
                    metadata = my_metadata,
@@ -178,35 +182,47 @@ demography_panel <- harmonize_qb_vars(
                    question_block = "socio-demography",
                    var_name = "var_name_suggested",
                    conversion = "class_suggested" ) 
+```
 
+```{r, eval=TRUE}
 trust_panel <- harmonize_qb_vars( 
                   survey_list = my_survey_list,
                    metadata = my_metadata,
                    question_block = "trust",
                    var_name = "var_name_suggested",
                    conversion = "class_suggested" ) 
-   
-weight_panel <- harmonize_qb_vars( survey_list = my_survey_list,
-                   metadata = my_metadata,
-                   question_block = "weights",
-                   id_vars = c("uniqid", "doi"),
-                   var_name = "var_name_suggested",
-                   conversion = "class_suggested" )
 
-metadata_panel <- harmonize_qb_vars( survey_list = my_survey_list,
-                   metadata = my_metadata,
-                   question_block = "metadata",
-                   var_name = "var_name_suggested",
-                   conversion = "class_suggested" ) 
-```   
+```
 
-It is likely that your computer's memory will not be enough to left_join these data tables, so bind them in long format:
+
+### Value Harmonization 
+
+The trust panel contains harmonized labelled variables. They can be converted to a harmonized numeric value with consistent binary values and consistent treatment of `inappropriate` and `declined` values.
+
+> This is not working fully yet.
+
+The trust_vector contains the harmonized numeric values, harmonized labels alongside the original values and the original labels. This means that all conversion is _reversible_.
+
+```{r}
+trust_vector <- unique ( trust_panel$council_of_the_eu_trust)
+str(trust_vector)
+```
+The `harmonize_to_numeric()` function correctly gives the numeric value, considering the two sources of missingness.
+
+```{r, results='asis'}
+trust_panel %>%
+  mutate_at( vars(-all_of("panel_id")), harmonize_to_numeric ) %>%
+  summarize_if ( is.numeric, mean, na.rm=TRUE) %>%
+  tidyr::pivot_longer( cols = everything()) %>%
+  kable()
+```
+
+
+It is likely that your computer's memory will not be enough to `left_join` these data tables, so bind them in long format:
 
 ```{r, eval=TRUE}
 panels <- list ( trust_panel,
-                 demography_panel, 
-                 weight_panel, 
-                 metadata_panel)
+                 weight_panel )
 
 long_panels <- lapply (panels,
                  function(x) tidyr::pivot_longer (
@@ -232,11 +248,14 @@ This approach is not sensitive to missing questions.  If some trust questions ar
 ## Summary
 
 ```{r, eval=TRUE}
-summary(demography_panel[, c(2:ncol(demography_panel))])
-```
+# Print the value labels
+labelled::val_labels(trust_panel$council_of_the_eu_trust)
 
-```{r, eval=TRUE}
-summary(trust_panel[, c(2:9)])
+# Summarize them as factors
+summary ( labelled::to_factor(trust_panel$council_of_the_eu_trust))
+
+# Summarize them as numeric
+summary ( harmonize_to_numeric(trust_panel$council_of_the_eu_trust))
 ```
 
 ## Work Documentation

@@ -32,6 +32,9 @@ importing functions in vignette examples and unit tests.
 # eurobarometer 0.1.4
 * `read_surveys  ( my_spss_files, .f= 'read_spss_survey')` now reads in a list of surveys with recording user-specified SPSS missing values.
 
+# eurobarometer 0.1.5
+* `harmonize_value_labels` is harmonizing (hopefully) all binary categorical values. The workflow vignette is updated.
+
 # Foreseen changes
 
 * `code_nuts1()` and `code_nuts2()` will be deprecated, and included in the [regions](http://regions.danielantal.eu/) package.  A vignette will connect the two packages.

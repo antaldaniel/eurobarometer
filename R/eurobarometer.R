@@ -27,6 +27,8 @@
 #' metadata analyais.
 #' \code{\link{harmonize_qb_vars}} is harmonizing the names and classes of
 #' questions in a question block.
+#' \code{\link{harmonize_missing_values}} is harmonizing the missing values
+#' in a labelled vector.
 #'
 #' @section sample data files:
 #' \code{\link{ZA5913_sample}} A small subset of the ZA5913:
