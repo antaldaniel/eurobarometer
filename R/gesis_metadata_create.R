@@ -5,15 +5,19 @@
 #' @details The structure of the returned tibble:
 #' \describe{
 #'   \item{filename}{The original file name}
+#'   \item{qb}{Identifier of a question block for further tasks.}
 #'   \item{var_name_orig}{The original variable name in SPSS.}
 #'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
 #'   \item{var_label_orig}{The original variable label in SPSS.}
 #'   \item{var_label_norm}{A normalized version of the variable labels.}
 #'   \item{var_name_suggested}{A partly canonized variable name.}
 #'   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
+#'   \item{na_levels}{Values marked as missing by GESIS.}
+#'   \item{valid_range}{Not missing factor(category) levels.}
 #'   \item{class_suggested}{A suggested class conversion.}
-#'   \item{n_categories}{Number of categories of the variable.}
-#'   \item{qb}{Identifier of a question block for further tasks.}
+#'   \item{length_cat_range}{Number of categories in the non-missing range.}
+#'   \item{length_na_range}{Number of categories marked as missing by GESIS.}
+#'   \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
 #' }
 #' @param survey_list A list of data frames containing surveys, or a
 #' single survey in a single data frame. The filename should be added
@@ -76,10 +80,23 @@ gesis_metadata_create <- function ( survey_list ) {
     value_labels_df <- data.frame (
       var_name_orig = names ( all_val_labels  )
     )
-
-    sapply ( dat, labelled::na_range)
-
     value_labels_df$factor_levels <- all_val_labels
+    value_labels_df$na_levels <- sapply ( dat, labelled::na_values)
+
+    fn_valid_range <- function ( x ) {
+      f <- unlist(value_labels_df$factor_levels[x])
+      n <- unlist(value_labels_df$na_levels[x])
+      f[ ! f %in% n]
+    }
+
+    value_labels_df$valid_range <- sapply (
+      1:nrow(value_labels_df), fn_valid_range )
+
+    value_labels_df$length_cat_range <- sapply (
+      value_labels_df$valid_range, length )
+
+    value_labels_df$length_na_range <- sapply (
+      value_labels_df$na_levels, length )
 
     ##Merging the basic metadata with the categories
     metadata <- dplyr::full_join(
@@ -96,7 +113,9 @@ gesis_metadata_create <- function ( survey_list ) {
       select ( all_of(c("filename", "qb", "var_name_orig",
                         "var_label_orig",
                         "var_label_norm", "var_name_suggested",
-                        "factor_levels", "n_categories",
+                        "length_cat_range", "length_na_range",
+                        "n_categories",
+                        "factor_levels", "valid_range", "na_levels",
                         "class_orig")
                       )
                )
@@ -106,7 +125,7 @@ gesis_metadata_create <- function ( survey_list ) {
     class_suggest(metadata)
   }
 
-  metadata_create( dat = survey_list[[1]])
+  tmp <- metadata_create( dat = survey_list[[1]])
 
   metadata_list <- lapply ( survey_list, metadata_create )
   do.call(rbind,metadata_list)

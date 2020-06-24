@@ -22,15 +22,19 @@ Create a metadata file from your surveys.
 The structure of the returned tibble:
 \describe{
   \item{filename}{The original file name}
+  \item{qb}{Identifier of a question block for further tasks.}
   \item{var_name_orig}{The original variable name in SPSS.}
   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
   \item{var_label_orig}{The original variable label in SPSS.}
   \item{var_label_norm}{A normalized version of the variable labels.}
   \item{var_name_suggested}{A partly canonized variable name.}
   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
+  \item{na_levels}{Values marked as missing by GESIS.}
+  \item{valid_range}{Not missing factor(category) levels.}
   \item{class_suggested}{A suggested class conversion.}
-  \item{n_categories}{Number of categories of the variable.}
-  \item{qb}{Identifier of a question block for further tasks.}
+  \item{length_cat_range}{Number of categories in the non-missing range.}
+  \item{length_na_range}{Number of categories marked as missing by GESIS.}
+  \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
 }
 }
 \examples{

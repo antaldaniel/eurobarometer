@@ -4,7 +4,7 @@
 \alias{read_surveys}
 \title{Read Survey Files
 
-Import surveys into a list. Add filename as a constant to each
+Import surveys into a list. Adds filename as a constant to each
 element of the list.}
 \usage{
 read_surveys(import_file_names, .f = "read_example_file")
@@ -13,7 +13,9 @@ read_surveys(import_file_names, .f = "read_example_file")
 \item{import_file_names}{A vector of file names to import.}
 
 \item{.f}{A function to import the surveys with.
-Defaults to \code{read_example_file}.}
+Defaults to \code{'read_example_file'}. For SPSS files,
+\code{'read_spss_survey'} is recommended, which is a well-parameterised
+version of \code{\link{[haven]{read_spss}}}.}
 }
 \value{
 A list of the surveys.  Each element of the list is a data
@@ -23,7 +25,7 @@ constant column \code{filename}.
 \description{
 Read Survey Files
 
-Import surveys into a list. Add filename as a constant to each
+Import surveys into a list. Adds filename as a constant to each
 element of the list.
 }
 \examples{
