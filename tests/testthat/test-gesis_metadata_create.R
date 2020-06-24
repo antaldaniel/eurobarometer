@@ -18,3 +18,4 @@ test_that("correct structure is returned", {
                  'n_categories', 'class_orig', 'class_suggested'))
   expect_equal(unique(single_data_frame$filename), "not_given")
 })
+
