@@ -29,6 +29,9 @@ importing functions in vignette examples and unit tests.
 # eurobarometer 0.1.3
 * `id_create` tests unicity and `panel_create` is a wrapper around it.
 
+# eurobarometer 0.1.4
+* `read_surveys  ( my_spss_files, .f= 'read_spss_survey')` now reads in a list of surveys with recording user-specified SPSS missing values.
+
 # Foreseen changes
 
 * `code_nuts1()` and `code_nuts2()` will be deprecated, and included in the [regions](http://regions.danielantal.eu/) package.  A vignette will connect the two packages.
