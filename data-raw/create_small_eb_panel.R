@@ -97,12 +97,19 @@ selected_files <- c("ZA5913_v2-0-0.sav",
                     "ZA7576_v1-0-0.sav",
                     "ZA6863_v1-0-0.sav")
 
-for (f in selected_files) { cat (f)}
+selected_files <- c("ZA5913_v2-0-0.sav",
+                    "ZA7576_v1-0-0.sav",
+                    "ZA6863_v1-0-0.sav")
 
 
-ZA5913_sample <- haven::read_spss( file.path(gesis_dir, "ZA5913_v2-0-0.sav"))
-ZA6863_sample <- haven::read_spss( file.path(gesis_dir, "ZA6863_v1-0-0.sav"))
-ZA7576_sample <- haven::read_spss( file.path(gesis_dir, "ZA7576_v1-0-0.sav"))
+my_spss_files <- file.path(gesis_dir, selected_files)
+
+read <- read_surveys  ( my_spss_files, .f= 'read_spss_survey')
+read <- read_surveys  ( my_spss_files, .f= 'read_spss_survey')
+
+ZA5913_sample <- read[[1]]
+ZA6863_sample <- read[[3]]
+ZA7576_sample <- read[[2]]
 
 ZA5913_sample  <- ZA5913_sample [, subsetting_vars %>%
                                    filter ( filename == "ZA5913_v2-0-0.sav") %>%
