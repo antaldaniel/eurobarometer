@@ -7,5 +7,5 @@ test_that("multiplication works", {
   expect_equal(as.numeric ( harmonize_value_labels(v) ),
                c(1,0,0, 1, 8999,9998))
   expect_equal(labelled::to_character ( harmonize_value_labels(v) ),
-               c("yes", "no", "no", "yes", "wrong_label", "decline"))
+               c("yes", "no", "no", "yes", "wrong_label", "declined"))
 })
