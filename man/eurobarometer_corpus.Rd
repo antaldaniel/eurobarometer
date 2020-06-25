@@ -21,10 +21,9 @@ eurobarometer_corpus
 }
 \description{
 Variable labels used for the harmonization of questionnaire items,
-created by \code{\link{gesis_corpus_create}}, which is in turn a
-wrapper around  \code{\link{gesis_vocabulary_create}}.
+created by \code{\link{gesis_vocabulary_create}}.
 }
 \seealso{
-gesis_corpus_create gesis_vocabulary_create
+gesis_vocabulary_create
 }
 \keyword{datasets}

@@ -1,8 +1,7 @@
 #' GESIS Eurobarometer Variable Labels
 #'
 #' Variable labels used for the harmonization of questionnaire items,
-#' created by \code{\link{gesis_corpus_create}}, which is in turn a
-#' wrapper around  \code{\link{gesis_vocabulary_create}}.
+#' created by \code{\link{gesis_vocabulary_create}}.
 #'
 #' @format A data_frame:
 #' \describe{
@@ -14,7 +13,7 @@
 #'   \item{label_normalized}{Normalized version of the questionnaire item}
 #'   \item{filename}{The name of the original GESIS file.}
 #' }
-#' @seealso gesis_corpus_create gesis_vocabulary_create
+#' @seealso gesis_vocabulary_create
 "eurobarometer_corpus"
 
 
