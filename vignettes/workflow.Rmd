@@ -30,7 +30,7 @@ I do not see a lot of sense in automating this, because the new GESIS interface 
 ## Reading in the files
 
 Working with native SPSS files is extremely slow, and I think it would make sense to first read and re-save them as .rds files or .rda files.
-```{r, eval=TRUE}
+```{r}
 import_file_names <- c(
 'ZA7576_sample','ZA6863_sample')
 
@@ -40,7 +40,7 @@ my_survey_list <- read_surveys (
 
 ## Analyse the metadata in the surveys
 
-```{r, eval=TRUE}
+```{r}
 my_metadata <- gesis_metadata_create( my_survey_list )
 names(my_metadata)
 ```
@@ -90,8 +90,7 @@ subset_metadata_1 %>%
                   font_size = 10 )
 ```
 
-```{r, echo=FALSE, results='asis', eval=FALSE}
-
+```{r, echo=FALSE, results='asis'}
 subset_metadata_2 <- my_metadata %>%
   dplyr::filter( var_name_orig %in% c(
     "doi", "isocntry", "qa14_3", "d71b_3", 
