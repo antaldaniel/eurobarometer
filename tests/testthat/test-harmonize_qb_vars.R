@@ -1,3 +1,6 @@
+library(testthat)
+library(eurobarometer)
+
 import_file_names <- c(
   'ZA7576_sample','ZA5913_sample','ZA6863_sample'
 )
@@ -29,6 +32,15 @@ trust_test <-  harmonize_qb_vars (
 
 a <- as.numeric(unlist(unclass(small_trust_test$qa6a_8)))
 a
+
+not_run <- function() {
+  trust_test <-  harmonize_qb_vars (
+    survey_list = my_survey_list,
+    metadata =  my_metadata,
+    question_block = "trust",
+    var_name = "var_name_suggested",
+    conversion = "conversion_suggested" )
+}
 
 harmonized_trust_labels <- names(
   attr(trust_test$trust_in_institutions_national_government, "labels"))

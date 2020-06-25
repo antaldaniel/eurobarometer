@@ -73,7 +73,17 @@ harmonize_qb_vars <- function ( survey_list,
       filter ( var_name_orig %in% select_qb ) %>%
       filter ( filename == unique(dat$filename)[1] )
 
+    #remove not found in this particular file
+    select_qb <-  subset_metadata$var_name_orig
+
     new_names <- unique(as.character(subset_metadata[[var_name]]))
+
+    if ( length(new_names) != length(select_qb) ) {
+      stop ( "Old names: ", paste(select_qb, collapse = ","),
+             "\nlength: ",  length(select_qb),
+             "\nNew names:", paste(new_names, collapse=(",")),
+             "\nlength: ",  length(new_names) )
+    }
 
     select_conversion <- subset_metadata %>%
       distinct_at ( all_of(c(var_name, conversion)),.keep_all = FALSE )
@@ -100,8 +110,9 @@ harmonize_qb_vars <- function ( survey_list,
     }
   }
 
-  #dat_1 <- survey_subset ( dat = survey_list [[1]] )
-  #dat_2 <- survey_subset ( dat = survey_list [[2]] )
+  dat_1 <- survey_subset ( dat = survey_list [[1]] )
+  dat_2 <- survey_subset ( dat = survey_list [[2]] )
+  dat_3 <- survey_subset ( dat = survey_list [[3]] )
 
   subsetted_surveys <- lapply (survey_list, survey_subset)
 
