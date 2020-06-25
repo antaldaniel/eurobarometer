@@ -4,7 +4,7 @@
 #' @param metadata A metadata data frame created by
 #' \code{\link{gesis_metadata_create}}.
 #' @param var_name Defaults to \code{"normalized_name"}.
-#' @param conversion Defaults to \code{"conversion_suggestion"}.
+#' @param conversion Defaults to \code{"conversion_suggested"}.
 #' @return The \code{df} converted to numeric, character, factor classes.
 #' Dummies are converted to binary numeric variables and their name is
 #' prefixed with \code{'is_'}.
