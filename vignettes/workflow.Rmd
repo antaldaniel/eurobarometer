@@ -118,7 +118,6 @@ subset_metadata_2 %>%
 * The `trust` group relates to a variable group covered by our example harmonization table `trust_table`.
 * The `not_identified` group contains variables for which we do not offer a full-scale built-in harmonization. However, some of our helper functions do help harmonizing these variables, too, but they require more manual programming work by the user.
 
-
 ## Creating a skeleton panel
 
 ```{r}

@@ -110,9 +110,9 @@ harmonize_qb_vars <- function ( survey_list,
     }
   }
 
-  dat_1 <- survey_subset ( dat = survey_list [[1]] )
-  dat_2 <- survey_subset ( dat = survey_list [[2]] )
-  dat_3 <- survey_subset ( dat = survey_list [[3]] )
+  #dat_1 <- survey_subset ( dat = survey_list [[1]] )
+  #dat_2 <- survey_subset ( dat = survey_list [[2]] )
+  #dat_3 <- survey_subset ( dat = survey_list [[3]] )
 
   subsetted_surveys <- lapply (survey_list, survey_subset)
 
