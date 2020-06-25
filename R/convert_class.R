@@ -36,7 +36,7 @@
 
 convert_class <- function(dat, metadata,
                           var_name = "var_name_suggested",
-                          conversion = "conversion_suggestion" ) {
+                          conversion = "conversion_suggested" ) {
 
   original_name_order  <- names ( dat )
   class_conversion <- metadata %>%

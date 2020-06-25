@@ -8,7 +8,7 @@ convert_class(
   dat,
   metadata,
   var_name = "var_name_suggested",
-  conversion = "conversion_suggestion"
+  conversion = "conversion_suggested"
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ convert_class(
 
 \item{var_name}{Defaults to \code{"normalized_name"}.}
 
-\item{conversion}{Defaults to \code{"conversion_suggestion"}.}
+\item{conversion}{Defaults to \code{"conversion_suggested"}.}
 }
 \value{
 The \code{df} converted to numeric, character, factor classes.
