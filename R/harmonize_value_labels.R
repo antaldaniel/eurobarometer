@@ -35,6 +35,8 @@ harmonize_value_labels <- function (labelled_var) {
     )
   }
 
+  head ( labelled_var )
+
   harmonized_1 <- tibble (
     numeric = as.numeric(labelled_var),
     label_orig = labelled::to_character(labelled_var),
