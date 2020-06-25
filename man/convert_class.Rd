@@ -30,11 +30,19 @@ prefixed with \code{'is_'}.
 Convert To Basic R Classes
 }
 \examples{
-\dontrun{
-sample <- eurobarometer:::eb_sample
-sample_metadata <- gesis_metadata_create(dat = sample)
-convert_class ( dat = sample, metadata = sample_metadata)
-}
+small_sample_convert  <- ZA5913_sample \%>\%
+  mutate ( filename = "ZA5913_sample") \%>\%
+  select (all_of(
+     c("uniqid", "filename", "doi", "p3", "qa10_3", 'w1'))
+     ) \%>\%
+  sample_n(20)
+
+small_sample_metadata <- gesis_metadata_create(
+                                small_sample_convert )
+
+convert_class  ( dat = small_sample_convert,
+                 metadata = small_sample_metadata,
+                 var_name = "var_name_orig")
 }
 \seealso{
 Other harmonization functions: 

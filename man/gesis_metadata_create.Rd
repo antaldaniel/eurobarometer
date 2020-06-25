@@ -34,6 +34,7 @@ The structure of the returned tibble:
   \item{class_suggested}{A suggested class conversion.}
   \item{length_cat_range}{Number of categories in the non-missing range.}
   \item{length_na_range}{Number of categories marked as missing by GESIS.}
+  \item{length_total_range}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
   \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
 }
 }
