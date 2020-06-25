@@ -14,9 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, eval=TRUE, echo=TRUE, message=FALSE}
-## This vignette is hypothetical at this stage, and the chunks, 
-## unless stated otherwise, are NOT evaluated.
+```{r setup, echo=TRUE, message=FALSE}
 library(eurobarometer)
 library(knitr)
 library(dplyr)
@@ -51,13 +49,13 @@ The my_metadata table is rather large, so let's review random samples from a few
 
 The variable names need to be harmonized, and you will get suggestions on how to do it. Only a very small subset of the entire table is shown here:
 
-```{r, echo=FALSE, results='asis', eval=TRUE}
+```{r, echo=FALSE, results='asis'}
 
 my_metadata %>%
   dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
   select ( all_of(c("filename", "var_name_orig", "var_label_orig", "var_name_suggested"))) %>%
-  distinct_all() %>%
-  distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
+  dplyr::distinct_all() %>%
+  dplyr::distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
   arrange ( var_name_suggested ) %>%
   kable () %>%
   kable_styling(bootstrap_options =
@@ -69,16 +67,21 @@ my_metadata %>%
 
 The metadata can help identifying questionnaire item types and it suggests conversion to R classes. Again, only a very small subset of the entire table is shown below:
 
-```{r, echo=FALSE, results='asis'}
-my_metadata %>%
+```{r subset1, echo=FALSE}
+subset_metadata_1 <- my_metadata %>%
   dplyr::filter( var_name_orig %in% c(
     "doi", "isocntry", "qa14_3", "d71b_3",
     "filename", "d7", "w1", "p1")) %>%
   select ( all_of(
     c("var_label_norm", "var_name_suggested",
-      "conversion_suggested", "n_categories"))) %>%
+      "conversion_suggested", "length_cat_range", 
+      "length_na_range"))) %>%
   distinct_all() %>%
-    distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
+    distinct ( var_name_suggested, .keep_all =  TRUE ) 
+```
+
+```{r kablesubset1, results='asis'}
+subset_metadata_1 %>%
   arrange ( var_name_suggested ) %>%
   kable () %>%
   kable_styling(bootstrap_options =
@@ -87,16 +90,20 @@ my_metadata %>%
                   font_size = 10 )
 ```
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis', eval=FALSE}
 
-my_metadata %>%
-  dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
+subset_metadata_2 <- my_metadata %>%
+  dplyr::filter( var_name_orig %in% c(
+    "doi", "isocntry", "qa14_3", "d71b_3", 
+    "filename", "d7", "w1", "p1")) %>%
   select ( all_of(
     c("qb", "var_name_orig", "var_name_suggested",
       "conversion_suggested"))) %>%
   distinct_all() %>%
     distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
-  arrange ( qb ) %>%
+  arrange ( qb )
+
+subset_metadata_2 %>%
   kable () %>%
   kable_styling(bootstrap_options =
                   c("striped", "hover", "condensed"),
@@ -146,7 +153,8 @@ This should return a very basic file for joining, a data.frame/tibble with
 ## Harmonizing various aspects of the survey
 
 ```{r}
-
+## The id's are all harmonized to character value, they are 
+## not consistent in the original SPSS files. 
 id_panel        <- harmonize_qb_vars( 
   survey_list = my_survey_list,
   metadata = my_metadata,
@@ -155,6 +163,7 @@ id_panel        <- harmonize_qb_vars(
   var_name = "var_name_suggested",
   conversion = "conversion_suggested" ) 
 
+## Weights are harmonized to numeric.
 weight_panel <- harmonize_qb_vars( 
   survey_list = my_survey_list,
   metadata = my_metadata,
@@ -163,6 +172,7 @@ weight_panel <- harmonize_qb_vars(
   var_name = "var_name_suggested",
   conversion = "conversion_suggested" )
 
+## Metadata is harmonized to various classes, but mainly character.
 metadata_panel <- harmonize_qb_vars( 
   survey_list = my_survey_list,
   metadata = my_metadata,
@@ -170,6 +180,8 @@ metadata_panel <- harmonize_qb_vars(
   var_name = "var_name_suggested",
   conversion = "conversion_suggested" ) 
 
+## Demography panel is harmonized uniquely, but this is not well
+## developed yet.
 demography_panel <- harmonize_qb_vars( 
   survey_list = my_survey_list,
   metadata = my_metadata,
@@ -178,8 +190,6 @@ demography_panel <- harmonize_qb_vars(
   var_name = "var_name_suggested",
   conversion = "conversion_suggested" ) 
 ```   
-
-
 
 ### Value Harmonization 
 
