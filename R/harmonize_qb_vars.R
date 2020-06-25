@@ -70,7 +70,8 @@ harmonize_qb_vars <- function ( survey_list,
     select_qb <- names(dat)[ names(dat) %in% qb_vars_orig ]
 
     subset_metadata <- qb_metadata %>%
-      filter ( var_name_orig %in% select_qb )
+      filter ( var_name_orig %in% select_qb ) %>%
+      filter ( filename == unique(dat$filename)[1] )
 
     new_names <- unique(as.character(subset_metadata[[var_name]]))
 
@@ -86,10 +87,12 @@ harmonize_qb_vars <- function ( survey_list,
 
     if ( ncol(question_block) > 0 ) {
       question_block <- question_block %>%
-        purrr::set_names ( new_names )  %>%
-        convert_class (.,
-                       metadata = subset_metadata,
-                       conversion = conversion )
+        purrr::set_names ( new_names )
+
+      question_block <- convert_class (
+         dat = question_block,
+         metadata = subset_metadata,
+         conversion = conversion )
 
       dplyr::bind_cols(skeleton, question_block)
     } else {
@@ -120,7 +123,6 @@ harmonize_qb_vars <- function ( survey_list,
 
       for ( i in 2:number_surveys  ) {
         this_survey <- subsetted_surveys[[i]]
-
 
         if (
           ## Only join surveys with existing variables in the QB

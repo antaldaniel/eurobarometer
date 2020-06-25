@@ -12,7 +12,7 @@
 #' @importFrom dplyr mutate filter select bind_cols
 #' @importFrom tidyselect all_of
 #' @importFrom purrr set_names
-#' @importFrom labelled to_factor
+#' @importFrom labelled to_factor to_character
 #' @examples
 #' small_sample_convert  <- ZA5913_sample %>%
 #'   mutate ( filename = "ZA5913_sample") %>%
@@ -48,7 +48,6 @@ convert_class <- function(dat, metadata,
     stop( "Not all '", var_name, "' can be found in the names of dat.")
   }
 
-  numeric_vars_present <- TRUE
   numeric_vars <- class_conversion %>%
     filter ( conversion == 'numeric' ) %>%
     select ( all_of("var")) %>%
@@ -58,9 +57,11 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(numeric_vars) ) %>%
     mutate_all ( as.numeric )
 
-  if (ncol(numeric_df) == 0 ) numeric_vars_present <- FALSE
+  if ( length(numeric_vars) ==0  )  {
+    numeric_vars_present <- FALSE } else {
+      numeric_vars_present <- TRUE
+    }
 
-  character_vars_present <- FALSE
   character_vars <- class_conversion %>%
     filter ( conversion == 'character') %>%
     select ( all_of("var")) %>%
@@ -70,12 +71,13 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(character_vars) ) %>%
     mutate_all ( as.character )
 
-  if ( ncol(character_df) == 0 ) character_vars_present <- FALSE
+  if ( length(character_vars) == 0  )  {
+    character_vars_present <- FALSE } else {
+      character_vars_present <- TRUE
+    }
 
-  labelled_harmonized_vars_present <- TRUE
   labelled_harmonized_vars <- class_conversion %>%
-    filter ( conversion %in% c('harmonized_labelled',
-                               'harmonized_labelled_spss') ,
+    filter ( grepl("labelled", conversion) ,
              length_cat_range == 2,
              length_total_range < 5) %>%
     select ( all_of("var")) %>%
@@ -85,7 +87,10 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(labelled_harmonized_vars) ) %>%
     mutate_all ( harmonize_value_labels )
 
-  if ( length(labelled_harmonized_vars)==0 ) labelled_harmonized_vars_present <- FALSE
+  if ( length(labelled_harmonized_vars_present) ==0  )  {
+    labelled_harmonized_vars_present <- FALSE } else {
+      labelled_harmonized_vars_present <- TRUE
+    }
 
   labelled_unharmonized_vars <- class_conversion %>%
     filter ( ! var %in% labelled_harmonized_vars ) %>%
@@ -96,7 +101,8 @@ convert_class <- function(dat, metadata,
 
   if ( length(labelled_unharmonized_vars)>0) {
     labelled_unharmonized_df <- dat %>%
-      select ( tidyselect::all_of(labelled_unharmonized_vars) )
+      select ( tidyselect::all_of(labelled_unharmonized_vars) ) %>%
+      mutate_all ( labelled::to_character )
   }
 
   if ( length(labelled_unharmonized_vars) == 0 ) {
@@ -155,8 +161,10 @@ convert_class <- function(dat, metadata,
     factor_vars_present <- FALSE
   }
 
+  ## Binding together by class -------------------------------------
   remerged_dat <- tibble::tibble (
-    remove_this_in_the_end_concert_class = vector(mode='logical', length=nrow(dat))
+    remove_this_in_the_end_concert_class = vector(
+      mode='logical', length=nrow(dat))
   )
 
   if ( character_vars_present ) {
@@ -193,8 +201,6 @@ convert_class <- function(dat, metadata,
            paste(missing_from_return, collapse = ","),
            "\nThis is an error.")
   }
-
-
 
   remerged_dat <- remerged_dat %>%
     select ( all_of(original_name_order))

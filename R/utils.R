@@ -31,7 +31,8 @@ class_suggest <- function(metadata) {
 
   suggestions <- metadata %>%
     mutate ( dummy = vapply(valid_range, is_dummy, logical(1))) %>%
-    mutate ( conversion_suggestion = dplyr::case_when (
+    mutate ( conversion_suggested = dplyr::case_when (
+      qb         == "id" ~ 'character',
       class_orig %in% c("numeric","character") ~ class_orig,
       class_orig == 'haven_labelled' & length_cat_range == 2  ~ 'harmonized_labelled',
       class_orig == 'haven_labelled_spss' & length_cat_range == 2  ~ 'harmonized_labelled',

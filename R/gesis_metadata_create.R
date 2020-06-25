@@ -84,6 +84,7 @@ gesis_metadata_create <- function ( survey_list ) {
     value_labels_df$factor_levels <- all_val_labels
     value_labels_df$na_levels <- sapply ( dat, labelled::na_values)
 
+    ## Establish the valid range of categories without missings -----
     fn_valid_range <- function ( x ) {
       element_name <- names ( value_labels_df$factor_levels[x] )
       f <- unlist(value_labels_df$factor_levels[x])
@@ -92,8 +93,9 @@ gesis_metadata_create <- function ( survey_list ) {
 
       if ( ! is.null(valid_range) ) {
         names( valid_range) <- gsub(paste0(element_name, "."), "", names(valid_range))
-     }
-      valid_range
+      }
+      normalized_labels <- label_normalize(names(valid_range))
+      valid_range [which ( ! grepl( "inap|refus|dk|decline", normalized_labels))]
     }
 
     value_labels_df$valid_range <- sapply (

@@ -9,7 +9,6 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  eval = FALSE,
   collapse = TRUE,
   comment = "#>"
 )
@@ -70,12 +69,14 @@ my_metadata %>%
 
 The metadata can help identifying questionnaire item types and it suggests conversion to R classes. Again, only a very small subset of the entire table is shown below:
 
-```{r, echo=FALSE, results='asis', eval=TRUE}
+```{r, echo=FALSE, results='asis'}
 my_metadata %>%
-  dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
+  dplyr::filter( var_name_orig %in% c(
+    "doi", "isocntry", "qa14_3", "d71b_3",
+    "filename", "d7", "w1", "p1")) %>%
   select ( all_of(
     c("var_label_norm", "var_name_suggested",
-      "class_suggested", "n_categories"))) %>%
+      "conversion_suggested", "n_categories"))) %>%
   distinct_all() %>%
     distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
   arrange ( var_name_suggested ) %>%
@@ -86,13 +87,13 @@ my_metadata %>%
                   font_size = 10 )
 ```
 
-```{r, echo=FALSE, results='asis', eval=TRUE}
+```{r, echo=FALSE, results='asis'}
 
 my_metadata %>%
   dplyr::filter( var_name_orig %in% c("doi", "isocntry", "qa14_3", "d71b_3", "filename", "d7", "w1", "p1")) %>%
   select ( all_of(
     c("qb", "var_name_orig", "var_name_suggested",
-      "class_suggested"))) %>%
+      "conversion_suggested"))) %>%
   distinct_all() %>%
     distinct ( var_name_suggested, .keep_all =  TRUE ) %>%
   arrange ( qb ) %>%
@@ -114,7 +115,7 @@ my_metadata %>%
 
 ## Creating a skeleton panel
 
-```{r, eval= TRUE}
+```{r}
 ## filter out the most basic and omnipresent id variables, and the
 ## most basic weights, w1 and its projected version wex
 
@@ -129,7 +130,7 @@ names(my_panel)
 
 Let's have a look at 6 randomly selected rows: 
 
-```{r, eval=TRUE, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis'}
 sample_n( my_panel, 6) %>%
   kable() %>%  
   kable_styling(bootstrap_options =
@@ -144,7 +145,7 @@ This should return a very basic file for joining, a data.frame/tibble with
 
 ## Harmonizing various aspects of the survey
 
-```{r, eval=TRUE}
+```{r}
 
 id_panel        <- harmonize_qb_vars( 
   survey_list = my_survey_list,
@@ -152,7 +153,7 @@ id_panel        <- harmonize_qb_vars(
   id_vars = c("uniqid", "doi"),
   question_block = "id",
   var_name = "var_name_suggested",
-  conversion = "class_suggested" ) 
+  conversion = "conversion_suggested" ) 
 
 weight_panel <- harmonize_qb_vars( 
   survey_list = my_survey_list,
@@ -160,48 +161,43 @@ weight_panel <- harmonize_qb_vars(
   question_block = "weights",
   id_vars = c("uniqid", "doi"),
   var_name = "var_name_suggested",
-  conversion = "class_suggested" )
+  conversion = "conversion_suggested" )
 
+metadata_panel <- harmonize_qb_vars( 
+  survey_list = my_survey_list,
+  metadata = my_metadata,
+  question_block = "metadata",
+  var_name = "var_name_suggested",
+  conversion = "conversion_suggested" ) 
 
+demography_panel <- harmonize_qb_vars( 
+  survey_list = my_survey_list,
+  metadata = my_metadata,
+  id_vars = c("uniqid", "doi"),
+  question_block = "socio-demography",
+  var_name = "var_name_suggested",
+  conversion = "conversion_suggested" ) 
 ```   
 
-```{r, eval=FALSE}
-metadata_panel <- harmonize_qb_vars( survey_list = my_survey_list,
-                   metadata = my_metadata,
-                   question_block = "metadata",
-                   var_name = "var_name_suggested",
-                   conversion = "class_suggested" ) 
-```
-
-
-```{r, eval=FALSE}
-demography_panel <- harmonize_qb_vars( 
-                   survey_list = my_survey_list,
-                   metadata = my_metadata,
-                   id_vars = c("uniqid", "doi"),
-                   question_block = "socio-demography",
-                   var_name = "var_name_suggested",
-                   conversion = "class_suggested" ) 
-```
-
-```{r, eval=TRUE}
-trust_panel <- harmonize_qb_vars( 
-                  survey_list = my_survey_list,
-                   metadata = my_metadata,
-                   question_block = "trust",
-                   var_name = "var_name_suggested",
-                   conversion = "class_suggested" ) 
-
-```
 
 
 ### Value Harmonization 
 
 The trust panel contains harmonized labelled variables. They can be converted to a harmonized numeric value with consistent binary values and consistent treatment of `inappropriate` and `declined` values.
 
-> This is not working fully yet.
+> This is only working with binary vars, the rest is converted to character.
 
-The trust_vector contains the harmonized numeric values, harmonized labels alongside the original values and the original labels. This means that all conversion is _reversible_.
+```{r}
+trust_panel <- harmonize_qb_vars( 
+  survey_list = my_survey_list,
+  metadata = my_metadata,
+  question_block = "trust",
+  var_name = "var_name_suggested",
+  conversion = "conversion_suggested" ) 
+
+```
+
+The `trust_vector` below contains the harmonized numeric values, harmonized labels alongside the original values and the original labels. This means that all conversion is _reversible_.
 
 ```{r}
 trust_vector <- unique ( trust_panel$council_of_the_eu_trust)
@@ -209,7 +205,7 @@ str(trust_vector)
 ```
 The `harmonize_to_numeric()` function correctly gives the numeric value, considering the two sources of missingness.
 
-```{r, results='asis', eval=TRUE}
+```{r, results='asis'}
 trust_panel %>%
   mutate_at( vars(-all_of("panel_id")), harmonize_to_numeric ) %>%
   summarize_if ( is.numeric, mean, na.rm=TRUE) %>%
@@ -219,9 +215,13 @@ trust_panel %>%
 
 It is likely that your computer's memory will not be enough to `left_join` these data tables, so bind them in long format:
 
-```{r, eval=TRUE}
-panels <- list ( trust_panel,
-                 weight_panel )
+```{r}
+panels <- list ( id_panel, 
+                 trust_panel,
+                 demography_panel,
+                 weight_panel, 
+                 metadata_panel
+                 )
 
 long_panels <- lapply (panels,
                  function(x) tidyr::pivot_longer (
@@ -246,95 +246,48 @@ This approach is not sensitive to missing questions.  If some trust questions ar
 
 ## Summary
 
-```{r, eval=TRUE}
-# Print the value labels
+```{r, echo=TRUE, message=TRUE}
+# Print the harmonized and the original value labels
 labelled::val_labels(trust_panel$council_of_the_eu_trust)
-
+attr(trust_panel$council_of_the_eu_trust, "labels_orig")
+```
+```{r}
 # Summarize them as factors
 summary ( labelled::to_factor(trust_panel$council_of_the_eu_trust))
-
 # Summarize them as numeric
 summary ( harmonize_to_numeric(trust_panel$council_of_the_eu_trust))
+```
+You can simply revert to the original value labels:
+
+```{r}
+labelled::val_labels(
+  trust_panel$council_of_the_eu_trust ) <-  attr(
+    trust_panel$council_of_the_eu_trust, "labels_orig")
+
+summary(labelled::to_factor(trust_panel$council_of_the_eu_trust))
 ```
 
 ## Work Documentation
 
-In this approach, all steps are saved and documented, and the basis of the documentation is that the metadata lives separately from the data.
+```{r, echo=TRUE}
+num_value_range <- unique(trust_panel$trust_in_institutions_media)
+as.numeric(num_value_range)
+num_value_range [!is.na(num_value_range)]
 
-We create a generic function  `document_qb` that orders the variable renaming, value label harmonization, class conversions steps into a neat table. 
-
-```{r}
-## This is how I envision the basic documentation workflow
-
-my_workflow %>%
-  left_join ( 
-    document_demography ( 
-      #documents variables identified by survey rename
-      #with the help of demography_table
-      working_metadata, 
-      working_dir), 
-    by = c("id_uniq", "filename")
-  ) %>%
-  left_join ( 
-    document_metadata  ( 
-      # documents variables identified by survey rename
-      # with the help of survey_metadata_table
-      # such as date, people present, etc.
-      working_metadata, 
-      working_dir), 
-    by = c("id_uniq", "filename")
-  ) %>%
-  left_join ( 
-    document_qb ( 
-      # documents variables identified by survey rename
-      # from a particular question block
-      # table part of the package 
-      working_metadata, 
-      working_dir, 
-      document_table = trust_table), 
-    by = c("id_uniq", "filename")
-  ) %>%
-  left_join ( 
-    document_qb ( 
-      # documents variables identified by survey rename
-      # from a particular question block
-      # designed by the user 
-      working_metadata, 
-      working_dir, 
-      document_table = user_table_1 ), 
-    by = c("id_uniq", "filename")
-  ) %>% 
-  filter (
-    # if only a few survey files had trust variables, then many 
-    # trust_vars are missing, chose one for filtering
-    !is.na(my_trust_var)
-  )
+summarize_values <- data.frame (
+  harmonized_numeric = labelled::val_labels(
+    trust_panel$trust_in_institutions_media), 
+    original_numeric = attr( trust_panel$trust_in_institutions_media, "num_orig"),
+  original_labels = names(attr( trust_panel$trust_in_institutions_media, "labels_orig"))
+) 
 ```
 
-Then it creates a standard html or latex table:
-
-```{r}
-## this produces as latex or html output with knitr::kable and 
-## kableExtra 
-## that the user can follow up on
-
-workflow_table ( my_workflow ) %>%
-  kableExtra::add_footnote( <users own additions> )
-    
-```
-
-## Panel Summary
-
-At last we help the user with documenting the panel a bit. 
-
-```{r}
-## this produces a readable summary with a package such as 
-## stargazer or sjMisc or whatever we chose as a dependency 
-## about number of observations, mean, median values, missingness, 
-## etc. 
-
-panel_summarize ( my_panel ) 
-    
+```{r, echo=FALSE, results='asis' }
+kable(summarize_values)  %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
 ```
 
 ## Published results
