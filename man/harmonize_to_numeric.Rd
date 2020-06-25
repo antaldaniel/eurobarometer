@@ -6,6 +6,10 @@
 \usage{
 harmonize_to_numeric(harmonized_labelled_var)
 }
+\arguments{
+\item{harmonized_labelled_var}{A harmonized labelled var created
+by \code{\link{harmonize_value_labels}}}
+}
 \description{
 Convert a harmonized, labelled variable created by
 \code{\link{harmonize_value_labels}} to the numeric class.
