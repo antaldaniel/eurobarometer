@@ -10,7 +10,7 @@
 
 class_suggest <- function(metadata) {
 
-  . <- n_categories <- class_orig <- NULL
+  . <- n_categories <- class_orig <- valid_range <- NULL
 
   is_dummy <- function(x) {
 

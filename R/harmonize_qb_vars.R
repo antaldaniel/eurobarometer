@@ -43,7 +43,7 @@ harmonize_qb_vars <- function ( survey_list,
 
   id_vars_input <- id_vars
   id_vars <- qb <- survey_subset <- var_name_orig <- NULL
-  . <- panel_id <- NULL
+  . <- panel_id <- filename <- NULL
 
   if ( ! "list" %in% class(survey_list) ) {
     survey_list <- to_survey_list(survey_list)

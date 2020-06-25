@@ -27,15 +27,12 @@ harmonize_value_labels <- function (labelled_var) {
   data ("label_harmonization_table", envir = environment())
 
   if ("haven_labelled_spss" %in% class ( labelled_var )) {
-
     new_labelled_var <- labelled_var
     labelled_var <- labelled::labelled(
       unclass(new_labelled_var),
       labels = attr(new_labelled_var, "labels")
     )
   }
-
-  head ( labelled_var )
 
   harmonized_1 <- tibble (
     numeric = as.numeric(labelled_var),

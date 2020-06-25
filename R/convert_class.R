@@ -14,6 +14,8 @@
 #' @importFrom purrr set_names
 #' @importFrom labelled to_factor to_character
 #' @examples
+#' \dontrun{
+#' require(dplyr)
 #' small_sample_convert  <- ZA5913_sample %>%
 #'   mutate ( filename = "ZA5913_sample") %>%
 #'   select (all_of(
@@ -27,6 +29,7 @@
 #' convert_class  ( dat = small_sample_convert,
 #'                  metadata = small_sample_metadata,
 #'                  var_name = "var_name_orig")
+#' }
 #' @importFrom purrr set_names
 #' @importFrom dplyr filter select mutate_all bind_cols
 #' @importFrom tidyselect all_of
@@ -37,6 +40,9 @@
 convert_class <- function(dat, metadata,
                           var_name = "var_name_suggested",
                           conversion = "conversion_suggested" ) {
+
+  . <- var <- valid_range <- length_total_range <- NULL
+  length_cat_range <- NULL
 
   original_name_order  <- names ( dat )
   class_conversion <- metadata %>%

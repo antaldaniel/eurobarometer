@@ -30,6 +30,8 @@ prefixed with \code{'is_'}.
 Convert To Basic R Classes
 }
 \examples{
+\dontrun{
+require(dplyr)
 small_sample_convert  <- ZA5913_sample \%>\%
   mutate ( filename = "ZA5913_sample") \%>\%
   select (all_of(
@@ -43,6 +45,7 @@ small_sample_metadata <- gesis_metadata_create(
 convert_class  ( dat = small_sample_convert,
                  metadata = small_sample_metadata,
                  var_name = "var_name_orig")
+}
 }
 \seealso{
 Other harmonization functions: 
