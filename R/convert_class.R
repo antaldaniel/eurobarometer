@@ -87,7 +87,7 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(labelled_harmonized_vars) ) %>%
     mutate_all ( harmonize_value_labels )
 
-  if ( length(labelled_harmonized_vars_present) ==0  )  {
+  if ( length(labelled_harmonized_vars) ==0  )  {
     labelled_harmonized_vars_present <- FALSE } else {
       labelled_harmonized_vars_present <- TRUE
     }
