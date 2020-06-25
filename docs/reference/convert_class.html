@@ -189,17 +189,22 @@ prefixed with <code>'is_'</code>.</p>
 <code><a href='panel_create.html'>panel_create</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>small_sample_convert</span>  <span class='kw'>&lt;-</span> <span class='no'>ZA5913_sample</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span> ( <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"ZA5913_sample"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>select</span> (<span class='fu'>all_of</span>(
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dplyr</span>)
+<span class='no'>small_sample_convert</span>  <span class='kw'>&lt;-</span> <span class='no'>ZA5913_sample</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span> ( <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"ZA5913_sample"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span> (<span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>all_of</a></span>(
      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"filename"</span>, <span class='st'>"doi"</span>, <span class='st'>"p3"</span>, <span class='st'>"qa10_3"</span>, <span class='st'>'w1'</span>))
      ) <span class='kw'>%&gt;%</span>
-  <span class='fu'>sample_n</span>(<span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='error'>Error in mutate(., filename = "ZA5913_sample"): could not find function "mutate"</span></div><div class='input'>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/sample_n.html'>sample_n</a></span>(<span class='fl'>20</span>)
+
 <span class='no'>small_sample_metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gesis_metadata_create.html'>gesis_metadata_create</a></span>(
-                                <span class='no'>small_sample_convert</span> )</div><div class='output co'>#&gt; <span class='error'>Error in "list" %in% class(survey_list): object 'small_sample_convert' not found</span></div><div class='input'>
+                                <span class='no'>small_sample_convert</span> )
+
 <span class='fu'>convert_class</span>  ( <span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>small_sample_convert</span>,
                  <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>small_sample_metadata</span>,
-                 <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_orig"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in convert_class(dat = small_sample_convert, metadata = small_sample_metadata,     var_name = "var_name_orig"): object 'small_sample_convert' not found</span></div></pre>
+                 <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_orig"</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
