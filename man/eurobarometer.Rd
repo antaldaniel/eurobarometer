@@ -25,7 +25,6 @@ The metadata functions map the SPSS file and suggest variable names,
 re-labelling and class conversions.
 \code{\link{gesis_metadata_create}}
 \code{\link{gesis_vocabulary_create}}
-\code{\link{gesis_corpus_create}} is a wrapper the two former functions.
 }
 
 \section{harmonization functions}{
