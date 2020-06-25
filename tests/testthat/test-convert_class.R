@@ -1,9 +1,11 @@
+library(testthat)
+library(dplyr)
 data ("ZA5913_sample")
 
 small_sample_convert  <- ZA5913_sample %>%
   mutate ( filename = "ZA5913_sample") %>%
   select (all_of(c("uniqid", "filename", "doi", "p3", "qa10_3", 'w1'))) %>%
-  sample_n(20)
+  dplyr::sample_n(20)
 small_sample_metadata <- gesis_metadata_create( small_sample_convert )
 
 test_converted <- convert_class  ( dat = small_sample_convert,
