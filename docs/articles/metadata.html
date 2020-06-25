@@ -115,11 +115,11 @@
 <span class="no">eb_sample</span>$<span class="no">filename</span> <span class="kw">&lt;-</span> <span class="st">'eb_sample'</span>
 <span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">eb_sample</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">sample_metadata</span>)
-<span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
-<span class="co">#&gt;  [4] "var_label_orig"     "var_label_norm"     "var_name_suggested"</span>
-<span class="co">#&gt;  [7] "length_cat_range"   "length_na_range"    "n_categories"      </span>
-<span class="co">#&gt; [10] "factor_levels"      "valid_range"        "na_levels"         </span>
-<span class="co">#&gt; [13] "class_orig"         "class_suggested"</span></pre></body></html></div>
+<span class="co">#&gt;  [1] "filename"             "qb"                   "var_name_orig"       </span>
+<span class="co">#&gt;  [4] "var_label_orig"       "var_label_norm"       "var_name_suggested"  </span>
+<span class="co">#&gt;  [7] "length_cat_range"     "length_na_range"      "length_total_range"  </span>
+<span class="co">#&gt; [10] "n_categories"         "factor_levels"        "valid_range"         </span>
+<span class="co">#&gt; [13] "na_levels"            "class_orig"           "conversion_suggested"</span></pre></body></html></div>
 <p>The function <code>gesis_metadta_create</code> normalizes those variable names that are not machine readable, using two functions under the hood (see: <code><a href="../reference/label_normalize.html">?label_normalize</a></code> and <code><a href="../reference/label_suggest.html">?label_suggest</a></code>.)</p>
 <p>These names are still often problematic and require adjustment.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">adjusted_metadata</span> <span class="kw">&lt;-</span> <span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
