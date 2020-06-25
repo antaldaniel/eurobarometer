@@ -8,6 +8,11 @@
 #' @return The \code{df} converted to numeric, character, factor classes.
 #' Dummies are converted to binary numeric variables and their name is
 #' prefixed with \code{'is_'}.
+#' @importFrom tibble tibble
+#' @importFrom dplyr mutate filter select bind_cols
+#' @importFrom tidyselect all_of
+#' @importFrom purrr set_names
+#' @importFrom labelled to_factor
 #' @examples
 #' small_sample_convert  <- ZA5913_sample %>%
 #'   mutate ( filename = "ZA5913_sample") %>%
@@ -43,6 +48,7 @@ convert_class <- function(dat, metadata,
     stop( "Not all '", var_name, "' can be found in the names of dat.")
   }
 
+  numeric_vars_present <- TRUE
   numeric_vars <- class_conversion %>%
     filter ( conversion == 'numeric' ) %>%
     select ( all_of("var")) %>%
@@ -52,6 +58,9 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(numeric_vars) ) %>%
     mutate_all ( as.numeric )
 
+  if (ncol(numeric_df) == 0 ) numeric_vars_present <- FALSE
+
+  character_vars_present <- FALSE
   character_vars <- class_conversion %>%
     filter ( conversion == 'character') %>%
     select ( all_of("var")) %>%
@@ -61,6 +70,9 @@ convert_class <- function(dat, metadata,
     select ( tidyselect::all_of(character_vars) ) %>%
     mutate_all ( as.character )
 
+  if ( ncol(character_df) == 0 ) character_vars_present <- FALSE
+
+  labelled_harmonized_vars_present <- TRUE
   labelled_harmonized_vars <- class_conversion %>%
     filter ( conversion %in% c('harmonized_labelled',
                                'harmonized_labelled_spss') ,
@@ -72,6 +84,8 @@ convert_class <- function(dat, metadata,
   labelled_harmonized_df <- dat %>%
     select ( tidyselect::all_of(labelled_harmonized_vars) ) %>%
     mutate_all ( harmonize_value_labels )
+
+  if ( length(labelled_harmonized_vars)==0 ) labelled_harmonized_vars_present <- FALSE
 
   labelled_unharmonized_vars <- class_conversion %>%
     filter ( ! var %in% labelled_harmonized_vars ) %>%
@@ -85,10 +99,22 @@ convert_class <- function(dat, metadata,
       select ( tidyselect::all_of(labelled_unharmonized_vars) )
   }
 
+  if ( length(labelled_unharmonized_vars) == 0 ) {
+    labelled_unharmonized_vars_present <- FALSE
+  } else {
+    labelled_unharmonized_vars_present <- TRUE
+  }
+
   dummy_vars <- class_conversion %>%
     filter ( conversion == 'dummy') %>%
     select ( all_of("var")) %>%
     unlist() %>% as.character()
+
+  if ( length(dummy_vars) == 0 ) {
+    dummy_vars_present <- FALSE
+  } else {
+    dummy_vars_present <- TRUE
+  }
 
   recode_dummy <- function(x) {
     ifelse(x=="mentioned",
@@ -117,6 +143,7 @@ convert_class <- function(dat, metadata,
 
   if ( length(factor_vars) > 0 ) {
 
+    factor_vars_present <- TRUE
     relabel_factors <- function(x) {
       x <- labelled::to_factor(x, drop_unused_labels = TRUE)
     }
@@ -124,27 +151,38 @@ convert_class <- function(dat, metadata,
     factor_df <- dat %>%
       select ( all_of(factor_vars) ) %>%
       mutate_all ( relabel_factors  )
+  } else {
+    factor_vars_present <- FALSE
   }
 
-  remerged_dat <- bind_cols (
-    character_df, numeric_df )
+  remerged_dat <- tibble::tibble (
+    remove_this_in_the_end_concert_class = vector(mode='logical', length=nrow(dat))
+  )
 
-  if ( length(labelled_harmonized_vars)>0) {
+  if ( character_vars_present ) {
+    remerged_dat <- bind_cols(remerged_dat,character_df)
+  }
+
+  if ( numeric_vars_present ) {
+    remerged_dat <- bind_cols(remerged_dat,numeric_df)
+  }
+
+  if ( labelled_harmonized_vars_present ) {
     remerged_dat <- bind_cols (
       remerged_dat, labelled_harmonized_df )
   }
 
-  if ( length(labelled_unharmonized_vars)>0) {
+  if ( labelled_unharmonized_vars_present) {
     remerged_dat <- bind_cols (
       remerged_dat, labelled_unharmonized_df )
   }
 
-  if ( length(dummy_vars)>0) {
+  if ( dummy_vars_present ) {
     remerged_dat <- bind_cols (
       remerged_dat, dummy_df )
   }
 
-  if ( length(factor_vars)>0) {
+  if ( factor_vars_present ) {
     remerged_dat <- bind_cols (
       remerged_dat, factor_df )
   }
@@ -156,13 +194,18 @@ convert_class <- function(dat, metadata,
            "\nThis is an error.")
   }
 
+
+
+  remerged_dat <- remerged_dat %>%
+    select ( all_of(original_name_order))
+
   rename_dummies <- names(remerged_dat)
 
   remerged_dat %>%
-    purrr::set_names (ifelse ( rename_dummies  %in% dummy_vars,
-                               paste0('is_', rename_dummies ),
-                               names(remerged_dat))
-    ) %>%
-    select ( all_of(original_name_order))
+    purrr::set_names (., nm= ifelse ( rename_dummies  %in% dummy_vars,
+                                      paste0('is_', rename_dummies ),
+                                      names(remerged_dat))
+                      )
+
 
 }
