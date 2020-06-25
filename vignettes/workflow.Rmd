@@ -217,7 +217,6 @@ trust_panel %>%
   kable()
 ```
 
-
 It is likely that your computer's memory will not be enough to `left_join` these data tables, so bind them in long format:
 
 ```{r, eval=TRUE}

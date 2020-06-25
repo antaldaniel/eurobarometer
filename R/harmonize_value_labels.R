@@ -3,6 +3,8 @@
 #' Harmonize the numeric values and the value labels of variables.
 #' Currently works only with binary values.
 #'
+#' @param labelled_var A vector (survey variable) coded in with
+#' labelled class.
 #' @importFrom labelled to_character labelled
 #' @importFrom dplyr case_when mutate left_join if_else distinct_all
 #' @importFrom tibble tibble
@@ -17,6 +19,10 @@
 #' @export
 
 harmonize_value_labels <- function (labelled_var) {
+
+  ## non-standard evaluation initialization --------------------
+  label_harmonization_table <- label_harmonized <- label_norm <- NULL
+  label_orig <- na_harmonized <- na_numeric_value <- value_numeric <- NULL
 
   data ( "label_harmonization_table", envir = environment())
 

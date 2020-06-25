@@ -6,6 +6,10 @@
 \usage{
 harmonize_value_labels(labelled_var)
 }
+\arguments{
+\item{labelled_var}{A vector (survey variable) coded in with
+labelled class.}
+}
 \value{
 A labelled vector containing harmonized numeric values and
 labels, and in \code{attr(v, num_orig)} the original numeric values,
