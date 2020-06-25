@@ -9,3 +9,7 @@ test_that("to_survey_list works", {
 test_that("to_survey_list handles exceptions", {
   expect_error(to_survey_list("character"))
 })
+
+## Test class suggest ----------------------------------------------
+
+metadata <- gesis_metadata_create(ZA5913_sample)
