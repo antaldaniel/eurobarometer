@@ -6,32 +6,40 @@
 #' variable.
 #' @importFrom magrittr %>%
 #' @importFrom dplyr select mutate case_when
+#' @importFrom tidyselect all_of
 
 class_suggest <- function(metadata) {
 
   . <- n_categories <- class_orig <- NULL
 
-  factor_levels <- sapply ( metadata$factor_levels,
-                        function(x) sort(tolower(unlist(x))) )
+  is_dummy <- function(x) {
 
-  first_level  <- unlist(lapply(factor_levels, function(x) x[1]))
-  second_level <- unlist(lapply(factor_levels, function(x) x[2]))
+    if ( is.null(x) ) return(FALSE)
+    these_labels <- label_normalize(names(x))
+    if ( length(these_labels) != 2 ) return(FALSE)
+
+    ifelse ( all(sort (label_normalize(names(x))) == c(
+      "mentioned", "not_mentioned")),
+      TRUE, FALSE)
+  }
+
+  metadata_lab  <- metadata %>%
+    filter ( "haven_labelled" == class_orig  )
+
+  metadata_spss <- metadata %>%
+    filter ( "haven_labelled_spss" == class_orig )
 
   suggestions <- metadata %>%
-    dplyr::select ( class_orig,
-                    factor_levels, n_categories ) %>%
-    mutate ( first_level  = first_level,
-             second_level = second_level )
-
-  suggestions <-suggestions %>%
-    mutate ( suggestion = dplyr::case_when (
+    mutate ( dummy = vapply(valid_range, is_dummy, logical(1))) %>%
+    mutate ( conversion_suggestion = dplyr::case_when (
       class_orig %in% c("numeric","character") ~ class_orig,
-      class_orig == 'haven_labelled' & n_categories  == 1 ~ 'character',
-      first_level == "mentioned" & second_level == "not mentioned" ~  'dummy',
-      TRUE ~ "harmonized_labelled" ))
+      class_orig == 'haven_labelled' & length_cat_range == 2  ~ 'harmonized_labelled',
+      class_orig == 'haven_labelled_spss' & length_cat_range == 2  ~ 'harmonized_labelled',
+      dummy == TRUE ~  'dummy',
+      TRUE ~ class_orig )) %>%
+    select ( -all_of("dummy"))
 
-  metadata$class_suggested <- suggestions$suggestion
-  metadata
+  suggestions
 }
 
 #' Identify A Question Block
@@ -123,13 +131,13 @@ harmonize_missing_values <- function (x) {
   tmp %>%
     mutate ( na_harmonized = dplyr::case_when (
       grepl("inap", label_norm) ~ "inap",
-      grepl("decline|dk|refuse", label_norm) ~ "decline",
+      grepl("decline|dk|refus", label_norm) ~ "declined",
       grepl("dont_know", label_norm) ~ "do_not_know",
       TRUE ~ label_norm )
     ) %>%
     mutate ( na_numeric_value =  case_when (
       na_harmonized == "inap"  ~  9999,
-      na_harmonized == "decline" ~ 9998,
+      na_harmonized == "declined" ~ 9998,
       na_harmonized == "do_not_know" ~ 9997,
       TRUE ~ 8999
     ))
