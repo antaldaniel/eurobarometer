@@ -17,6 +17,7 @@
 #'   \item{class_suggested}{A suggested class conversion.}
 #'   \item{length_cat_range}{Number of categories in the non-missing range.}
 #'   \item{length_na_range}{Number of categories marked as missing by GESIS.}
+#'   \item{length_total_range}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
 #'   \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
 #' }
 #' @param survey_list A list of data frames containing surveys, or a
@@ -75,7 +76,7 @@ gesis_metadata_create <- function ( survey_list ) {
       var_name_suggested = var_label_suggested
     )
 
-    ## Creating a catalog of possible categories / factor levels ----
+    ## Creating a catalogue of possible categories / factor levels ----
     all_val_labels <- sapply ( dat, labelled::val_labels )
     value_labels_df <- data.frame (
       var_name_orig = names ( all_val_labels  )
@@ -104,6 +105,9 @@ gesis_metadata_create <- function ( survey_list ) {
     value_labels_df$length_na_range <- sapply (
       value_labels_df$na_levels, length )
 
+    value_labels_df$length_total_range <- vapply (
+      dat, function(x) length(unique(x)), numeric(1))
+
     ##Merging the basic metadata with the categories
     metadata <- dplyr::full_join(
       metadata,
@@ -120,6 +124,7 @@ gesis_metadata_create <- function ( survey_list ) {
                         "var_label_orig",
                         "var_label_norm", "var_name_suggested",
                         "length_cat_range", "length_na_range",
+                        "length_total_range",
                         "n_categories",
                         "factor_levels", "valid_range", "na_levels",
                         "class_orig")
