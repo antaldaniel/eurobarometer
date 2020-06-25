@@ -12,4 +12,4 @@ test_that("to_survey_list handles exceptions", {
 
 ## Test class suggest ----------------------------------------------
 
-metadata <- gesis_metadata_create(ZA5913_sample)
+#metadata <- gesis_metadata_create(ZA5913_sample)
