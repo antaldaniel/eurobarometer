@@ -151,7 +151,7 @@
   <span class='no'>dat</span>,
   <span class='no'>metadata</span>,
   <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_suggested"</span>,
-  <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"conversion_suggestion"</span>
+  <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"conversion_suggested"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -172,7 +172,7 @@
     </tr>
     <tr>
       <th>conversion</th>
-      <td><p>Defaults to <code>"conversion_suggestion"</code>.</p></td>
+      <td><p>Defaults to <code>"conversion_suggested"</code>.</p></td>
     </tr>
     </table>
 
@@ -189,11 +189,17 @@ prefixed with <code>'is_'</code>.</p>
 <code><a href='panel_create.html'>panel_create</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>sample</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>eurobarometer</span><span class='kw ns'>:::</span><span class='no'><a href='eb_sample.html'>eb_sample</a></span>
-<span class='no'>sample_metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gesis_metadata_create.html'>gesis_metadata_create</a></span>(<span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>sample</span>)
-<span class='fu'>convert_class</span> ( <span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>sample</span>, <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>sample_metadata</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>small_sample_convert</span>  <span class='kw'>&lt;-</span> <span class='no'>ZA5913_sample</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>mutate</span> ( <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"ZA5913_sample"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>select</span> (<span class='fu'>all_of</span>(
+     <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"filename"</span>, <span class='st'>"doi"</span>, <span class='st'>"p3"</span>, <span class='st'>"qa10_3"</span>, <span class='st'>'w1'</span>))
+     ) <span class='kw'>%&gt;%</span>
+  <span class='fu'>sample_n</span>(<span class='fl'>20</span>)</div><div class='output co'>#&gt; <span class='error'>Error in mutate(., filename = "ZA5913_sample"): could not find function "mutate"</span></div><div class='input'>
+<span class='no'>small_sample_metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gesis_metadata_create.html'>gesis_metadata_create</a></span>(
+                                <span class='no'>small_sample_convert</span> )</div><div class='output co'>#&gt; <span class='error'>Error in "list" %in% class(survey_list): object 'small_sample_convert' not found</span></div><div class='input'>
+<span class='fu'>convert_class</span>  ( <span class='kw'>dat</span> <span class='kw'>=</span> <span class='no'>small_sample_convert</span>,
+                 <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>small_sample_metadata</span>,
+                 <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_orig"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in convert_class(dat = small_sample_convert, metadata = small_sample_metadata,     var_name = "var_name_orig"): object 'small_sample_convert' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

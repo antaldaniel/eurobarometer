@@ -151,6 +151,15 @@ Currently works only with binary values.</p>
 
     <pre class="usage"><span class='fu'>harmonize_value_labels</span>(<span class='no'>labelled_var</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>labelled_var</th>
+      <td><p>A vector (survey variable) coded in with
+labelled class.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
@@ -159,9 +168,18 @@ labels, and in <code><a href='https://rdrr.io/r/base/attr.html'>attr(v, num_orig
 <code><a href='https://rdrr.io/r/base/attr.html'>attr(v, labels_orig)</a></code> the original labelling.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
+    <pre class="examples"><div class='input'><span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
              <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>YES</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>NO</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>wrong_label</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>refused</span> <span class='kw'>=</span> <span class='fl'>9</span>)
-             )</div><div class='output co'>#&gt; <span class='error'>Error in labelled(c(3, 4, 4, 3, 8, 9), c(YES = 3, NO = 4, wrong_label = 8,     refused = 9)): could not find function "labelled"</span></div><div class='input'><span class='fu'>harmonize_value_labels</span>(<span class='no'>v</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "haven_labelled_spss" %in% class(labelled_var): object 'v' not found</span></div></pre>
+             )
+<span class='fu'>harmonize_value_labels</span>(<span class='no'>v</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
+#&gt; [1]    1    0    0    1 8999 9998
+#&gt; 
+#&gt; Labels:
+#&gt;  value       label
+#&gt;      1         yes
+#&gt;      0          no
+#&gt;   8999 wrong_label
+#&gt;   9998    declined</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
