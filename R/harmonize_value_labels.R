@@ -5,6 +5,7 @@
 #'
 #' @param labelled_var A vector (survey variable) coded in with
 #' labelled class.
+#' @param categories The number of valid categories in the value range.
 #' @importFrom labelled to_character labelled
 #' @importFrom dplyr case_when mutate left_join if_else distinct_all
 #' @importFrom tibble tibble
@@ -16,10 +17,10 @@
 #'        c(3,4,4,3,8, 9),
 #'        c(YES = 3, NO = 4, wrong_label = 8, refused = 9)
 #'       )
-#' harmonize_value_labels(v)
+#' harmonize_value_labels(v, 2)
 #' @export
 
-harmonize_value_labels <- function (labelled_var) {
+harmonize_value_labels <- function (labelled_var, categories = 2) {
 
   ## non-standard evaluation initialization --------------------
   label_harmonization_table <- label_harmonized <- label_norm <- NULL
@@ -35,12 +36,16 @@ harmonize_value_labels <- function (labelled_var) {
     )
   }
 
+
+
   harmonized_1 <- tibble (
     numeric = as.numeric(labelled_var),
     label_orig = labelled::to_character(labelled_var),
     label_norm = label_normalize(label_orig),
-  ) %>%
-    left_join ( label_harmonization_table, by = 'label_norm' ) %>%
+    valid_range = categories  ) %>%
+    left_join ( label_harmonization_table %>%
+                  distinct_all(),
+                by = c('label_norm', 'valid_range') ) %>%
     mutate ( label_harmonized = if_else(
       is.na(label_harmonized),
       label_norm,
@@ -50,7 +55,9 @@ harmonize_value_labels <- function (labelled_var) {
       is.na(value_numeric),
       as.numeric(numeric),
       as.numeric(value_numeric)
-    ))
+    )) %>%
+    distinct_at (vars(all_of(c("label_orig", "label_norm", "value_numeric"))),
+                 .keep_all = TRUE)
 
   valid_harmonized_values <- unique (
     label_harmonization_table$label_harmonized
@@ -98,6 +105,7 @@ harmonize_value_labels <- function (labelled_var) {
   labels_orig <- orig_label_creation$value_numeric
   names ( labels_orig) <- orig_label_creation$label_orig
   attr(harmonized_labelled_var, "labels_orig") <- labels_orig
+  harmonized_labelled_var
 
   ## Add original numeric values as attribute --------------------
   orig_num_creation <- harmonized %>%

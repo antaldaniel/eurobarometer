@@ -89,9 +89,11 @@ convert_class <- function(dat, metadata,
     select ( all_of("var")) %>%
     unlist() %>% as.character()
 
+  harmonize_value_labels_2 <- function(x) harmonize_value_labels(x, 2)
+
   labelled_harmonized_df <- dat %>%
     select ( tidyselect::all_of(labelled_harmonized_vars) ) %>%
-    mutate_all ( harmonize_value_labels )
+    mutate_all ( harmonize_value_labels_2 )
 
   if ( length(labelled_harmonized_vars) ==0  )  {
     labelled_harmonized_vars_present <- FALSE } else {
