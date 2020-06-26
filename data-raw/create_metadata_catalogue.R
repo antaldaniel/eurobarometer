@@ -37,7 +37,7 @@ for (i in 1:n_batches) {
   message ( "Added batch ", i,  "/", n_batches )
 
   saveRDS(metadata_database,
-          file = file.path("data-raw", "eb_metadata_database_20200624.rds"))
+          file = file.path("data-raw", "eb_metadata_database_20200626.rds"))
 
   end_time <- Sys.time()
 
@@ -45,10 +45,10 @@ for (i in 1:n_batches) {
 }
 
 write.csv( metadata_database,
-           file = file.path("data-raw", "eb_metadata_database_20200624.csv"),
+           file = file.path("data-raw", "eb_metadata_database_20200626.csv"),
            row.names=FALSE )
 
 saveRDS(metadata_database,
-        file = file.path("data-raw", "eb_metadata_database_20200624.rds"))
+        file = file.path("data-raw", "eb_metadata_database_20200626.rds"))
 
-source(file.path('data-raw', 'create_binary_metadata_table.R'))
+#source(file.path('data-raw', 'create_binary_metadata_table.R'))

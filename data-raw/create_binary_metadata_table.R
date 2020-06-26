@@ -1,10 +1,16 @@
 message("Running the creation of binary tables")
 binary_vars <- metadata_database %>%
-  filter ( length_cat_range == 2) %>%
+  filter ( length_cat_range == 2,
+           length_total_range <= 5 ) %>%
   select (
     -all_of(
-    c("class_suggested", "class_orig", "var_label_norm", "length_cat_range")))
+    c("conversion_suggested", "class_orig",
+      "var_label_norm", "length_cat_range")))
 
+fn_return_names <- function(x, n) {
+  tmp <- names(x)[n]
+  if ( is.null(tmp)) { NA_character_} else { tmp }
+}
 
 binary_vars2 <- binary_vars %>%
   mutate (
@@ -14,11 +20,6 @@ binary_vars2 <- binary_vars %>%
     label_val_2 = sapply( binary_vars$valid_range,  function(x) fn_return_names(x, 2))
 )
 
-fn_return_names <- function(x, n) {
-  tmp <- names(x)[n]
-  if ( is.null(tmp)) { NA_character_} else { tmp }
-}
-x= 104
 fn_na_names <- function(x, var_name_orig, n) {
   binary_vars2$var_name_orig[x]
   tmp <- unlist(binary_vars2$factor_levels[x])[
