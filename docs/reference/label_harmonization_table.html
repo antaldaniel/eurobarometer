@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Vocabulary To Rename Categorical Variables With Two Valid Categories — label_harmonization_table • eurobarometer</title>
+<title>Vocabulary To Rename Categorical Variables With 2 Or 3 Valid Categories — label_harmonization_table • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Vocabulary To Rename Categorical Variables With Two Valid Categories — label_harmonization_table" />
+<meta property="og:title" content="Vocabulary To Rename Categorical Variables With 2 Or 3 Valid Categories — label_harmonization_table" />
 <meta property="og:description" content="The harmonization table of categorical value labels. Currently contains
-only valid binary values.  Missing labels are harmonized with the
+only labels with 2 or 3 categories.  Missing labels are harmonized with the
 internal function harmonize_missing_values." />
 
 
@@ -140,14 +140,14 @@ internal function harmonize_missing_values." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Vocabulary To Rename Categorical Variables With Two Valid Categories</h1>
+    <h1>Vocabulary To Rename Categorical Variables With 2 Or 3 Valid Categories</h1>
     <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/data-label_harmonization_table.R'><code>R/data-label_harmonization_table.R</code></a></small>
     <div class="hidden name"><code>label_harmonization_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>The harmonization table of categorical value labels. Currently contains
-only valid binary values.  Missing labels are harmonized with the
+only labels with 2 or 3 categories.  Missing labels are harmonized with the
 internal function <code><a href='harmonize_missing_values.html'>harmonize_missing_values</a></code>.</p>
     </div>
 
@@ -156,10 +156,11 @@ internal function <code><a href='harmonize_missing_values.html'>harmonize_missin
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 84 rows in 3 variables:</p><dl'>
+    <p>A data frame with 150 rows in 3 variables:</p><dl'>
   <dt>label_norm</dt><dd><p>Value labels created by <code><a href='label_normalize.html'>label_normalize</a></code></p></dd>
   <dt>value_numeric</dt><dd><p>Harmonized numeric values</p></dd>
   <dt>label_harmonized</dt><dd><p>Harmonized labels</p></dd>
+  <dt>valid_range</dt><dd><p>Number of valid categories for the variable where this label can be found.</p></dd>
   
 </dl><p>@seealso harmonize_value_labels label_normalize</p>
 
