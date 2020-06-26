@@ -28,7 +28,7 @@ v <- labelled::labelled(
       )
 harmonize_value_labels(v, 2)
 
-v3 <- labelled(c(3,4,5,3,8, 9),
+v3 <- labelled::labelled(c(3,4,5,3,8, 9),
 c(`BETTER`= 3, `WORSE`= 4,
   `SAME` = 5,
   wrong_label = 8, refused = 9))

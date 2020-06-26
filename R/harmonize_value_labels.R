@@ -19,7 +19,7 @@
 #'       )
 #' harmonize_value_labels(v, 2)
 #'
-#' v3 <- labelled(c(3,4,5,3,8, 9),
+#' v3 <- labelled::labelled(c(3,4,5,3,8, 9),
 #' c(`BETTER`= 3, `WORSE`= 4,
 #'   `SAME` = 5,
 #'   wrong_label = 8, refused = 9))
@@ -33,6 +33,7 @@ harmonize_value_labels <- function (labelled_var, categories = 2) {
   ## non-standard evaluation initialization --------------------
   label_harmonization_table <- label_harmonized <- label_norm <- NULL
   label_orig <- na_harmonized <- na_numeric_value <- value_numeric <- NULL
+  valid_range <- NULL
 
   data ("label_harmonization_table", envir = environment())
 
