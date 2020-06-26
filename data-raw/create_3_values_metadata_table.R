@@ -113,6 +113,8 @@ three_value_triads <- three_values_metadata %>%
   mutate_all ( label_normalize )
 
 write.csv(three_value_triads , file.path("data-raw", "three_value_triads.csv"))
+write.csv(three_values_metadata, file.path("data-raw", "three_values_table.csv"))
+
 
 
 na_harmonization <- tibble (
