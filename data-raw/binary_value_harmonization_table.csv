@@ -21,7 +21,6 @@ can_rely_on_it;cannot_rely_on_it;1;0;can_rely_on_it;cannot_rely_on_it
 more_in_favor;less_in_favor;1;0;more_in_favor;less_in_favor
 benefit_more;benefit_less;1;0;benefit_more;benefit_less
 male;female;0;1;male;female
-15_years;97_years;999;999;15_years;97_years
 basic_sample;over_sample;0;1;basic_sample;over_sample
 tend_to_trust;tend_not_to_trust;1;0;tend_to_trust;tend_not_to_trust
 in_favour;opposed;1;0;in_favour;opposed
@@ -32,7 +31,6 @@ important;not_important;1;0;important;not_important
 tend_to_agree;tend_to_disagree;1;0;tend_to_agree;tend_to_disagree
 increase_the_budget;keep_same_budget;1;0;increase_the_budget;keep_same_budget
 disturbing;not_disturbing;1;0;disturbing;not_disturbing
-15_years;99_years;999;999;15_years;99_years
 lt_country_specific_gt;lt_country_specific_gt;999;999;lt_country_specific_gt;lt_country_specific_gt
 not_mentioned;mentioned;0;1;not_mentioned;mentioned
 tend_to_trust;tend_not_to_trust;1;0;tend_to_trust;tend_not_to_trust
@@ -48,7 +46,6 @@ go_into_residential_nursing_homes;remain_in_their_homes;1;0;go_into_residential_
 i_am_looking_forward_to_retirement;retirement_will_be_difficult_for_me_to_accept;1;0;i_am_looking_forward_to_retirement;retirement_will_be_difficult_for_me_to_accept
 useful;not_useful;1;0;useful;not_useful
 male;female;0;1;male;female
-15_years;99_years;999;999;15_years;99_years
 francophone;nederlandstalig;1;0;francophone;nederlandstalig
 luxemburgs;francophone;1;0;luxemburgs;francophone
 finnish;swedish;1;0;finnish;swedish

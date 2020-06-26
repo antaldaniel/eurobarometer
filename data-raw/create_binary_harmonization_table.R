@@ -14,9 +14,5 @@ binary_harmonization <- binary_harm_table %>%
 binary_harmonization_table <- binary_harmonization %>%
   distinct_all()
 
-label_harmonization_table <- binary_harmonization_table
-
-## Overwrite only if you know what you do!
-usethis::use_data(label_harmonization_table, overwrite=FALSE, internal=FALSE)
 
 
