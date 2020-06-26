@@ -28,6 +28,6 @@ label_harmonization_table <- binary_harmonization_table %>%
                mutate ( valid_range = 3))
 
 ## Overwrite only if you know what you do!
-usethis::use_data(label_harmonization_table, overwrite=FALSE, internal=FALSE)
+usethis::use_data(label_harmonization_table, overwrite=TRUE, internal=FALSE)
 
 
