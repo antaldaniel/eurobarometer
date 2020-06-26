@@ -128,7 +128,7 @@
 <h3 class="hasAnchor">
 <a href="#prefix-conventions" class="anchor"></a>Prefix conventions</h3>
 <ul>
-<li><p><code>id_</code>: easy selection and detachments of constant metadata, such as the document object identifier or the version number of the data file; except for the uniqid variable, which is an observation / row identifier in almost all files.</p></li>
+<li><p><code>id_</code>: easy selection and detachments of constant metadata, such as the document object identifier or the version number of the data file; except for the <code>uniqid</code> variable, which is an observation / row identifier in almost all files.</p></li>
 <li><p><code>mc_</code> : multiple choice question items. These are logically related variables that are given in the questionnaire in tabular format, but they are coded both in SPSS and R item by item as separate variables (columns). For the same (structured) question, we always use the <code>mc_this_question_item_1</code>, <code>mc_this_question_item_2</code>, <code>mc_this_question_item_dk</code> naming convention, where the <code>_dk</code> suffix contains the indication that the respondent rejected the entire complex question.</p></li>
 <li><p><code>is_</code> : indicator questions, which may created from binary answer options, or from multiple-choice like questions without clear structure.</p></li>
 </ul>
@@ -166,8 +166,8 @@
 <div id="example-metadata-table" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-metadata-table" class="anchor"></a>Example Metadata Table</h2>
-<p>This metadata table is created by <code>not_included/vignette_vocabulary_examples.R</code>. It is a good practice to create the metadata tables programatically for reproducability.</p>
-<p>After the modification of the source code of this R file, <code>data-raw/create_categorical_var.R</code> can update the data file. The documetation of the metadata table should be updated in <code>R/data-category_label_2.R</code></p>
+<p>This metadata table is created by <code>not_included/vignette_vocabulary_examples.R</code>. It is a good practice to create the metadata tables programmatically for reproducibility.</p>
+<p>After the modification of the source code of this R file, <code>data-raw/create_categorical_var.R</code> can update the data file. The documentation of the metadata table should be updated in <code>R/data-category_label_2.R</code></p>
 <p>Similar metadata tables should help the naming for similar variables (for example, in this case, often used two-level categories) or for topics (such as trust in institutions for not two-level variables, or air pollution and climate change related questions.)</p>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"categorical_variables_2"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
 
