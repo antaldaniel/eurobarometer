@@ -18,6 +18,14 @@
 #'        c(YES = 3, NO = 4, wrong_label = 8, refused = 9)
 #'       )
 #' harmonize_value_labels(v, 2)
+#'
+#' v3 <- labelled(c(3,4,5,3,8, 9),
+#' c(`BETTER`= 3, `WORSE`= 4,
+#'   `SAME` = 5,
+#'   wrong_label = 8, refused = 9))
+#'
+#' harmonize_value_labels(
+#'   labelled_var = v3,categories = 3)
 #' @export
 
 harmonize_value_labels <- function (labelled_var, categories = 2) {
