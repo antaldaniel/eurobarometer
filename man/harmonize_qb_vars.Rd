@@ -59,6 +59,7 @@ harmonize_qb_vars (
 \seealso{
 Other harmonization functions: 
 \code{\link{convert_class}()},
+\code{\link{harmonize_value_labels}()},
 \code{\link{id_create}()},
 \code{\link{panel_create}()}
 }

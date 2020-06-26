@@ -12,6 +12,7 @@
 #' @return A labelled vector containing harmonized numeric values and
 #' labels, and in \code{attr(v, num_orig)} the original numeric values,
 #' \code{attr(v, labels_orig)} the original labelling.
+#' @family harmonization functions
 #' @examples
 #' v <- labelled::labelled(
 #'        c(3,4,4,3,8, 9),

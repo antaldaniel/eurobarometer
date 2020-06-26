@@ -36,3 +36,11 @@ c(`BETTER`= 3, `WORSE`= 4,
 harmonize_value_labels(
   labelled_var = v3,categories = 3)
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{convert_class}()},
+\code{\link{harmonize_qb_vars}()},
+\code{\link{id_create}()},
+\code{\link{panel_create}()}
+}
+\concept{harmonization functions}

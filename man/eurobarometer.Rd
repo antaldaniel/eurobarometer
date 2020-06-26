@@ -6,7 +6,7 @@
 \title{eurobarometer: A package to create tidy Eurobarometer microdata files.}
 \description{
 The package eurobarometer has a number of related functions to
-analyze metadata; labelling variables with the help of metadata;
+analyse metadata; labelling variables with the help of metadata;
 harmonizing variable names, classes and labels.
 }
 \section{labelling functions}{
@@ -33,11 +33,13 @@ re-labelling and class conversions.
 \code{\link{panel_create}} creates a skeleton panel with unique
 \code{panel_id} and other identification variables.
 \code{\link{convert_class}} to make class conversions based on a
-metadata analyais.
+metadata analysis.
 \code{\link{harmonize_qb_vars}} is harmonizing the names and classes of
 questions in a question block.
 \code{\link{harmonize_missing_values}} is harmonizing the missing values
 in a labelled vector.
+\code{\link{harmonize_value_lables}} is harmonizing the the value
+labels in 2 or 3 category labelled variables.
 }
 
 \section{sample data files}{

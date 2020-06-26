@@ -31,7 +31,7 @@ library(rprojroot)
 
 The procedure involves four steps:  
 
-1. `Concept definition`: Trust in institutions: general trust without speficying the concrete domains of activity where the trust applies (these specific questions would require special treatment). 
+1. `Concept definition`: Trust in institutions: general trust without specifying the concrete domains of activity where the trust applies (these specific questions would require special treatment). 
 
 2. `Selection of survey questions` that correspond to the concept by filtering on variable and value labels.  
 
@@ -55,7 +55,7 @@ The procedure involves four steps:
 `filename`: original name of file as obtained from GESIS; it contains a disambigous version information, too.
 `val_numeric_orig`: numeric value code (if available, empty otherwise)   
 `val_label_orig`: value label in the original dataset corresponding to a response option
-`val_order_alpha`: alphabetical number (position) of response option in the set of value labels, aftering sorting with `sort()` (we use alphabetical order instead of `levels()` because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting)   
+`val_order_alpha`: alphabetical number (position) of response option in the set of value labels, after sorting with `sort()` (we use alphabetical order instead of `levels()` because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting)   
 `val_order_length`:  
 `val_label_norm`: value label normalized with `label_normalize()`
 
