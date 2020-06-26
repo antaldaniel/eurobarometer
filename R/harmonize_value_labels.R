@@ -36,8 +36,6 @@ harmonize_value_labels <- function (labelled_var, categories = 2) {
     )
   }
 
-
-
   harmonized_1 <- tibble (
     numeric = as.numeric(labelled_var),
     label_orig = labelled::to_character(labelled_var),
@@ -55,12 +53,12 @@ harmonize_value_labels <- function (labelled_var, categories = 2) {
       is.na(value_numeric),
       as.numeric(numeric),
       as.numeric(value_numeric)
-    )) %>%
-    distinct_at (vars(all_of(c("label_orig", "label_norm", "value_numeric"))),
-                 .keep_all = TRUE)
+    ))
 
   valid_harmonized_values <- unique (
-    label_harmonization_table$label_harmonized
+    label_harmonization_table %>%
+      filter ( valid_range == categories ) %>%
+      select (label_harmonized) %>% unlist()
   )
 
   harmonized <- harmonized_1 %>%
