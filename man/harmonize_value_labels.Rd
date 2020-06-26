@@ -20,8 +20,9 @@ Harmonize the numeric values and the value labels of variables.
 Currently works only with binary values.
 }
 \examples{
-v <- labelled::labelled(c(3,4,4,3,8, 9),
-             c(YES = 3, NO = 4, wrong_label = 8, refused = 9)
-             )
+v <- labelled::labelled(
+       c(3,4,4,3,8, 9),
+       c(YES = 3, NO = 4, wrong_label = 8, refused = 9)
+      )
 harmonize_value_labels(v)
 }

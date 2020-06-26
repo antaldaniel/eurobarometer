@@ -12,9 +12,10 @@
 #' labels, and in \code{attr(v, num_orig)} the original numeric values,
 #' \code{attr(v, labels_orig)} the original labelling.
 #' @examples
-#' v <- labelled::labelled(c(3,4,4,3,8, 9),
-#'              c(YES = 3, NO = 4, wrong_label = 8, refused = 9)
-#'              )
+#' v <- labelled::labelled(
+#'        c(3,4,4,3,8, 9),
+#'        c(YES = 3, NO = 4, wrong_label = 8, refused = 9)
+#'       )
 #' harmonize_value_labels(v)
 #' @export
 
