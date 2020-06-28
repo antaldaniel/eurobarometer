@@ -46,7 +46,6 @@ read_surveys <- function ( import_file_names,
     } else {
       warning("Survey ", filename, " could not be read: ", tried_survey$error)
     }
-
   }
 
   tmp <- lapply ( X = read_file_names, FUN = eval(.f)   )
