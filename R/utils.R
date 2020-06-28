@@ -137,15 +137,15 @@ harmonize_missing_values <- function (x) {
 
   tmp %>%
     mutate ( na_harmonized = dplyr::case_when (
-      grepl("inap", label_norm) ~ "inap",
-      label_norm == 'na'  ~ "inap",
-      grepl("decline|dk|refus", label_norm) ~ "declined",
-      grepl("dont_know", label_norm) ~ "do_not_know",
-      TRUE ~ label_norm )
+      grepl("inap_", normalized_labels) ~ "inap",
+      grepl("decline|dk|refuse", normalized_labels) ~ "decline",
+      normalized_labels %in% c("dont_know") ~ "do not know",
+      normalized_labels %in% c("na") ~ "inap",
+      TRUE ~ normalized_labels )
     ) %>%
     mutate ( na_numeric_value =  case_when (
       na_harmonized == "inap"  ~  9999,
-      na_harmonized == "declined" ~ 9998,
+      na_harmonized == "decline" ~ 9998,
       na_harmonized == "do_not_know" ~ 9997,
       TRUE ~ 8999
     ))
