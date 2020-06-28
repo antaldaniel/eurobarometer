@@ -160,7 +160,7 @@ element of the list.</h1>
 element of the list.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_surveys</span>(<span class='no'>import_file_names</span>, <span class='kw'>.f</span> <span class='kw'>=</span> <span class='st'>"read_example_file"</span>)</pre>
+    <pre class="usage"><span class='fu'>read_surveys</span>(<span class='no'>import_file_names</span>, <span class='kw'>.f</span> <span class='kw'>=</span> <span class='st'>"read_example_file"</span>, <span class='kw'>file_path</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,6 +175,11 @@ element of the list.</p>
 Defaults to <code>'read_example_file'</code>. For SPSS files,
 <code>'read_spss_survey'</code> is recommended, which is a
 well-parameterised version of <code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>file_path</th>
+      <td><p>A file path where the <code>import_file_names</code>
+can be found. Defaults to the working directory: <code>file_path = NULL</code>.</p></td>
     </tr>
     </table>
 

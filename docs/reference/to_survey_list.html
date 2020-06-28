@@ -6,9 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Harmonize A Question Block in Surveys
-
-Harmonize the variable names and the class of a question block. — harmonize_qb_vars • eurobarometer</title>
+<title>To Survey List — to_survey_list • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -41,11 +39,8 @@ Harmonize the variable names and the class of a question block. — harmonize_qb
 
 
 
-<meta property="og:title" content="Harmonize A Question Block in Surveys
-
-Harmonize the variable names and the class of a question block. — harmonize_qb_vars" />
-<meta property="og:description" content="Harmonize A Question Block in Surveys
-Harmonize the variable names and the class of a question block." />
+<meta property="og:title" content="To Survey List — to_survey_list" />
+<meta property="og:description" content="To Survey List" />
 
 
 
@@ -143,86 +138,30 @@ Harmonize the variable names and the class of a question block." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Harmonize A Question Block in Surveys
-
-Harmonize the variable names and the class of a question block.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/harmonize_qb_vars.R'><code>R/harmonize_qb_vars.R</code></a></small>
-    <div class="hidden name"><code>harmonize_qb_vars.Rd</code></div>
+    <h1>To Survey List</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>to_survey_list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Harmonize A Question Block in Surveys</p>
-<p>Harmonize the variable names and the class of a question block.</p>
+    <p>To Survey List</p>
     </div>
 
-    <pre class="usage"><span class='fu'>harmonize_qb_vars</span>(
-  <span class='no'>survey_list</span>,
-  <span class='no'>metadata</span>,
-  <span class='kw'>id_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uniqid"</span>, <span class='st'>"doi"</span>),
-  <span class='kw'>question_block</span> <span class='kw'>=</span> <span class='st'>"socio-demography"</span>,
-  <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_suggested"</span>,
-  <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"conversion_suggested"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>to_survey_list</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>survey_list</th>
-      <td><p>A list of data frames containing surveys.</p></td>
-    </tr>
-    <tr>
-      <th>metadata</th>
-      <td><p>A metadata table that contains <code>var_name_orig</code> and
-<code>qb</code> for the questions blocks, and <code>var_name_suggested</code> or
-its user defined alternative, <code>class_suggested</code> or its user defined
-alternative.</p></td>
-    </tr>
-    <tr>
-      <th>id_vars</th>
-      <td><p>A vector of ID variables to form a panel ID var,
-defaults to <code><a href='https://rdrr.io/r/base/c.html'>c("uniqid", "doi")</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>question_block</th>
-      <td><p>A user defined question block, or pre-defined
-question blocks: <code>"id"</code>, <code>"metadata"</code>, <code>"weights"</code>,
-<code>"socio-demography"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>var_name</th>
-      <td><p>Defaults to <code>var_name_suggested</code>. Must be
-a column in <code>metadata</code>.</p></td>
-    </tr>
-    <tr>
-      <th>conversion</th>
-      <td><p>Defaults to <code>conversion_suggested</code>. Must be
-a column in <code>metadata</code>.</p></td>
+      <th>x</th>
+      <td><p>A list of survey data frames or a single survey data frame.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble containing all variables with harmonized names and
-classes, and a unique key column named <code>panel_id</code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A list of surveys.</p>
 
-    <div class='dont-index'><p>Other harmonization functions: 
-<code><a href='convert_class.html'>convert_class</a>()</code>,
-<code><a href='harmonize_value_labels.html'>harmonize_value_labels</a>()</code>,
-<code><a href='id_create.html'>id_create</a>()</code>,
-<code><a href='panel_create.html'>panel_create</a>()</code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>harmonize_qb_vars</span> (
-   <span class='no'>survey_list</span>,
-   <span class='no'>metadata</span>,
-   <span class='kw'>question_block</span> <span class='kw'>=</span> <span class='st'>"socio-demography"</span>,
-   <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='st'>"var_name_suggested"</span>,
-   <span class='kw'>conversion</span> <span class='kw'>=</span> <span class='st'>"conversion_suggested"</span>
-   )
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
