@@ -1,13 +1,15 @@
 library(eurobarometer)
 library(dplyr)
 metadata_database <- readRDS(
-  file.path("data-raw", "eb_metadata_database_20200626.rds")
+  file.path("data-raw", "eb_metadata_database_20200628.rds")
   )
-message("Running the creation of three-value tables")
 
-three_value_vars <- metadata_database %>%
-  filter ( length_cat_range == 3,
-           length_total_range <= 6) %>%
+message("Running the creation of three-value tables")
+three_value_vars1 <- metadata_database %>%
+  filter ( length_cat_range == 3 ) %>%
+  filter ( length_total_range <= 6)
+
+three_value_vars <- three_value_vars1  %>%
   select (
     -all_of(
     c("conversion_suggested", "class_orig", "var_label_norm",
@@ -112,19 +114,20 @@ three_value_triads <- three_values_metadata %>%
   distinct_all() %>%
   mutate_all ( label_normalize )
 
-write.csv(three_value_triads , file.path("data-raw", "three_value_triads.csv"))
-write.csv(three_values_metadata, file.path("data-raw", "three_values_table.csv"))
-
-
+write.csv(three_value_triads,
+          file.path("data-raw", "three_value_triads.csv"))
+write.csv(three_values_metadata,
+          file.path("data-raw", "three_values_table.csv"))
 
 na_harmonization <- tibble (
   normalized_labels = c( unique_na_1 , unique_na_2, unique_na_3 )
   ) %>%
   filter ( nchar (normalized_labels)>0 ) %>%
   mutate ( na_harmonized = dplyr::case_when (
-   grepl("inap|na", normalized_labels) ~ "inap",
+   grepl("inap_", normalized_labels) ~ "inap",
    grepl("decline|dk|refuse", normalized_labels) ~ "decline",
-   grepl("dont_know", normalized_labels) ~ "do_not_know",
+   normalized_labels %in% c("dont_know") ~ "do not know",
+   normalized_labels %in% c("na") ~ "inap",
    TRUE ~ normalized_labels )
   ) %>%
   mutate ( na_numeric_value =  case_when (
