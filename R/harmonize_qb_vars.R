@@ -13,7 +13,7 @@
 #' defaults to \code{c("uniqid", "doi")}.
 #' @param var_name Defaults to \code{var_name_suggested}. Must be
 #' a column in \code{metadata}.
-#' @param conversion Defaults to \code{class_suggested}. Must be
+#' @param conversion Defaults to \code{conversion_suggested}. Must be
 #' a column in \code{metadata}.
 #' @importFrom dplyr select filter bind_cols distinct_at distinct
 #' @importFrom purrr set_names
@@ -29,7 +29,7 @@
 #'    metadata,
 #'    question_block = "socio-demography",
 #'    var_name = "var_name_suggested",
-#'    conversion = "class_suggested"
+#'    conversion = "conversion_suggested"
 #'    )
 #' }
 #' @export
@@ -39,7 +39,7 @@ harmonize_qb_vars <- function ( survey_list,
                                 id_vars = c("uniqid", "doi"),
                                 question_block = "socio-demography",
                                 var_name = "var_name_suggested",
-                                conversion = "class_suggested" ) {
+                                conversion = "conversion_suggested" ) {
 
   id_vars_input <- id_vars
   id_vars <- qb <- survey_subset <- var_name_orig <- NULL

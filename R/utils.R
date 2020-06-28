@@ -7,7 +7,8 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr select mutate case_when
 #' @importFrom tidyselect all_of
-
+#' @keywords internal
+#'
 class_suggest <- function(metadata) {
 
   . <- n_categories <- class_orig <- valid_range <- NULL
@@ -52,7 +53,7 @@ class_suggest <- function(metadata) {
 #' @importFrom magrittr %>%
 #' @importFrom dplyr case_when mutate select
 #' @importFrom tidyselect all_of
-#'
+#' @keywords internal
 
 question_block_identify <- function (metadata) {
 
@@ -89,6 +90,11 @@ question_block_identify <- function (metadata) {
    select ( -all_of(c("orig_1", "orig_2")) )
 }
 
+#' To Survey List
+#'
+#' @param x A list of survey data frames or a single survey data frame.
+#' @return A list of surveys.
+#' @keywords internal
 
 to_survey_list <- function (x) {
   if ( ! "list" %in% class(x) ) {
@@ -115,7 +121,7 @@ to_survey_list <- function (x) {
 #' @importFrom tibble tibble
 #' @family harmonize functions
 #' @return A helper table to harmonize missing values.
-
+#' @keywords internal
 
 harmonize_missing_values <- function (x) {
 

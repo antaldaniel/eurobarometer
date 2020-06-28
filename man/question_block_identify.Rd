@@ -16,3 +16,4 @@ The metadata data frame with a new column \code{qb}.
 \description{
 Add a question block identifier in column \code{qb}.
 }
+\keyword{internal}

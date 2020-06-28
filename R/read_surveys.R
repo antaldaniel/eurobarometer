@@ -8,6 +8,8 @@
 #' Defaults to \code{'read_example_file'}. For SPSS files,
 #' \code{'read_spss_survey'} is recommended, which is a
 #' well-parameterised version of \code{\link[haven]{read_spss}}.
+#' @param file_path A file path where the \code{import_file_names}
+#' can be found. Defaults to the working directory: \code{file_path = NULL}.
 #' @return A list of the surveys.  Each element of the list is a data
 #' frame. The respective file names are added to each data frame as a
 #' constant column \code{filename}.
@@ -20,7 +22,20 @@
 #' read_surveys (import_file_names, .f = 'read_example_file' )
 #' @export
 
-read_surveys <- function ( import_file_names, .f = 'read_example_file' ) {
+read_surveys <- function ( import_file_names,
+                           .f = 'read_example_file',
+                           file_path = NULL ) {
+
+
+  if ( !is.null(file_path) ) {
+    if ( dir.exists(file_path)) {
+      read_file_names <- file.path(file_path, import_file_names)
+    } else {
+      stop(file_path, " cannot be found.")
+    }
+  } else {
+    read_file_names <- import_file_names
+  }
 
   read_spss_survey <- function( filename ) {
 
@@ -34,7 +49,7 @@ read_surveys <- function ( import_file_names, .f = 'read_example_file' ) {
 
   }
 
-  tmp <- lapply ( X = import_file_names, FUN = eval(.f)   )
+  tmp <- lapply ( X = read_file_names, FUN = eval(.f)   )
 
   for (i in 1:length(import_file_names)) {
     tmp[[i]]$filename <- import_file_names[i]

@@ -12,7 +12,7 @@ harmonize_qb_vars(
   id_vars = c("uniqid", "doi"),
   question_block = "socio-demography",
   var_name = "var_name_suggested",
-  conversion = "class_suggested"
+  conversion = "conversion_suggested"
 )
 }
 \arguments{
@@ -33,7 +33,7 @@ question blocks: \code{"id"}, \code{"metadata"}, \code{"weights"},
 \item{var_name}{Defaults to \code{var_name_suggested}. Must be
 a column in \code{metadata}.}
 
-\item{conversion}{Defaults to \code{class_suggested}. Must be
+\item{conversion}{Defaults to \code{conversion_suggested}. Must be
 a column in \code{metadata}.}
 }
 \value{
@@ -52,7 +52,7 @@ harmonize_qb_vars (
    metadata,
    question_block = "socio-demography",
    var_name = "var_name_suggested",
-   conversion = "class_suggested"
+   conversion = "conversion_suggested"
    )
 }
 }

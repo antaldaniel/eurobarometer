@@ -17,3 +17,4 @@ A helper table to harmonize missing values.
 Harmonize Missing Values
 }
 \concept{harmonize functions}
+\keyword{internal}
