@@ -3,10 +3,11 @@ pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   create_tabels: create_tabels.html
+  eurobarometer_class: eurobarometer_class.html
   harmonization: harmonization.html
   metadata: metadata.html
   variable_names: variable_names.html
   vocabulary: vocabulary.html
   workflow: workflow.html
-last_built: 2020-06-28T13:32Z
+last_built: 2020-06-29T17:20Z
 
