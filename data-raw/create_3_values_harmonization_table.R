@@ -1,6 +1,7 @@
 three_harm_table <- read.csv ( file.path('data-raw',
                                           'three_value_harmonization_table.csv'),
-                                sep = ';' )
+                                sep = ';' ) %>%
+  filter (!is.na(label_harmonized_1 ))
 
 three_harmonization <- three_harm_table %>%
   select ( ends_with("_1")) %>%

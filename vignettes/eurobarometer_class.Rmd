@@ -1,0 +1,59 @@
+---
+title: "eurobarometer_class"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{eurobarometer_class}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+If you are analysing data in R, you should arrive to two basic classes: numeric (double or integer) for continuous variables, and the factor (a categorical variable with integer values.)  These classes are like SPSS’s classes, but they differ in the way they handle missing values.
+
+The SPSS classes have two attributes that are modelled into the R class [labelled]((https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html).  They add a variable label in addition to the name of each variable (or object, in R), and they add optional value labels to each value of the that object.  These are like levels of a factor variable in R, and they are different from the names of vector elements.
+
+SPSS has a special attribute, [the user defined missing value]((https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style)).  This means, that apart from missing observations, the SPSS user may set ‘do not know’ as a missing value label to tell SPSS that whenever this variable is summarized or averaged, these observations should be omitted.
+
+The basic R types have only one missing value: [NA_real_](https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html) for numerics, i.e. an NA of type integer or double; and  `NA_factor_` in case of base type factor.  The [haven](https://haven.tidyverse.org/) package, which is used to import SPSS files (and export R object to SPSS `.sav` files) created to new classes based on the labelled class, inheriting important properties of labelled.  `haven_labelled` imports both value and variable labels into an augmented labelled vector with adding the variable label attribute. The class `haven_labelled_spss` furthermore adds a special attribute about the missing value range, or the explicit missing value labels.
+
+These classes are S3 classes [see a comprehensive overview here](http://adv-r.had.co.nz/S3.html), and a more hands-on [here](https://rstudio-education.github.io/hopr/s3.html)], which means that important generic functions, such as to.character, summary, [print](https://rdrr.io/cran/labelVector/man/print.labelled.html) have special methods to correct work with these types without information loss.  However, eventually, when you want to analyse the data in R, you would need to convert them to a factor or a numeric variable, because most statistical functions accept only numeric (continous) or factor (categorical) arguments.
+
+In our package we are defining a new class that inherits properties from the [haven_labelled_spss](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style) class (we can call this haven_labelled_eurobarometer or simply eurobarometer).  We aim to slightly modify various labelled classes to maintain compatibility with the [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) package. This will make most of the popular [sjlabelled](https://strengejacke.github.io/sjlabelled/articles/labelleddata.html) functions easily available, too.
+
+These labelled classes are useful for harmonization and prosessing, but not for the actual data analysis.  They serve as an _importing, documenting, harmonization and re-exporting intermediate class_ for compatibility with SPSS or other software packages, and they can be  easily and unambiguously converted to [base types](https://adv-r.hadley.nz/base-types.html) of R, i.e. to numeric and factor. _They help to prepare the next step_, data analysis, by either exporting harmonized data back to SPSS, or by converting them to base R types of numeric and factor for analysis in R. They have simple methods, _to_numeric_ ,  _to_factor_, _to_character_, partly inherited from [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) , to make consistent and valid type conversions to R without information loss.
+
+Our `haven_labelled_eurobarometer` class has further attributes which do not interfere with the `haven_labelled_spss`, only serve documentation and reversibility functions. In short, we will create `haven_labelled_spss` vectors from all harmonized variables, with the additional metadata that shows the history of the variable before and during the harmonization. These attributes can be omitted when saved back to and SPSS file, or simplified into a csv file.
+
+* `labels`, which are harmonized value labels, whenever a harmonization function already exists in the package, i.e. their values are consistent regardless of the original SPSS file and they can be safely joined as factors (you do not have to worry if ‘not_trust’ or ‘distrust’ mean the same.)
+
+* `labels_orig`, which contains the original value labels
+* `var_label`, which contains the original SPSS value label
+* `var_name_orig`, which contains the original SPSS variable name
+* `labels`, which are harmonized value labels, i.e. consistent across data imported from different SPSS files
+* `conversion`, which contains the name of the eurobarometer function that harmonized the values and their labels.
+* `qb`, a recognized question block with pre-defined metadata, such as `id`, `socio-demography`, `protocol`. 
+* `value_orig`, which are the original numeric values of the variable
+Furthermore, the numeric value is also harmonized.  It is an integer in the range -999-999 where a natural ordering of a category is available, or there is a natural conversion to a number, such ‘yes’ 1, ‘no’ 0.  It  is in the range of 1001..9999 when there is no natural ordering, and the categories should not be ordered. We apply special values such as 99999 or 99998 for missing values or other special cases. This is helpful for both numeric and factor variables, because they allow an efficient use of various statistical functions only on the valid range. 
+Furthermore, the use of consistent numbering helps further harmonization, for example, with other surveys where the labels are in a different language, because no is always 0, and yes is always 1, whereas in the original GESIS files, they may take the value 1,2 instead of 0,1.
+
+## Methods
+
+We are going to implement simple methods for this new class:
+summary, which will show in a simple summary display the values with their original and new labels, and the conversion applied.
+`to_numeric`, which will convert the values to their numeric value, converting all missing values to NA_real_, i.e. resulting in a valid numeric [base type](https://adv-r.hadley.nz/base-types.html) R object.
+`to_factor`, which will convert all categorical values to factors with harmonized factor levels, i.e. a well-defined, validated, factor object with consistent levels.
+`to_character`, which is inherited from the haven_labelled_spsss class, and convert the variable to a character vector. This may be useful for data visualization. (The `character` base type is often used when factor levels are not harmonized, however, when factor levels are consistent, their use is desirable.)
+
+Furthermore, we will create a helper function which will allow the user the decide which missing values to treat as missing before conversion to factor: i.e. `inap` only, `inap`+`declined`, or all, with other potential missing values. (This is not needed for numeric conversion, because only numbers in the valid range should be used. )
+
+It is always the researchers', analysts' responsibility to choose between a numeric (continuous) or categorical (factor representation.) We will store all necessary information in our class to make this decision.  The researcher will have to choose which variables  to be converted to numeric or to factor when the analysis begins (we will create default cases for weights, protocol metadata variables, descriptive constants, and repeating, standard socio-demography, which are unlikely to be overruled by the user.)
+
+Once the harmonization took place, and the user used the to_numeric or to_factor method, the conversion takes place, and any base R or R packages can be used for the analysis.  Before this step, however, our `haven_labelled_eurobarometer` can be saved to csv or SPSS files, either with the original, imported values, or with the harmonized ones. (We have to see if SPSS allows to save the additional information, i.e. allow to save in one `.sav` file the harmonized and original labelling.) In csv, we will create a simple save function that will save each variable in two forms, with an `orig_` prefix with the original values, and with the harmonized values.
+
+Generally, `haven_labelled_eurobarometer` is designed to deviate as little from the classes of the `labelled` package as possible, and only help the users with a memory-efficient way to keep the data and metadata consistently stored both in memory and in file.
