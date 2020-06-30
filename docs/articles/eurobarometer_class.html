@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eurobarometer_class • eurobarometer</title>
+<title>The labelled_eurobarometer Class • eurobarometer</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="eurobarometer_class">
+<script src="../pkgdown.js"></script><meta property="og:title" content="The labelled_eurobarometer Class">
 <meta property="og:description" content="eurobarometer">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -57,7 +57,7 @@
       <a href="../articles/create_tabels.html">Creating Variable and Values Tables</a>
     </li>
     <li>
-      <a href="../articles/eurobarometer_class.html">eurobarometer_class</a>
+      <a href="../articles/eurobarometer_class.html">The labelled_eurobarometer Class</a>
     </li>
     <li>
       <a href="../articles/harmonization.html">Survey Data Harmonization</a>
@@ -100,7 +100,7 @@
       </header><script src="eurobarometer_class_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>eurobarometer_class</h1>
+      <h1 data-toc-skip>The labelled_eurobarometer Class</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/vignettes/eurobarometer_class.Rmd"><code>vignettes/eurobarometer_class.Rmd</code></a></small>
@@ -112,29 +112,186 @@
     
 <p>If you are analysing data in R, you should arrive to two basic classes: numeric (double or integer) for continuous variables, and the factor (a categorical variable with integer values.) These classes are like SPSS’s classes, but they differ in the way they handle missing values.</p>
 <p>The SPSS classes have two attributes that are modelled into the R class [labelled]((<a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html" class="uri">https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html</a>). They add a variable label in addition to the name of each variable (or object, in R), and they add optional value labels to each value of the that object. These are like levels of a factor variable in R, and they are different from the names of vector elements.</p>
-<p>SPSS has a special attribute, <a href="(https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style)">the user defined missing value</a>. This means, that apart from missing observations, the SPSS user may set ‘do not know’ as a missing value label to tell SPSS that whenever this variable is summarized or averaged, these observations should be omitted.</p>
-<p>The basic R types have only one missing value: <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/NA.html">NA_real_</a> for numerics, i.e. an NA of type integer or double; and <code>NA_factor_</code> in case of base type factor. The <a href="https://haven.tidyverse.org/">haven</a> package, which is used to import SPSS files (and export R object to SPSS <code>.sav</code> files) created to new classes based on the labelled class, inheriting important properties of labelled. <code>haven_labelled</code> imports both value and variable labels into an augmented labelled vector with adding the variable label attribute. The class <code>haven_labelled_spss</code> furthermore adds a special attribute about the missing value range, or the explicit missing value labels.</p>
-<p>These classes are S3 classes <a href="http://adv-r.had.co.nz/S3.html">see a comprehensive overview here</a>, and a more hands-on <a href="https://rstudio-education.github.io/hopr/s3.html">here</a>], which means that important generic functions, such as to.character, summary, <a href="https://rdrr.io/cran/labelVector/man/print.labelled.html">print</a> have special methods to correct work with these types without information loss. However, eventually, when you want to analyse the data in R, you would need to convert them to a factor or a numeric variable, because most statistical functions accept only numeric (continous) or factor (categorical) arguments.</p>
-<p>In our package we are defining a new class that inherits properties from the <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style">haven_labelled_spss</a> class (we can call this haven_labelled_eurobarometer or simply eurobarometer). We aim to slightly modify various labelled classes to maintain compatibility with the <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html">labelled</a> package. This will make most of the popular <a href="https://strengejacke.github.io/sjlabelled/articles/labelleddata.html">sjlabelled</a> functions easily available, too.</p>
-<p>These labelled classes are useful for harmonization and prosessing, but not for the actual data analysis. They serve as an <em>importing, documenting, harmonization and re-exporting intermediate class</em> for compatibility with SPSS or other software packages, and they can be easily and unambiguously converted to <a href="https://adv-r.hadley.nz/base-types.html">base types</a> of R, i.e. to numeric and factor. <em>They help to prepare the next step</em>, data analysis, by either exporting harmonized data back to SPSS, or by converting them to base R types of numeric and factor for analysis in R. They have simple methods, <em>to_numeric</em> , <em>to_factor</em>, <em>to_character</em>, partly inherited from <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html">labelled</a> , to make consistent and valid type conversions to R without information loss.</p>
-<p>Our <code>haven_labelled_eurobarometer</code> class has further attributes which do not interfere with the <code>haven_labelled_spss</code>, only serve documentation and reversibility functions. In short, we will create <code>haven_labelled_spss</code> vectors from all harmonized variables, with the additional metadata that shows the history of the variable before and during the harmonization. These attributes can be omitted when saved back to and SPSS file, or simplified into a csv file.</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">labelled</span>)
+<span class="no">v</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">3</span>,<span class="fl">8</span>, <span class="fl">9</span>),
+             <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">YES</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">NO</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">`WRONG LABEL`</span> <span class="kw">=</span> <span class="fl">8</span>, <span class="kw">REFUSED</span> <span class="kw">=</span> <span class="fl">9</span>)
+             )
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">v</span>)
+<span class="co">#&gt;  dbl+lbl [1:6] 3, 4, 4, 3, 8, 9</span>
+<span class="co">#&gt;  @ labels: Named num [1:4] 3 4 8 9</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "YES" "NO" "WRONG LABEL" "REFUSED"</span>
+
+<span class="co"># The labels are stored in the 'labels' attribute.</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">v</span>, <span class="st">'labels'</span>)
+<span class="co">#&gt;         YES          NO WRONG LABEL     REFUSED </span>
+<span class="co">#&gt;           3           4           8           9</span></pre></body></html></div>
+<p>The <code><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">labelled::val_label()</a></code> will retrieve or modify certain labels. You can retrieve all labels with <code><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">labelled::val_labels()</a></code>. (See further manipulation of the labelled class in this <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html">intro</a>.)</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_label</a></span>(<span class="no">v</span>, <span class="fl">8</span>) <span class="kw">&lt;-</span> <span class="st">'WRONG'</span>
+<span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">v</span>)
+<span class="co">#&gt;     YES      NO   WRONG REFUSED </span>
+<span class="co">#&gt;       3       4       8       9</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"ZA7576_sample"</span>)
+<span class="no">eb</span> <span class="kw">&lt;-</span> <span class="no">ZA7576_sample</span>
+<span class="no">nuts</span> <span class="kw">&lt;-</span> <span class="no">eb</span>$<span class="no">nuts</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">nuts</span>)
+<span class="co">#&gt;  chr+lbl [1:6579] DEF, DE9, DE9, DE9, DEA, DEA, DE1, DE1, DEA, DE7, DE7, DE...</span>
+<span class="co">#&gt;  @ label        : chr "REGION - NUTS CODES"</span>
+<span class="co">#&gt;  @ format.spss  : chr "A5"</span>
+<span class="co">#&gt;  @ display_width: int 7</span>
+<span class="co">#&gt;  @ labels       : Named chr [1:308] "ME" "RS" "MT" "LU" ...</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:308] "MONTENEGRO" "SERBIA" "MALTA" "LUXEMBOURG" ...</span>
+<span class="no">trust_media</span> <span class="kw">&lt;-</span> <span class="no">eb</span>$<span class="no">qa6a_1</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">trust_media</span>)
+<span class="co">#&gt;  dbl+lbl [1:6579] 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 2, 2, 1, 1, 1, 3, 2, 1, ...</span>
+<span class="co">#&gt;  @ label      : chr "TRUST IN INSTITUTIONS: MEDIA"</span>
+<span class="co">#&gt;  @ na_values  : num 9</span>
+<span class="co">#&gt;  @ format.spss: chr "F1.0"</span>
+<span class="co">#&gt;  @ labels     : Named num [1:4] 1 2 3 9</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "Tend to trust" "Tend not to trust" "DK" "Inap. (CY-TCC in isocntry)"</span></pre></body></html></div>
+<p>The <code>nuts</code> variable in the <code>ZA7579_sample</code> has the following metadata:</p>
 <ul>
-<li><p><code>labels</code>, which are harmonized value labels, whenever a harmonization function already exists in the package, i.e. their values are consistent regardless of the original SPSS file and they can be safely joined as factors (you do not have to worry if ‘not_trust’ or ‘distrust’ mean the same.)</p></li>
-<li><p><code>labels_orig</code>, which contains the original value labels</p></li>
-<li><p><code>var_label</code>, which contains the original SPSS value label</p></li>
-<li><p><code>var_name_orig</code>, which contains the original SPSS variable name</p></li>
-<li><p><code>labels</code>, which are harmonized value labels, i.e. consistent across data imported from different SPSS files</p></li>
-<li><p><code>conversion</code>, which contains the name of the eurobarometer function that harmonized the values and their labels.</p></li>
-<li><p><code>qb</code>, a recognized question block with pre-defined metadata, such as <code>id</code>, <code>socio-demography</code>, <code>protocol</code>.</p></li>
-<li><p><code>value_orig</code>, which are the original numeric values of the variable Furthermore, the numeric value is also harmonized. It is an integer in the range -999-999 where a natural ordering of a category is available, or there is a natural conversion to a number, such ‘yes’ 1, ‘no’ 0. It is in the range of 1001..9999 when there is no natural ordering, and the categories should not be ordered. We apply special values such as 99999 or 99998 for missing values or other special cases. This is helpful for both numeric and factor variables, because they allow an efficient use of various statistical functions only on the valid range. Furthermore, the use of consistent numbering helps further harmonization, for example, with other surveys where the labels are in a different language, because no is always 0, and yes is always 1, whereas in the original GESIS files, they may take the value 1,2 instead of 0,1.</p></li>
+<li>
+<code>label</code>, which is the variable label;</li>
+<li>
+<code>labels</code>, which are the value labels;</li>
+<li>
+<code>format.spss</code>, which is the character class in SPSS;</li>
+<li>
+<code>display_width</code>, which is the user-set display width in SPSS;</li>
 </ul>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">trust_media</span> <span class="kw">&lt;-</span> <span class="no">eb</span>$<span class="no">qa6a_1</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">trust_media</span>)
+<span class="co">#&gt;  dbl+lbl [1:6579] 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 2, 2, 1, 1, 1, 3, 2, 1, ...</span>
+<span class="co">#&gt;  @ label      : chr "TRUST IN INSTITUTIONS: MEDIA"</span>
+<span class="co">#&gt;  @ na_values  : num 9</span>
+<span class="co">#&gt;  @ format.spss: chr "F1.0"</span>
+<span class="co">#&gt;  @ labels     : Named num [1:4] 1 2 3 9</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "Tend to trust" "Tend not to trust" "DK" "Inap. (CY-TCC in isocntry)"</span></pre></body></html></div>
+<p>The <code>nuts</code> variable in the <code>ZA7579_sample</code> has one more attribute, the <a href="(https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style)">the user defined missing value</a>. This means that apart from missing observations, the SPSS user may set ‘do not know’ as a missing value label to tell SPSS that whenever this variable is summarized or averaged, these observations should be omitted.</p>
+<ul>
+<li>
+<code>label</code>, which is the variable label;</li>
+<li>
+<code>labels</code>, which are the value labels;</li>
+<li>
+<code>format.spss</code>, which is the character class in SPSS;</li>
+<li>
+<code>display_width</code>, which is the user-set display width in SPSS;</li>
+<li>
+<code>na_values</code>, which are the numeric values which should be translated to <code>NA_real</code>, given that the R class is <code>dbl+lbl</code>, i.e. double numeric with labels.</li>
+</ul>
+<p>Let’s have a look at the factor representation of this variable:</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co">#The first 8 observations</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/to_factor.html">to_factor</a></span>(<span class="no">trust_media</span>),<span class="fl">8</span>))
+<span class="co">#&gt; [1] Tend to trust Tend to trust Tend to trust Tend to trust Tend to trust</span>
+<span class="co">#&gt; [6] Tend to trust Tend to trust DK           </span>
+<span class="co">#&gt; Levels: Tend to trust Tend not to trust DK Inap. (CY-TCC in isocntry)</span></pre></body></html></div>
+<p>Or in summary:</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co">#The summary of the first 8 observations</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/to_factor.html">to_factor</a></span>(<span class="no">trust_media</span>)),<span class="fl">8</span>)
+<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
+<span class="co">#&gt;                          6                          0 </span>
+<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
+<span class="co">#&gt;                          0                          0</span></pre></body></html></div>
+<p>The SPSS compatible extension of labelled, defined in the package haven, works with the following constructor, adding an SPSS-style missing mark to two values, 8 (WRONG) and 9 (REFUSED):</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled_spss</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span>(<span class="no">v</span>),         <span class="co"># remove labels from earlier defined</span>
+  <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">v</span>), <span class="co"># use the labels from earlier defined</span>
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="kw">NULL</span>,
+  <span class="kw">na_range</span> <span class="kw">=</span> <span class="fl">8</span>:<span class="fl">9</span>,
+  <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Variable Example"</span>
+)
+
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">s</span>)
+<span class="co">#&gt;  dbl+lbl [1:6] 3, 4, 4, 3, 8, 9</span>
+<span class="co">#&gt;  @ labels  : Named num [1:4] 3 4 8 9</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "YES" "NO" "WRONG" "REFUSED"</span>
+<span class="co">#&gt;  @ label   : chr "Variable Example"</span>
+<span class="co">#&gt;  @ na_range: int [1:2] 8 9</span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">s</span>)
+<span class="co">#&gt; &lt;labelled_spss&lt;double&gt;[6]&gt;: Variable Example</span>
+<span class="co">#&gt; [1] 3 4 4 3 8 9</span>
+<span class="co">#&gt; Missing range:  [8, 9]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels:</span>
+<span class="co">#&gt;  value   label</span>
+<span class="co">#&gt;      3     YES</span>
+<span class="co">#&gt;      4      NO</span>
+<span class="co">#&gt;      8   WRONG</span>
+<span class="co">#&gt;      9 REFUSED</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">s</span>)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;   3.000   3.250   4.000   5.167   7.000   9.000</span></pre></body></html></div>
+<p>The <code>labelled_spss</code> are S3 classes <a href="http://adv-r.had.co.nz/S3.html">see a comprehensive overview here</a>, and a more hands-on <a href="https://rstudio-education.github.io/hopr/s3.html">here</a>], which means that important generic functions, such as <a href="https://rdrr.io/cran/labelVector/man/print.labelled.html">print</a> or <code>summary</code> are already defined.</p>
+<p>THe <code>labelled_spss</code> stores all the contents of the SPSS file without information loss, but these values are not yet harmonized, and not yet ready for analysis in R. For example, without further conversion, the previous expression gives a misleading mean:</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">s</span>)
+<span class="co">#&gt; [1] 5.166667</span></pre></body></html></div>
+<p>It is always the analysts responsibility to work with a correct variable type. In R, most statistical functions accept only numeric (continous) or factor (categorical) arguments.</p>
+<div id="the-labelled_eurobarometer" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-labelled_eurobarometer" class="anchor"></a>The labelled_eurobarometer</h2>
+<p>In our package we are defining a new class that inherits properties from the <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style">haven_labelled_spss</a> class (we can call this haven_labelled_eurobarometer or simply eurobarometer). We aim to slightly modify various labelled classes to maintain compatibility with the <a href="https://haven.tidyverse.org/index.html">haven</a> package for exporting and importing to/from SPSS and Stata, with the package <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html">labelled</a> to change labelling, and its popular extension, <a href="https://strengejacke.github.io/sjlabelled/articles/labelleddata.html">sjlabelled</a>.</p>
+<p>The numeric values of our variables are harmonized, for example, yes is always coded as 1, and no is always coded as 0. * <code>labels</code>, which are harmonized value labels, whenever a harmonization function already exists in the package, i.e. their values are consistent regardless of the original SPSS file and they can be safely joined as factors (you do not have to worry if ‘not_trust’ or ‘distrust’ mean the same.) * <code>label</code>, which contains the variable label (long description of the variable in SPSS); * <code>na_range</code> and/or <code>na_values</code> for variables labelled as ‘missing’.</p>
+<p>These attributes can be converted to labelled_spss with the haven::labelled_spss constructor. However, we are adding several further attributes, which do not interfere with the functionalilty of the labelled class, but document all the history of the harmonization.</p>
+<ul>
+<li>
+<code>labels_orig</code>, which contains the original value labels with the original values as class labelled, and can help to restore both the original numericl values and the original value labels.</li>
+<li>
+<code>label_orig</code>, which contains the original variable name, or <em>var_name_orig</em>.</li>
+<li>
+<code>var_name_orig</code>, which contains the original SPSS variable name</li>
+<li>
+<code>conversion</code>, which contains the name of the eurobarometer function that harmonized the values and their labels.</li>
+<li>
+<code>qb</code>, a recognized question block with pre-defined metadata, such as <code>id</code>, <code>socio-demography</code>, <code>protocol</code>.</li>
+</ul>
+<p>The <code>value_orig</code> is an integer in the range -999-999 where a natural ordering of a category is available, or there is a natural conversion to a number, such <code>yes</code> 1, <code>no</code> 0. It is in the range of 1001..9999 when there is no natural ordering, and the categories should not be ordered. We apply special values such as 99999 or 99998 for missing values or other special cases. This is helpful for both numeric and factor variables, because they allow an efficient use of various statistical functions only on the valid range.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">e</span> <span class="kw">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled_spss</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">99998</span>,<span class="fl">99999</span>),
+  <span class="kw">labels</span> <span class="kw">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">yes</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">no</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">wrong_label</span> <span class="kw">=</span> <span class="fl">99998</span>, <span class="kw">refused</span> <span class="kw">=</span> <span class="fl">99999</span>),
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="kw">NULL</span>,
+  <span class="kw">na_range</span> <span class="kw">=</span> <span class="fl">99998</span>:<span class="fl">99999</span>,
+  <span class="kw">label</span> <span class="kw">=</span> <span class="st">"Variable Example"</span>
+)
+
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">e</span>, <span class="st">"labels_orig"</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">YES</span> <span class="kw">=</span> <span class="fl">3</span>, <span class="kw">NO</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">`WRONG LABEL`</span> <span class="kw">=</span> <span class="fl">8</span>, <span class="kw">REFUSED</span> <span class="kw">=</span> <span class="fl">9</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">e</span>, <span class="st">"label_orig"</span>) <span class="kw">&lt;-</span> <span class="kw">NULL</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">e</span>, <span class="st">"var_name_orig"</span>) <span class="kw">&lt;-</span> <span class="st">"v"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">e</span>, <span class="st">"qb"</span>) <span class="kw">&lt;-</span> <span class="st">"examples"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">e</span>, <span class="st">"conversion"</span>) <span class="kw">&lt;-</span> <span class="st">"labelled_spss"</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">e</span>)
+<span class="co">#&gt;  dbl+lbl [1:6]     1,     2,     2,     1, 99998, 99999</span>
+<span class="co">#&gt;  @ labels       : Named num [1:4] 1 2 99998 99999</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "yes" "no" "wrong_label" "refused"</span>
+<span class="co">#&gt;  @ label        : chr "Variable Example"</span>
+<span class="co">#&gt;  @ na_range     : int [1:2] 99998 99999</span>
+<span class="co">#&gt;  @ labels_orig  : Named num [1:4] 3 4 8 9</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "YES" "NO" "WRONG LABEL" "REFUSED"</span>
+<span class="co">#&gt;  @ var_name_orig: chr "v"</span>
+<span class="co">#&gt;  @ qb           : chr "examples"</span>
+<span class="co">#&gt;  @ conversion   : chr "labelled_spss"</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/labelled/man/to_factor.html">to_factor</a></span>(<span class="no">e</span>))
+<span class="co">#&gt;         yes          no wrong_label     refused </span>
+<span class="co">#&gt;           2           2           1           1</span></pre></body></html></div>
+<p>Furthermore, the use of consistent numbering helps further harmonization, for example, with other surveys where the labels are in a different language, because no is always 0, and yes is always 1, whereas in the original GESIS files, they may take the value 1,2 instead of 0,1.</p>
+<p>These labelled classes are useful for harmonization and prosessing, but not for the actual data analysis. They serve as an <em>importing, documenting, harmonization and re-exporting intermediate class</em> for compatibility with SPSS or other software packages, and they can be easily and unambiguously converted to <a href="https://adv-r.hadley.nz/base-types.html">base types</a> of R, i.e. to numeric and factor. <em>They help to prepare the next step</em>, data analysis, by either exporting harmonized data back to SPSS, or by converting them to base R types of numeric and factor for analysis in R.</p>
+</div>
 <div id="methods" class="section level2">
 <h2 class="hasAnchor">
 <a href="#methods" class="anchor"></a>Methods</h2>
-<p>We are going to implement simple methods for this new class: summary, which will show in a simple summary display the values with their original and new labels, and the conversion applied. <code>to_numeric</code>, which will convert the values to their numeric value, converting all missing values to NA_real_, i.e. resulting in a valid numeric <a href="https://adv-r.hadley.nz/base-types.html">base type</a> R object. <code>to_factor</code>, which will convert all categorical values to factors with harmonized factor levels, i.e. a well-defined, validated, factor object with consistent levels. <code>to_character</code>, which is inherited from the haven_labelled_spsss class, and convert the variable to a character vector. This may be useful for data visualization. (The <code>character</code> base type is often used when factor levels are not harmonized, however, when factor levels are consistent, their use is desirable.)</p>
+<p>Our <code>labelled_eurobarometer</code> class has further attributes which do not interfere with the <code>haven_labelled_spss</code>, only serve documentation and reversibility functions. In short, we will create <code>haven_labelled_spss</code> vectors from all harmonized variables, with the additional metadata that shows the history of the variable before and during the harmonization. These attributes can be omitted when saved back to and SPSS file, or simplified into a csv file.</p>
+<p>We are going to implement simple methods for this new class: * <code>summary</code>, which will show in a simple summary display the values with their original and new labels, and the conversion applied.</p>
+<ul>
+<li><p><code>to_numeric</code>, which will convert the values to their numeric value, converting all missing values to NA_real_, i.e. resulting in a valid numeric <a href="https://adv-r.hadley.nz/base-types.html">base type</a> R object.</p></li>
+<li><p><code>to_factor</code>, which will convert all categorical values to factors with harmonized factor levels, i.e. a well-defined, validated, factor object with consistent levels.</p></li>
+<li><p><code>to_character</code>, which is inherited from the haven_labelled_spsss class, and convert the variable to a character vector. This may be useful for data visualization. (The <code>character</code> base type is often used when factor levels are not harmonized, however, when factor levels are consistent, their use is desirable.)</p></li>
+</ul>
 <p>Furthermore, we will create a helper function which will allow the user the decide which missing values to treat as missing before conversion to factor: i.e. <code>inap</code> only, <code>inap</code>+<code>declined</code>, or all, with other potential missing values. (This is not needed for numeric conversion, because only numbers in the valid range should be used. )</p>
 <p>It is always the researchers’, analysts’ responsibility to choose between a numeric (continuous) or categorical (factor representation.) We will store all necessary information in our class to make this decision. The researcher will have to choose which variables to be converted to numeric or to factor when the analysis begins (we will create default cases for weights, protocol metadata variables, descriptive constants, and repeating, standard socio-demography, which are unlikely to be overruled by the user.)</p>
-<p>Once the harmonization took place, and the user used the to_numeric or to_factor method, the conversion takes place, and any base R or R packages can be used for the analysis. Before this step, however, our <code>haven_labelled_eurobarometer</code> can be saved to csv or SPSS files, either with the original, imported values, or with the harmonized ones. (We have to see if SPSS allows to save the additional information, i.e. allow to save in one <code>.sav</code> file the harmonized and original labelling.) In csv, we will create a simple save function that will save each variable in two forms, with an <code>orig_</code> prefix with the original values, and with the harmonized values.</p>
+<p>Once the harmonization took place, and the user used the to_numeric or to_factor method, the conversion takes place, and any base R or R packages can be used for the analysis. Before this step, however, our <code>labelled_eurobarometer</code> can be saved to csv or SPSS files, either with the original, imported values, or with the harmonized ones. (We have to see if SPSS allows to save the additional information, i.e. allow to save in one <code>.sav</code> file the harmonized and original labelling.) In csv, we will create a simple save function that will save each variable in two forms, with an <code>orig_</code> prefix with the original values, and with the harmonized values.</p>
 <p>Generally, <code>haven_labelled_eurobarometer</code> is designed to deviate as little from the classes of the <code>labelled</code> package as possible, and only help the users with a memory-efficient way to keep the data and metadata consistently stored both in memory and in file.</p>
 </div>
   </div>
