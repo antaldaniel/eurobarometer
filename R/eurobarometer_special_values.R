@@ -15,6 +15,8 @@ eurobarometer_special_values <- function() {
   ## use range 99990-99999 for NA values
   ## use range 99890-99800 for education related special values
   ## start new range after 99800 for special values in other topics
+  ## use 99000 for unidentified special value (likely labelling error)
+  ## not stated here
 
   tibble::tribble(
     ~labels, ~num_value,  ~description,
