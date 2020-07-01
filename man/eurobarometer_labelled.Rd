@@ -2,7 +2,7 @@
 % Please edit documentation in R/eurobarometer_labelled.R
 \name{eurobarometer_labelled}
 \alias{eurobarometer_labelled}
-\title{Construct A eurobarometer_labelled Variable}
+\title{Construct A Variable Of Type 'eurobarometer_labelled'}
 \usage{
 eurobarometer_labelled(
   x = NULL,
@@ -41,7 +41,7 @@ name of the function that created the variable, defaults to \code{NULL}.}
 A vector with metadata attributes of class \code{eurobarometer_labelled}.
 }
 \description{
-Construct A eurobarometer_labelled Variable
+Construct A Variable Of Type 'eurobarometer_labelled'
 }
 \examples{
 eurobarometer_labelled(x = c(6,7,8,9,6,7,8),

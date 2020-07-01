@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -55,6 +55,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/create_tabels.html">Creating Variable and Values Tables</a>
+    </li>
+    <li>
+      <a href="../articles/eurobarometer_class.html">The labelled_eurobarometer Class</a>
     </li>
     <li>
       <a href="../articles/harmonization.html">Survey Data Harmonization</a>
@@ -558,32 +561,10 @@ doi
 <tbody>
 <tr>
 <td style="text-align:left;">
-426_999999999_doi_10_4232_1_12847
+418_200003501_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-999999999
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3001_350001871_doi_10_4232_1_12847
-</td>
-<td style="text-align:left;">
-350001871
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3814_350001478_doi_10_4232_1_13393
-</td>
-<td style="text-align:left;">
-350001478
+200003501
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
@@ -591,21 +572,10 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-3153_350000238_doi_10_4232_1_13393
+5301_630000959_doi_10_4232_1_12847
 </td>
 <td style="text-align:left;">
-350000238
-</td>
-<td style="text-align:left;">
-<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5312_630000970_doi_10_4232_1_12847
-</td>
-<td style="text-align:left;">
-630000970
+630000959
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
@@ -613,13 +583,46 @@ doi
 </tr>
 <tr>
 <td style="text-align:left;">
-2499_220003420_doi_10_4232_1_13393
+1971_220001634_doi_10_4232_1_13393
 </td>
 <td style="text-align:left;">
-220003420
+220001634
 </td>
 <td style="text-align:left;">
 <a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+151_200001556_doi_10_4232_1_13393
+</td>
+<td style="text-align:left;">
+200001556
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.13393" class="uri">doi:10.4232/1.13393</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3771_390001829_doi_10_4232_1_12847
+</td>
+<td style="text-align:left;">
+390001829
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3636_390001432_doi_10_4232_1_12847
+</td>
+<td style="text-align:left;">
+390001432
+</td>
+<td style="text-align:left;">
+<a href="doi:10.4232/1.12847" class="uri">doi:10.4232/1.12847</a>
 </td>
 </tr>
 </tbody>
@@ -681,12 +684,12 @@ doi
 <p>The <code>trust_vector</code> below contains the harmonized numeric values, harmonized labels alongside the original values and the original labels. This means that all conversion is <em>reversible</em>.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">trust_vector</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span> ( <span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">trust_vector</span>)
-<span class="co">#&gt;  dbl+lbl [1:5] 9998,    1,    0, 9999,   NA</span>
-<span class="co">#&gt;  @ labels     : Named num [1:4] 9998 1 0 9999</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "declined" "tend_to_trust" "tend_not_to_trust" "inap"</span>
-<span class="co">#&gt;  @ labels_orig: Named num [1:4] 9998 1 0 9999</span>
+<span class="co">#&gt;  dbl+lbl [1:5] 99998,     1,     0, 99999,    NA</span>
+<span class="co">#&gt;  @ labels     : Named num [1:4] 99998 1 0 99999</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "decline" "tend_to_trust" "tend_not_to_trust" "inap"</span>
+<span class="co">#&gt;  @ labels_orig: Named num [1:4] 99998 1 0 99999</span>
 <span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "DK" "Tend to trust" "Tend not to trust" "Inap. (not 1 in eu28)"</span>
-<span class="co">#&gt;  @ num_orig   : Named num [1:4] 9998 1 0 9999</span>
+<span class="co">#&gt;  @ num_orig   : Named num [1:4] 99998 1 0 99999</span>
 <span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "3" "1" "2" "9"</span></pre></body></html></div>
 <p>The <code><a href="../reference/harmonize_to_numeric.html">harmonize_to_numeric()</a></code> function correctly gives the numeric value, considering the two sources of missingness.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">trust_panel</span> <span class="kw">%&gt;%</span>
@@ -903,16 +906,16 @@ trust_in_institutions_political_parties_tcc
 <a href="#summary" class="anchor"></a>Summary</h2>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># Print the harmonized and the original value labels</span>
 <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>)
-<span class="co">#&gt;          declined     tend_to_trust tend_not_to_trust              inap </span>
-<span class="co">#&gt;              9998                 1                 0              9999</span>
+<span class="co">#&gt;           decline     tend_to_trust tend_not_to_trust              inap </span>
+<span class="co">#&gt;             99998                 1                 0             99999</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>, <span class="st">"labels_orig"</span>)
 <span class="co">#&gt;                    DK         Tend to trust     Tend not to trust </span>
-<span class="co">#&gt;                  9998                     1                     0 </span>
+<span class="co">#&gt;                 99998                     1                     0 </span>
 <span class="co">#&gt; Inap. (not 1 in eu28) </span>
-<span class="co">#&gt;                  9999</span></pre></body></html></div>
+<span class="co">#&gt;                 99999</span></pre></body></html></div>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># Summarize them as factors</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span> ( <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/to_factor.html">to_factor</a></span>(<span class="no">trust_panel</span>$<span class="no">council_of_the_eu_trust</span>))
-<span class="co">#&gt;          declined     tend_to_trust tend_not_to_trust              inap </span>
+<span class="co">#&gt;           decline     tend_to_trust tend_not_to_trust              inap </span>
 <span class="co">#&gt;              1318              2098              1646              1517 </span>
 <span class="co">#&gt;              NA's </span>
 <span class="co">#&gt;              5789</span>
@@ -936,17 +939,17 @@ trust_in_institutions_political_parties_tcc
 <a href="#work-documentation" class="anchor"></a>Work Documentation</h2>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">num_value_range</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">trust_panel</span>$<span class="no">trust_in_institutions_media</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">num_value_range</span>)
-<span class="co">#&gt; [1]    1 9998    0 9999   NA</span>
+<span class="co">#&gt; [1]     1 99998     0 99999    NA</span>
 <span class="no">num_value_range</span> [!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">num_value_range</span>)]
 <span class="co">#&gt; &lt;labelled&lt;double&gt;[4]&gt;</span>
-<span class="co">#&gt; [1]    1 9998    0 9999</span>
+<span class="co">#&gt; [1]     1 99998     0 99999</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Labels:</span>
 <span class="co">#&gt;  value             label</span>
 <span class="co">#&gt;      1     tend_to_trust</span>
-<span class="co">#&gt;   9998          declined</span>
+<span class="co">#&gt;  99998           decline</span>
 <span class="co">#&gt;      0 tend_not_to_trust</span>
-<span class="co">#&gt;   9999              inap</span>
+<span class="co">#&gt;  99999              inap</span>
 
 <span class="no">summarize_values</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span> (
   <span class="kw">harmonized_numeric</span> <span class="kw">=</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(
@@ -985,13 +988,13 @@ Tend to trust
 </tr>
 <tr>
 <td style="text-align:left;">
-declined
+decline
 </td>
 <td style="text-align:right;">
-9998
+99998
 </td>
 <td style="text-align:right;">
-9998
+99998
 </td>
 <td style="text-align:left;">
 DK
@@ -1016,10 +1019,10 @@ Tend not to trust
 inap
 </td>
 <td style="text-align:right;">
-9999
+99999
 </td>
 <td style="text-align:right;">
-9999
+99999
 </td>
 <td style="text-align:left;">
 Inap. (CY-TCC in isocntry)

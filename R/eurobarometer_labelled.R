@@ -1,4 +1,4 @@
-#' Construct A eurobarometer_labelled Variable
+#' Construct A Variable Of Type 'eurobarometer_labelled'
 #'
 #' @param x A vector of numeric values of class integer, numeric,
 #' haven_labelled or haven_labelled_spss.
