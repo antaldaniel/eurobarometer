@@ -120,7 +120,7 @@
 <div id="data-preparation-for-programmatic-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-preparation-for-programmatic-use" class="anchor"></a>Data Preparation For Programmatic Use</h2>
-<p>The SPSS files in GESIS are not ready for programmatic use in R or for joining into longitudinal panels.</p>
+<p>The microdata of the European Commissions Eurobarometer surveys are stored and accessible in <a href="https://www.gesis.org/home">GESIS</a>. They are not ready for programmatic use in R or for joining into longitudinal panels. We created this package to help this procedure following the principles of reproducible research.</p>
 <ol>
 <li><p>We import the GESIS SPSS files with the help of the <a href="https://haven.tidyverse.org/">haven</a> package. In order to preserve the metadata in the files (particularly variable- and value labels, and user-defined missing values) these are converted to labelled classes.</p></li>
 <li><p>We analyse the files with <code><a href="reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a> or <code><a href="articles/metadata.html">vignette("metadata")</a></code>)</p></li>
@@ -151,6 +151,11 @@
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
 <p>Please note that the <code>eurobarometer</code> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to its terms.</p>
+</div>
+<div id="disclaimer" class="section level2">
+<h2 class="hasAnchor">
+<a href="#disclaimer" class="anchor"></a>Disclaimer</h2>
+<p>The authors of this package are not affiliated with <a href="https://www.gesis.org/home">GESIS</a>, or the producer of the Eurobarometer surveys, or the European Commission. For more information about the European Commission’s Eurobarometer history, visit the European Commission’s <a href="https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm">Public Opinion</a> website.</p>
 </div>
 </div>
   </div>
