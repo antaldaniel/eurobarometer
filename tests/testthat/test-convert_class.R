@@ -18,7 +18,8 @@ test_that("Correct class conversion takes place", {
   expect_equal(class(test_converted$p3), "character")
   expect_equal(class(test_converted$qa10_3), c("haven_labelled", "vctrs_vctr", "double"))
   expect_equal(sort(names(attr ( test_converted$qa10_3, "labels"))),
-  c("declined", "tend_not_to_trust", "tend_to_trust"))
+  c("decline", "tend_not_to_trust", "tend_to_trust"))
   expect_equal(sort(names(attr ( test_converted$qa10_3, "labels_orig"))),
                c("DK", "Tend not to trust", "Tend to trust"))
 })
+
