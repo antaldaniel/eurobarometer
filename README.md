@@ -48,33 +48,67 @@ on [GitHub](https://github.com/):
 devtools::install_github("antaldaniel/eurobarometer")
 ```
 
-## Workflow
-
-Not all elements of the
-[Workflow](http://eurobarometer.danielantal.eu/articles/workflow.html)
-are implemented yet.
-
 ## Data Preparation For Programmatic Use
 
-The SPSS files in GESIS are not ready for programmatic use in R, because
-the variable names often contain reserved special characters. You should
-use `gesis_metadata_create()` to understand what are the possible
-problems in the SPSS file and how to resolve them. (See: [Working With
-Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html))
+The SPSS files in GESIS are not ready for programmatic use in R or for
+joining into longitudinal panels.
 
-  - The naming functions `normalize_names()` removes regex symbols,
-    whitespace, and basic inconsistencies in abbreviations. The function
-    `canonical_names()`harmonizes the names across various GESIS files,
-    so that they can be joined into panels across time.
+1.  We import the GESIS SPSS files with the help of the
+    [haven](https://haven.tidyverse.org/) package. In order to preserve
+    the metadata in the files (particularly variable- and value labels,
+    and user-defined missing values) these are converted to labelled
+    classes.
 
-  - You can read in the SPSS file to R in
-    [haven](https://haven.tidyverse.org/), which will result in many
-    `labelled` variables. The metadata file contains a suggestion of the
-    most practical class conversion for data analysis. You can review
-    and change this suggestion and then make the conversions at once
-    with `convert_class()`
+2.  We analyse the files with `gesis_metadata_create()` to understand
+    what are the possible problems in the SPSS file and how to resolve
+    them. (See: [Working With
+    Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html)
+    or `vignette("metadata")`)
 
-See `vignette("metadata")`
+3.  We suggest various
+    [naming](http://eurobarometer.danielantal.eu/articles/variable_names.html)
+    and
+    [harmonization](http://eurobarometer.danielantal.eu/articles/workflow.html)
+    changes in the data as a data processing step. These suggested
+    changes can be modified by the user.
+
+4.  We convert the variables to a modified version of the
+    `haven_labelled_spss` class that contains the harmonized values,
+    harmonized labels, harmonized missing values codes of the variable
+    with their history (original values, labels, and function applied to
+    change them) for reproducibility. The
+    [eurobarometer\_labelled](http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html)
+    class inherits most of the functionality of the packages
+    [haven](https://haven.tidyverse.org/),
+    [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html)
+    and are expected to work well with
+    [sjlabelled](https://strengejacke.github.io/sjlabelled/articles/labelleddata.html).
+
+<div class="figure" style="text-align: center">
+
+<img src="C:/Users/Daniel Antal/OneDrive - Visegrad Investments/_package/eurobarometer/man/figures/README/labelled_workflow.png" alt="Workflow from 'Introduction to labelled by Joseph Larmaranged'" width="90%" />
+
+<p class="caption">
+
+Workflow from ‘Introduction to labelled by Joseph Larmaranged’
+
+</p>
+
+</div>
+
+Our approach follows `Approach B` to allow the conversion of harmonized
+and joined files back into SPSS.
+
+5.  The
+    [eurobarometer\_labelled](http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html)
+    class comes with simple methods that can convert all variables to
+    the base R types of numeric or factor, and they are ready to be used
+    with any R statistical packages and tidyverse data processing tools.
+    Alternatively, they can be exported back to
+    [SPSS](https://haven.tidyverse.org/reference/read_spss.html) or
+    [Stata](https://haven.tidyverse.org/reference/read_dta.html) files
+    with the functions of the [haven](https://haven.tidyverse.org/)
+    package.
 
 ## Joining With Eurostat & Other Data Tables
 
@@ -86,10 +120,6 @@ See `vignette("metadata")`
 
   - This will also allow you to create regional statistics from
     Eurobarometer microdata files.
-
-  - Currently `code_nuts1()` and `code_nuts2()` is implemented but this
-    will be replaced with a more comprehensive `NUTS0`-`NUTS3` level
-    helper function to make the regional coding consistent.
 
 ## Code of Conduct
 
