@@ -117,20 +117,27 @@
 <div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"antaldaniel/eurobarometer"</span>)</pre></div>
 </div>
-<div id="workflow" class="section level2">
-<h2 class="hasAnchor">
-<a href="#workflow" class="anchor"></a>Workflow</h2>
-<p>Not all elements of the <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> are implemented yet.</p>
-</div>
 <div id="data-preparation-for-programmatic-use" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-preparation-for-programmatic-use" class="anchor"></a>Data Preparation For Programmatic Use</h2>
-<p>The SPSS files in GESIS are not ready for programmatic use in R, because the variable names often contain reserved special characters. You should use <code><a href="reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a>)</p>
-<ul>
-<li><p>The naming functions <code>normalize_names()</code> removes regex symbols, whitespace, and basic inconsistencies in abbreviations. The function <code>canonical_names()</code>harmonizes the names across various GESIS files, so that they can be joined into panels across time.</p></li>
-<li><p>You can read in the SPSS file to R in <a href="https://haven.tidyverse.org/">haven</a>, which will result in many <code>labelled</code> variables. The metadata file contains a suggestion of the most practical class conversion for data analysis. You can review and change this suggestion and then make the conversions at once with <code><a href="reference/convert_class.html">convert_class()</a></code></p></li>
-</ul>
-<p>See <code><a href="articles/metadata.html">vignette("metadata")</a></code></p>
+<p>The SPSS files in GESIS are not ready for programmatic use in R or for joining into longitudinal panels.</p>
+<ol>
+<li><p>We import the GESIS SPSS files with the help of the <a href="https://haven.tidyverse.org/">haven</a> package. In order to preserve the metadata in the files (particularly variable- and value labels, and user-defined missing values) these are converted to labelled classes.</p></li>
+<li><p>We analyse the files with <code><a href="reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> to understand what are the possible problems in the SPSS file and how to resolve them. (See: <a href="http://eurobarometer.danielantal.eu/articles/metadata.html">Working With Metadata</a> or <code><a href="articles/metadata.html">vignette("metadata")</a></code>)</p></li>
+<li><p>We suggest various <a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">naming</a> and <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">harmonization</a> changes in the data as a data processing step. These suggested changes can be modified by the user.</p></li>
+<li><p>We convert the variables to a modified version of the <code>haven_labelled_spss</code> class that contains the harmonized values, harmonized labels, harmonized missing values codes of the variable with their history (original values, labels, and function applied to change them) for reproducibility. The <a href="http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html">eurobarometer_labelled</a> class inherits most of the functionality of the packages <a href="https://haven.tidyverse.org/">haven</a>, <a href="https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html">labelled</a> and are expected to work well with <a href="https://strengejacke.github.io/sjlabelled/articles/labelleddata.html">sjlabelled</a>.</p></li>
+</ol>
+<div class="figure" style="text-align: center">
+<p><img src="C:/Users/Daniel%20Antal/OneDrive%20-%20Visegrad%20Investments/_package/eurobarometer/man/figures/README/labelled_workflow.png" alt="Workflow from 'Introduction to labelled by Joseph Larmaranged'" width="90%"></p>
+<p class="caption">
+</p>
+<p>Workflow from ‘Introduction to labelled by Joseph Larmaranged’</p>
+
+</div>
+<p>Our approach follows <code>Approach B</code> to allow the conversion of harmonized and joined files back into SPSS.</p>
+<ol>
+<li>The <a href="http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html">eurobarometer_labelled</a> class comes with simple methods that can convert all variables to the base R types of numeric or factor, and they are ready to be used with any R statistical packages and tidyverse data processing tools. Alternatively, they can be exported back to <a href="https://haven.tidyverse.org/reference/read_spss.html">SPSS</a> or <a href="https://haven.tidyverse.org/reference/read_dta.html">Stata</a> files with the functions of the <a href="https://haven.tidyverse.org/">haven</a> package.</li>
+</ol>
 </div>
 <div id="joining-with-eurostat--other-data-tables" class="section level2">
 <h2 class="hasAnchor">
@@ -138,7 +145,6 @@
 <ul>
 <li><p>The regional boundaries are consistently used, coded and named - this will be harmonized with the package <a href="http://regions.danielantal.eu/">regions</a>, which helps resolving common issues, and to properly join various Eurobarometer files with Eurostat data tables and Google data tables.</p></li>
 <li><p>This will also allow you to create regional statistics from Eurobarometer microdata files.</p></li>
-<li><p>Currently <code>code_nuts1()</code> and <code>code_nuts2()</code> is implemented but this will be replaced with a more comprehensive <code>NUTS0</code>-<code>NUTS3</code> level helper function to make the regional coding consistent.</p></li>
 </ul>
 </div>
 <div id="code-of-conduct" class="section level2">

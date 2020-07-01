@@ -50,8 +50,11 @@ devtools::install_github("antaldaniel/eurobarometer")
 
 ## Data Preparation For Programmatic Use
 
-The SPSS files in GESIS are not ready for programmatic use in R or for
-joining into longitudinal panels.
+The microdata of the European Commissions Eurobarometer surveys are
+stored and accessible in [GESIS](https://www.gesis.org/home). They are
+not ready for programmatic use in R or for joining into longitudinal
+panels. We created this package to help this procedure following the
+principles of reproducible research.
 
 1.  We import the GESIS SPSS files with the help of the
     [haven](https://haven.tidyverse.org/) package. In order to preserve
@@ -127,3 +130,13 @@ Please note that the `eurobarometer` project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to its terms.
+
+## Disclaimer
+
+The authors of this package are not affiliated with
+[GESIS](https://www.gesis.org/home), or the producer of the
+Eurobarometer surveys, or the European Commission. For more information
+about the European Commission’s Eurobarometer history, visit the
+European Commission’s [Public
+Opinion](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm)
+website.
