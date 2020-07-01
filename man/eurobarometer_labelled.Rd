@@ -45,8 +45,9 @@ Construct A eurobarometer_labelled Variable
 }
 \examples{
 eurobarometer_labelled(x = c(6,7,8,9,6,7,8),
-  labels =c("HI" = 6, "HELLO" = 7,
-          "HOWDY" = 8, "BYE" = 9),
+   labels =c("HI" = 6, "HELLO" = 7,
+             "HOWDY" = 8, "BYE" = 9),
+   na_values = 9,
    qb = "Example Block",
    conversion = "eurobarometer_labelled"
 )

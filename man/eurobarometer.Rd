@@ -40,7 +40,7 @@ questions in a question block.
 in a labelled vector.
 \code{\link{harmonize_value_lables}} is harmonizing the the value
 labels in 2 or 3 category labelled variables.
-\code{\link(eurobarometer_special_values)} returns the harmonized
+\code{\link{eurobarometer_special_values}} returns the harmonized
 numeric codes and harmonized labels of special values in the
 Eurobarometer surveys, for example \code{"inap"}, \code{"declined"} or
 or \code{"still_studying"}.
