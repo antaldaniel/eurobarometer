@@ -27,10 +27,13 @@ importing functions in vignette examples and unit tests.
 * Started continuous integration on Travis-CI. 
 
 # eurobarometer 0.1.3
-* `id_create` tests unicity and `panel_create` is a wrapper around it.
+* `id_create` tests unicity and `panel_create()` is a wrapper around it.
 
 # eurobarometer 0.1.4
 * `read_surveys  ( my_spss_files, .f= 'read_spss_survey')` now reads in a list of surveys with recording user-specified SPSS missing values.
 
 # eurobarometer 0.1.5
-* `harmonize_value_labels` is harmonizing (hopefully) all binary categorical values. The workflow vignette is updated.
+* `harmonize_value_labels()` is harmonizing (hopefully) all binary categorical values. The workflow vignette is updated.
+
+# eurobarometer 0.1.6
+* Definition of new class with the constructor `eurobarometer_labelled()`
