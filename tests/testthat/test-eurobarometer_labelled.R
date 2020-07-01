@@ -1,5 +1,8 @@
-
 ### Test wrong parameter classes ---------------------------------
+
+# "Hello, Hi, Hey":
+# https://open.spotify.com/track/35J5fWBYFx1LTut0JwXxgh?si=pspMB7AfT2G808_wP3Ysbw
+
 test_that("Appropriate warnings are given", {
   expect_warning(eurobarometer_labelled (x = c(TRUE, TRUE, FALSE, NA)))
   expect_warning(eurobarometer_labelled ( x = c("hello", "hi", "hey"),
@@ -11,8 +14,7 @@ test_that("Errors are found", {
   expect_error(eurobarometer_labelled ( x = data.frame ( x = 1:5)))
 })
 
-### Test if the constructor works as expected
-
+### Test if the constructor works as expected -----------
 v <- labelled::labelled(c(3,4,4,3,8, 9),
                         c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
 )
@@ -50,9 +52,3 @@ test_that("constructor works", {
   expect_equal(class ( eurobarometer_labelled(x)),
                c("eurobarometer_labelled", class(x)))
 })
-
-
-
-
-
-
