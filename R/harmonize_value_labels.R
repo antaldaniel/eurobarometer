@@ -29,7 +29,8 @@
 #'   labelled_var = v3,categories = 3)
 #' @export
 
-harmonize_value_labels <- function (labelled_var, categories = 2) {
+harmonize_value_labels <- function (labelled_var,
+                                    categories = 2) {
 
   ## non-standard evaluation initialization --------------------
   label_harmonization_table <- label_harmonized <- label_norm <- NULL
@@ -72,23 +73,29 @@ harmonize_value_labels <- function (labelled_var, categories = 2) {
   )
 
   harmonized <- harmonized_1 %>%
-    left_join( harmonize_missing_values(labelled_var) %>%
+    left_join( harmonize_missing_values(x = labelled_var) %>%
                  distinct_all(),
                by = 'label_norm') %>%
-    mutate ( value_numeric = if_else (
-      ! label_harmonized %in% valid_harmonized_values,
-      8999,
-      value_numeric
-    )) %>%
-    mutate ( value_numeric = if_else (
-      label_harmonized == na_harmonized,
-      value_numeric,
-      na_numeric_value
-    )) %>%
-    mutate ( label_harmonized = if_else (
-      label_harmonized == na_harmonized,
-      label_harmonized,
-      na_harmonized
+    mutate (
+      # set numeric values to special if needed
+      value_numeric = if_else (
+        ! label_harmonized %in% valid_harmonized_values,
+        99000,
+        value_numeric
+    ))   %>%
+    mutate (
+     # harmonize the numeric values
+      value_numeric = if_else (
+        label_harmonized == na_harmonized,
+        value_numeric,
+        na_numeric_value
+    ))   %>%
+    mutate (
+      # harmonize the labels
+      label_harmonized = if_else (
+         label_harmonized == na_harmonized,
+         label_harmonized,
+         na_harmonized
     ))
 
   if (  all(harmonized$numeric == harmonized$value_numeric, na.rm=TRUE) ) {
