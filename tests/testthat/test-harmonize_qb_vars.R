@@ -48,9 +48,9 @@ harmonized_trust_labels
 
 test_that("correct value is returned", {
   expect_equal(as.numeric(trust_test$trust_in_institutions_national_government),
-  c(9998,1,0, 0))
+  c(99998,1,0, 0))
   expect_equal(harmonized_trust_labels,
-               c('declined', 'tend_to_trust', 'tend_not_to_trust'))
+               c('decline', 'tend_to_trust', 'tend_not_to_trust'))
 })
 
 test_that("correct structure is returned", {
