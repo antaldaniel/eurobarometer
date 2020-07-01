@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 If you are analysing data in R, you should arrive to two basic classes: numeric (double or integer) for continuous variables, and the factor (a categorical variable with integer values.)  These classes are like SPSS’s classes, but they differ in the way they handle missing values.
 
-The SPSS classes have two attributes that are modelled into the R class [labelled]((https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html).  They add a variable label in addition to the name of each variable (or object, in R), and they add optional value labels to each value of the that object.  These are like levels of a factor variable in R, and they are different from the names of vector elements.
+The SPSS classes have two attributes that are modelled into the R class [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html).  They add a variable label in addition to the name of each variable (or object, in R), and they add optional value labels to each value of the that object.  These are like levels of a factor variable in R, and they are different from the names of vector elements.
 
 ```{r}
 library(labelled)
@@ -78,7 +78,8 @@ Or in summary:
 #The summary of the first 8 observations
 summary(head(labelled::to_factor(trust_media)),8)
 ```
-The SPSS compatible extension of labelled, defined in the package haven, works with the following constructor, adding an SPSS-style missing mark to two values, 8 (WRONG) and 9 (REFUSED):
+
+The SPSS compatible extension of labelled, defined in the package haven, works with the following constructor, adding an SPSS-style missing mark to two values, `8 (WRONG)` and `9 (REFUSED)`:
 
 ```{r}
 s <-labelled_spss(
@@ -107,7 +108,7 @@ mean(s)
 ```
 It is always the analysts responsibility to work with a correct variable type.  In R, most statistical functions accept only numeric (continous) or factor (categorical) arguments.
 
-## The labelled_eurobarometer
+## The 'eurobarometer_labelled' class
 
 In our package we are defining a new class that inherits properties from the [haven_labelled_spss](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html#user-defined-missing-values-spsss-style) class (we can call this haven_labelled_eurobarometer or simply eurobarometer).  We aim to slightly modify various labelled classes to maintain compatibility with the [haven](https://haven.tidyverse.org/index.html)  package for exporting and importing to/from SPSS and Stata, with the package  [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) to change labelling, and its popular extension,  [sjlabelled](https://strengejacke.github.io/sjlabelled/articles/labelleddata.html).
 
@@ -145,7 +146,7 @@ str(e)
 
 And now let's see the `eurobarometer_labelled()` constructor in work, even though normally it should not be directly called, instead the various conversion functions, such as the wrappers `harmonize_to_numeric()` or `convert_class()`  should call it: 
 
-```{r}
+```{r, echo=TRUE}
 my_ebl <- eurobarometer_labelled(
    x = c(6,7,8,9,6,7,8),
   labels =c("HI" = 6, "HELLO" = 7,
@@ -158,7 +159,9 @@ my_ebl <- eurobarometer_labelled(
 str(my_ebl)
 ```
 
-```{r}
+Conversion from a `haven_labelled` class:
+
+```{r, echo=TRUE}
 from_v <- eurobarometer_labelled(
    x = v,
    qb = "Example Block",
@@ -168,6 +171,7 @@ from_v <- eurobarometer_labelled(
 str(from_v)
 ```
 
+Conversion from a `haven_labelled_spss` class:
 
 ```{r}
 from_trust <- eurobarometer_labelled(
@@ -185,14 +189,13 @@ The methods of `eurobarometer_labelled` are designed to fall back to the classes
 class(from_trust)
 ```
 
-See the method dispatch with `mean()`
+See the method dispatch with `mean()`, which falls back to the nearest to `eurobarometer_labelled`. In this case, it does not give a correct mean, because we do not have yet a `to_numeric` method that would make all user-defined missing values `NA_real_`:
 
 ```{r}
 mean (from_trust)
 ```
 
 > Not yet written: Furthermore, the use of consistent numbering helps further harmonization, for example, with other surveys where the labels are in a different language, because no is always 0, and yes is always 1, whereas in the original GESIS files, they may take the value 1,2 instead of 0,1. 
-
 
 These labelled classes are useful for harmonization and prosessing, but not for the actual data analysis.  They serve as an _importing, documenting, harmonization and re-exporting intermediate class_ for compatibility with SPSS or other software packages, and they can be  easily and unambiguously converted to [base types](https://adv-r.hadley.nz/base-types.html) of R, i.e. to numeric and factor. _They help to prepare the next step_, data analysis, by either exporting harmonized data back to SPSS, or by converting them to base R types of numeric and factor for analysis in R. 
 
@@ -209,7 +212,20 @@ We are going to implement simple methods for this new class:
 
 * `to_character`, which is inherited from the haven_labelled_spsss class, and convert the variable to a character vector. This may be useful for data visualization. (The `character` base type is often used when factor levels are not harmonized, however, when factor levels are consistent, their use is desirable.)
 
+See that `from_trust` works with the `to_factor` function (method) of the package `labelled`, and already has a meaningful `summary()` method:
+
+```{r}
+class(from_trust)
+summary(labelled::to_factor(from_trust))
+```
+
 Furthermore, we will create a helper function which will allow the user the decide which missing values to treat as missing before conversion to factor: i.e. `inap` only, `inap`+`declined`, or all, with other potential missing values. (This is not needed for numeric conversion, because only numbers in the valid range should be used. )
+
+```{r}
+knitr::kable(
+  eurobarometer_special_values()
+  ) 
+```
 
 It is always the researchers', analysts' responsibility to choose between a numeric (continuous) or categorical (factor representation.) We will store all necessary information in our class to make this decision.  The researcher will have to choose which variables  to be converted to numeric or to factor when the analysis begins (we will create default cases for weights, protocol metadata variables, descriptive constants, and repeating, standard socio-demography, which are unlikely to be overruled by the user.)
 
