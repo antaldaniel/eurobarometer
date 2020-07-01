@@ -1,13 +1,12 @@
+library(testthat)
+
 ### Test wrong parameter classes ---------------------------------
 
 # "Hello, Hi, Hey":
 # https://open.spotify.com/track/35J5fWBYFx1LTut0JwXxgh?si=pspMB7AfT2G808_wP3Ysbw
 
 test_that("Appropriate warnings are given", {
-  expect_warning(eurobarometer_labelled (x = c(TRUE, TRUE, FALSE, NA)))
-  expect_warning(eurobarometer_labelled ( x = c("hello", "hi", "hey"),
-                                          labels_orig = c(1:2) )
-  )
+  expect_warning(eurobarometer_labelled (x = c(TRUE, TRUE, FALSE, NA))  )
 })
 
 test_that("Errors are found", {

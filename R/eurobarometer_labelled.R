@@ -61,6 +61,7 @@ eurobarometer_labelled <- function ( x = NULL,
    }
 
   if ( !is.null(labels_orig) ) {
+    labelling <- names(labels_orig) # labels_orig must be a named numeric
     add_labels <- TRUE
     if ( class(labels_orig) != "numeric") {
       warning( "Parameter 'labels_orig' must be a named numeric." )
