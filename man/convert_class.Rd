@@ -49,6 +49,7 @@ convert_class  ( dat = small_sample_convert,
 }
 \seealso{
 Other harmonization functions: 
+\code{\link{eurobarometer_special_values}()},
 \code{\link{harmonize_qb_vars}()},
 \code{\link{harmonize_value_labels}()},
 \code{\link{id_create}()},

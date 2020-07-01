@@ -26,6 +26,7 @@ id_create (dat=ZA7576_sample, id_vars =c("uniqid", "doi") )
 \seealso{
 Other harmonization functions: 
 \code{\link{convert_class}()},
+\code{\link{eurobarometer_special_values}()},
 \code{\link{harmonize_qb_vars}()},
 \code{\link{harmonize_value_labels}()},
 \code{\link{panel_create}()}
