@@ -12,6 +12,10 @@
 
 eurobarometer_special_values <- function() {
 
+  ## use range 99990-99999 for NA values
+  ## use range 99890-99800 for education related special values
+  ## start new range after 99800 for special values in other topics
+
   tibble::tribble(
     ~labels, ~num_value,  ~description,
     "inap"          , 99999, "inappropriate (f.e. question filtered out for respondant)",
