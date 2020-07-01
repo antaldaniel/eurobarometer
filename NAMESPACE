@@ -2,6 +2,7 @@
 
 export("%>%")
 export(convert_class)
+export(eurobarometer_labelled)
 export(eurobarometer_special_values)
 export(gesis_metadata_create)
 export(gesis_vocabulary_create)

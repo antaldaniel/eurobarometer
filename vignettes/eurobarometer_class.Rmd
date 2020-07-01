@@ -116,7 +116,7 @@ The numeric values of our variables are harmonized, for example, yes is always c
 * `label`, which contains the variable label (long description of the variable in SPSS);
 * `na_range` and/or `na_values` for variables labelled as 'missing'.
 
-These attributes can be converted to labelled_spss with the haven::labelled_spss constructor. However, we are adding several further attributes, which do not interfere with the functionalilty of the labelled class, but document all the history of the harmonization.
+These attributes can be converted to `labelled_spss` with the `haven::labelled_spss` constructor. However, we are adding several further attributes, which do not interfere with the functionality of the `labelled` class, but document all the history of the harmonization.
 
 * `labels_orig`, which contains the original value labels with the original values as class labelled, and can help to restore both the original numericl values and the original value labels.
 * `label_orig`, which contains the original variable name, or _var_name_orig_.
@@ -136,17 +136,63 @@ e <-labelled_spss(
 )
 
 attr(e, "labels_orig") <- c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
-attr(e, "label_orig") <- NULL
+attr(e, "labels_orig") <- NULL
 attr(e, "var_name_orig") <- "v"
 attr(e, "qb") <- "examples"
 attr(e, "conversion") <- "labelled_spss"
 str(e)
 ```
+
+And now let's see the `eurobarometer_labelled()` constructor in work, even though normally it should not be directly called, instead the various conversion functions, such as the wrappers `harmonize_to_numeric()` or `convert_class()`  should call it: 
+
 ```{r}
-summary(to_factor(e))
+my_ebl <- eurobarometer_labelled(
+   x = c(6,7,8,9,6,7,8),
+  labels =c("HI" = 6, "HELLO" = 7,
+          "HOWDY" = 8, "BYE" = 9),
+           na_values = 9,
+   qb = "Example Block",
+   conversion = "eurobarometer_labelled"
+)
+
+str(my_ebl)
 ```
 
-Furthermore, the use of consistent numbering helps further harmonization, for example, with other surveys where the labels are in a different language, because no is always 0, and yes is always 1, whereas in the original GESIS files, they may take the value 1,2 instead of 0,1.
+```{r}
+from_v <- eurobarometer_labelled(
+   x = v,
+   qb = "Example Block",
+   conversion = "eurobarometer_labelled"
+)
+
+str(from_v)
+```
+
+
+```{r}
+from_trust <- eurobarometer_labelled(
+   x = trust_media,
+   qb = "trust",
+   conversion = "custom_conversion"
+)
+
+str(from_trust)
+```
+
+The methods of `eurobarometer_labelled` are designed to fall back to the classes of `haven` and `labelled`, and eventually `vctrs` which uses more consistent coercion rules than base R. In the very last case, they fall back to `double`, which is a basic type. 
+
+```{r}
+class(from_trust)
+```
+
+See the method dispatch with `mean()`
+
+```{r}
+mean (from_trust)
+```
+
+> Not yet written: Furthermore, the use of consistent numbering helps further harmonization, for example, with other surveys where the labels are in a different language, because no is always 0, and yes is always 1, whereas in the original GESIS files, they may take the value 1,2 instead of 0,1. 
+
 
 These labelled classes are useful for harmonization and prosessing, but not for the actual data analysis.  They serve as an _importing, documenting, harmonization and re-exporting intermediate class_ for compatibility with SPSS or other software packages, and they can be  easily and unambiguously converted to [base types](https://adv-r.hadley.nz/base-types.html) of R, i.e. to numeric and factor. _They help to prepare the next step_, data analysis, by either exporting harmonized data back to SPSS, or by converting them to base R types of numeric and factor for analysis in R. 
 
