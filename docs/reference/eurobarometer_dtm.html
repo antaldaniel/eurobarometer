@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rescale a 4-element ordinary scale variable — rescale_factor_4 • eurobarometer</title>
+<title>Eurobarometer DTM — eurobarometer_dtm • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Rescale a 4-element ordinary scale variable — rescale_factor_4" />
-<meta property="og:description" content="Rescale a 4-element ordinary scale variable" />
+<meta property="og:title" content="Eurobarometer DTM — eurobarometer_dtm" />
+<meta property="og:description" content="Please give a bit more information about this." />
 
 
 
@@ -141,61 +141,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rescale a 4-element ordinary scale variable</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/rescale_factor_4.R'><code>R/rescale_factor_4.R</code></a></small>
-    <div class="hidden name"><code>rescale_factor_4.Rd</code></div>
+    <h1>Eurobarometer DTM</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/data-eurobarometer_dtm.R'><code>R/data-eurobarometer_dtm.R</code></a></small>
+    <div class="hidden name"><code>eurobarometer_dtm.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Rescale a 4-element ordinary scale variable</p>
+    <p>Please give a bit more information about this.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rescale_factor_4</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>factor_4_highest</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>factor_4_high</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>factor_4_low</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>factor_4_lowest</span> <span class='kw'>=</span> <span class='fl'>0</span>
-)</pre>
+    <pre class="usage"><span class='no'>eurobarometer_dtm</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>A variable from the data set with four-level, ordinary
-scale variable.</p></td>
-    </tr>
-    <tr>
-      <th>factor_4_highest</th>
-      <td><p>Defaults to <code>3</code>, if an natural language
-expression is given, it will create a character vector. (See example.)</p></td>
-    </tr>
-    <tr>
-      <th>factor_4_high</th>
-      <td><p>= Defaults to <code>2</code>.</p></td>
-    </tr>
-    <tr>
-      <th>factor_4_low</th>
-      <td><p>= Defaults to <code>1</code>,</p></td>
-    </tr>
-    <tr>
-      <th>factor_4_lowest</th>
-      <td><p>= Defaults to <code>0</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Depending on the rescaling inputs, a numeric or character vector.</p>
+    <p>A data frame with 60671 rows in 3  variables:</p><dl'>
+  <dt>var_label_norm1</dt><dd><p>please describe</p></dd>
+  <dt>var_id</dt><dd><p>please describe</p></dd>
+  <dt>var_label_std</dt><dd><p>please describe</p></dd>
+  
+</dl>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fairly easy"</span>, <span class='st'>"very easy"</span>, <span class='st'>"very easy"</span>, <span class='st'>"not at all easy"</span>, <span class='st'>"not very easy"</span>)
-<span class='fu'>rescale_factor_4</span>(<span class='no'>x</span>,
-                 <span class='kw'>factor_4_highest</span> <span class='kw'>=</span> <span class='st'>'highest'</span>,
-                 <span class='kw'>factor_4_high</span> <span class='kw'>=</span> <span class='st'>'high'</span>,
-                 <span class='kw'>factor_4_low</span> <span class='kw'>=</span> <span class='st'>'low'</span>,
-                 <span class='kw'>factor_4_lowest</span> <span class='kw'>=</span> <span class='st'>'lowest'</span> )</div><div class='output co'>#&gt; [1] "high"    "highest" "highest" "lowest"  "highest"</div></pre>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
