@@ -35,7 +35,6 @@ Unfortunately, consistency is limited and conventions are not followed strictly,
 
 This vignette outlines a procedure for arriving at standardized variable names via tokenization of normalized variable labels (`var_label_norm`), which are created by [`label_normalize`](http://eurobarometer.danielantal.eu/reference/label_normalize.html) as part of [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html). The logic is similar to text analysis, in that a document-term matrix is created with each variable label treated as a (very short) document, and terms treated as keywords. variables that contain the same sets of keywords can be - with some margin of error - assumed to correspond to the same or equivalent survey questions.
 
-
 ## Procedure
 
 0. Read metadata table (created by [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html)),
@@ -44,7 +43,7 @@ This vignette outlines a procedure for arriving at standardized variable names v
 
 2. Tokenize,
 
-3. Eliminate stop words (but be careful to not eliminate too many, e.g. 'right' or 'working),
+3. Eliminate stop words (but be careful to not eliminate too many, e.g. 'right' or 'working'),
 
 4. Create a document-term matrix (actually, variable label - keyword matrix),
 
@@ -65,207 +64,396 @@ metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_202
 
 This would perhaps look better as a translation table instead of regex.
 
-Maybe the recoding of "leftover question numbers at the beginning of value labels" can become part of `label_normalize`?
+> Maybe the recoding of "leftover question numbers at the beginning of value labels" can become part of `label_normalize`?
+reply in email
 
 ```{r}
-
 dat <- metadata_database %>%
-  distinct(filename, qb, var_name_orig, var_name_orig, var_label_orig, var_label_norm) %>%
+  distinct(filename, qb, var_name_orig, 
+           var_name_orig, var_label_orig, var_label_norm) %>%
   
   # eliminate variables that look like region identifiers, weights, archive IDs, etc.
-  filter(!grepl("recoded|(rec)|nuts|iso_3166|iso3166|region_ii", var_label_norm)) %>%
-  filter(!grepl("^region_|sample_id|(sum)|(index)|filename", var_label_norm)) %>%
+  # I think that this should be the task of gesis_metadata_create, 
+  # which should identify ID, protocol, metadata special wars. 
+  filter(
+    !grepl("recoded|(rec)|nuts|iso_3166|iso3166|region_ii", 
+           var_label_norm)) %>%
+  filter(
+    !grepl("^region_|sample_id|(sum)|(index)|filename",
+           var_label_norm)) %>%
   filter(!grepl("icpsr|gesis|zacat|weight_", var_label_norm)) %>%
-
+  
   # clean up variable labels to unify the spelling of certain common words and abbreviation
-  mutate(var_id = paste0(filename, " ", var_name_orig),
-
-         var_label_norm1 = gsub("^cap_", "common-agricultural-policy_", var_label_norm),
-         var_label_norm1 = gsub("_cap_", "_common-agricultural-policy_", var_label_norm),
-
-         # leftover question numbers at the beginning of value labels
-         var_label_norm1 = gsub("^w[0-9]{1,2}", "", var_label_norm1),
-         var_label_norm1 = gsub("^[0-9]{1-3}_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z]{1,2}_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z][0-9]{2}[a-z]_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}[a-z]_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[0-9]{1,2}_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z][0-9]_[0-9]{1,2}_", "", var_label_norm1),
-
-         # country names
-         var_label_norm1 = gsub("united_kingdom", "united-kingdom", var_label_norm1),
-         var_label_norm1 = gsub("czech_republic", "czech-republic", var_label_norm1),
-         var_label_norm1 = gsub("great_britain", "great-britain", var_label_norm1),
-         var_label_norm1 = gsub("united_germany", "united-germany", var_label_norm1),
-         var_label_norm1 = gsub("united_nations", "united-nations", var_label_norm1),
-         var_label_norm1 = gsub("ivory_coast", "ivory-coast", var_label_norm1),
-
-         # commonly abbreviated words
-         var_label_norm1 = gsub("particip_", "participation_", var_label_norm1),
-         var_label_norm1 = gsub("environmt_|environm_", "environment_", var_label_norm1),
-         var_label_norm1 = gsub("citizenshp_", "citizenship_", var_label_norm1),
-         var_label_norm1 = gsub("_rght", "_right", var_label_norm1),
-         var_label_norm1 = gsub("_fulfld", "_fullfilled", var_label_norm1),
-         var_label_norm1 = gsub("_pessim", "_pessimistic", var_label_norm1),
-         var_label_norm1 = gsub("_convcd", "_convinced", var_label_norm1),
-         var_label_norm1 = gsub("not_invo", "not_involved", var_label_norm1),
-         var_label_norm1 = gsub("intelligenc$", "intelligence", var_label_norm1),
-         var_label_norm1 = gsub("gvrnm", "government", var_label_norm1),
-         var_label_norm1 = gsub("ctry|cntry|\\[country\\]", "country", var_label_norm1),
-         var_label_norm1 = gsub("_accom$|_accomod$", "_accomodation", var_label_norm1),
-         var_label_norm1 = gsub("_activit", "_activity", var_label_norm1),
-         var_label_norm1 = gsub("_cig|_cigs", "_cigarettes", var_label_norm1),
-         var_label_norm1 = gsub("cildren", "children", var_label_norm1),
-         var_label_norm1 = gsub("citizenshp", "citizenship", var_label_norm1),
-         var_label_norm1 = gsub("collgs|collegues", "colleagues", var_label_norm1),
-         var_label_norm1 = gsub("competitivn", "competition", var_label_norm1),
-         var_label_norm1 = gsub("comptrs", "computers", var_label_norm1),
-         var_label_norm1 = gsub("confidfence", "confidence", var_label_norm1),
-         var_label_norm1 = gsub("conflicte$", "conflicts", var_label_norm1),
-         var_label_norm1 = gsub("conn$|connec$", "connection", var_label_norm1),
-         var_label_norm1 = gsub("contrls", "controls", var_label_norm1),
-         var_label_norm1 = gsub("communit$", "community", var_label_norm1),
-         var_label_norm1 = gsub("situatn_", "situation", var_label_norm1),
-         var_label_norm1 = gsub("freq_", "frequency_", var_label_norm1),
-         var_label_norm1 = gsub("hh", "household", var_label_norm1),
-         var_label_norm1 = gsub("_pers_", "_personal_", var_label_norm1),
-         var_label_norm1 = gsub("prov_", "provider_", var_label_norm1),
-         var_label_norm1 = gsub("info_", "information_", var_label_norm1),
-         var_label_norm1 = gsub("newspv|newspapers", "newspaper", var_label_norm1),
-         var_label_norm1 = gsub("_newsp_|_newspap_", "_newspaper_", var_label_norm1),
-         var_label_norm1 = gsub("_newsp$|_newspap$", "_newspaper_", var_label_norm1),
-         var_label_norm1 = gsub("serv_", "services_", var_label_norm1),
-         var_label_norm1 = gsub("financ_", "financial_", var_label_norm1),
-         var_label_norm1 = gsub("_op_", "_operator_", var_label_norm1),
-
-         # two- or three-word phrases to be kept as keywords
-         var_label_norm1 = gsub("tv_channels", "tv-channels", var_label_norm1),
-         var_label_norm1 = gsub("radio_stations", "radio-stations", var_label_norm1),
-         var_label_norm1 = gsub("regional_local", "regional-local", var_label_norm1),
-         var_label_norm1 = gsub("air_conditioning", "air-conditioning", var_label_norm1),
-         var_label_norm1 = gsub("pol_party|political_party", "political-party", var_label_norm1),
-         var_label_norm1 = gsub("electoral_particip_", "electoral-participation_", var_label_norm1),
-         var_label_norm1 = gsub("electoral_particip$", "electoral-participation$", var_label_norm1),
-         var_label_norm1 = gsub("trust_in_institutions", "trust", var_label_norm1),
-         var_label_norm1 = gsub("justice_legal_system|justice_nat_legal_system", "justice-system", var_label_norm1),
-         var_label_norm1 = gsub("non_govmnt_org|non_govnmt_org", "ngo", var_label_norm1),
-         var_label_norm1 = gsub("polit_parties|political_parties", "political-parties", var_label_norm1),
-         var_label_norm1 = gsub("reg_loc_public_authorities|reg_local_authorities|reg_loc_authorities|reg_local_public_authorities|rg_lc_authorities", "regional-local-authorities", var_label_norm1),
-         var_label_norm1 = gsub("written_press", "press", var_label_norm1),
-         var_label_norm1 = gsub("pers_influence", "personal-influence", var_label_norm1),
-         var_label_norm1 = gsub("job_situation", "job-situation", var_label_norm1),
-         var_label_norm1 = gsub("religious_inst$", "religious-institutions", var_label_norm1),
-         var_label_norm1 = gsub("polit_matters|political_matters", "political-matters", var_label_norm1),
-         var_label_norm1 = gsub("pol_discussion|polit_discussion|political_discussion", "political-discussion", var_label_norm1),
-         var_label_norm1 = gsub("nat_resources", "natural-resources", var_label_norm1),
-         var_label_norm1 = gsub("non_euro_zone", "non-euro-zone", var_label_norm1),
-         var_label_norm1 = gsub("party_attachment", "party-attachment", var_label_norm1),
-         var_label_norm1 = gsub("which_issue", "which-issue", var_label_norm1),
-         var_label_norm1 = gsub("economic_situation|economic_sit", "economic-situation", var_label_norm1),
-         var_label_norm1 = gsub("public_debt", "public-debt", var_label_norm1),
-         var_label_norm1 = gsub("left_right", "left-right", var_label_norm1),
-         var_label_norm1 = gsub("important_issues_cntry", "important-issues-cntry", var_label_norm1),
-         var_label_norm1 = gsub("important_issues|import_issues", "important-issues", var_label_norm1),
-         var_label_norm1 = gsub("important_values_eu", "important-values-eu", var_label_norm1),
-         var_label_norm1 = gsub("important_values_pers", "important-values-personal", var_label_norm1),
-         var_label_norm1 = gsub("important_life_domains", "important-life-domains", var_label_norm1),
-         var_label_norm1 = gsub("quality_of_life|life_quality", "life-in-general", var_label_norm1),
-         var_label_norm1 = gsub("household_composition", "household-composition", var_label_norm1),
-         var_label_norm1 = gsub("size_of_community", "size-of-community", var_label_norm1),
-         var_label_norm1 = gsub("head_of_hh", "head-of-hh", var_label_norm1),
-         var_label_norm1 = gsub("last_job", "last-job", var_label_norm1),
-         var_label_norm1 = gsub("level_in_society", "level-in-society", var_label_norm1),
-         var_label_norm1 = gsub("self_placement", "self-placement", var_label_norm1),
-         var_label_norm1 = gsub("social_class|soc_class", "social-class", var_label_norm1),
-         var_label_norm1 = gsub("education_level", "education-level", var_label_norm1),
-         var_label_norm1 = gsub("living_conditions", "living-conditions", var_label_norm1),
-         var_label_norm1 = gsub("_nat_", "_national_", var_label_norm1),
-         var_label_norm1 = gsub("^nat_", "national_", var_label_norm1),
-         var_label_norm1 = gsub("_nat$", "_national", var_label_norm1),
-         var_label_norm1 = gsub("europ_", "european_", var_label_norm1),
-         var_label_norm1 = gsub("12_months_|12_mo_", "12-months_", var_label_norm1),
-         var_label_norm1 = gsub("national_parliament", "national-parliament", var_label_norm1),
-         var_label_norm1 = gsub("national_government", "national-government", var_label_norm1),
-         var_label_norm1 = gsub("national_economy", "national-economy", var_label_norm1),
-         var_label_norm1 = gsub("good_bad", "good-bad", var_label_norm1),
-         var_label_norm1 = gsub("court_of_auditors", "court-of-auditors", var_label_norm1),
-         var_label_norm1 = gsub("council_of_ministers", "council-of-ministers", var_label_norm1),
-
-         # EU-related abbreviations and phrases
-         var_label_norm1 = gsub("euro_12", "euro-12", var_label_norm1),
-         var_label_norm1 = gsub("european_parliament|eu_parl", "european-parliament", var_label_norm1),
-         var_label_norm1 = gsub("european_union", "european-union", var_label_norm1),
-         var_label_norm1 = gsub("european_unification|europ_unification|europ_unif", "european-unification", var_label_norm1),
-         var_label_norm1 = gsub("european_economy|europ_economy", "european-economy", var_label_norm1),
-         var_label_norm1 = gsub("european_ombudsman", "european-ombudsman", var_label_norm1),
-         var_label_norm1 = gsub("european_elections|ep_election", "european-elections", var_label_norm1),
-         var_label_norm1 = gsub("european_elec|european_elect|europ_elec", "european-elections", var_label_norm1),
-         var_label_norm1 = gsub("european_economy", "european-economy", var_label_norm1),
-         var_label_norm1 = gsub("european_currency|europ_currency", "european-currency", var_label_norm1),
-         var_label_norm1 = gsub("europ_court_of_auditors|eur_court_of_auditors", "eu-court-of-auditors", var_label_norm1),
-         var_label_norm1 = gsub("europ_court_of_justice|european_court_of_justice", "eu-court-of-justice", var_label_norm1),
-         var_label_norm1 = gsub("econ_and_social_committee|economic_and_soc_committee|econ_and_soc_committee", "econ-and-soc-committee", var_label_norm1),
-         var_label_norm1 = gsub("europ_polit_matter|europ_political_matters", "european-political-matters", var_label_norm1),
-         var_label_norm1 = gsub("euro_zone", "euro-zone", var_label_norm1),
-         var_label_norm1 = gsub("eu_issues", "eu-issues", var_label_norm1),
-         var_label_norm1 = gsub("eu_budget", "eu-budget", var_label_norm1),
-         var_label_norm1 = gsub("eu_statements", "eu-statements", var_label_norm1),
-         var_label_norm1 = gsub("eu_citizenship", "eu-citizenship", var_label_norm1),
-         var_label_norm1 = gsub("eu_membership|eu_membersh", "eu-membership", var_label_norm1),
-         var_label_norm1 = gsub("eu_image", "eu-image", var_label_norm1),
-         var_label_norm1 = gsub("eu_level", "eu-level", var_label_norm1),
-         var_label_norm1 = gsub("ecb|european_central_bank", "european-central-bank", var_label_norm1),
-         var_label_norm1 = gsub("european_commission", "european-commission", var_label_norm1),
-         var_label_norm1 = gsub("nms", "new-member-states", var_label_norm1),
-         var_label_norm1 = gsub("council_of_the_eu", "council-of-the-eu", var_label_norm1),
-
-         # replace underscore with space
-         text = gsub("_", " ", var_label_norm1)) %>%
+  mutate(
+    var_id = paste0(filename, " ", var_name_orig),
+    var_label_norm1 = gsub(
+      "^cap_", "common-agricultural-policy_", var_label_norm),
+    var_label_norm1 = gsub(
+      "_cap_", "_common-agricultural-policy_", var_label_norm),
+    
+    # leftover question numbers at the beginning of value labels
+    var_label_norm1 = gsub(
+      "^w[0-9]{1,2}", "", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^[0-9]{1-3}_", "", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^[a-z]{1,2}_", "", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^[a-z][0-9]{2}[a-z]_", "", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^[a-z]{1,2}[0-9]{1,2}[a-z]_", "", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^[0-9]{1,2}_", "", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^[a-z][0-9]_[0-9]{1,2}_", "", var_label_norm1),
+    
+    # country names
+    var_label_norm1 = gsub(
+      "united_kingdom", "united-kingdom", var_label_norm1),
+    var_label_norm1 = gsub(
+      # should not we use the new official name czechia (shorter?)
+      "czech_republic", "czech-republic", var_label_norm1), 
+    var_label_norm1 = gsub(
+      "great_britain", "great-britain", var_label_norm1),
+    var_label_norm1 = gsub(
+      "united_germany", "united-germany", var_label_norm1),
+    var_label_norm1 = gsub(
+      "united_nations", "united-nations", var_label_norm1),
+    var_label_norm1 = gsub(
+      "ivory_coast", "ivory-coast", var_label_norm1),
+    
+    # commonly abbreviated words
+    var_label_norm1 = gsub(
+      "particip_", "participation_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "environmt_|environm_", "environment_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "citizenshp_", "citizenship_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_rght", "_right", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_fulfld", "_fullfilled", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_pessim", "_pessimistic", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_convcd", "_convinced", var_label_norm1),
+    var_label_norm1 = gsub(
+      "not_invo", "not_involved", var_label_norm1),
+    var_label_norm1 = gsub(
+      "intelligenc$", "intelligence", var_label_norm1),
+    var_label_norm1 = gsub(
+      "gvrnm", "government", var_label_norm1),
+    var_label_norm1 = gsub(
+      "ctry|cntry|\\[country\\]", "country", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_accom$|_accomod$", "_accomodation", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_activit", "_activity", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_cig|_cigs", "_cigarettes", var_label_norm1),
+    var_label_norm1 = gsub(
+      "cildren", "children", var_label_norm1),
+    var_label_norm1 = gsub(
+      "citizenshp", "citizenship", var_label_norm1),
+    var_label_norm1 = gsub(
+      "collgs|collegues", "colleagues", var_label_norm1),
+    var_label_norm1 = gsub(
+      "competitivn", "competition", var_label_norm1),
+    var_label_norm1 = gsub(
+      "comptrs", "computers", var_label_norm1),
+    var_label_norm1 = gsub(
+      "confidfence", "confidence", var_label_norm1),
+    var_label_norm1 = gsub(
+      "conflicte$", "conflicts", var_label_norm1),
+    var_label_norm1 = gsub(
+      "conn$|connec$", "connection", var_label_norm1),
+    var_label_norm1 = gsub(
+      "contrls", "controls", var_label_norm1),
+    var_label_norm1 = gsub(
+      "communit$", "community", var_label_norm1),
+    var_label_norm1 = gsub(
+      "situatn_", "situation", var_label_norm1),
+    var_label_norm1 = gsub(
+      "freq_", "frequency_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "hh", "household", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_pers_", "_personal_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "prov_", "provider_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "info_", "information_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "newspv|newspapers", "newspaper", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_newsp_|_newspap_", "_newspaper_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_newsp$|_newspap$", "_newspaper_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "serv_", "services_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "financ_", "financial_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_op_", "_operator_", var_label_norm1),
+    
+    # two- or three-word phrases to be kept as keywords
+    var_label_norm1 = gsub(
+      "tv_channels", "tv-channels", var_label_norm1),
+    var_label_norm1 = gsub(
+      "radio_stations", "radio-stations", var_label_norm1),
+    var_label_norm1 = gsub(
+      "regional_local", "regional-local", var_label_norm1),
+    var_label_norm1 = gsub(
+      "air_conditioning", "air-conditioning", var_label_norm1),
+    var_label_norm1 = gsub(
+      "pol_party|political_party", "political-party",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "electoral_particip_", "electoral-participation_",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "electoral_particip$", "electoral-participation$",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "trust_in_institutions", "trust",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "justice_legal_system|justice_nat_legal_system",
+      "justice-system", var_label_norm1),
+    var_label_norm1 = gsub(
+      "non_govmnt_org|non_govnmt_org", "ngo", var_label_norm1),
+    var_label_norm1 = gsub(
+      "polit_parties|political_parties", "political-parties", var_label_norm1),
+    var_label_norm1 = gsub(
+      "reg_loc_public_authorities|reg_local_authorities|reg_loc_authorities|reg_local_public_authorities|rg_lc_authorities", "regional-local-authorities", var_label_norm1),
+    var_label_norm1 = gsub(
+      "written_press", "press", var_label_norm1),
+    var_label_norm1 = gsub(
+      "pers_influence", "personal-influence", var_label_norm1),
+    var_label_norm1 = gsub(
+      "job_situation", "job-situation", var_label_norm1),
+    var_label_norm1 = gsub(
+      "religious_inst$", "religious-institutions",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "polit_matters|political_matters", "political-matters", var_label_norm1),
+    var_label_norm1 = gsub(
+      "pol_discussion|polit_discussion|political_discussion", "political-discussion", var_label_norm1),
+    var_label_norm1 = gsub(
+      "nat_resources", "natural-resources", var_label_norm1),
+    var_label_norm1 = gsub(
+      "non_euro_zone", "non-euro-zone", var_label_norm1),
+    var_label_norm1 = gsub(
+      "party_attachment", "party-attachment", var_label_norm1),
+    var_label_norm1 = gsub(
+      "which_issue", "which-issue", var_label_norm1),
+    var_label_norm1 = gsub(
+      "economic_situation|economic_sit", "economic-situation", var_label_norm1),
+    var_label_norm1 = gsub(
+      "public_debt", "public-debt", var_label_norm1),
+    var_label_norm1 = gsub(
+      "left_right", "left-right", var_label_norm1),
+    var_label_norm1 = gsub(
+      "important_issues_cntry", "important-issues-cntry",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "important_issues|import_issues", "important-issues",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "important_values_eu", "important-values-eu", var_label_norm1),
+    var_label_norm1 = gsub(
+      "important_values_pers", "important-values-personal",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "important_life_domains", "important-life-domains",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "quality_of_life|life_quality", "life-in-general",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "household_composition", "household-composition",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "size_of_community", "size-of-community", var_label_norm1),
+    var_label_norm1 = gsub(
+      "head_of_hh", "head-of-hh", var_label_norm1),
+    var_label_norm1 = gsub(
+      "last_job", "last-job", var_label_norm1),
+    var_label_norm1 = gsub(
+      "level_in_society", "level-in-society", var_label_norm1),
+    var_label_norm1 = gsub(
+      "self_placement", "self-placement", var_label_norm1),
+    var_label_norm1 = gsub(
+      "social_class|soc_class", "social-class", var_label_norm1),
+    var_label_norm1 = gsub(
+      "education_level", "education-level", var_label_norm1),
+    var_label_norm1 = gsub(
+      "living_conditions", "living-conditions", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_nat_", "_national_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "^nat_", "national_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "_nat$", "_national", var_label_norm1),
+    var_label_norm1 = gsub(
+      "europ_", "european_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "12_months_|12_mo_", "12-months_", var_label_norm1),
+    var_label_norm1 = gsub(
+      "national_parliament", "national-parliament", var_label_norm1),
+    var_label_norm1 = gsub(
+      "national_government", "national-government", var_label_norm1),
+    var_label_norm1 = gsub(
+      "national_economy", "national-economy", var_label_norm1),
+    var_label_norm1 = gsub(
+      "good_bad", "good-bad", var_label_norm1),
+    var_label_norm1 = gsub(
+      "court_of_auditors", "court-of-auditors", var_label_norm1),
+    var_label_norm1 = gsub(
+      "council_of_ministers", "council-of-ministers",
+      var_label_norm1),
+    
+    # EU-related abbreviations and phrases
+    var_label_norm1 = gsub(
+      "euro_12", "euro-12", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_parliament|eu_parl", "european-parliament",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_union", "european-union", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_unification|europ_unification|europ_unif",
+      "european-unification", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_economy|europ_economy", "european-economy",
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_ombudsman", "european-ombudsman", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_elections|ep_election", "european-elections",
+      var_label_norm1),
+    var_label_norm1 = gsub("european_elec|european_elect|europ_elec", "european-elections", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_economy", "european-economy", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_currency|europ_currency", "european-currency", 
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "europ_court_of_auditors|eur_court_of_auditors", "eu-court-of-auditors", 
+      var_label_norm1),
+    var_label_norm1 = gsub(
+      "europ_court_of_justice|european_court_of_justice", "eu-court-of-justice", 
+      var_label_norm1),
+    var_label_norm1 = gsub("econ_and_social_committee|economic_and_soc_committee|econ_and_soc_committee", "econ-and-soc-committee", var_label_norm1),
+    var_label_norm1 = gsub("europ_polit_matter|europ_political_matters", "european-political-matters", 
+                           var_label_norm1),
+    var_label_norm1 = gsub(
+      "euro_zone", "euro-zone", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_issues", "eu-issues", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_budget", "eu-budget", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_statements", "eu-statements", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_citizenship", "eu-citizenship", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_membership|eu_membersh", "eu-membership", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_image", "eu-image", var_label_norm1),
+    var_label_norm1 = gsub(
+      "eu_level", "eu-level", var_label_norm1),
+    var_label_norm1 = gsub(
+      "ecb|european_central_bank", "european-central-bank", var_label_norm1),
+    var_label_norm1 = gsub(
+      "european_commission", "european-commission", var_label_norm1),
+    var_label_norm1 = gsub(
+      "nms", "new-member-states", var_label_norm1),
+    var_label_norm1 = gsub(
+      "council_of_the_eu", "council-of-the-eu", var_label_norm1),
+    
+    # replace underscore with space
+    text = gsub("_", " ", var_label_norm1)) %>%
   ungroup() %>%
   # select the needed variables
   select(filename, qb, var_label_norm1, var_label_orig, var_id, text)
 ```
 
-
 ### 2 & 3. Tokenize & Eliminate stopwords
-
 
 ```{r}
 # list of country codes to be converted to country names
-eu_countries <- c("at", "be", "bg", "cy", "cz", "dk", "de", "ee", "es", "fr",
-                  "fi", "gb", "gr", "hr", "hu", "ie", "it", "lt", "lv", "lu",
-                  "mt", "nl", "pl", "pt", "ro", "se", "si", "sk", "tr")
+eu_countries <- c(
+  "at", "be", "bg", "cy", "cz", "dk", "de", "ee", "es", "fr",
+   "fi", "gb", "gr", "hr", "hu", "ie", "it", "lt", "lv", "lu",
+   "mt", "nl", "pl", "pt", "ro", "se", "si", "sk", "tr")
 
 # !!! the problem here is that dk sometimes means "don't know" and sometimes Demnark !!!
-
+# this needs to be treated in gesis_metadata_create, where the
+# user defined missings are separately analyzed, they dk should 
+# be converted there to do_not_know.
 
 tidy <- dat %>%
   # tokenize
-  unnest_tokens(word, text, token = "regex", pattern = " |  ") %>%
+  unnest_tokens(word, text, 
+                token = "regex", pattern = " |  ") %>%
   # eliminate stop words, with some exceptions
-  anti_join(stop_words %>% filter(!word %in% c("working", "right", "other"))) %>%
+  anti_join(stop_words %>%
+              filter(!word %in% c("working", "right", "other")
+                     )) %>%
   # eliminate numbers
   filter(!grepl("\\b\\d+\\b", word)) %>%
   # convert country codes to country names
-  mutate(country = ifelse(word %in% eu_countries, word, NA),
-         country = countrycode::countrycode(toupper(country), "iso2c", "country.name"),
-         country = tolower(country),
-         word = ifelse(!is.na(country), country, word),
-         word = ifelse(word == "united kingdom", "united-kingdom", word),
-         word = ifelse(word == "tcc", "turkish-cypriot-community", word)) %>%
+  mutate(
+    country = ifelse(word %in% eu_countries, word, NA),
+         country = countrycode::countrycode(
+           toupper(country), "iso2c", "country.name"),
+    country = tolower(country),
+    word = ifelse(!is.na(country), country, word),
+    word = ifelse(word == "united kingdom", "united-kingdom", word),
+    word = ifelse(word == "tcc", "turkish-cypriot-community", word)
+    ) %>%
   select(-country)
-
+```
+```{r, eval=FALSE}
 head(tidy)
+```
+```{r, echo=FALSE, results='asis'}
+head(tidy) %>%
+  kable () %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 ) %>%
+  column_spec(1, width =  "4em") %>%
+  column_spec(2:5, width = "3em") %>%
+  column_spec(6, width = "3em", bold = T, border_left = T)
+  
+  
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 tidy %>%
   count(word) %>%
   arrange(desc(n)) %>% 
-  print(n = 50)
+  head(., 50)
 ```
 
+```{r, echo=FALSE}
+kable(
+  tidy %>%
+  count(word) %>%
+  arrange(desc(n)) %>%
+  head(., 50)
+  ) %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 12 ) %>%
+  column_spec(1, width =  "5em", bold = T) %>%
+  column_spec(2, width = "3em")
+```
 
 ### 4. Create a document-term matrix
 
@@ -280,10 +468,18 @@ dtm <- tidy_small %>%
   distinct(var_id, var_label_norm1, word) %>%
   mutate(n = word) %>%
   spread(word, n)
-
+```
+```{r, eval=FALSE}
 dtm[1100:1110, c(1,2,110:112)]
 ```
-
+```{r, echo=FALSE, results='asis'}
+dtm[1100:1110, c(1,2,110:112)] %>%
+  kable () %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
 
 ### 5. Sort columns according to the declining frequency of the keywords
 
@@ -291,7 +487,7 @@ dtm[1100:1110, c(1,2,110:112)]
 # get the order of variables according to declining proportion of missing value
 # (declining popularity of keywords)
 order <- dtm %>%
-  summarise_each(funs(sum(is.na(.))/length(.))) %>%
+  summarise_all(funs(sum(is.na(.))/length(.))) %>%
   t() %>% as.vector()
 
 names(order) <- names(dtm)
@@ -303,41 +499,71 @@ names(order) <- names(dtm)
 Standardized variable labels `var_label_std` are concatenated keywords, where the keywords occur in the order of their frequency in the entire corpus of variable labels. As a consequence, more common - likely broader - terms will come first, and less common - more specific - terms will come later.
 
 ```{r}
-dtm2 <- dtm %>% select(names(sort(order))) %>%
-  mutate_at(vars(3:ncol(dtm)), funs(ifelse(is.na(.), "", .))) %>%
+dtm2 <- dtm %>%
+  select( names(sort(order)) ) %>%
+  mutate_at(vars(3:ncol(dtm)), 
+            funs(ifelse(is.na(.), "", .))
+            ) %>%
   unite("var_label_std", 3:ncol(dtm)) %>%
-  mutate(var_label_std = gsub("(\\_)\\1+", "\\1", var_label_std)) %>%
-  mutate(var_label_std = gsub("^_|_$", "", var_label_std))
-
-dtm2 %>% 
-  print(n = 50)
+  mutate(var_label_std = gsub(
+    "(\\_)\\1+", "\\1", var_label_std) ) %>%
+  mutate(var_label_std = gsub(
+    "^_|_$", "", var_label_std) )
 ```
 
+```{r}
+dtm2 %>% 
+  print(n = 50) %>%
+  kable() %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 12 ) %>%
+  column_spec(1, width = "5em", bold = T) %>%
+  column_spec(2, width = "3em")
+```
 
 Print the most common standardized variable labels.
 
 ```{r}
 dtm2 %>%
   count(var_label_std) %>%
-  # exclude nationality, country (nation) codes, size of community (country-specific), language of interview
-  filter(!grepl("nationality|nation_|size-of-community|language_interview", var_label_std)) %>%
+  # exclude nationality, country (nation) codes, 
+  # size of community (country-specific), language of interview
+  filter(
+    !grepl("nationality|nation_|size-of-community|language_interview",
+           var_label_std)) %>%
   filter(n > 5) %>%
   arrange(desc(n)) %>% 
   print(n = 50)
 ```
 
-
 ## Application: political attitudes (1)
 
 Filter on substrings of standardized variable labels `var_label_std`, and count the repetitions across datasets.
 
-```{r}
+```{r, eval=FALSE}
 # filter on var_label_std
 dtm2 %>%
   filter(grepl("trust|satisf|left-right|interest|class", var_label_std)) %>% 
   count(var_label_std) %>%
   arrange(desc(n)) %>%
   print(n = 50)
+```
+```{r, echo=FALSE}
+dtm2 %>%
+  filter(grepl("trust|satisf|left-right|interest|class", var_label_std)) %>% 
+  count(var_label_std) %>%
+  arrange(desc(n)) %>%
+  head(., n = 50) %>%
+  kable () %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 12 ) %>%
+  column_spec(1, width =  "8em", bold = T ) %>%
+  column_spec(2, width = "3em")
+  
 ```
 
 ## Application: political attitudes (2)
@@ -348,10 +574,26 @@ Another thing that is noticable is that variable names are standardized starting
 
 Altogether there are 92 such variables, and eliminating the transformed ones (harmonized or recoded), we are left with 85 variables in 85 different EB waves.
 
-```{r}
+```{r, eval=FALSE}
 # search document-term matrix by keyword
 dtm %>%
   filter(!is.na(`left-right`)) %>%
   janitor::remove_empty(c("rows", "cols")) %>% 
   print(n = 100)
+```
+
+```{r, echo=FALSE, results='asis'}
+# search document-term matrix by keyword
+dtm %>%
+  filter(!is.na(`left-right`)) %>%
+  janitor::remove_empty(c("rows", "cols")) %>% 
+  print(n = 100) %>%
+  kable() %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 ) %>%
+  column_spec(1,  bold = T, width = "4em") %>%
+  column_spec(3:4, width = "2em") %>%
+  column_spec(5:6, width = "4em")
 ```

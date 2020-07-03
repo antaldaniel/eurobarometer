@@ -59,7 +59,6 @@ The procedure involves four steps:
 `val_order_length`:  
 `val_label_norm`: value label normalized with `label_normalize()`
 
-
 ```{r, eval=FALSE}
 # Avoid changes in the working directory when building vignettes:
 metadata_rel_path_from_root <- find_root_file(
