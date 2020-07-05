@@ -39,4 +39,4 @@ importing functions in vignette examples and unit tests.
 * Definition of new class with the constructor `eurobarometer_labelled()`
 
 # eurobarometer 0.1.7
-* An analysis of the vocabulary of 97 SPSS files, creation of a doc-term matrix for standardizing labels.
+* Preliminary analysis of the vocabulary of 97 SPSS files (corresponding to 97 Eurobarometer waves): standardization of spelling of common (and often abbreviated) words in variable labels, tokenization of variable labels, creation of a doc-term matrix for variable labels, creation of preliminary standardized variable names.
