@@ -1,7 +1,10 @@
 ---
-title: "Article"
+title: "Tools for reproducible ex-post survey data harmonization"
+subtitle: "The case of the Eurobarometer surveys"
 author: "Daniel Antal, Marta Kolczynska"
 date: "7/6/2020"
+bibliography: library.bib
+biblio-style: apalike
 output:
   word_document: default
   html_document: default
@@ -11,23 +14,24 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The increasing availability of microdata available as open data creates new opportunities for ex-post harmonization and joint exploitation of these resources. We introduce the surveyharmonization and eurobarometer packages that help the reproducible ex-post harmonization of survey data stored in various, individual files with rich metadata.  Our examples are related to joining data from SPSS files of various Eurobarometer survey responses spanning over 25 years, but our tools are useful to make this work.
+The increasing availability of microdata creates new opportunities for joint exploitation of these resources for comparative research. Before joint analysis is possible, the data need to be harmonized, i.e. transformed and combined in a single data set in a way that matches the measurement of the same characteristics and standardizes the coding of responses. We introduce the surveyharmonization and eurobarometer packages that help the reproducible ex-post harmonization of survey data stored in various, individual files with rich metadata.  We illustrate the proposed workflow using the case of the Eurobarometer surveys, which provide rich data on European publics in form of single-wave SPSS files from a period of over 25 years. Our tools are flexible and can be applied to other survey projects.
 
-The Eurobarometer case is particularly interesting, because each wave of the Eurobarometer survey is n fact a combination of 27-30 nationally representative survey conducted in about 20 languages based on a generic English and French questionnaire. They contain trend variables, which are asked repeatedly in many waves, so only joining the same variables of two Eurobarometer waves, for example, on attitudes to trust in institutions, requires a harmonization of about 60 complex data assets.  Much of this harmonization work is done ex ante, and it is mainly outside of the scope of our interest.  While conducting the fieldwork of these surveys and processing the interview data is fully harmonized within each wave, there are various ex ante harmonization solutions are applied in various waves, especially ones that took place far away in time, for example, in 1995 and 2019. When we are ex post joining data from different survey waves, we have to understand and partly reconstruct ex ante harmonization steps.
+The Eurobarometer case is particularly interesting, because each wave of the Eurobarometer project includes 27-30 nationally representative surveys conducted in about 20 languages based on a generic English and French questionnaire. They contain trend variables, which are asked repeatedly in many waves, so only joining the same variables of two Eurobarometer waves, for example, on trust in institutions, requires a harmonization of about 60 complex data assets.  Within each wave, the surveys are harmonized ex ante, including fieldwork organization or processing of the interview data and combining them into a single data file.  These procedures differ between waves, especially ones that took place far away in time, for example, in 1995 and 2019. When we are ex post joining data from different survey waves, we have to understand and partly reconstruct ex ante harmonization steps.
 
-Ex-post (or retrospective) data harmonization refers to procedures applied to already collected data to improve the comparability and inferential equivalence of measures collected by different studies. In practice, ex-post harmonization means a lot of recoding, i.e. to make sure that codes are understood exactly the same way across all data resources.
+Ex-post data harmonization refers to procedures applied to existing data that have not been created in a way that ensures comparability, in a way that makes the resulting, harmonized, data suitable for joint analysis.  In practice, ex-post harmonization means taking data as they were published by research projects and recording them to ensure that codes have the same meaning across all data sources. 
 
-Reproducible recoding can be in form of code in some programming language, where running the code performs all the data transformations. When the number of recodes is large, the code quickly becomes long and complicated and difficult to follow for anyone but the code’s creator. We tried to create a workflow that is fully reproducible and automatically documented. 
+In order for the harmonization to be reproducible, all data transformations and decisions must be documented with procedures that enable the reproduction of the end result. Reproducible recoding can be in form of code in some programming language, where running the code performs all the necessary data transformations. As the number of recodes and/or different source data sets increases, the code quickly becomes long and complicated and difficult to follow for anyone but the code’s creator. Instead, the reproducible workflow we propose has been designed with readability in mind, with documentation built into all steps and all procedures.
 
-In simple words, when we are creating a data panel from two (or more) Eurobarometer surveys stored in separate SPSS files, we are aiming to solve the following problems:
 
---	[Importing data](#import) from proprietary statistical software and creating a faithful, practical representation of their data and metadata contents for later harmonization and join.
+In simple words, when we are creating a multi-wave integrated data set from two (or more) Eurobarometer surveys stored in separate SPSS files, we are aiming to solve the following problems:
+
+--	[Importing data](#import) from proprietary statistical software formats and creating a faithful, practical representation of the data and metadata contents for later harmonization and join.
 
 -- [Ex-post harmonization](#expost) 
 
 * Define a common [taxonomy](#taxonomy), probably based on a thesaurus for consistentcy.
 
-* [harmonizing variable names](#harmonize-var-names), or “variable labels” in an SPSS context, making sure that variables that represent exactly the same information have exactly the same, programmatically usable variable names; dissimilar variables have dissimilar names. 
+* [harmonizing variable names](#harmonize-var-names), or “variable labels” in an SPSS context, making sure that variables that represent exactly the same information (in terms of question content and response measurement) have exactly the same, programmatically usable variable names; dissimilar variables have dissimilar names. 
 
 * [Harmonizing value labels](#harmonize-labels) of categorical variables, making sure that the same labels, such as ‘good’, ‘mediocre’, ‘bad’ always have the same representation in our new data object. 
 
@@ -37,24 +41,41 @@ In simple words, when we are creating a data panel from two (or more) Eurobarome
 
 * Creating a consistent, [unique identifier](#uniqid) for each observation.
 
-* Create a full [documentation](#documentation) of conversions, recoding for reproducability.
+* Creating a full [documentation](#documentation) of conversions, recoding for reproducability.
 
-* Provide methods to export the harmonized, joined data to proprietary formats for [analysis outside R](#exportmethods)
+* Providing methods to export the harmonized data set to proprietary formats for [analysis outside R](#exportmethods).
 
-* If the user wishes to prepare reproducible analysis in R, provide [methods](#rmethods) to convert the data to base types of numeric and factor, the usual inputs of statistical functions.
+* Providing [methods](#rmethods) to convert the data to base types of numeric and factor, the usual inputs of statistical functions, for reproducible analysis in R.
 
 Our workflow generally fits into the tidyverse. 
 
-## Import files {#import}
-Complex microdata, such as primary survey data, is often stored in some statistical file format. In our article, we use examples for SPSS’s .sav format, but similar problems are present with other proprietary file formats.  They usually do not only represent the data, but rich metadata that provides guidance for the analyst who wants to use them – for example, which observations should be treated as missing, or what is the valid range of a variable.
 
-In our case, we are dealing with highly structured survey data that contain a lot of metadata, partly about the ex ante harmonization process that is vital for using the data.  For example, an archived Eurobarometer wave file contains recently more than 28 subsamples (for each EU member state, two for Germany, two for the former member state United Kingdom, and often for EEA or prospective member state countries.)  The way these subsamples were merged together and handled must be preserved. 
+# The Eurobarometer surveys
+
+<Here more information about the EUrobarometer, the contents, frequency of waves, amount of data, fieldwork and number of respondents. Maybe even the paragraph from the introduction would fit better here than there>
+
+
+## Import files {#import}
+
+Complex microdata, such as primary survey data, is often stored in a format used by statistical software. In our article, we use examples for SPSS’s .sav format, but other proprietary file formats pose similar challenges.  These formats usually do not only represent the data, but also contain rich metadata that provide additional information to the researcher, such as which observations should be treated as missing, or what is the valid range of a variable's values.
+
+In our case, we are dealing with highly structured survey data that contain a lot of metadata, partly about the ex ante harmonization process that is vital for using the data.  For example, an archived Eurobarometer wave file contains recently more than 28 national samples (for each EU member state, plus two for Germany - East and West, two for the former member state United Kingdom - for Great Britain and Northern Ireland, and often for European Economic Area or candidate countries.)  The way these subsamples were merged together and handled must be preserved. 
 
 We fully rely in importing on two packages, [haven](https://haven.tidyverse.org/) and [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) from the tidyverse.  They have created classes and methods that give a faithful representation of imported statistical software files, but they need to be amended for reproducibility and harmonization information for later joins.  These steps are likely to be present when a researcher is joining any two statistical software files, not only survey microdata files.
 
 ## Ex-post harmonization {#expost}
 
-> maybe you code write a bit about ex-post harmonizaton here. This can also lead out to your other work or to a later article about describing a trend file that we create. 
+Ex-post (or retrospective) data harmonization refers to procedures applied to existing data to improve the comparability and inferential equivalence of measures collected by different studies [cf. @Fortier2017a]. Ex-post survey data harmonization involves applying these procedures to survey data sets that were not created with comparability in mind or are otherwise not compatible enough to be analyzed as a single data source.  
+
+Ex-post harmonization is both theory-informed and data-driven. Theory provides concepts and definitions, while data availability to a large extent determines what ends up being harmonized and how. Additionally, methodological research provides evidence about limits of ex-post harmonization with regard to achieving data comparability. 
+
+While the exact steps vary by application case, a survey data harmonization project can be generally described as consisting of the following steps: (1) definition of the concepts of interest, (2) indentifying and obtaining the data, (3) data transformations, and (4) verification and documentation [cf. @Granda2016; @Wolf2016; @Fortier2017a; @Slomczynski2018; @Kolczynska2020a]. It is worth emphasizing that "[R]etrospective harmonization of individual participant data is an iterative process composed of a series of key closely related, inter-dependant and often integrated steps" [@Fortier2017b: 1].
+
+
+The scope and complexity of the steps involved in survey data harmonization depends on the extent to which the existing data are already comparable with regard to the (a) sample and (b) measurement. The comparability of survey samples includes the definition of the target population, the sampling frame and sample type, as well as the response (or other outcome) rate. Measurement deals with the content and design of the survey questions, as well as the recording responses, ata entry and data validation procedures applied following fieldwork. The more similar the procedures in both areas, the higher are the chances for a high quality end product.
+
+In the case of the Eurobarometer, the harmonization process in greatly facilitated by the fact that all Eurobarometer waves are part of the same project with largely standardized procedures for many stages of the survey process, including questionnaire design, sampling, fieldwork, data processing and dissemination. Additionally, within each Eurobarometer wave, data for all countries are harmonized ex-ante. Thus, in this case the harmonization of the data across multiple Eurobarometer surveys boils down to data data transformation and documentation. For the purposes of presenting the process of harmonization with surveyharmonization and eurobarometer packages, we use the case of the Eurobarometer without the loss of generality of the described procedures, since it includes all data processing steps involved in harmonization.
+
 
 ### Thesaurus, taxonomy {#taxonomy}
 
@@ -97,3 +118,6 @@ At this point the new data table is ready for analysis.  We provide some methods
 ### Methods for analyzing in R {#rmethods}
 
 <just simple description and code links>
+
+
+# References
