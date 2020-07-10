@@ -2,7 +2,7 @@
 title: "Tools for reproducible ex-post survey data harmonization"
 subtitle: "The case of the Eurobarometer surveys"
 author: "Daniel Antal, Marta Kolczynska"
-date: "7/6/2020"
+date: "7/10/2020"
 bibliography: [library.bib, packages.bib]
 biblio-style: apalike
 output:
