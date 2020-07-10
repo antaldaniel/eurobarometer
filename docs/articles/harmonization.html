@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -54,10 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/create_tabels.html">Creating Variable and Values Tables</a>
-    </li>
-    <li>
-      <a href="../articles/eurobarometer_class.html">The labelled_eurobarometer Class</a>
+      <a href="../articles/create_tables.html">Creating Variable and Values Tables</a>
     </li>
     <li>
       <a href="../articles/harmonization.html">Survey Data Harmonization</a>
@@ -70,9 +67,6 @@
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
-    </li>
-    <li>
-      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -103,7 +97,7 @@
       <h1 data-toc-skip>Survey Data Harmonization</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/vignettes/harmonization.Rmd"><code>vignettes/harmonization.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/tests/testthat/vignettes/harmonization.Rmd"><code>tests/testthat/vignettes/harmonization.Rmd</code></a></small>
       <div class="hidden name"><code>harmonization.Rmd</code></div>
 
     </div>
@@ -127,7 +121,11 @@
 <p>We are using the SPSS file version of the GESIS archive and recommend reading in these files with the haven package. Haven uses a special R class, <code>labelled</code>, to preserve the metadata information of the SPSS file. While <code>labelled</code> provides a consistent and full representation of the SPSS file, it is not very useful for our purposes, because it mixes data with metadata in a way that is particular to the SPSS software.</p>
 <p>The data part is not particularly useful for statistical analysis and visualization in the labelled class. We are looking for a practical representation of each typical questionnaire form: for example, multiple response questions are represented by indicator / dummy variables, and single choice questions can be usually represented with factors.</p>
 <p>The metadata elements must be detached, harmonized and re-joined with the data. For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: <code>Mentioned</code> and <code>Not Mentioned</code>, with rare exceptions. We are re-coding them into numerical 1,0 values. Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.</p>
-<p>###Harmonization of variable types In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.</p>
+<div id="harmonization-of-variable-types" class="section level3">
+<h3 class="hasAnchor">
+<a href="#harmonization-of-variable-types" class="anchor"></a>Harmonization of variable types</h3>
+<p>In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.</p>
+</div>
 </div>
 <div id="variable-names" class="section level2">
 <h2 class="hasAnchor">
@@ -174,79 +172,61 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">p6pl</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7562_v1-0-0.sav</td>
-</tr>
-<tr class="even">
 <td align="left">p6gr</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7579_v1-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6hu</td>
 <td align="right">2</td>
 <td align="left">Towns and suburbs/ small urban area</td>
 <td align="right">2</td>
 <td align="right">4</td>
 <td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA7556_v2-0-0.sav</td>
+<td align="left">ZA7483_v1-0-0.sav</td>
 </tr>
 <tr class="even">
-<td align="left">p6gr</td>
+<td align="left">p6fi</td>
 <td align="right">1</td>
 <td align="left">Rural area</td>
 <td align="right">1</td>
 <td align="right">4</td>
 <td align="left">rural_area</td>
-<td align="left">ZA6963_v1-0-0.sav</td>
+<td align="left">ZA6927_v1-0-0.sav</td>
 </tr>
 <tr class="odd">
+<td align="left">p6dk</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
+<td align="left">ZA6697_v1-1-0.sav</td>
+</tr>
+<tr class="even">
+<td align="left">p6lu</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
+<td align="left">ZA6643_v4-0-0.sav</td>
+</tr>
+<tr class="odd">
+<td align="left">p6lv</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
+<td align="left">ZA7484_v1-0-0.sav</td>
+</tr>
+<tr class="even">
 <td align="left">p6ie</td>
 <td align="right">1</td>
 <td align="left">Rural area</td>
 <td align="right">1</td>
 <td align="right">4</td>
 <td align="left">rural_area</td>
-<td align="left">ZA7561_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6gb</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7562_v1-0-0.sav</td>
+<td align="left">ZA6595_v3-0-0.sav</td>
 </tr>
 <tr class="odd">
-<td align="left">d25</td>
-<td align="right">3</td>
-<td align="left">Large town</td>
-<td align="right">3</td>
-<td align="right">4</td>
-<td align="left">large_town</td>
-<td align="left">ZA5877_v2-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6cy</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6642_v4-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6gr</td>
+<td align="left">p6cz</td>
 <td align="right">2</td>
 <td align="left">Towns and suburbs/ small urban area</td>
 <td align="right">2</td>
@@ -255,61 +235,52 @@
 <td align="left">ZA7482_v1-0-0.sav</td>
 </tr>
 <tr class="even">
-<td align="left">p6dk</td>
+<td align="left">p6pl</td>
 <td align="right">1</td>
 <td align="left">Rural area</td>
 <td align="right">1</td>
 <td align="right">4</td>
 <td align="left">rural_area</td>
-<td align="left">ZA6927_v1-0-0.sav</td>
+<td align="left">ZA6928_v1-0-0.sav</td>
 </tr>
 <tr class="odd">
-<td align="left">p6hr</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6927_v1-0-0.sav</td>
-</tr>
-<tr class="even">
 <td align="left">p6se</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
 <td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA7576_v1-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6ie</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6695_v1-1-0.sav</td>
+<td align="left">rural_area</td>
+<td align="left">ZA7562_v1-0-0.sav</td>
 </tr>
 <tr class="even">
-<td align="left">p6cy</td>
+<td align="left">p6lt</td>
 <td align="right">2</td>
 <td align="left">Towns and suburbs/ small urban area</td>
 <td align="right">2</td>
 <td align="right">4</td>
 <td align="left">towns_and_suburbs_small_urban_area</td>
+<td align="left">ZA7483_v1-0-0.sav</td>
+</tr>
+<tr class="odd">
+<td align="left">p6cy</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
 <td align="left">ZA7488_v1-0-0.sav</td>
 </tr>
-<tr class="odd">
-<td align="left">p6gr</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6595_v3-0-0.sav</td>
-</tr>
 <tr class="even">
-<td align="left">p6ro</td>
+<td align="left">p6gr</td>
+<td align="right">2</td>
+<td align="left">Towns and suburbs/small urban area</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="left">towns_and_suburbs_small_urban_area</td>
+<td align="left">ZA6642_v4-0-0.sav</td>
+</tr>
+<tr class="odd">
+<td align="left">p6pl</td>
 <td align="right">2</td>
 <td align="left">Towns and suburbs/ small urban area</td>
 <td align="right">2</td>
@@ -317,41 +288,68 @@
 <td align="left">towns_and_suburbs_small_urban_area</td>
 <td align="left">ZA6939_v2-0-0.sav</td>
 </tr>
-<tr class="odd">
-<td align="left">p6es</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6595_v3-0-0.sav</td>
-</tr>
 <tr class="even">
-<td align="left">p6lv</td>
-<td align="right">1</td>
-<td align="left">Rural areas</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_areas</td>
-<td align="left">ZA5688_v6-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6ee</td>
-<td align="right">2</td>
-<td align="left">Small/medium towns</td>
-<td align="right">2</td>
-<td align="right">5</td>
-<td align="left">small_medium_towns</td>
-<td align="left">ZA5687_v3-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6lv</td>
+<td align="left">p6pl</td>
 <td align="right">1</td>
 <td align="left">Rural area</td>
 <td align="right">1</td>
 <td align="right">4</td>
 <td align="left">rural_area</td>
-<td align="left">ZA6595_v3-0-0.sav</td>
+<td align="left">ZA5929_v3-0-0.sav</td>
+</tr>
+<tr class="odd">
+<td align="left">p6</td>
+<td align="right">2</td>
+<td align="left">Towns and suburbs/ small urban area</td>
+<td align="right">2</td>
+<td align="right">3</td>
+<td align="left">towns_and_suburbs_small_urban_area</td>
+<td align="left">ZA6861_v1-2-0.sav</td>
+</tr>
+<tr class="even">
+<td align="left">p6be</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
+<td align="left">ZA7488_v1-0-0.sav</td>
+</tr>
+<tr class="odd">
+<td align="left">p6lt</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
+<td align="left">ZA7488_v1-0-0.sav</td>
+</tr>
+<tr class="even">
+<td align="left">p6cz</td>
+<td align="right">1</td>
+<td align="left">Rural area</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural_area</td>
+<td align="left">ZA6697_v1-1-0.sav</td>
+</tr>
+<tr class="odd">
+<td align="left">p6es</td>
+<td align="right">1</td>
+<td align="left">Rural</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="left">rural</td>
+<td align="left">ZA5877_v2-0-0.sav</td>
+</tr>
+<tr class="even">
+<td align="left">p6cz</td>
+<td align="right">2</td>
+<td align="left">Towns and suburbs/ small urban area</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="left">towns_and_suburbs_small_urban_area</td>
+<td align="left">ZA6963_v1-0-0.sav</td>
 </tr>
 </tbody>
 </table>

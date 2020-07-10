@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -94,10 +94,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/create_tabels.html">Creating Variable and Values Tables</a>
-    </li>
-    <li>
-      <a href="../articles/eurobarometer_class.html">The labelled_eurobarometer Class</a>
+      <a href="../articles/create_tables.html">Creating Variable and Values Tables</a>
     </li>
     <li>
       <a href="../articles/harmonization.html">Survey Data Harmonization</a>
@@ -110,9 +107,6 @@
     </li>
     <li>
       <a href="../articles/vocabulary.html">Working With Vocabularies</a>
-    </li>
-    <li>
-      <a href="../articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -185,7 +179,7 @@
 <li>
 <code><a href="../reference/read_example_file.html">read_example_file()</a></code> is a simple wrapper around <code><a href="https://rdrr.io/r/utils/data.html">utils::data()</a></code> to mimick the data importing workflow with <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code> or other importing functions in vignette examples and unit tests.</li>
 <li>
-<code><a href="../reference/panel_create.html">panel_create()</a></code> creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey.</li>
+<code>panel_create()</code> creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey.</li>
 <li>
 <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> can now take either a list of surveys, or a single survey data frame as an input, and returns the <code>filename</code> in a column. Two new columns, the filename and the suggested question block is added to the metadata (see <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a>)</li>
 <li>
@@ -198,7 +192,7 @@
 <a href="#eurobarometer-013" class="anchor"></a>eurobarometer 0.1.3</h1>
 <ul>
 <li>
-<code>id_create</code> tests unicity and <code><a href="../reference/panel_create.html">panel_create()</a></code> is a wrapper around it.</li>
+<code>id_create</code> tests unicity and <code>panel_create()</code> is a wrapper around it.</li>
 </ul>
 </div>
     <div id="eurobarometer-014" class="section level1">
@@ -221,7 +215,7 @@
 <h1 class="page-header" data-toc-text="0.1.6">
 <a href="#eurobarometer-016" class="anchor"></a>eurobarometer 0.1.6</h1>
 <ul>
-<li>Definition of new class with the constructor <code><a href="../reference/eurobarometer_labelled.html">eurobarometer_labelled()</a></code>
+<li>Definition of new class with the constructor <code>eurobarometer_labelled()</code>
 </li>
 </ul>
 </div>
@@ -229,7 +223,14 @@
 <h1 class="page-header" data-toc-text="0.1.7">
 <a href="#eurobarometer-017" class="anchor"></a>eurobarometer 0.1.7</h1>
 <ul>
-<li>An analysis of the vocabulary of 97 SPSS files, creation of a doc-term matrix for standardizing labels.</li>
+<li>Preliminary analysis of the vocabulary of 97 SPSS files (corresponding to 97 Eurobarometer waves): standardization of spelling of common (and often abbreviated) words in variable labels, tokenization of variable labels, creation of a doc-term matrix for variable labels, creation of preliminary standardized variable names.</li>
+</ul>
+</div>
+    <div id="eurobarometer-018" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.8">
+<a href="#eurobarometer-018" class="anchor"></a>eurobarometer 0.1.8</h1>
+<ul>
+<li>Serveral functions were deprecated: <code>concatenate</code>, <code>unique_id_create</code>, <code>harmonize_to_numeric</code>, <code>eurobarometer_labelled</code> and the <code>workflow</code> vignette and the NUTS1 and NUTS2 vocabulary files.</li>
 </ul>
 </div>
   </div>
