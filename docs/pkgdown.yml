@@ -2,12 +2,10 @@ pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
-  create_tabels: create_tabels.html
-  eurobarometer_class: eurobarometer_class.html
+  create_tables: create_tables.html
   harmonization: harmonization.html
   metadata: metadata.html
   variable_names: variable_names.html
   vocabulary: vocabulary.html
-  workflow: workflow.html
-last_built: 2020-07-03T18:53Z
+last_built: 2020-07-10T11:52Z
 

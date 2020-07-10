@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -56,10 +56,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/create_tabels.html">Creating Variable and Values Tables</a>
-    </li>
-    <li>
-      <a href="articles/eurobarometer_class.html">The labelled_eurobarometer Class</a>
+      <a href="articles/create_tables.html">Creating Variable and Values Tables</a>
     </li>
     <li>
       <a href="articles/harmonization.html">Survey Data Harmonization</a>
@@ -72,9 +69,6 @@
     </li>
     <li>
       <a href="articles/vocabulary.html">Working With Vocabularies</a>
-    </li>
-    <li>
-      <a href="articles/workflow.html">Workflow</a>
     </li>
   </ul>
 </li>
@@ -106,7 +100,7 @@
 <a href="#eurobarometer" class="anchor"></a>eurobarometer</h1></div>
 <!-- badges: start -->
 <p><a href="https://travis-ci.com/antaldaniel/eurobarometer"><img src="https://travis-ci.com/antaldaniel/eurobarometer.svg?branch=master" alt="Travis build status"></a> <a href="https://codecov.io/gh/antaldaniel/eurobarometer?branch=master"><img src="https://codecov.io/gh/antaldaniel/eurobarometer/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://www.repostatus.org/#concept"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="Project Status: Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept."></a> “<a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL--3-blue.svg" alt="license"></a>” “<a href="https://cran.r-project.org/package=eurobarometer"><img src="https://www.r-pkg.org/badges/version/eurobarometer" alt="CRAN_Status_Badge"></a>” <a href="https://doi.org/10.5281/zenodo.3901724"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3901724.svg" alt="DOI"></a> <a href="https://twitter.com/intent/follow?screen_name=antaldaniel"><img src="https://img.shields.io/twitter/follow/antaldaniel.svg?style=social" alt="Follow author"></a> <a href="https://twitter.com/martakolcz?lang=en"><img src="https://img.shields.io/twitter/follow/martakolcz.svg?style=social" alt="Follow contributor"></a> <!-- badges: end --></p>
-<p>The goal of <code>eurobarometer</code> is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems.</p>
+<p>The goal of <code>eurobarometer</code> is converting Eurobarometer microdata files, as stored by GESIS, into tidy R data frames and help common pre-processing problems. The more generic function for retrospecitve (ex post) survey harmonization can be found in the package <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a>.</p>
 <p>Please report all issues to <a href="https://github.com/antaldaniel/eurobarometer/issues">github.com/antaldaniel/eurobarometer/issues</a>.</p>
 <p>Pull requests are welcome on <a href="(https://github.com/antaldaniel/eurobarometer/issues)">github.com/antaldaniel/eurobarometer</a> from all potential contributors who abide by the terms of the <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>.</p>
 <p>If you use <code>eurobarometer</code> in your work, please <a href="https://doi.org/10.5281/zenodo.3825700">cite the package</a>.</p>
@@ -135,9 +129,6 @@
 
 </div>
 <p>Our approach follows <code>Approach B</code> to allow the conversion of harmonized and joined files back into SPSS.</p>
-<ol>
-<li>The <a href="http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html">eurobarometer_labelled</a> class comes with simple methods that can convert all variables to the base R types of numeric or factor, and they are ready to be used with any R statistical packages and tidyverse data processing tools. Alternatively, they can be exported back to <a href="https://haven.tidyverse.org/reference/read_spss.html">SPSS</a> or <a href="https://haven.tidyverse.org/reference/read_dta.html">Stata</a> files with the functions of the <a href="https://haven.tidyverse.org/">haven</a> package.</li>
-</ol>
 </div>
 <div id="joining-with-eurostat--other-data-tables" class="section level2">
 <h2 class="hasAnchor">

@@ -40,3 +40,6 @@ importing functions in vignette examples and unit tests.
 
 # eurobarometer 0.1.7
 * Preliminary analysis of the vocabulary of 97 SPSS files (corresponding to 97 Eurobarometer waves): standardization of spelling of common (and often abbreviated) words in variable labels, tokenization of variable labels, creation of a doc-term matrix for variable labels, creation of preliminary standardized variable names.
+
+# eurobarometer 0.1.8
+* Serveral functions were deprecated: `concatenate`,  `unique_id_create`, `harmonize_to_numeric`, `eurobarometer_labelled` and the `workflow` vignette and the NUTS1 and NUTS2 vocabulary files.

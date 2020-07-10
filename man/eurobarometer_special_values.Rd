@@ -22,7 +22,6 @@ Other harmonization functions:
 \code{\link{convert_class}()},
 \code{\link{harmonize_qb_vars}()},
 \code{\link{harmonize_value_labels}()},
-\code{\link{id_create}()},
-\code{\link{panel_create}()}
+\code{\link{id_create}()}
 }
 \concept{harmonization functions}

@@ -28,7 +28,7 @@ The data part is not particularly useful for statistical analysis and visualizat
 
 The metadata elements must be detached, harmonized and re-joined with the data.  For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: `Mentioned` and `Not Mentioned`, with rare exceptions.  We are re-coding them into numerical 1,0 values. Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.
   
-###Harmonization of variable types
+### Harmonization of variable types
 In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.
 
 ## Variable names

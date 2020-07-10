@@ -23,7 +23,9 @@ contributor](https://img.shields.io/twitter/follow/martakolcz.svg?style=social)]
 
 The goal of `eurobarometer` is converting Eurobarometer microdata files,
 as stored by GESIS, into tidy R data frames and help common
-pre-processing problems.
+pre-processing problems. The more generic function for retrospecitve (ex
+post) survey harmonization can be found in the package
+[retroharmonize](http://retroharmonize.satellitereport.com/).
 
 Please report all issues to
 [github.com/antaldaniel/eurobarometer/issues](https://github.com/antaldaniel/eurobarometer/issues).
@@ -101,17 +103,6 @@ Workflow from ‘Introduction to labelled by Joseph Larmaranged’
 
 Our approach follows `Approach B` to allow the conversion of harmonized
 and joined files back into SPSS.
-
-5.  The
-    [eurobarometer\_labelled](http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html)
-    class comes with simple methods that can convert all variables to
-    the base R types of numeric or factor, and they are ready to be used
-    with any R statistical packages and tidyverse data processing tools.
-    Alternatively, they can be exported back to
-    [SPSS](https://haven.tidyverse.org/reference/read_spss.html) or
-    [Stata](https://haven.tidyverse.org/reference/read_dta.html) files
-    with the functions of the [haven](https://haven.tidyverse.org/)
-    package.
 
 ## Joining With Eurostat & Other Data Tables
 

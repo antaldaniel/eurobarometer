@@ -1,7 +1,7 @@
 Package: eurobarometer
 Type: Package
 Title: Tidy Eurobarometer Survey Microdata
-Version: 0.1.7
+Version: 0.1.8
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",
@@ -38,7 +38,8 @@ Imports:
     labelled,
     tibble,
     tidyr,
-    tidyselect
+    tidyselect,
+    vctrs
 RoxygenNote: 7.1.1
 Depends:
      R (>= 2.10)
