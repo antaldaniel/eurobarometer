@@ -3,16 +3,21 @@ title: "Tools for reproducible ex-post survey data harmonization"
 subtitle: "The case of the Eurobarometer surveys"
 author: "Daniel Antal, Marta Kolczynska"
 date: "7/6/2020"
-bibliography: library.bib
+bibliography: [library.bib, packages.bib]
 biblio-style: apalike
 output:
-  word_document: default
   html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::write_bib(c(
+  .packages(), 'haven', 'labelled', 'vctrs'
+), 'packages.bib')
 ```
+
+[Read the current knitted version on Rpubs](https://rpubs.com/antaldaniel/retroharmonize)
 
 The increasing availability of microdata creates new opportunities for joint exploitation of these resources for comparative research. Before joint analysis is possible, the data need to be harmonized, i.e. transformed and combined in a single data set in a way that matches the measurement of the same characteristics and standardizes the coding of responses. We introduce the surveyharmonization and eurobarometer packages that help the reproducible ex-post harmonization of survey data stored in various, individual files with rich metadata.  We illustrate the proposed workflow using the case of the Eurobarometer surveys, which provide rich data on European publics in form of single-wave SPSS files from a period of over 25 years. Our tools are flexible and can be applied to other survey projects.
 
@@ -21,7 +26,6 @@ The Eurobarometer case is particularly interesting, because each wave of the Eur
 Ex-post data harmonization refers to procedures applied to existing data that have not been created in a way that ensures comparability, in a way that makes the resulting, harmonized, data suitable for joint analysis.  In practice, ex-post harmonization means taking data as they were published by research projects and recording them to ensure that codes have the same meaning across all data sources. 
 
 In order for the harmonization to be reproducible, all data transformations and decisions must be documented with procedures that enable the reproduction of the end result. Reproducible recoding can be in form of code in some programming language, where running the code performs all the necessary data transformations. As the number of recodes and/or different source data sets increases, the code quickly becomes long and complicated and difficult to follow for anyone but the code’s creator. Instead, the reproducible workflow we propose has been designed with readability in mind, with documentation built into all steps and all procedures.
-
 
 In simple words, when we are creating a multi-wave integrated data set from two (or more) Eurobarometer surveys stored in separate SPSS files, we are aiming to solve the following problems:
 
@@ -54,14 +58,13 @@ Our workflow generally fits into the tidyverse.
 
 <Here more information about the EUrobarometer, the contents, frequency of waves, amount of data, fieldwork and number of respondents. Maybe even the paragraph from the introduction would fit better here than there>
 
-
 ## Import files {#import}
 
 Complex microdata, such as primary survey data, is often stored in a format used by statistical software. In our article, we use examples for SPSS’s .sav format, but other proprietary file formats pose similar challenges.  These formats usually do not only represent the data, but also contain rich metadata that provide additional information to the researcher, such as which observations should be treated as missing, or what is the valid range of a variable's values.
 
-In our case, we are dealing with highly structured survey data that contain a lot of metadata, partly about the ex ante harmonization process that is vital for using the data.  For example, an archived Eurobarometer wave file contains recently more than 28 national samples (for each EU member state, plus two for Germany - East and West, two for the former member state United Kingdom - for Great Britain and Northern Ireland, and often for European Economic Area or candidate countries.)  The way these subsamples were merged together and handled must be preserved. 
+In our case, we are dealing with highly structured survey data that contain a lot of metadata, partly about the *ex ante* harmonization process that is vital for using the data.  For example, an archived Eurobarometer wave file from recent years contains more than 28 national samples (for each EU member state, plus two for Germany - East and West, two for the former member state United Kingdom - for Great Britain and Northern Ireland, and often for European Economic Area or candidate countries, such as North Macedonia or Albania.)  The way these subsamples were merged together and handled must be preserved. 
 
-We fully rely in importing on two packages, [haven](https://haven.tidyverse.org/) and [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) from the tidyverse.  They have created classes and methods that give a faithful representation of imported statistical software files, but they need to be amended for reproducibility and harmonization information for later joins.  These steps are likely to be present when a researcher is joining any two statistical software files, not only survey microdata files.
+We almost fully rely in importing on two packages, [haven](https://haven.tidyverse.org/) and [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) from the tidyverse [cf. @R-haven; @R-labelled; @R-base].  They have created classes and methods that give a faithful representation of imported statistical software files, but they need to be amended for reproducibility and harmonization information for later joins. Our version of the [retroharmonize::read_spss()](http://retroharmonize.satellitereport.com/reference/read_spss.html) function records the parameters of the [haven::read_spss()](https://haven.tidyverse.org/reference/index.html) call for reproducibility.
 
 ## Ex-post harmonization {#expost}
 
@@ -71,11 +74,9 @@ Ex-post harmonization is both theory-informed and data-driven. Theory provides c
 
 While the exact steps vary by application case, a survey data harmonization project can be generally described as consisting of the following steps: (1) definition of the concepts of interest, (2) indentifying and obtaining the data, (3) data transformations, and (4) verification and documentation [cf. @Granda2016; @Wolf2016; @Fortier2017a; @Slomczynski2018; @Kolczynska2020a]. It is worth emphasizing that "[R]etrospective harmonization of individual participant data is an iterative process composed of a series of key closely related, inter-dependant and often integrated steps" [@Fortier2017b: 1].
 
+The scope and complexity of the steps involved in survey data harmonization depends on the extent to which the existing data are already comparable with regard to the (a) sample and (b) measurement. The comparability of survey samples includes the definition of the target population, the sampling frame and sample type, as well as the response (or other outcome) rate. Measurement deals with the content and design of the survey questions, as well as the recording responses, data entry and data validation procedures applied following fieldwork. The more similar the procedures in both areas, the higher are the chances for a high quality end product.
 
-The scope and complexity of the steps involved in survey data harmonization depends on the extent to which the existing data are already comparable with regard to the (a) sample and (b) measurement. The comparability of survey samples includes the definition of the target population, the sampling frame and sample type, as well as the response (or other outcome) rate. Measurement deals with the content and design of the survey questions, as well as the recording responses, ata entry and data validation procedures applied following fieldwork. The more similar the procedures in both areas, the higher are the chances for a high quality end product.
-
-In the case of the Eurobarometer, the harmonization process in greatly facilitated by the fact that all Eurobarometer waves are part of the same project with largely standardized procedures for many stages of the survey process, including questionnaire design, sampling, fieldwork, data processing and dissemination. Additionally, within each Eurobarometer wave, data for all countries are harmonized ex-ante. Thus, in this case the harmonization of the data across multiple Eurobarometer surveys boils down to data data transformation and documentation. For the purposes of presenting the process of harmonization with surveyharmonization and eurobarometer packages, we use the case of the Eurobarometer without the loss of generality of the described procedures, since it includes all data processing steps involved in harmonization.
-
+In the case of the Eurobarometer, the harmonization process in greatly facilitated by the fact that all Eurobarometer waves are part of the same project with largely standardized procedures for many stages of the survey process, including questionnaire design, sampling, fieldwork, data processing and dissemination. Additionally, within each Eurobarometer wave, data for all countries are harmonized *ex ante*. Thus, in this case the harmonization of the data across multiple Eurobarometer surveys boils down to data data transformation and documentation. For the purposes of presenting the process of harmonization with surveyharmonization and eurobarometer packages, we use the case of the Eurobarometer without the loss of generality of the described procedures, since it includes all data processing steps involved in harmonization.
 
 ### Thesaurus, taxonomy {#taxonomy}
 
@@ -83,12 +84,45 @@ In the case of the Eurobarometer, the harmonization process in greatly facilitat
 
 We should keep an eye on [snakecase](#https://github.com/Tazinho/snakecase) and maybe janitor, too.
 
-### Harmonization of categories {#harmonize-labels}
-
-We should keep an eye on [forcats](#https://forcats.tidyverse.org/)
-
 ### Harmonization of missing values {#harmonize-missing}
 
+The harmonization of the value labels is a three-step process in our case. Because we work microdata that is not native R data, we must make sure that we have an  unambiguous type casting of the variables that we want to join, we apply the same range of category or value labels, and we consistently treat missing values.
+
+We start with the missing values, because they are treated differently in our main importing format, SPSS, and the R language.  In SPSS, the user can defined certain values (and labels) to be treated as if they were missing, for example, in the calculation of an arithmetic mean or a median --- for example, `do not know`  answers.
+
+The haven package has already adopted the importing of user-defined missing values, or the user defined missing value range with the creation of the class [haven_labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html).  While this class generally works well with the older [haven_labelled](https://haven.tidyverse.org/reference/labelled.html) methods, it does not have many implemented methods in haven.  In our case, we had to make sure that when we concatenate two vectors with user-defined missing values or ranges, they will remain consistent after the join. Our class relies on the [vctrs](https://vctrs.r-lib.org/) package, which contains helper methods for creating new vector classes [cf. @R-vctrs], and which serves as the foundation of haven's own class system, too.
+
+Our choice in this case is the that we apply integer values, long out of the range of categorical integer values in the range `99900:99999` for a consistent numeric coding of the values to be treated as missing, and we label them consistently.  The original missing labels and missing values as preserved as an attribute in our [labelled_spss_survey](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) class.
+
+The consistent, harmonized treatment of the missing values allows us to easily implement the [as_numeric](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html), [as_character - *documentation missing*], and [as_factor](http://retroharmonize.satellitereport.com/reference/as_factor.html) methods, by replacing the user-defined missing values with type-specific NA values in the R language (NA_real_ or NA_character_). After this conversion, R artithmetic and statistical functions can be applied without compromising reproducability --- all metadata is present for a consistent export to SPSS or STATA, or to document, or even revert to an earlier labelling.
+
+### Harmonization of categories {#harmonize-labels}
+
+The function  [harmonize_values()](http://retroharmonize.satellitereport.com/reference/harmonize_values.html) does three critically important steps:
+
+* changes the numeric (integer) codes of a survey to a pre-defined format, for example, coding all `yes` answers to 1 and all `no` answers to 0.
+
+* applies a consistent labelling, for example, uniformly applying `no` instead of `NO` and `not`.
+
+* as mentioned earlier, removes the user-defined missing values from the category integer range and uses a pre-defined missing labelling.
+
+Working with [harmonize_values()](http://retroharmonize.satellitereport.com/reference/harmonize_values.html) is relatively easy if the researcher wants to join a few variables in a few survey files, but for large-scale, programmatic use it not really suitable. 
+
+We create various helper functions that allows a massive relabelling based on pre-defined harmonized value labels. [... later ....]
+
+The `retroharmonize` package only deals with a simple pre-processing step, i.e. a soft normalization of the value labels.  The use of value labelling is very typical for a survey program, such as Eurobarometer, and a data archive, such as [GESIS](https://www.gesis.org/home), so we implement most of the value harmonization (and its helper functions) in the `eurobarometer` package. This implementation can be used as a template for other survey programs.
+
+### Documenting the process {#documentation}
+
+Our class definitions partly extended the S3 classes of haven for reproducibility and for automatic documentation. The haven package is designed to work with data from a single external resource --- it does not provide function to join data frames from different sources, and it does not record the call parameters of its functions. This is not a handicap when the researcher works with a single data file, but in our case, we aim to join data from potentially dozens of SPSS files.
+
+In the first step, we modified [read_spss()](http://retroharmonize.satellitereport.com/reference/read_spss.html) from haven to record some of the call parameters [*not yet all parameters are recorded, but the filename is*], most importantly the source file's name. Since we aim to work with `trust_in_eu_parlament` variables from different sources, for harmonization and validation we must be able to reference their source.  We also create a simple id attribute, which may be the name of the survey, or the file name, a DOI, or any unique identifier of the original file. The result is a simple tibble (data.frame-like) object of class [survey *missing from documentation**], which has at least an id attribute.  This attribute serves only identification and documentation purposes, therefore survey objects work exactly as tibbles in all situations.
+
+In the next step, [retroharmonize::harmonize_labels()](http://retroharmonize.satellitereport.com/reference/harmonize_values.html) changes the labels attribute and the base values of the [labelled_spss()](https://haven.tidyverse.org/reference/labelled_spss.html) vector, and at the same time we record the original coding and labelling of the vector.  For example, if we created the id `ZA7976` for the respective Eurobarometer survey file, then the original labels will be stored in the attribute `ZA7976_labels`, and the original (character, integer or double) values in `ZA7076_values`. 
+
+When this vector is concatenated with the same vector of observations from `ZA6968` survey, then apart from sharing the same labels and missing value ranges, the new vector will carry  `ZA7976_labels`, `ZA6968_labels`, `ZA7976_values` and `ZA6968_values`.  The flexible metadata system of R allows us to extend this further when we are concatenating further and further observations from new files.
+
+Two simple helper functions support the user to retrieve this information easily --- in fact, to print an entire codebook of the harmonization process.
 
 ## Joining the data {#datajoin}
 
@@ -99,16 +133,21 @@ At this stage, we are ready to have rich data tables with many metadata attribut
 
 At this point the new data table is ready for analysis.  We provide some methods for exporting them (back) to SPSS or Stata, or flat tables, before turning to analyzing the data in R.
 
-<this should be more data scientific >
+The advantage of defining a new S3 type with rather strict coercion rules is that after harmonization and validation, it allows for a safe and quick joining of the variables as vector with the `vctrs::vec_c()` or even the base R `c()` method, and a fast `rbind()` method.
 
+In our experience, this is usually not possible with SPSS files imported by haven alone.  Haven's two classes, labelled and [labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html) cannot be concatenated, because it is not guaranteed that the missing values are similarly defined. If in a Eurobarometer wave the person creating the final SPSS version did not explicitly define missing values, but in a later wave it was defined, the data join will fail even if the integer coding and the labelling is perfectly matching. This is the reason of for creating our own coercion and recasting method, which is very strict, and defines a missing range in the labelled variables even if there are no missing values present.
 
-### Unique identification {#uniqid}
+However, in our experience, the lack of user-defined missing values does not mean that they should not be defined.  There is no reason why certain Eurobarometer surveys indicate `do not know` answer options as a missing value category while others not.  We implement a subjective solution for their harmonization in eurobarometer.  Our implementation can be easily overridden.   
 
-### Documenting the process {#documentation}
+Joining entire survey objects, i.e. identified tibbles, would not be feasible, as they may have any kind of variables with unknown joining consequences.  To avoid concatenating by vectors, i.e. simple questionnaire items, we created methods and functions to join question blocks - sufficiently similar parts of survey files.
 
-<probably this should be a heavier part>
+Naturally, surveys can be binded together if the same variables have the same names, and if they are labelled with categories or missing values, the labelling is consistent. This element of the workflow is rather idiosyncratic for the survey program in question.  We devided the implementation to provide the joining, binding infrastructure in [retroharmonize](http://retroharmonize.satellitereport.com/), and to provide the variable name, label harmonization vocabulary and validation in the survey-specific [eurobarometer](http://eurobarometer.danielantal.eu/).
+
 
 ### Methods for exporting {#exportmethods}
+
+Our [labelled_spss_survey](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) is a bit extended [labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html) class. It can be exported to SPSS or Stata with information loss.  The lost information is the metadata of the harmonization history, which can be separately exported for documentation purposes.
+
 <just simple description and code links>
 
 * exporting to SPSS
@@ -117,7 +156,12 @@ At this point the new data table is ready for analysis.  We provide some methods
 
 ### Methods for analyzing in R {#rmethods}
 
-<just simple description and code links>
+As Joseph Larmarange well described in [Introduction to labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) (see: [cf. @R-labelled]), working with non-native microdata may have two logical workflows, out of which we chose workflow B. This separates the data processing work from analysis, and therefore allows to re-export the processed data (with some information loss) to SPSS or Stata.
 
+In the R language, almost all arithmetic and statistical functions work with two input types: numeric variables (integers or doubles) and factors (sometimes simplified to character).  In order to use our harmonized data in R, we must provide methods to bring them to these types in a consistent way --- making sure that factor levels are harmonized and missing values are treated consistently.
+
+Our simple methods, [as_factor()](http://retroharmonize.satellitereport.com/reference/as_factor.html) (imported from haven) and [as_numeric()](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) precisely do this. While we would not advocate the use of character vectors for statistical analysis, for data visualization they may be more practical, and as_character() [*not het documented*] will display the value labels as a character vector.
+
+Our package implements simple arithmetic methods, such as median, quantile, mean, sum, weighted mean, for providing useful summary, printing and documentation methods, and for weighting without metadata loss. These methods are not exported, because we expect that the R user will analyze the data with their numeric or factor representations.
 
 # References
