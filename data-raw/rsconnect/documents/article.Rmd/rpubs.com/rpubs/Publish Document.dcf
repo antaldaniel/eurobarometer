@@ -6,5 +6,5 @@ server: rpubs.com
 hostUrl: rpubs.com
 appId: https://api.rpubs.com/api/v1/document/637770/63a5a78c18184928be7c2e4b7ef09a1c
 bundleId: https://api.rpubs.com/api/v1/document/637770/63a5a78c18184928be7c2e4b7ef09a1c
-url: http://rpubs.com/publish/claim/637770/12d19af2bd1840af8c886877f57288f7
-when: 1594405188.95542
+url: http://rpubs.com/antaldaniel/637770
+when: 1594650349.62564

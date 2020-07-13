@@ -45,14 +45,13 @@ In simple words, when we are creating a multi-wave integrated data set from two 
 
 * Creating a consistent, [unique identifier](#uniqid) for each observation.
 
-* Creating a full [documentation](#documentation) of conversions, recoding for reproducability.
+* Creating a full [documentation](#documentation) of conversions, recoding for reproducibility.
 
 * Providing methods to export the harmonized data set to proprietary formats for [analysis outside R](#exportmethods).
 
 * Providing [methods](#rmethods) to convert the data to base types of numeric and factor, the usual inputs of statistical functions, for reproducible analysis in R.
 
-Our workflow generally fits into the tidyverse. 
-
+Our workflow generally fits into the tidyverse.
 
 # The Eurobarometer surveys
 
@@ -94,7 +93,9 @@ The haven package has already adopted the importing of user-defined missing valu
 
 Our choice in this case is the that we apply integer values, long out of the range of categorical integer values in the range `99900:99999` for a consistent numeric coding of the values to be treated as missing, and we label them consistently.  The original missing labels and missing values as preserved as an attribute in our [labelled_spss_survey](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) class.
 
-The consistent, harmonized treatment of the missing values allows us to easily implement the [as_numeric](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html), [as_character - *documentation missing*], and [as_factor](http://retroharmonize.satellitereport.com/reference/as_factor.html) methods, by replacing the user-defined missing values with type-specific NA values in the R language (NA_real_ or NA_character_). After this conversion, R artithmetic and statistical functions can be applied without compromising reproducability --- all metadata is present for a consistent export to SPSS or STATA, or to document, or even revert to an earlier labelling.
+The consistent, harmonized treatment of the missing values allows us to easily implement the [as_numeric, as_factor and as_character](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) methods, by replacing the user-defined missing values with type-specific `NA` values in the R language (`NA_real_` or `NA_character_`). After this conversion, R artithmetic and statistical functions can be applied without compromising reproducability --- all metadata is present for a consistent export to SPSS or STATA, or to document, or even revert to an earlier labelling.
+
+SPSS and the [labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html) class allows the parallel use of two attributes, `na_values` for enumeration of all values that should be treated as missing, or `na_range` for declaring a continuous range as missing. In surveying, the use of `na_values` is more practical, nevertheless, we must check the consistency of these attributes when we want to bind together several vectors.  The [na_range_to_values](http://retroharmonize.satellitereport.com/reference/na_range_to_values.html) creates this consistency in case `na_range` is present in a vector. We did not implement the reverse `na_values` to `na_range` as it is unlikely to be used for survey harmonization. The function gives a warning in case of inconsistency --- in such a case we recommend a manual review of the valid and missing ranges of the vector, as this is more of a logical than a syntactical error in the survey file.
 
 ### Harmonization of categories {#harmonize-labels}
 
@@ -106,7 +107,7 @@ The function  [harmonize_values()](http://retroharmonize.satellitereport.com/ref
 
 * as mentioned earlier, removes the user-defined missing values from the category integer range and uses a pre-defined missing labelling.
 
-Working with [harmonize_values()](http://retroharmonize.satellitereport.com/reference/harmonize_values.html) is relatively easy if the researcher wants to join a few variables in a few survey files, but for large-scale, programmatic use it not really suitable. 
+Working with [harmonize_values()](http://retroharmonize.satellitereport.com/reference/harmonize_values.html) is relatively easy if the researcher wants to join a few variables in a few survey files, but for large-scale, programmatic use it not really suitable. (See [vignette](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html))
 
 We create various helper functions that allows a massive relabelling based on pre-defined harmonized value labels. [... later ....]
 
@@ -148,11 +149,13 @@ Naturally, surveys can be binded together if the same variables have the same na
 
 Our [labelled_spss_survey](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) is a bit extended [labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html) class. It can be exported to SPSS or Stata with information loss.  The lost information is the metadata of the harmonization history, which can be separately exported for documentation purposes.
 
-<just simple description and code links>
+>Unfortunately, the C++ code that writes from haven to sav (behind write_sav) is not implemented for the haven_labelled_spss class and does not record back user-defined NA values.  I was not able to amend the code, but I wrote a detailed bug report. 
 
-* exporting to SPSS
-* exporting to Stata
-* exporting to flat files
+>Currently, for testing and demonstration purposes, we must rely on the original GESIS files, or, if we want to show smaller or integrated examples, their rds representations.
+
+See [read_rds](http://retroharmonize.satellitereport.com/reference/read_rds.html) for the concept, the *write_rds* pair is not yet implemented, but easy to imagine. My [read_spss](http://retroharmonize.satellitereport.com/reference/read_spss.html) does what I imagined, but I cannot modify the haven::write_sav in C++ so until it is fixed, we cannot rely on that.
+
+> End of comments.
 
 ### Methods for analyzing in R {#rmethods}
 
@@ -160,7 +163,7 @@ As Joseph Larmarange well described in [Introduction to labelled](https://cran.r
 
 In the R language, almost all arithmetic and statistical functions work with two input types: numeric variables (integers or doubles) and factors (sometimes simplified to character).  In order to use our harmonized data in R, we must provide methods to bring them to these types in a consistent way --- making sure that factor levels are harmonized and missing values are treated consistently.
 
-Our simple methods, [as_factor()](http://retroharmonize.satellitereport.com/reference/as_factor.html) (imported from haven) and [as_numeric()](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) precisely do this. While we would not advocate the use of character vectors for statistical analysis, for data visualization they may be more practical, and as_character() [*not het documented*] will display the value labels as a character vector.
+Our simple methods, [as_factor()](http://retroharmonize.satellitereport.com/reference/as_factor.html) (imported from haven) and [as_numeric()](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) precisely do this. While we would not advocate the use of character vectors for statistical analysis, for data visualization they may be more practical, and [as_character()](http://retroharmonize.satellitereport.com/reference/labelled_spss_survey.html) will display the value labels as a character vector.
 
 Our package implements simple arithmetic methods, such as median, quantile, mean, sum, weighted mean, for providing useful summary, printing and documentation methods, and for weighting without metadata loss. These methods are not exported, because we expect that the R user will analyze the data with their numeric or factor representations.
 
