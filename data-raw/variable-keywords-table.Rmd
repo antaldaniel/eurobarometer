@@ -228,6 +228,8 @@ eu_countries <- c(
 # it's not clear hot to do this, because both types of DK appear at the end of labels e.g. in
 # mentioned/not mentioned questions, and they look very much the same
 
+# ---- but normally one should be in attr(x, "na_values") 
+
 tidy <- dat2 %>%
   # tokenize
   unnest_tokens(word, text, 
