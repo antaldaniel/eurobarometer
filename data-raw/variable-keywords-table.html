@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Tagging variables with keywords</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Tagging variables with keywords</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(eurobarometer)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(tibble)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(kableExtra)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(tidytext)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(janitor)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">library</span>(stringi)</span></code></pre></div>
+<p>An important aspect of survey data harmonization - in addition to standardizing response coding and value labels - is the identification of variables that measure the same thing, and standardizing the names of these variables. The process is faciliated by the fact that variables typically have labels that succintly describe the content of the variable, and sometimes also contain information about the coding of responses (e.g., length of scale), the unit (e.g., age in years or categories) and whether the variable contains “original” respondent responses or some transformation of responses (e.g. recoding or index).</p>
+<p>Fortunately, in many multi-wave surveys, such as the Eurobarometer, there is a degree of consistency in how variables are labelled in different editions of the survey, and most survey projects try to follow some labelling conventions.</p>
+<p>Unfortunately, consistency is limited and conventions are not followed strictly, which makes standardizing labels a semi-manual task. Some of these issues stem from the limits in the number of characters of variable labels in common statistical software packages (e.g., SPSS), which leads to non-standard abbreviations.</p>
+<p>This vignette outlines a procedure for arriving at standardized variable names via tokenization of normalized variable labels (<code>var_label_norm</code>), which are created by <a href="http://eurobarometer.danielantal.eu/reference/label_normalize.html"><code>label_normalize</code></a> as part of <a href="http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html"><code>gesis_metadata_create</code></a>. The logic is similar to text analysis, in that a document-term matrix is created with each variable label treated as a (very short) document, and terms treated as keywords. variables that contain the same sets of keywords can be - with some margin of error - assumed to correspond to the same or equivalent survey questions.</p>
+<div id="procedure" class="section level2">
+<h2>Procedure</h2>
+<ol start="0" style="list-style-type: decimal">
+<li><p>Read survey and variable metadata, match variables to variable groups as defined by GESIS-ZACAT, filter out technical and protocol variables,</p></li>
+<li><p>Standardize the spelling of certain often abbreviated words (e.g., ‘gov’, ‘govnmt’, and ‘govmnt’ for ‘government’),</p></li>
+<li><p>Tokenize,</p></li>
+<li><p>Eliminate stop words (but be careful to not eliminate too many, e.g. ‘right’ or ‘working’),</p></li>
+<li><p>Create a document-term matrix (actually, variable label - keyword matrix),</p></li>
+<li><p>Sort the columns according to the declining frequency of the keywords,</p></li>
+<li><p>Create standardized variable labels by concatenating keywords.</p></li>
+</ol>
+<div id="survey-and-variable-metadata" class="section level3">
+<h3>0. Survey and variable metadata</h3>
+<div id="variable-metadata" class="section level4">
+<h4>Variable metadata</h4>
+<p>The table contains metadata from 97 Eurobarometer files (each file corresponding to one EB round). The metadata are extracted from SPSS files with <a href="http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html"><code>gesis_metadata_create</code></a>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>metadata_database &lt;-<span class="st"> </span><span class="kw">readRDS</span>( <span class="kw">file.path</span>(<span class="st">&#39;../data-raw&#39;</span>, <span class="st">&#39;eb_metadata_database_20200628.rds&#39;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">archive_id =</span> <span class="kw">substr</span>(filename, <span class="dv">1</span>, <span class="dv">6</span>))</span></code></pre></div>
+</div>
+<div id="waves---archive-ids" class="section level4">
+<h4>Waves - Archive IDs</h4>
+<p>Mapping of GESIS Archive IDs (as used in file names) to wave numbers, from EB/44.2bis (ZA2828) to EB/92.1 (ZA7579) - 156 EB waves altogether.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>eb_names &lt;-<span class="st"> </span>rio<span class="op">::</span><span class="kw">import</span>(<span class="st">&quot;../data-raw/eb_waves_filenames.xlsx&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">separate</span>(x, <span class="kw">c</span>(<span class="st">&quot;archive_id&quot;</span>, <span class="st">&quot;x2&quot;</span>, <span class="st">&quot;title&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">separate</span>(x2, <span class="kw">c</span>(<span class="st">&quot;wave&quot;</span>, <span class="st">&quot;dates&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; </span><span class="ch">\\</span><span class="st">(|</span><span class="ch">\\</span><span class="st">)&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">wave =</span> <span class="kw">gsub</span>(<span class="st">&quot;Eurobarometer | &quot;</span>, <span class="st">&quot;&quot;</span>, wave))</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>eb_names <span class="op">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="st">  </span><span class="kw">select</span>(archive_id, wave, dates) <span class="op">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb3-12"><a href="#cb3-12"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb3-13"><a href="#cb3-13"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+archive_id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+wave
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+dates
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7576
+</td>
+<td style="text-align:left;">
+91.5
+</td>
+<td style="text-align:left;">
+June-July 2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7575
+</td>
+<td style="text-align:left;">
+91.4
+</td>
+<td style="text-align:left;">
+2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7572
+</td>
+<td style="text-align:left;">
+91.3
+</td>
+<td style="text-align:left;">
+2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7562
+</td>
+<td style="text-align:left;">
+91.2
+</td>
+<td style="text-align:left;">
+2019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7561
+</td>
+<td style="text-align:left;">
+91.1
+</td>
+<td style="text-align:left;">
+February-March 2019
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="variable-groups" class="section level4">
+<h4>Variable groups</h4>
+<p>Mapping of variable labels to variable groups, as defined in <a href="https://zacat.gesis.org/webview/">GESIS ZACAT</a>, for 51 waves from EB 79.1 (ZA5687) through EB 92.1 (ZA7579).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>varlabs &lt;-<span class="st"> </span>rio<span class="op">::</span><span class="kw">import</span>(<span class="st">&quot;../data-raw/eb_variable_groups_zacat.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">wave_desc =</span> <span class="kw">ifelse</span>(<span class="kw">substr</span>(var_label_zacat, <span class="dv">1</span>, <span class="dv">13</span>) <span class="op">==</span><span class="st"> &quot;Eurobarometer&quot;</span>, var_label_zacat, <span class="ot">NA</span>),</span>
+<span id="cb4-3"><a href="#cb4-3"></a>         <span class="dt">var_label_zacat =</span> <span class="kw">ifelse</span>(<span class="kw">substr</span>(var_label_zacat, <span class="dv">1</span>, <span class="dv">13</span>)<span class="op">==</span><span class="st">&quot;Eurobarometer&quot;</span>, <span class="ot">NA</span>, var_label_zacat),</span>
+<span id="cb4-4"><a href="#cb4-4"></a>         <span class="co"># group names are writte in camel case and != toupper(group names)</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>         <span class="dt">group =</span> <span class="kw">ifelse</span>(var_label_zacat <span class="op">!=</span><span class="st"> </span><span class="kw">toupper</span>(var_label_zacat), var_label_zacat, <span class="ot">NA</span>),</span>
+<span id="cb4-6"><a href="#cb4-6"></a>         <span class="co"># exceptions from the rule identifying group names</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>         <span class="dt">group =</span> <span class="kw">ifelse</span>(<span class="kw">substr</span>(group, <span class="dv">1</span>, <span class="dv">9</span>) <span class="op">==</span><span class="st"> &quot;OWNERSHIP&quot;</span>, <span class="ot">NA</span>, group), </span>
+<span id="cb4-8"><a href="#cb4-8"></a>         <span class="dt">group =</span> <span class="kw">ifelse</span>(<span class="kw">substr</span>(group, <span class="dv">1</span>, <span class="dv">19</span>) <span class="op">==</span><span class="st"> &quot;POSITIVE EU RESULTS&quot;</span>, <span class="ot">NA</span>, group),</span>
+<span id="cb4-9"><a href="#cb4-9"></a>         <span class="dt">group =</span> <span class="kw">ifelse</span>(<span class="kw">substr</span>(group, <span class="dv">1</span>, <span class="dv">24</span>) <span class="op">==</span><span class="st"> &quot;OPINION LEADERSHIP INDEX&quot;</span>, <span class="ot">NA</span>, group),</span>
+<span id="cb4-10"><a href="#cb4-10"></a>         <span class="dt">var_label_zacat =</span> <span class="kw">ifelse</span>(<span class="op">!</span><span class="kw">is.na</span>(group), <span class="ot">NA</span>, var_label_zacat)) <span class="op">%&gt;%</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="st">  </span><span class="kw">fill</span>(wave_desc, group) <span class="op">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="st">  </span><span class="kw">drop_na</span>(group, var_label_zacat) <span class="op">%&gt;%</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">wave =</span> <span class="kw">substr</span>(wave_desc, <span class="dv">1</span>, <span class="dv">18</span>),</span>
+<span id="cb4-14"><a href="#cb4-14"></a>         <span class="dt">wave =</span> <span class="kw">gsub</span>(<span class="st">&quot;^Eurobarometer &quot;</span>, <span class="st">&quot;&quot;</span>, wave),</span>
+<span id="cb4-15"><a href="#cb4-15"></a>         <span class="dt">var_label_zacat =</span> <span class="kw">gsub</span>(<span class="st">&quot;^W[0-9]{1,2}[A-Z] |^W3A/W4A &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_zacat)) <span class="op">%&gt;%</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="st">  </span><span class="kw">left_join</span>(eb_names) <span class="op">%&gt;%</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="st">  </span><span class="kw">select</span>(wave, archive_id, group, var_label_zacat, <span class="kw">everything</span>())</span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a>varlabs <span class="op">%&gt;%</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="st">  </span><span class="kw">select</span>(archive_id, wave, group, var_label_zacat) <span class="op">%&gt;%</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb4-25"><a href="#cb4-25"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb4-26"><a href="#cb4-26"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+archive_id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+wave
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+group
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_zacat
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+Archive and survey ID variables
+</td>
+<td style="text-align:left;">
+ARCHIVE STUDY NUMBER - DISTRIBUTOR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+Archive and survey ID variables
+</td>
+<td style="text-align:left;">
+ARCHIVE STUDY NUMBER - PUBLISHER
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+Archive and survey ID variables
+</td>
+<td style="text-align:left;">
+DIGITAL OBJECT IDENTIFIER
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+Archive and survey ID variables
+</td>
+<td style="text-align:left;">
+GESIS ARCHIVE VERSION &amp; DATE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+Archive and survey ID variables
+</td>
+<td style="text-align:left;">
+DATASET EDITION
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA7579
+</td>
+<td style="text-align:left;">
+92.1
+</td>
+<td style="text-align:left;">
+Archive and survey ID variables
+</td>
+<td style="text-align:left;">
+SURVEY IDENTIFICATION
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># vector of archive IDs</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>archive_ids &lt;-<span class="st"> </span>varlabs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(archive_id) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(archive_id)</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">length</span>(archive_ids)</span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; [1] 51</span></span></code></pre></div>
+</div>
+</div>
+<div id="standardize-the-spelling" class="section level3">
+<h3>1. Standardize the spelling</h3>
+<p>All procedures below applied to 51 waves, for which all metadata are available.</p>
+<div id="translation-table" class="section level4">
+<h4>1.1. Translation table …</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>dict &lt;-<span class="st"> </span>rio<span class="op">::</span><span class="kw">import</span>(<span class="st">&quot;../data-raw/var_lab_dict.xlsx&quot;</span>, </span>
+<span id="cb6-2"><a href="#cb6-2"></a>                    <span class="dt">sheet =</span> <span class="st">&quot;dict&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">gather</span>(id, from, <span class="dv">2</span><span class="op">:</span><span class="dv">6</span>) <span class="op">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">select</span>(from, to) <span class="op">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">drop_na</span>(from)</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="kw">head</span>(dict) <span class="op">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb6-11"><a href="#cb6-11"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb6-12"><a href="#cb6-12"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+from
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+to
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+^cap_
+</td>
+<td style="text-align:left;">
+common-agricultural-policy_
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<em>cap</em>
+</td>
+<td style="text-align:left;">
+<em>common-agricultural-policy</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+united_kingdom
+</td>
+<td style="text-align:left;">
+united-kingdom
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+czech_republic
+</td>
+<td style="text-align:left;">
+czechia
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+great_britain
+</td>
+<td style="text-align:left;">
+great-britain
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+united_germany
+</td>
+<td style="text-align:left;">
+united-germany
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="applied-to-metadata" class="section level4">
+<h4>1.2. … applied to metadata</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># this part now became very fast with stri_replace_all_regex</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>dat2 &lt;-<span class="st"> </span>metadata_database <span class="op">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="co"># filter only waves for which variable groups are available</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">filter</span>(archive_id <span class="op">%in%</span><span class="st"> </span>archive_ids,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>         <span class="co"># exclude this strange variable</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>         var_label_orig <span class="op">!=</span><span class="st"> &quot;filename&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="co"># keep one row per variable</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">distinct</span>(filename, qb, var_name_orig, var_name_orig, var_label_orig, var_label_norm, archive_id) <span class="op">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="st">  </span><span class="co"># original variable labels in the data and in GESIS ZACAT are not exactly the same </span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="st">  </span><span class="co"># --&gt; need some cleaning</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^W[0-9]{1,2}&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig),</span>
+<span id="cb7-13"><a href="#cb7-13"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^W[0-9]{1,2}[A-Z]&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig),</span>
+<span id="cb7-14"><a href="#cb7-14"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[0-9]{1-3} &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2),</span>
+<span id="cb7-15"><a href="#cb7-15"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[A-Z][0-9]{1,2}[A-Z] &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2),</span>
+<span id="cb7-16"><a href="#cb7-16"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[A-Z]{1,2}[0-9]{1,2} &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2),</span>
+<span id="cb7-17"><a href="#cb7-17"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[A-Z]{1,2}[0-9]{1,2}[A-Z] &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2),</span>
+<span id="cb7-18"><a href="#cb7-18"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[0-9]{1,2} &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2),</span>
+<span id="cb7-19"><a href="#cb7-19"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[A-Z][0-9] [0-9]{1,2} &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2),</span>
+<span id="cb7-20"><a href="#cb7-20"></a>         <span class="dt">var_label_orig2 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^W3A/W4A &quot;</span>, <span class="st">&quot;&quot;</span>, var_label_orig2)) <span class="op">%&gt;%</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="st">  </span><span class="co"># join with table with variable groups</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="st">  </span><span class="kw">left_join</span>(varlabs, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;var_label_orig2&quot;</span> =<span class="st"> &quot;var_label_zacat&quot;</span>, <span class="st">&quot;archive_id&quot;</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="st">  </span><span class="co"># remove variables in the following groups</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span>group <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Archive and survey ID variables&quot;</span>,</span>
+<span id="cb7-25"><a href="#cb7-25"></a>                       <span class="st">&quot;Country group variables&quot;</span>,</span>
+<span id="cb7-26"><a href="#cb7-26"></a>                       <span class="st">&quot;Nationality (Q1)&quot;</span>,</span>
+<span id="cb7-27"><a href="#cb7-27"></a>                       <span class="st">&quot;Protocol variables (P)&quot;</span>,</span>
+<span id="cb7-28"><a href="#cb7-28"></a>                       <span class="st">&quot;Standard nation ID variables&quot;</span>,</span>
+<span id="cb7-29"><a href="#cb7-29"></a>                       <span class="st">&quot;Weight variables (W)&quot;</span>,</span>
+<span id="cb7-30"><a href="#cb7-30"></a>                       <span class="st">&quot;Nation ID variables&quot;</span>,</span>
+<span id="cb7-31"><a href="#cb7-31"></a>                       <span class="st">&quot;Protocol variables&quot;</span>,</span>
+<span id="cb7-32"><a href="#cb7-32"></a>                       <span class="st">&quot;Weight variables&quot;</span>,</span>
+<span id="cb7-33"><a href="#cb7-33"></a>                       <span class="st">&quot;Archive and ID variables&quot;</span>,</span>
+<span id="cb7-34"><a href="#cb7-34"></a>                       <span class="st">&quot;Household Weights&quot;</span>),</span>
+<span id="cb7-35"><a href="#cb7-35"></a>         <span class="co"># remove recoded variables</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a>         <span class="op">!</span><span class="kw">grepl</span>(<span class="st">&quot;recoded|(rec)&quot;</span>, var_label_norm)) <span class="op">%&gt;%</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_id =</span> <span class="kw">paste0</span>(filename, <span class="st">&quot; &quot;</span>, var_name_orig),</span>
+<span id="cb7-38"><a href="#cb7-38"></a>         <span class="co"># leftover question numbers at the beginning of value labels</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^w[0-9]{1,2}&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm),</span>
+<span id="cb7-40"><a href="#cb7-40"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[0-9]{1-3}_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1),</span>
+<span id="cb7-41"><a href="#cb7-41"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[a-z][0-9]{2}[a-z]_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1),</span>
+<span id="cb7-42"><a href="#cb7-42"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[a-z]{1,2}[0-9]{1,2}_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1),</span>
+<span id="cb7-43"><a href="#cb7-43"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[a-z]{1,2}[0-9]{1,2}[a-z]_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1),</span>
+<span id="cb7-44"><a href="#cb7-44"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[0-9]{1,2}_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1),</span>
+<span id="cb7-45"><a href="#cb7-45"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[a-z]_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1),</span>
+<span id="cb7-46"><a href="#cb7-46"></a>         <span class="dt">var_label_norm1 =</span> <span class="kw">gsub</span>(<span class="st">&quot;^[a-z][0-9]_[0-9]{1,2}_&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_norm1)) <span class="op">%&gt;%</span></span>
+<span id="cb7-47"><a href="#cb7-47"></a><span class="st">  </span><span class="co"># apply the translation table</span></span>
+<span id="cb7-48"><a href="#cb7-48"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_label_norm1 =</span> <span class="kw">stri_replace_all_regex</span>(var_label_norm1,</span>
+<span id="cb7-49"><a href="#cb7-49"></a>                                                  <span class="dt">pattern =</span> dict<span class="op">$</span>from,</span>
+<span id="cb7-50"><a href="#cb7-50"></a>                                                  <span class="dt">replacement =</span> dict<span class="op">$</span>to,</span>
+<span id="cb7-51"><a href="#cb7-51"></a>                                                  <span class="dt">vectorize_all =</span> <span class="ot">FALSE</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb7-52"><a href="#cb7-52"></a><span class="st">  </span><span class="co"># replace underscore with space</span></span>
+<span id="cb7-53"><a href="#cb7-53"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">text =</span> <span class="kw">gsub</span>(<span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>, var_label_norm1)) <span class="op">%&gt;%</span></span>
+<span id="cb7-54"><a href="#cb7-54"></a><span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></span>
+<span id="cb7-55"><a href="#cb7-55"></a><span class="st">  </span><span class="co"># select the needed variables</span></span>
+<span id="cb7-56"><a href="#cb7-56"></a><span class="st">  </span><span class="kw">select</span>(filename, qb, var_label_orig, var_label_norm, var_label_norm1, text, var_id, group)</span></code></pre></div>
+</div>
+</div>
+<div id="tokenize-eliminate-stopwords" class="section level3">
+<h3>2 &amp; 3. Tokenize &amp; Eliminate stopwords</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># list of country codes to be converted to country names</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>eu_countries &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  <span class="st">&quot;at&quot;</span>, <span class="st">&quot;be&quot;</span>, <span class="st">&quot;bg&quot;</span>, <span class="st">&quot;cy&quot;</span>, <span class="st">&quot;cz&quot;</span>, <span class="st">&quot;dk&quot;</span>, <span class="st">&quot;de&quot;</span>, <span class="st">&quot;ee&quot;</span>, <span class="st">&quot;es&quot;</span>, <span class="st">&quot;fr&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="st">&quot;fi&quot;</span>, <span class="st">&quot;gb&quot;</span>, <span class="st">&quot;gr&quot;</span>, <span class="st">&quot;hr&quot;</span>, <span class="st">&quot;hu&quot;</span>, <span class="st">&quot;ie&quot;</span>, <span class="st">&quot;it&quot;</span>, <span class="st">&quot;lt&quot;</span>, <span class="st">&quot;lv&quot;</span>, <span class="st">&quot;lu&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="st">&quot;mt&quot;</span>, <span class="st">&quot;nl&quot;</span>, <span class="st">&quot;pl&quot;</span>, <span class="st">&quot;pt&quot;</span>, <span class="st">&quot;ro&quot;</span>, <span class="st">&quot;se&quot;</span>, <span class="st">&quot;si&quot;</span>, <span class="st">&quot;sk&quot;</span>, <span class="st">&quot;tr&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co"># !!! the problem here is that dk sometimes means &quot;don&#39;t know&quot; and sometimes Demnark !!!</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co"># this needs to be treated in gesis_metadata_create, where the</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co"># user defined missings are separately analyzed, they dk should </span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co"># be converted there to do_not_know.</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co"># it&#39;s not clear hot to do this, because both types of DK appear at the end of labels e.g. in</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co"># mentioned/not mentioned questions, and they look very much the same</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co"># ---- but normally one should be in attr(x, &quot;na_values&quot;) </span></span>
+<span id="cb8-16"><a href="#cb8-16"></a></span>
+<span id="cb8-17"><a href="#cb8-17"></a>tidy &lt;-<span class="st"> </span>dat2 <span class="op">%&gt;%</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="st">  </span><span class="co"># tokenize</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="st">  </span><span class="kw">unnest_tokens</span>(word, text, </span>
+<span id="cb8-20"><a href="#cb8-20"></a>                <span class="dt">token =</span> <span class="st">&quot;regex&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot; |  &quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="st">  </span><span class="co"># eliminate stop words, with some exceptions</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="st">  </span><span class="kw">anti_join</span>(stop_words <span class="op">%&gt;%</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="st">              </span><span class="kw">filter</span>(<span class="op">!</span>word <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;working&quot;</span>, <span class="st">&quot;right&quot;</span>, <span class="st">&quot;other&quot;</span>)</span>
+<span id="cb8-24"><a href="#cb8-24"></a>                     )) <span class="op">%&gt;%</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="st">  </span><span class="co"># eliminate numbers</span></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">grepl</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">b</span><span class="ch">\\</span><span class="st">d+</span><span class="ch">\\</span><span class="st">b&quot;</span>, word)) <span class="op">%&gt;%</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a><span class="st">  </span><span class="co"># convert country codes to country names</span></span>
+<span id="cb8-28"><a href="#cb8-28"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb8-29"><a href="#cb8-29"></a>    <span class="dt">country =</span> <span class="kw">ifelse</span>(word <span class="op">%in%</span><span class="st"> </span>eu_countries, word, <span class="ot">NA</span>),</span>
+<span id="cb8-30"><a href="#cb8-30"></a>         <span class="dt">country =</span> countrycode<span class="op">::</span><span class="kw">countrycode</span>(</span>
+<span id="cb8-31"><a href="#cb8-31"></a>           <span class="kw">toupper</span>(country), <span class="st">&quot;iso2c&quot;</span>, <span class="st">&quot;country.name&quot;</span>),</span>
+<span id="cb8-32"><a href="#cb8-32"></a>    <span class="dt">country =</span> <span class="kw">tolower</span>(country),</span>
+<span id="cb8-33"><a href="#cb8-33"></a>    <span class="dt">word =</span> <span class="kw">ifelse</span>(<span class="op">!</span><span class="kw">is.na</span>(country), country, word),</span>
+<span id="cb8-34"><a href="#cb8-34"></a>    <span class="dt">word =</span> <span class="kw">ifelse</span>(word <span class="op">==</span><span class="st"> &quot;united kingdom&quot;</span>, <span class="st">&quot;united-kingdom&quot;</span>, word),</span>
+<span id="cb8-35"><a href="#cb8-35"></a>    <span class="dt">word =</span> <span class="kw">ifelse</span>(word <span class="op">==</span><span class="st"> &quot;tcc&quot;</span>, <span class="st">&quot;turkish-cypriot-community&quot;</span>, word)</span>
+<span id="cb8-36"><a href="#cb8-36"></a>    ) <span class="op">%&gt;%</span></span>
+<span id="cb8-37"><a href="#cb8-37"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>country)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>tidy <span class="op">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">select</span>(var_id, var_label_norm1, word) <span class="op">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb9-7"><a href="#cb9-7"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb9-8"><a href="#cb9-8"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+word
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav d11
+</td>
+<td style="text-align:left;">
+age_exact
+</td>
+<td style="text-align:left;">
+age
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav d11
+</td>
+<td style="text-align:left;">
+age_exact
+</td>
+<td style="text-align:left;">
+exact
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav qb9c_9
+</td>
+<td style="text-align:left;">
+bribe_amount_in_euro_building_permits
+</td>
+<td style="text-align:left;">
+bribe
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav qb9c_9
+</td>
+<td style="text-align:left;">
+bribe_amount_in_euro_building_permits
+</td>
+<td style="text-align:left;">
+amount
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav qb9c_9
+</td>
+<td style="text-align:left;">
+bribe_amount_in_euro_building_permits
+</td>
+<td style="text-align:left;">
+euro
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav qb9c_9
+</td>
+<td style="text-align:left;">
+bribe_amount_in_euro_building_permits
+</td>
+<td style="text-align:left;">
+building
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>tidy <span class="op">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">count</span>(word) <span class="op">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">head</span>(., <span class="dv">10</span>) <span class="op">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb10-8"><a href="#cb10-8"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb10-9"><a href="#cb10-9"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+word
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+eu
+</td>
+<td style="text-align:right;">
+2934
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sum
+</td>
+<td style="text-align:right;">
+920
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+spontaneous
+</td>
+<td style="text-align:right;">
+783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+turkish-cypriot-community
+</td>
+<td style="text-align:right;">
+703
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+denmark
+</td>
+<td style="text-align:right;">
+700
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2nd
+</td>
+<td style="text-align:right;">
+697
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+other
+</td>
+<td style="text-align:right;">
+617
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nationality
+</td>
+<td style="text-align:right;">
+558
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+country
+</td>
+<td style="text-align:right;">
+530
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+internet
+</td>
+<td style="text-align:right;">
+530
+</td>
+</tr>
+</tbody>
+</table>
+<p>Note: this Denmark is probably a “don’t know”</p>
+</div>
+<div id="create-a-document-term-matrix" class="section level3">
+<h3>4. Create a document-term matrix</h3>
+<p>Filter out labels that have words that appear in &lt; 5 different waves. If we want to create a trend file, we’re only interested in variables that are repeated often.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>tidy_small_<span class="dv">2</span> &lt;-<span class="st"> </span>tidy <span class="op">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">group_by</span>(word) <span class="op">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="co"># number of distinct file names (waves) per word</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">n_wave =</span> <span class="kw">n_distinct</span>(filename)) <span class="op">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="co"># flag words that appear in &lt; 5 different files</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">to_drop =</span> <span class="kw">as.numeric</span>(n_wave <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span><span class="co"># group by variable ID (file x variable name)</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="st">  </span><span class="kw">group_by</span>(var_id) <span class="op">%&gt;%</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="st">  </span><span class="co"># copy to_drop across words in the same variable label</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">to_drop =</span> <span class="kw">max</span>(to_drop, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">%&gt;%</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="st">  </span><span class="co"># drop variable labels with the to_drop identifier</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="st">  </span><span class="kw">filter</span>(to_drop <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="st">  </span><span class="co"># remove auxiliary variables</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>to_drop, <span class="op">-</span>n_wave) <span class="op">%&gt;%</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="st">  </span><span class="kw">ungroup</span>()</span>
+<span id="cb11-16"><a href="#cb11-16"></a></span>
+<span id="cb11-17"><a href="#cb11-17"></a>dtm &lt;-<span class="st"> </span>tidy_small_<span class="dv">2</span> <span class="op">%&gt;%</span></span>
+<span id="cb11-18"><a href="#cb11-18"></a><span class="st">  </span><span class="kw">distinct</span>(var_id, var_label_norm1, word) <span class="op">%&gt;%</span></span>
+<span id="cb11-19"><a href="#cb11-19"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">n =</span> word) <span class="op">%&gt;%</span></span>
+<span id="cb11-20"><a href="#cb11-20"></a><span class="st">  </span><span class="kw">spread</span>(word, n)</span>
+<span id="cb11-21"><a href="#cb11-21"></a></span>
+<span id="cb11-22"><a href="#cb11-22"></a><span class="kw">dim</span>(dtm)</span>
+<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt; [1] 6632  429</span></span></code></pre></div>
+</div>
+<div id="sort-columns-according-to-the-declining-frequency-of-the-keywords" class="section level3">
+<h3>5. Sort columns according to the declining frequency of the keywords</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># get the order of variables according to declining proportion of missing value</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="co"># (declining popularity of keywords)</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>order &lt;-<span class="st"> </span>dtm <span class="op">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="kw">sum</span>(<span class="kw">is.na</span>(.))<span class="op">/</span><span class="kw">length</span>(.))) <span class="op">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="st">  </span><span class="kw">t</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.vector</span>()</span>
+<span id="cb12-6"><a href="#cb12-6"></a></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="kw">names</span>(order) &lt;-<span class="st"> </span><span class="kw">names</span>(dtm)</span></code></pre></div>
+</div>
+<div id="create-standardized-variable-labels-by-concatenating-keywords" class="section level3">
+<h3>6. Create standardized variable labels by concatenating keywords</h3>
+<p>Standardized variable labels <code>var_label_std</code> are concatenated keywords, where the keywords occur in the order of their frequency in the entire corpus of variable labels. As a consequence, more common - likely broader - terms will come first, and less common - more specific - terms will come later.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>dtm2 &lt;-<span class="st"> </span>dtm <span class="op">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">select</span>( <span class="kw">names</span>(<span class="kw">sort</span>(order)) ) <span class="op">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="dv">3</span><span class="op">:</span><span class="kw">ncol</span>(dtm)), </span>
+<span id="cb13-4"><a href="#cb13-4"></a>            <span class="kw">funs</span>(<span class="kw">ifelse</span>(<span class="kw">is.na</span>(.), <span class="st">&quot;&quot;</span>, .))</span>
+<span id="cb13-5"><a href="#cb13-5"></a>            ) <span class="op">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="st">  </span><span class="kw">unite</span>(<span class="st">&quot;var_label_std&quot;</span>, <span class="dv">3</span><span class="op">:</span><span class="kw">ncol</span>(dtm)) <span class="op">%&gt;%</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_label_std =</span> <span class="kw">gsub</span>(</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="st">&quot;(</span><span class="ch">\\</span><span class="st">_)</span><span class="ch">\\</span><span class="st">1+&quot;</span>, <span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>, var_label_std) ) <span class="op">%&gt;%</span></span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_label_std =</span> <span class="kw">gsub</span>(</span>
+<span id="cb13-10"><a href="#cb13-10"></a>    <span class="st">&quot;^_|_$&quot;</span>, <span class="st">&quot;&quot;</span>, var_label_std) )</span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="kw">dim</span>(dtm2)</span>
+<span id="cb13-13"><a href="#cb13-13"></a><span class="co">#&gt; [1] 6632    3</span></span></code></pre></div>
+<p>These standardized variable names still have problems that need to be fixed.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>dtm2 <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">head</span>(., <span class="dv">25</span>) <span class="op">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb14-6"><a href="#cb14-6"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb14-7"><a href="#cb14-7"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_std
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5687_v3-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5688_v6-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5689_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5876_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5877_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5913_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5928_v3-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5929_v3-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5932_v3-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5964_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA5998_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6595_v3-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6642_v4-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6643_v4-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6694_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6695_v1-1-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6697_v1-1-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6788_v1-5-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6861_v1-2-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6863_v1-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6925_v1-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6927_v1-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6928_v1-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6939_v2-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:left;">
+ZA6963_v1-0-0.sav d8
+</td>
+<td style="text-align:left;">
+age_education
+</td>
+</tr>
+</tbody>
+</table>
+<p>Print the most common standardized variable labels.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>dtm2 <span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">count</span>(var_label_std) <span class="op">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">  </span><span class="kw">head</span>(., <span class="dv">25</span>) <span class="op">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb15-8"><a href="#cb15-8"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb15-9"><a href="#cb15-9"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_std
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+generation
+</td>
+<td style="text-align:right;">
+132
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+internet_frequency
+</td>
+<td style="text-align:right;">
+74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+generation_age
+</td>
+<td style="text-align:right;">
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_education
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age_exact
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+community_type
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gender
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+household-composition_aged
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+household-composition_aged_gt
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+household-composition_aged_lithuania
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+occupation_respondent
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+occupation_respondent_last-job
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+paying_bills_difficulties
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+status_marital
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+internet_frequency_home
+</td>
+<td style="text-align:right;">
+37
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+occupation_respondent_c14_scale
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+life_satisfaction
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+political-discussion_matters_european
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+political-discussion_matters_local
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+political-discussion_matters_national
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+nationality_denmark
+</td>
+<td style="text-align:right;">
+34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+left-right_placement
+</td>
+<td style="text-align:right;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+country_voice_counts
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cat_assessment_social-class
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+eu_voice_counts
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="application-political-attitudes" class="section level2">
+<h2>Application: political attitudes</h2>
+<p>Filter on substrings of standardized variable labels <code>var_label_std</code>, and count the repetitions across datasets.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># filter on var_label_std</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>dtm2 <span class="op">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="st">  </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">&quot;trust|satisf|left-right|interest|class&quot;</span>, var_label_std)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="st">  </span><span class="kw">count</span>(var_label_std) <span class="op">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="st">  </span><span class="kw">head</span>(., <span class="dv">25</span>) <span class="op">%&gt;%</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="st">  </span>kable <span class="op">%&gt;%</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a>                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb16-10"><a href="#cb16-10"></a>                  <span class="dt">fixed_thead =</span> T,</span>
+<span id="cb16-11"><a href="#cb16-11"></a>                  <span class="dt">font_size =</span> <span class="dv">10</span> )</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_std
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+life_satisfaction
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+left-right_placement
+</td>
+<td style="text-align:right;">
+32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cat_assessment_social-class
+</td>
+<td style="text-align:right;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+country_democracy_satisfaction
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+democracy_satisfaction_european-union
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european-union
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_national-government
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_national-parliament
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_political-parties
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_regional-local-authorities
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european-central-bank
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european-commission
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european-parliament
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_united-nations
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+turkish-cypriot-community_trust_european-union
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+turkish-cypriot-community_trust_united-nations
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_police
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+turkish-cypriot-community_trust_political-parties
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+assessment_social-class
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_public_administration
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+internet_trust
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_radio
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_television
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_social_online_networks
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
