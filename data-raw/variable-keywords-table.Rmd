@@ -134,7 +134,8 @@ All procedures below applied to 51 waves, for which all metadata are available.
 
 
 ```{r}
-dict <- rio::import("../data-raw/var_lab_dict.xlsx", sheet = "dict") %>%
+dict <- rio::import("../data-raw/var_lab_dict.xlsx", 
+                    sheet = "dict") %>%
   gather(id, from, 2:6) %>%
   select(from, to) %>%
   drop_na(from)
