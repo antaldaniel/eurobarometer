@@ -1,0 +1,386 @@
+---
+title: "Tagging variables with keywords"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vocabulary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE, 
+  collapse = TRUE,
+  comment = "#>"
+)
+options(width = 160)
+```
+
+```{r setup}
+library(eurobarometer)
+library(tidyverse)
+library(tibble)
+library(knitr)
+library(kableExtra)
+library(tidytext)
+library(janitor)
+library(stringi)
+```
+
+An important aspect of survey data harmonization - in addition to standardizing response coding and value labels - is the identification of variables that measure the same thing, and standardizing the names of these variables. The process is faciliated by the fact that variables typically have labels that succintly describe the content of the variable, and sometimes also contain information about the coding of responses (e.g., length of scale), the unit (e.g., age in years or categories) and whether the variable contains "original" respondent responses or some transformation of responses (e.g. recoding or index).  
+
+Fortunately, in many multi-wave surveys, such as the Eurobarometer, there is a degree of consistency in how variables are labelled in different editions of the survey, and most survey projects try to follow some labelling conventions. 
+
+Unfortunately, consistency is limited and conventions are not followed strictly, which makes standardizing labels a semi-manual task. Some of these issues stem from the limits in the number of characters of variable labels in common statistical software packages (e.g., SPSS), which leads to non-standard abbreviations.  
+
+This vignette outlines a procedure for arriving at standardized variable names via tokenization of normalized variable labels (`var_label_norm`), which are created by [`label_normalize`](http://eurobarometer.danielantal.eu/reference/label_normalize.html) as part of [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html). The logic is similar to text analysis, in that a document-term matrix is created with each variable label treated as a (very short) document, and terms treated as keywords. variables that contain the same sets of keywords can be - with some margin of error - assumed to correspond to the same or equivalent survey questions.
+
+## Procedure
+
+0. Read survey and variable metadata, match variables to variable groups as defined by GESIS-ZACAT, filter out technical and protocol variables,
+
+1. Standardize the spelling of certain often abbreviated words (e.g., 'gov', 'govnmt', and 'govmnt' for 'government'),
+
+2. Tokenize,
+
+3. Eliminate stop words (but be careful to not eliminate too many, e.g. 'right' or 'working'),
+
+4. Create a document-term matrix (actually, variable label - keyword matrix),
+
+5. Sort the columns according to the declining frequency of the keywords,
+
+6. Create standardized variable labels by concatenating keywords.
+
+### 0. Survey and variable metadata
+
+#### Variable metadata
+
+The table contains metadata from 97 Eurobarometer files (each file corresponding to one EB round). The metadata are extracted from SPSS files with [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html).
+
+```{r}
+metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_20200628.rds')) %>%
+  mutate(archive_id = substr(filename, 1, 6))
+```
+
+#### Waves - Archive IDs
+
+Mapping of GESIS Archive IDs (as used in file names) to wave numbers, from EB/44.2bis (ZA2828) to EB/92.1 (ZA7579) - 156 EB waves altogether.
+
+
+```{r, warning = F}
+eb_names <- rio::import("../data-raw/eb_waves_filenames.xlsx") %>%
+  separate(x, c("archive_id", "x2", "title"), sep = ":") %>%
+  separate(x2, c("wave", "dates"), sep = " \\(|\\)") %>%
+  mutate(wave = gsub("Eurobarometer | ", "", wave))
+
+eb_names %>%
+  select(archive_id, wave, dates) %>%
+  head() %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+#### Variable groups
+
+Mapping of variable labels to variable groups, as defined in [GESIS ZACAT](https://zacat.gesis.org/webview/), for 51 waves from EB 79.1 (ZA5687) through EB 92.1 (ZA7579).
+
+```{r}
+varlabs <- rio::import("../data-raw/eb_variable_groups_zacat.xlsx", sheet = 4) %>%
+  mutate(wave_desc = ifelse(substr(var_label_zacat, 1, 13) == "Eurobarometer", var_label_zacat, NA),
+         var_label_zacat = ifelse(substr(var_label_zacat, 1, 13)=="Eurobarometer", NA, var_label_zacat),
+         # group names are writte in camel case and != toupper(group names)
+         group = ifelse(var_label_zacat != toupper(var_label_zacat), var_label_zacat, NA),
+         # exceptions from the rule identifying group names
+         group = ifelse(substr(group, 1, 9) == "OWNERSHIP", NA, group), 
+         group = ifelse(substr(group, 1, 19) == "POSITIVE EU RESULTS", NA, group),
+         group = ifelse(substr(group, 1, 24) == "OPINION LEADERSHIP INDEX", NA, group),
+         var_label_zacat = ifelse(!is.na(group), NA, var_label_zacat)) %>%
+  fill(wave_desc, group) %>%
+  drop_na(group, var_label_zacat) %>%
+  mutate(wave = substr(wave_desc, 1, 18),
+         wave = gsub("^Eurobarometer ", "", wave),
+         var_label_zacat = gsub("^W[0-9]{1,2}[A-Z] |^W3A/W4A ", "", var_label_zacat)) %>%
+  left_join(eb_names) %>%
+  select(wave, archive_id, group, var_label_zacat, everything())
+
+varlabs %>%
+  select(archive_id, wave, group, var_label_zacat) %>%
+  head() %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+```{r}
+# vector of archive IDs
+archive_ids <- varlabs %>% distinct(archive_id) %>% pull(archive_id)
+
+length(archive_ids)
+```
+
+
+### 1. Standardize the spelling
+
+All procedures below applied to 51 waves, for which all metadata are available.
+
+
+#### 1.1. Translation table ...
+
+
+```{r}
+dict <- rio::import("../data-raw/var_lab_dict.xlsx", sheet = "dict") %>%
+  gather(id, from, 2:6) %>%
+  select(from, to) %>%
+  drop_na(from)
+
+head(dict) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+
+#### 1.2. ... applied to metadata
+
+```{r}
+# this part now became very fast with stri_replace_all_regex
+
+dat2 <- metadata_database %>%
+  # filter only waves for which variable groups are available
+  filter(archive_id %in% archive_ids,
+         # exclude this strange variable
+         var_label_orig != "filename") %>%
+  # keep one row per variable
+  distinct(filename, qb, var_name_orig, var_name_orig, var_label_orig, var_label_norm, archive_id) %>%
+  # original variable labels in the data and in GESIS ZACAT are not exactly the same 
+  # --> need some cleaning
+  mutate(var_label_orig2 = gsub("^W[0-9]{1,2}", "", var_label_orig),
+         var_label_orig2 = gsub("^W[0-9]{1,2}[A-Z]", "", var_label_orig),
+         var_label_orig2 = gsub("^[0-9]{1-3} ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[A-Z][0-9]{1,2}[A-Z] ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2} ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2}[A-Z] ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[0-9]{1,2} ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[A-Z][0-9] [0-9]{1,2} ", "", var_label_orig2),
+         var_label_orig2 = gsub("^W3A/W4A ", "", var_label_orig2)) %>%
+  # join with table with variable groups
+  left_join(varlabs, by = c("var_label_orig2" = "var_label_zacat", "archive_id")) %>%
+  # remove variables in the following groups
+  filter(!group %in% c("Archive and survey ID variables",
+                       "Country group variables",
+                       "Nationality (Q1)",
+                       "Protocol variables (P)",
+                       "Standard nation ID variables",
+                       "Weight variables (W)",
+                       "Nation ID variables",
+                       "Protocol variables",
+                       "Weight variables",
+                       "Archive and ID variables",
+                       "Household Weights"),
+         # remove recoded variables
+         !grepl("recoded|(rec)", var_label_norm)) %>%
+  mutate(var_id = paste0(filename, " ", var_name_orig),
+         # leftover question numbers at the beginning of value labels
+         var_label_norm1 = gsub("^w[0-9]{1,2}", "", var_label_norm),
+         var_label_norm1 = gsub("^[0-9]{1-3}_", "", var_label_norm1),
+         var_label_norm1 = gsub("^[a-z][0-9]{2}[a-z]_", "", var_label_norm1),
+         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}_", "", var_label_norm1),
+         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}[a-z]_", "", var_label_norm1),
+         var_label_norm1 = gsub("^[0-9]{1,2}_", "", var_label_norm1),
+         var_label_norm1 = gsub("^[a-z]_", "", var_label_norm1),
+         var_label_norm1 = gsub("^[a-z][0-9]_[0-9]{1,2}_", "", var_label_norm1)) %>%
+  # apply the translation table
+  mutate(var_label_norm1 = stri_replace_all_regex(var_label_norm1,
+                                                  pattern = dict$from,
+                                                  replacement = dict$to,
+                                                  vectorize_all = FALSE)) %>%
+  # replace underscore with space
+  mutate(text = gsub("_", " ", var_label_norm1)) %>%
+  ungroup() %>%
+  # select the needed variables
+  select(filename, qb, var_label_orig, var_label_norm, var_label_norm1, text, var_id, group)
+
+```
+
+### 2 & 3. Tokenize & Eliminate stopwords
+
+```{r}
+# list of country codes to be converted to country names
+eu_countries <- c(
+  "at", "be", "bg", "cy", "cz", "dk", "de", "ee", "es", "fr",
+  "fi", "gb", "gr", "hr", "hu", "ie", "it", "lt", "lv", "lu",
+  "mt", "nl", "pl", "pt", "ro", "se", "si", "sk", "tr")
+
+# !!! the problem here is that dk sometimes means "don't know" and sometimes Demnark !!!
+# this needs to be treated in gesis_metadata_create, where the
+# user defined missings are separately analyzed, they dk should 
+# be converted there to do_not_know.
+
+# it's not clear hot to do this, because both types of DK appear at the end of labels e.g. in
+# mentioned/not mentioned questions, and they look very much the same
+
+tidy <- dat2 %>%
+  # tokenize
+  unnest_tokens(word, text, 
+                token = "regex", pattern = " |  ") %>%
+  # eliminate stop words, with some exceptions
+  anti_join(stop_words %>%
+              filter(!word %in% c("working", "right", "other")
+                     )) %>%
+  # eliminate numbers
+  filter(!grepl("\\b\\d+\\b", word)) %>%
+  # convert country codes to country names
+  mutate(
+    country = ifelse(word %in% eu_countries, word, NA),
+         country = countrycode::countrycode(
+           toupper(country), "iso2c", "country.name"),
+    country = tolower(country),
+    word = ifelse(!is.na(country), country, word),
+    word = ifelse(word == "united kingdom", "united-kingdom", word),
+    word = ifelse(word == "tcc", "turkish-cypriot-community", word)
+    ) %>%
+  select(-country)
+```
+
+```{r}
+tidy %>%
+  select(var_id, var_label_norm1, word) %>%
+  head() %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+
+```{r}
+tidy %>%
+  count(word) %>%
+  arrange(desc(n)) %>% 
+  head(., 10) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+Note: this Denmark is probably a "don't know"
+
+
+### 4. Create a document-term matrix
+
+Filter out labels that have words that appear in < 5 different waves. If we want to create a trend file, we're only interested in variables that are repeated often.
+
+```{r}
+tidy_small_2 <- tidy %>%
+  group_by(word) %>%
+  # number of distinct file names (waves) per word
+  mutate(n_wave = n_distinct(filename)) %>%
+  # flag words that appear in < 5 different files
+  mutate(to_drop = as.numeric(n_wave < 10)) %>%
+  # group by variable ID (file x variable name)
+  group_by(var_id) %>%
+  # copy to_drop across words in the same variable label
+  mutate(to_drop = max(to_drop, na.rm = TRUE)) %>%
+  # drop variable labels with the to_drop identifier
+  filter(to_drop != 1) %>%
+  # remove auxiliary variables
+  select(-to_drop, -n_wave) %>%
+  ungroup()
+
+dtm <- tidy_small_2 %>%
+  distinct(var_id, var_label_norm1, word) %>%
+  mutate(n = word) %>%
+  spread(word, n)
+
+dim(dtm)
+```
+
+
+
+### 5. Sort columns according to the declining frequency of the keywords
+
+```{r}
+# get the order of variables according to declining proportion of missing value
+# (declining popularity of keywords)
+order <- dtm %>%
+  summarise_all(funs(sum(is.na(.))/length(.))) %>%
+  t() %>% as.vector()
+
+names(order) <- names(dtm)
+```
+
+
+### 6. Create standardized variable labels by concatenating keywords
+
+Standardized variable labels `var_label_std` are concatenated keywords, where the keywords occur in the order of their frequency in the entire corpus of variable labels. As a consequence, more common - likely broader - terms will come first, and less common - more specific - terms will come later.
+
+```{r}
+dtm2 <- dtm %>%
+  select( names(sort(order)) ) %>%
+  mutate_at(vars(3:ncol(dtm)), 
+            funs(ifelse(is.na(.), "", .))
+            ) %>%
+  unite("var_label_std", 3:ncol(dtm)) %>%
+  mutate(var_label_std = gsub(
+    "(\\_)\\1+", "\\1", var_label_std) ) %>%
+  mutate(var_label_std = gsub(
+    "^_|_$", "", var_label_std) )
+
+dim(dtm2)
+```
+
+These standardized variable names still have problems that need to be fixed.
+
+```{r}
+dtm2 %>% 
+  head(., 25) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+Print the most common standardized variable labels.
+
+```{r}
+dtm2 %>%
+  count(var_label_std) %>%
+  arrange(desc(n)) %>% 
+  head(., 25) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+## Application: political attitudes
+
+Filter on substrings of standardized variable labels `var_label_std`, and count the repetitions across datasets.
+
+```{r}
+# filter on var_label_std
+dtm2 %>%
+  filter(grepl("trust|satisf|left-right|interest|class", var_label_std)) %>% 
+  count(var_label_std) %>%
+  arrange(desc(n)) %>%
+  head(., 25) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
