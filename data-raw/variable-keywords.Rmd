@@ -56,7 +56,7 @@ This vignette outlines a procedure for arriving at standardized variable names v
 The table contains metadata from 97 Eurobarometer files (each file corresponding to one EB round).
 
 ```{r}
-metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_20200628.rds'))
+metadata_database <- readRDS( file.path('..', 'data-raw', 'eb_metadata_database_20200628.rds'))
 ```
 
 
@@ -84,6 +84,20 @@ dat <- metadata_database %>%
   filter(!grepl("icpsr|gesis|zacat|weight_", var_label_norm)) %>%
   
   # clean up variable labels to unify the spelling of certain common words and abbreviation
+  #
+  #  FROM HERE on this is var_label_normalize()
+  mutate(
+    var_id = paste0(filename, " ", var_name_orig),
+    var_label_norm1 = var_label_normalize(var_label_norm)
+    ) %>%
+  ungroup() %>%
+  # select the needed variables
+  select(filename, qb, var_label_norm1, var_label_orig, var_id, text)
+``` 
+
+
+```{r, eval = FALSE}
+## went to var_label_normalize()
   mutate(
     var_id = paste0(filename, " ", var_name_orig),
     var_label_norm1 = gsub(
@@ -373,10 +387,7 @@ dat <- metadata_database %>%
       "council_of_the_eu", "council-of-the-eu", var_label_norm1),
     
     # replace underscore with space
-    text = gsub("_", " ", var_label_norm1)) %>%
-  ungroup() %>%
-  # select the needed variables
-  select(filename, qb, var_label_norm1, var_label_orig, var_id, text)
+    text = gsub("_", " ", var_label_norm1)) 
 ```
 
 ### 2 & 3. Tokenize & Eliminate stopwords

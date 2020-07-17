@@ -23,4 +23,8 @@ label_normalize (
       "QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT" )
 )
 }
+\seealso{
+Other naming functions: 
+\code{\link{var_label_normalize}()}
+}
 \concept{naming functions}
