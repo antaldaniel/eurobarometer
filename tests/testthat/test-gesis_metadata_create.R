@@ -13,13 +13,11 @@ returned_metadata <- gesis_metadata_create( survey_list = survey_list_2 )
 
 single_data_frame <- gesis_metadata_create( survey_list = ZA5913_sample )
 
+row_n <- which(returned_metadata$var_name_suggested == "european_council_trust")
+
 test_that("correct structure is returned", {
-  expect_equal(names(returned_metadata),
-               c('filename', 'qb', 'var_name_orig',  'var_label_orig',
-                 'var_label_norm', 'var_name_suggested',
-                 "length_cat_range", "length_na_range", "length_total_range",
-                 'n_categories',
-                 'factor_levels',  'valid_range', 'na_levels',
-                 'class_orig', 'conversion_suggested'))
+  expect_equal(returned_metadata$length_cat_range[row_n], 2)
+  expect_equal(returned_metadata$length_na_range[row_n], 1)
+  expect_equal(returned_metadata$length_total_range[row_n], 3)
   expect_equal(unique(single_data_frame$filename), "not_given")
 })

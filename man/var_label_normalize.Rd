@@ -7,17 +7,29 @@
 var_label_normalize(x)
 }
 \arguments{
-\item{x}{A vector of the (GESIS) variable or value labels}
+\item{x}{A vector of the (GESIS) variable labels}
 }
 \value{
-A character vector with the normalized labels.
+A character vector with the normalized variable labels.
 }
 \description{
 Remove relative reference to question blocks, special characters
 used in regular expressions, whitespace.
 }
+\examples{
+label_normalize (
+ c('QF4C INTERESTS INFO SOURCES: INTERNET',
+   'QB15A CHILDREN NEEDS: SOME NEW CLOTHES',
+   'QB9B RESEARCH INFO SOURCE - PREFERENCE 2ND',
+   'EU MEANING: CULTURAL DIVERSITY',
+   'P6 SIZE OF COMMUNITY - AUSTRIA',
+   'D49D_CY WEBSITES: OTHER',
+   'LOVE RELATIONSHIP OF CHILD - CHRISTIAN PERSON' )
+)
+}
 \seealso{
 Other naming functions: 
-\code{\link{label_normalize}()}
+\code{\link{label_normalize}()},
+\code{\link{val_label_normalize}()}
 }
 \concept{naming functions}

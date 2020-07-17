@@ -25,6 +25,7 @@ label_normalize (
 }
 \seealso{
 Other naming functions: 
+\code{\link{val_label_normalize}()},
 \code{\link{var_label_normalize}()}
 }
 \concept{naming functions}

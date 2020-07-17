@@ -27,6 +27,7 @@
 #' @importFrom dplyr full_join mutate
 #' @importFrom tibble tibble
 #' @importFrom tidyselect all_of
+#' @importFrom retroharmonize metadata_create
 #' @return A data frame with the original variable attributes and
 #' suggested conversions and changes.
 #' @examples
@@ -51,91 +52,52 @@ gesis_metadata_create <- function ( survey_list ) {
   ## start of internal function metadata_create -------------
   metadata_create <- function (dat) {
 
-    class_orig   <- vapply (
-      dat, function(x) class(x)[1], character(1)
-    )
-
-    attr (dat$filename, "label" ) <- "filename"
-
-    get_labels <- function( dat ) {
-      vapply ( dat, function(x) attr(x, "label"), character(1))
-    }
-
-    var_label_orig <- vapply ( dat, labelled::var_label, character(1) )
-    var_label_norm <- label_normalize(x = var_label_orig )
-    var_label_suggested <- label_suggest( var_label_norm,
-                                          names(dat) )
+    mtd <- retroharmonize::metadata_create(dat) %>%
+      mutate (
+        filename = dat$filename[1],
+        var_label_norm = eurobarometer::var_label_normalize(label_orig),
+        # do we need this?
+        var_name_suggested = label_suggest( var_label_norm,
+                                            names(dat))
+               )
 
     ## Creating the basic metadata ----
-    metadata <- tibble::tibble (
-      filename = unique(dat$filename)[1],
-      var_name_orig = names ( dat ),
-      class_orig  = class_orig,
-      var_label_orig = var_label_orig,
-      var_label_norm = var_label_norm,
-      var_name_suggested = var_label_suggested
-    )
-
-    ## Creating a catalogue of possible categories / factor levels ----
-    all_val_labels <- sapply ( dat, labelled::val_labels )
-    value_labels_df <- data.frame (
-      var_name_orig = names ( all_val_labels  )
-    )
-    value_labels_df$factor_levels <- all_val_labels
-    value_labels_df$na_levels <- sapply ( dat, labelled::na_values)
-
-    ## Establish the valid range of categories without missings -----
-    fn_valid_range <- function ( x ) {
-      element_name <- names ( value_labels_df$factor_levels[x] )
-      f <- unlist(value_labels_df$factor_levels[x])
-      n <- unlist(value_labels_df$na_levels[x])
-      valid_range <- f[ ! f %in% n]
-
-      if ( ! is.null(valid_range) ) {
-        names( valid_range) <- gsub(paste0(element_name, "."), "", names(valid_range))
-      }
-      normalized_labels <- label_normalize(names(valid_range))
-      valid_range [which ( ! grepl( "inap|refus|dk|decline", normalized_labels))]
-    }
-
-    value_labels_df$valid_range <- sapply (
-      1:nrow(value_labels_df), fn_valid_range )
-
-    value_labels_df$length_cat_range <- sapply (
-      value_labels_df$valid_range, length )
-
-    value_labels_df$length_na_range <- sapply (
-      value_labels_df$na_levels, length )
-
-    value_labels_df$length_total_range <- vapply (
-      dat, function(x) length(unique(x)), numeric(1))
-
-    ##Merging the basic metadata with the categories
-    metadata <- dplyr::full_join(
-      metadata,
-      value_labels_df, by = 'var_name_orig' )
-
-    metadata$n_categories <- vapply (
-      sapply ( metadata$factor_levels, unlist ),
-      length, numeric(1) )  #number of categories in categorical variables
+    metadata  <- mtd %>%
+      select ( filename, var_name_orig, class_orig,
+               var_label_norm,
+               var_name_suggested,
+               label_orig,
+               n_na_values,
+               n_cat_labels,
+               labels,
+               na_values,
+               valid_range, na_values, na_range) %>%
+      dplyr::rename ( n_cat_values  = n_cat_labels) %>%
+      mutate ( n_categories = n_cat_values - n_na_values  ) %>%
+      dplyr::rename ( var_label_orig = label_orig,
+                      na_levels = na_values,
+                      length_na_range = n_na_values,
+                      length_total_range = n_cat_values ) %>%
+      mutate ( length_cat_range =length_total_range-length_na_range )
 
     metadata <- question_block_identify(metadata)
 
-    metadata <- metadata %>%
+    names (metadata)
+
+   metadata %>%
       select ( all_of(c("filename", "qb", "var_name_orig",
                         "var_label_orig",
                         "var_label_norm", "var_name_suggested",
                         "length_cat_range", "length_na_range",
                         "length_total_range",
                         "n_categories",
-                        "factor_levels", "valid_range", "na_levels",
+                        "labels","na_levels", "na_range",
                         "class_orig")
                       )
                )
 
-    ## class_suggest is not exported, it is in utils.R
-    ## Can be directly called as eurobarometer:::class_suggest(metadata)
-    class_suggest(metadata)
+    ## class_suggest is not neeeded any more  in utils.R
+
   }
 
   tmp <- metadata_create( dat = survey_list[[1]])
