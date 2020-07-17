@@ -17,6 +17,7 @@ library(knitr)
 
 ```{r setup, message=FALSE}
 library(eurobarometer)
+library(dplyr)
 data("ZA7562_sample")
 ```
 
@@ -28,7 +29,7 @@ sample_metadata <- gesis_metadata_create(ZA7562_sample)
 names(sample_metadata)
 ```
 
-The function `gesis_metadta_create` normalizes those variable names that are not machine readable, using two functions under the hood (see: `?label_normalize` and `?label_suggest`.) 
+The function `gesis_metadta_create()` normalizes those variable names that are not machine readable, using two functions under the hood (see: `label_normalize()` and `label_suggest()`.) 
 
 ```{r}
 sample_metadata %>%

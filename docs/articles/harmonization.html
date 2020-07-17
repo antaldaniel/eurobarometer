@@ -54,19 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/create_tables.html">Creating Variable and Values Tables</a>
-    </li>
-    <li>
       <a href="../articles/harmonization.html">Survey Data Harmonization</a>
     </li>
     <li>
       <a href="../articles/metadata.html">Working With Metadata</a>
-    </li>
-    <li>
-      <a href="../articles/variable_names.html">Harmonizing Variable Names</a>
-    </li>
-    <li>
-      <a href="../articles/vocabulary.html">Working With Vocabularies</a>
     </li>
   </ul>
 </li>
@@ -97,7 +88,7 @@
       <h1 data-toc-skip>Survey Data Harmonization</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/tests/testthat/vignettes/harmonization.Rmd"><code>tests/testthat/vignettes/harmonization.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/vignettes/harmonization.Rmd"><code>vignettes/harmonization.Rmd</code></a></small>
       <div class="hidden name"><code>harmonization.Rmd</code></div>
 
     </div>
@@ -106,253 +97,371 @@
     
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'dplyr'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     filter, lag</span>
-<span class="co">#&gt; The following objects are masked from 'package:base':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)</pre></body></html></div>
-<div id="class-conversion" class="section level2">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stringr</span>)</pre></body></html></div>
+<p>The <a href="http://eurobarometer.danielantal.eu/">eurobarometer</a> package relies on the survey class system of <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a>. You do not have to load the entire <code>retroharmonize</code> package - whatever is needed to make <code>eurobarometer</code> work is imported and modified as needed.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">ZA6863</span> <span class="kw">&lt;-</span> <span class="fu">read_rds</span>(
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"examples"</span>, <span class="st">"ZA6863.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
+)
+<span class="no">ZA7576</span> <span class="kw">&lt;-</span> <span class="fu">read_rds</span>(
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"examples"</span>, <span class="st">"ZA7576.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
+)</pre></body></html></div>
+<div id="metadata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#class-conversion" class="anchor"></a>Class conversion</h2>
-<p>We are using the SPSS file version of the GESIS archive and recommend reading in these files with the haven package. Haven uses a special R class, <code>labelled</code>, to preserve the metadata information of the SPSS file. While <code>labelled</code> provides a consistent and full representation of the SPSS file, it is not very useful for our purposes, because it mixes data with metadata in a way that is particular to the SPSS software.</p>
-<p>The data part is not particularly useful for statistical analysis and visualization in the labelled class. We are looking for a practical representation of each typical questionnaire form: for example, multiple response questions are represented by indicator / dummy variables, and single choice questions can be usually represented with factors.</p>
-<p>The metadata elements must be detached, harmonized and re-joined with the data. For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: <code>Mentioned</code> and <code>Not Mentioned</code>, with rare exceptions. We are re-coding them into numerical 1,0 values. Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.</p>
-<div id="harmonization-of-variable-types" class="section level3">
-<h3 class="hasAnchor">
-<a href="#harmonization-of-variable-types" class="anchor"></a>Harmonization of variable types</h3>
-<p>In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.</p>
-</div>
-</div>
-<div id="variable-names" class="section level2">
-<h2 class="hasAnchor">
-<a href="#variable-names" class="anchor"></a>Variable names</h2>
-<p>Variable names are essential both for joining data from various surveys, and for programming. When we read in the SPSS file to a labelled class, we have a variable names and variable labels present from SPSS. Our primary goal is to harmonize the variable names, but we need to create a consistent mapping for variable names for potential cross-checking with actual questionnaires.</p>
-<div id="harmonization-of-variable-names" class="section level3">
-<h3 class="hasAnchor">
-<a href="#harmonization-of-variable-names" class="anchor"></a>Harmonization of variable names</h3>
-<p>The harmonization of variables means that the same variable name is used for the same questionnaire item. In the original GESIS files, there is a little consistency present, but not sufficient to use the original variable names. Some demography variables are consistently identified with their usual questionnaire item ID, for example, xxxx with xxxx. However, there seem to be exception. For non-trending, but potentially repeating policy questions, there are no harmonized variable names.</p>
-<p>Another problem with the original variable names is that they are not always programmatically usable, because they use various reserved characters, such as percentage signs, semicolons, etc. We are changing them to ASCII-only, snake_form variable names that are harmonized. Harmonization of variable name labels.</p>
-<p>The harmonization of variable name labels would mean that for each variable name, such as <code>type_of_community</code>, we would use the same generic question abbreviation xxxxxx. The harmonization of variable labels is not a priority, but the documentation of variant is an important task to create comprehensive data maps or metadata. While the generic questionnaire is always bilingual, i.e. English and French, it seems that sometimes it is a bit more English or bit more French, which leads to minor inconsistencies that are likely not systematically reflected in the actually used translations (and the final English language versions used in the United Kingdom and Ireland, and the final French versions used in France and Belgium.)</p>
-<p>See more on variable name harmonization in <code><a href="../articles/metadata.html">vignette("metadata")</a></code> .</p>
-</div>
-</div>
-<div id="harmonization-of-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#harmonization-of-data" class="anchor"></a>Harmonization of data</h2>
-<p>Once we made sure that the <code>type_of_community</code> demography variable is called <code>type_of_community</code> in all data tables, and they are all converted to a character class, we can technically join tables with a time identifier to compare the contents of this variable. Conversion to character leads to a loss of information, because the answer options to this question are intended to be ordinal: they represent three levels of urbanizations irrespective of national administrative definitions.</p>
-<p>Data harmonization means that the three levels are identically coded in the join.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"eurobarometer_corpus"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
+<a href="#metadata" class="anchor"></a>Metadata</h2>
+<p>The metadata analysis is a first step to help both variable name and value label harmonization.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">ZA6863_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">ZA6863</span>)
+<span class="no">ZA7576_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">ZA7576</span>)</pre></body></html></div>
+<p>Variables of base types <code>numeric</code> and <code>character</code> can be safely concatenated. The labelled, mainly categorical variables require special attention: their valid range and missing range must be harmonized before binding the two tables together.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">ZA6863_items</span> <span class="kw">&lt;-</span> <span class="no">ZA6863_metadata</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
+    <span class="no">class_orig</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"character"</span>, <span class="st">"numeric"</span>) <span class="kw">|</span>
+    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> (<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">var_name_suggested</span> <span class="kw">!=</span> <span class="st">'not_given'</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">ZA7576_items</span> <span class="kw">&lt;-</span> <span class="no">ZA7576_metadata</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
+    <span class="no">class_orig</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"character"</span>, <span class="st">"numeric"</span>) <span class="kw">|</span>
+    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> (<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">var_name_suggested</span> <span class="kw">!=</span> <span class="st">'not_given'</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>()</pre></body></html></div>
+<p>In this case, the <code>var_label_suggest()</code> function worked perfectly, so we can approve the suggestions of <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code>.</p>
+<p>Let’s select the variables with identical names from the two surveys:</p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">hZA6863</span> <span class="kw">&lt;-</span> <span class="no">ZA6863</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">stats</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span> ( <span class="kw">nm</span> <span class="kw">=</span> <span class="no">ZA6863_metadata</span>$<span class="no">var_name_suggested</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">intersect</a></span>(<span class="no">ZA6863_items</span>, <span class="no">ZA7576_items</span>)))</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">hZA7576</span> <span class="kw">&lt;-</span> <span class="no">ZA7576</span> <span class="kw">%&gt;%</span>
+  <span class="kw pkg">stats</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span> ( <span class="kw">nm</span> <span class="kw">=</span> <span class="no">ZA7576_metadata</span>$<span class="no">var_name_suggested</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">intersect</a></span>(<span class="no">ZA6863_items</span>, <span class="no">ZA7576_items</span>)))</pre></body></html></div>
+<p>And have a look at their value labelling: [no idea why are this not identical.]</p>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">ZA6863_trust</span> <span class="kw">&lt;-</span> <span class="no">ZA6863_metadata</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">labels</span>, <span class="no">na_levels</span> ) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">labels</span>, <span class="no">na_levels</span>) ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct_all.html">distinct_all</a></span>()
 
-<span class="no">eurobarometer_corpus</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"town|rural"</span>, <span class="no">label_normalized</span> )) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="no">.</span>, <span class="fl">20</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</pre></body></html></div>
-<table class="table">
-<colgroup>
-<col width="9%">
-<col width="11%">
-<col width="23%">
-<col width="9%">
-<col width="11%">
-<col width="22%">
-<col width="11%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">var_label_orig</th>
-<th align="right">val_numeric_orig</th>
-<th align="left">val_label_orig</th>
-<th align="right">val_order_orig</th>
-<th align="right">val_order_length</th>
-<th align="left">label_normalized</th>
-<th align="left">filename</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">p6gr</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA7483_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6fi</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6927_v1-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6dk</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6697_v1-1-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6lu</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6643_v4-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6lv</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7484_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6ie</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6595_v3-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6cz</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA7482_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6pl</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6928_v1-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6se</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7562_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6lt</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA7483_v1-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6cy</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7488_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6gr</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6642_v4-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6pl</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6939_v2-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6pl</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA5929_v3-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">3</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6861_v1-2-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6be</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7488_v1-0-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6lt</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA7488_v1-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6cz</td>
-<td align="right">1</td>
-<td align="left">Rural area</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural_area</td>
-<td align="left">ZA6697_v1-1-0.sav</td>
-</tr>
-<tr class="odd">
-<td align="left">p6es</td>
-<td align="right">1</td>
-<td align="left">Rural</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="left">rural</td>
-<td align="left">ZA5877_v2-0-0.sav</td>
-</tr>
-<tr class="even">
-<td align="left">p6cz</td>
-<td align="right">2</td>
-<td align="left">Towns and suburbs/ small urban area</td>
-<td align="right">2</td>
-<td align="right">4</td>
-<td align="left">towns_and_suburbs_small_urban_area</td>
-<td align="left">ZA6963_v1-0-0.sav</td>
-</tr>
-</tbody>
-</table>
+<span class="no">ZA6863_trust</span>$<span class="no">labels</span>[<span class="fl">1</span>]
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
+<span class="co">#&gt;                          1                          2 </span>
+<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
+<span class="co">#&gt;                          3                          9</span>
+<span class="no">ZA6863_trust</span>$<span class="no">labels</span>[<span class="fl">2</span>]
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;                  Tend to trust              Tend not to trust </span>
+<span class="co">#&gt;                              1                              2 </span>
+<span class="co">#&gt;                             DK Inap. (not CY-TCC in isocntry) </span>
+<span class="co">#&gt;                              3                              9</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">ZA7576_trust</span> <span class="kw">&lt;-</span> <span class="no">ZA7576_metadata</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">labels</span>, <span class="no">na_levels</span> ) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">labels</span>, <span class="no">na_levels</span>) ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct_all.html">distinct_all</a></span>()
+
+<span class="no">ZA7576_trust</span>$<span class="no">labels</span>[<span class="fl">1</span>]
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
+<span class="co">#&gt;                          1                          2 </span>
+<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
+<span class="co">#&gt;                          3                          9</span>
+<span class="no">ZA7576_trust</span>$<span class="no">labels</span>[<span class="fl">2</span>]
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;                  Tend to trust              Tend not to trust </span>
+<span class="co">#&gt;                              1                              2 </span>
+<span class="co">#&gt;                             DK Inap. (not CY-TCC in isocntry) </span>
+<span class="co">#&gt;                              3                              9</span></pre></body></html></div>
+</div>
+<div id="harmonize-the-value-labels" class="section level2">
+<h2 class="hasAnchor">
+<a href="#harmonize-the-value-labels" class="anchor"></a>Harmonize the value labels</h2>
+<p>The <code><a href="https://rdrr.io/pkg/retroharmonize/man/harmonize_values.html">retroharmonize::harmonize_values()</a></code> is a prototype of the harmonization function. It should be adjusted to survey and question-block specific idiosyncrasies. This should be the work of various vocabulary tables, but the prototype can be made work with inputting the harmonization regex either as a list or as a data frame.</p>
+<p>Because we would like to have the same harmonization for a question block, in this case we adopt the prototype with a regex. The <code><a href="https://rdrr.io/pkg/retroharmonize/man/harmonize_values.html">retroharmonize::harmonize_values()</a></code> function will normalize the labels, so you do not have to deal with capitalization and upper case versions. If you want to understand better the harmonization procedure, please refer to the <a href="http://retroharmonize.satellitereport.com/articles/harmonize_labels.html">Harmonize Value Labels</a> vignette of the <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a> package.</p>
+<blockquote>
+<p>With a better imputing system, this could be automated to a high level, probably harmonizing all trend variables at the same time. The harmonize_eurobaromter should be something that deals with this.</p>
+</blockquote>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">harmonize_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
+   <span class="kw pkg">retroharmonize</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/retroharmonize/man/harmonize_values.html">harmonize_values</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>,
+  <span class="kw">harmonize_label</span> <span class="kw">=</span> <span class="kw">NULL</span>,
+  <span class="kw">harmonize_labels</span> <span class="kw">=</span> (
+    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span> (
+     <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend\\sto|^trust"</span>, <span class="st">"^tend\\snot|not\\strust"</span>, <span class="st">"^dk|^don"</span>, <span class="st">"^inap"</span>),
+    <span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"trust"</span>, <span class="st">"not_trust"</span>, <span class="st">"do_not_know"</span>, <span class="st">"inap"</span>),
+    <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">99997</span>, <span class="fl">99999</span>))
+    ),
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">do_not_know</span> <span class="kw">=</span> <span class="fl">99997</span>, <span class="kw">declined</span> <span class="kw">=</span> <span class="fl">99998</span>, <span class="kw">inap</span> <span class="kw">=</span> <span class="fl">99999</span>),
+  <span class="kw">na_range</span> <span class="kw">=</span> <span class="kw">NULL</span>,
+  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"survey_id"</span>,
+  <span class="kw">name_orig</span> <span class="kw">=</span> <span class="kw">NULL</span>)
+}</pre></body></html></div>
+<p>Choosing the first <code>trust</code> vector, we can see that the harmonization records all metadata for reproducibility.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">harmonize_trust</span> ( <span class="no">hZA6863</span>$<span class="no">trust_army</span>)
+<span class="co">#&gt;  [1]     1     0 99997     0 99997     0     1     1     1     1 99997     1</span>
+<span class="co">#&gt; [13]     1     0     0     0     0     1     0     1     1     1     0     1</span>
+<span class="co">#&gt; [25]     1     0     1     1     1     1     0     1     0     0     1 99999</span>
+<span class="co">#&gt; [37] 99999 99999 99999 99999     1     0     1     0     0     1 99997 99997</span>
+<span class="co">#&gt; [49]     0     1</span>
+<span class="co">#&gt; attr(,"labels")</span>
+<span class="co">#&gt;   not_trust       trust do_not_know        inap </span>
+<span class="co">#&gt;           0           1       99997       99999 </span>
+<span class="co">#&gt; attr(,"label")</span>
+<span class="co">#&gt; [1] "TRUST IN INSTITUTIONS: ARMY"</span>
+<span class="co">#&gt; attr(,"na_values")</span>
+<span class="co">#&gt; [1] 99997 99999</span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
+<span class="co">#&gt; [3] "haven_labelled"                     </span>
+<span class="co">#&gt; attr(,"id")</span>
+<span class="co">#&gt; [1] "survey_id"</span>
+<span class="co">#&gt; attr(,"survey_id_name")</span>
+<span class="co">#&gt; [1] "x"</span>
+<span class="co">#&gt; attr(,"survey_id_values")</span>
+<span class="co">#&gt;     2     1     3     9 </span>
+<span class="co">#&gt;     0     1 99997 99999 </span>
+<span class="co">#&gt; attr(,"survey_id_label")</span>
+<span class="co">#&gt; [1] "TRUST IN INSTITUTIONS: ARMY"</span>
+<span class="co">#&gt; attr(,"survey_id_labels")</span>
+<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
+<span class="co">#&gt;                          1                          2 </span>
+<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
+<span class="co">#&gt;                          3                          9 </span>
+<span class="co">#&gt; attr(,"survey_id_na_values")</span>
+<span class="co">#&gt; [1] 9</span></pre></body></html></div>
+<p>The coding appears very similar, so we use the same helper function for the same question in the other survey:</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">harmonize_trust</span> ( <span class="no">hZA7576</span>$<span class="no">trust_army</span>)
+<span class="co">#&gt;  [1]     1     1     1     1     1     1     1     0     0     1     1 99997</span>
+<span class="co">#&gt; [13]     0     1     1     1     0     0 99997     1 99997     1     0     0</span>
+<span class="co">#&gt; [25]     0     1     0     1     0     0     1     0     0     0     1     0</span>
+<span class="co">#&gt; [37]     0     1     0     1     0 99999 99999 99999 99999</span>
+<span class="co">#&gt; attr(,"labels")</span>
+<span class="co">#&gt;   not_trust       trust do_not_know        inap </span>
+<span class="co">#&gt;           0           1       99997       99999 </span>
+<span class="co">#&gt; attr(,"label")</span>
+<span class="co">#&gt; [1] "TRUST IN INSTITUTIONS: ARMY"</span>
+<span class="co">#&gt; attr(,"na_values")</span>
+<span class="co">#&gt; [1] 99997 99999</span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
+<span class="co">#&gt; [3] "haven_labelled"                     </span>
+<span class="co">#&gt; attr(,"id")</span>
+<span class="co">#&gt; [1] "survey_id"</span>
+<span class="co">#&gt; attr(,"survey_id_name")</span>
+<span class="co">#&gt; [1] "x"</span>
+<span class="co">#&gt; attr(,"survey_id_values")</span>
+<span class="co">#&gt;     2     1     3     9 </span>
+<span class="co">#&gt;     0     1 99997 99999 </span>
+<span class="co">#&gt; attr(,"survey_id_label")</span>
+<span class="co">#&gt; [1] "TRUST IN INSTITUTIONS: ARMY"</span>
+<span class="co">#&gt; attr(,"survey_id_labels")</span>
+<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
+<span class="co">#&gt;                          1                          2 </span>
+<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
+<span class="co">#&gt;                          3                          9 </span>
+<span class="co">#&gt; attr(,"survey_id_na_values")</span>
+<span class="co">#&gt; [1] 9</span></pre></body></html></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">trust_in_army</span> <span class="kw">&lt;-</span> <span class="kw pkg">retroharmonize</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/retroharmonize/man/concatenate.html">concatenate</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="fu">harmonize_trust</span> ( <span class="no">hZA6863</span>$<span class="no">trust_army</span>),
+  <span class="kw">y</span> <span class="kw">=</span> <span class="fu">harmonize_trust</span> ( <span class="no">hZA7576</span>$<span class="no">trust_army</span>)
+  )
+<span class="no">trust_in_army</span>
+<span class="co">#&gt;  [1]     1     0 99997     0 99997     0     1     1     1     1 99997     1</span>
+<span class="co">#&gt; [13]     1     0     0     0     0     1     0     1     1     1     0     1</span>
+<span class="co">#&gt; [25]     1     0     1     1     1     1     0     1     0     0     1 99999</span>
+<span class="co">#&gt; [37] 99999 99999 99999 99999     1     0     1     0     0     1 99997 99997</span>
+<span class="co">#&gt; [49]     0     1     1     1     1     1     1     1     1     0     0     1</span>
+<span class="co">#&gt; [61]     1 99997     0     1     1     1     0     0 99997     1 99997     1</span>
+<span class="co">#&gt; [73]     0     0     0     1     0     1     0     0     1     0     0     0</span>
+<span class="co">#&gt; [85]     1     0     0     1     0     1     0 99999 99999 99999 99999</span>
+<span class="co">#&gt; attr(,"id")</span>
+<span class="co">#&gt; [1] "survey_id"</span>
+<span class="co">#&gt; attr(,"labels")</span>
+<span class="co">#&gt;   not_trust       trust do_not_know        inap </span>
+<span class="co">#&gt;           0           1       99997       99999 </span>
+<span class="co">#&gt; attr(,"label")</span>
+<span class="co">#&gt; [1] "TRUST IN INSTITUTIONS: ARMY"</span>
+<span class="co">#&gt; attr(,"na_values")</span>
+<span class="co">#&gt; [1] 99997 99999</span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
+<span class="co">#&gt; [3] "haven_labelled"                     </span>
+<span class="co">#&gt; attr(,"survey_id_name")</span>
+<span class="co">#&gt; [1] "x"</span>
+<span class="co">#&gt; attr(,"survey_id_values")</span>
+<span class="co">#&gt;     2     1     3     9 </span>
+<span class="co">#&gt;     0     1 99997 99999 </span>
+<span class="co">#&gt; attr(,"survey_id_label")</span>
+<span class="co">#&gt; [1] "TRUST IN INSTITUTIONS: ARMY"</span>
+<span class="co">#&gt; attr(,"survey_id_labels")</span>
+<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
+<span class="co">#&gt;                          1                          2 </span>
+<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
+<span class="co">#&gt;                          3                          9 </span>
+<span class="co">#&gt; attr(,"survey_id_na_values")</span>
+<span class="co">#&gt; [1] 9</span></pre></body></html></div>
+<p>The attributes are complex, because they leave open reverting to historical coding, and for a choice of categorical or numeric representation in R.</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span> ( <span class="fu">as_factor</span>(<span class="no">trust_in_army</span>))
+<span class="co">#&gt;   not_trust       trust do_not_know        inap </span>
+<span class="co">#&gt;          35          43           8           9</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span> ( <span class="fu">as_numeric</span>(<span class="no">trust_in_army</span>))
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's </span>
+<span class="co">#&gt;  0.0000  0.0000  1.0000  0.5513  1.0000  1.0000      17</span></pre></body></html></div>
+<p>Let’s repeat the same harmonization for all <code>trust</code> variables.</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">hZA7576</span> <span class="kw">&lt;-</span> <span class="no">hZA7576</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"trust"</span>)), <span class="no">harmonize_trust</span> )
+<span class="no">hZA6863</span> <span class="kw">&lt;-</span> <span class="no">hZA6863</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"trust"</span>)), <span class="no">harmonize_trust</span> )
+
+<span class="no">hZA6863</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"trust_army"</span>, <span class="st">"trust_european_union"</span>)))
+<span class="co">#&gt; # A tibble: 50 x 2</span>
+<span class="co">#&gt;                  trust_army     trust_european_union</span>
+<span class="co">#&gt;                &lt;retroh_dbl&gt;             &lt;retroh_dbl&gt;</span>
+<span class="co">#&gt;  1     1 [trust]                1 [trust]           </span>
+<span class="co">#&gt;  2     0 [not_trust]            1 [trust]           </span>
+<span class="co">#&gt;  3 99997 (NA) [do_not_know] 99997 (NA) [do_not_know]</span>
+<span class="co">#&gt;  4     0 [not_trust]            1 [trust]           </span>
+<span class="co">#&gt;  5 99997 (NA) [do_not_know]     1 [trust]           </span>
+<span class="co">#&gt;  6     0 [not_trust]            0 [not_trust]       </span>
+<span class="co">#&gt;  7     1 [trust]            99997 (NA) [do_not_know]</span>
+<span class="co">#&gt;  8     1 [trust]                1 [trust]           </span>
+<span class="co">#&gt;  9     1 [trust]                0 [not_trust]       </span>
+<span class="co">#&gt; 10     1 [trust]                1 [trust]           </span>
+<span class="co">#&gt; # ... with 40 more rows</span></pre></body></html></div>
+<p>Given that the other selected variables have identical (harmonized) names and they are of base type <code>numeric</code> or <code>character</code>, after harmonizing the <code>trust</code> labels and <code>na_values</code>, we can bind the two panels with <code>vectrs::vec_rbind()</code>. Unfortunately, the generic <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> method cannot be implemented to work with this type.</p>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">panel</span> <span class="kw">&lt;-</span> <span class="kw pkg">vctrs</span><span class="kw ns">::</span><span class="fu"><a href="https://vctrs.r-lib.org/reference/vec_bind.html">vec_rbind</a></span> (
+  <span class="no">hZA6863</span>, <span class="no">hZA6863</span>
+)</pre></body></html></div>
+<p>The panel is created, and it is open for exporting to other statistical software, or further analysis in R. While some basic arithmetic methods are implemented for the <code>labelled_spss_survey</code> class of the <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a> package, for using all R statistical packages, the analyst has to chose a base R type that is compatible with them. Since the <code>trust</code> variables are categorical variables, they can be re-casted with the <code>as_factor()</code> or <code>as_numeric()</code> methods. Again, the base R <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code> or <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> will give a legible, but not correct representation.</p>
+<p>The factor representation presents the user-defined missing values as categories:</p>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">panel</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"trust"</span>)), <span class="no">as_factor</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>()
+<span class="co">#&gt;      doi            gesis_archive_version_and_date     uniqid        </span>
+<span class="co">#&gt;  Length:100         Length:100                     Min.   :1.10e+08  </span>
+<span class="co">#&gt;  Class :character   Class :character               1st Qu.:3.20e+08  </span>
+<span class="co">#&gt;  Mode  :character   Mode  :character               Median :6.30e+08  </span>
+<span class="co">#&gt;                                                    Mean   :6.12e+08  </span>
+<span class="co">#&gt;                                                    3rd Qu.:1.00e+09  </span>
+<span class="co">#&gt;                                                    Max.   :1.00e+09  </span>
+<span class="co">#&gt;  country_code_iso_3166       trust_army  trust_european_union</span>
+<span class="co">#&gt;  Length:100            not_trust  :34   not_trust  :38       </span>
+<span class="co">#&gt;  Class :character      trust      :46   trust      :40       </span>
+<span class="co">#&gt;  Mode  :character      do_not_know:10   do_not_know:12       </span>
+<span class="co">#&gt;                        inap       :10   inap       :10       </span>
+<span class="co">#&gt;                                                              </span>
+<span class="co">#&gt;                                                              </span>
+<span class="co">#&gt;  trust_european_union_tcc  trust_justice_system trust_national_government</span>
+<span class="co">#&gt;  not_trust: 4             not_trust  :42        not_trust  :44           </span>
+<span class="co">#&gt;  trust    : 6             trust      :46        trust      :34           </span>
+<span class="co">#&gt;  inap     :90             do_not_know: 2        do_not_know:12           </span>
+<span class="co">#&gt;                           inap       :10        inap       :10           </span>
+<span class="co">#&gt;                                                                          </span>
+<span class="co">#&gt;                                                                          </span>
+<span class="co">#&gt;  trust_national_parliament      trust_police trust_political_parties</span>
+<span class="co">#&gt;  not_trust  :40            not_trust  :30    not_trust  :56         </span>
+<span class="co">#&gt;  trust      :36            trust      :56    trust      :24         </span>
+<span class="co">#&gt;  do_not_know:14            do_not_know: 4    do_not_know:10         </span>
+<span class="co">#&gt;  inap       :10            inap       :10    inap       :10         </span>
+<span class="co">#&gt;                                                                     </span>
+<span class="co">#&gt;                                                                     </span>
+<span class="co">#&gt;  trust_political_parties_tcc trust_public_administration</span>
+<span class="co">#&gt;  not_trust:10                not_trust  :38             </span>
+<span class="co">#&gt;  inap     :90                trust      :44             </span>
+<span class="co">#&gt;                              do_not_know: 8             </span>
+<span class="co">#&gt;                              inap       :10             </span>
+<span class="co">#&gt;                                                         </span>
+<span class="co">#&gt;                                                         </span>
+<span class="co">#&gt;  trust_regional_local_authorities  trust_united_nations</span>
+<span class="co">#&gt;  not_trust  :38                   not_trust  :38       </span>
+<span class="co">#&gt;  trust      :40                   trust      :38       </span>
+<span class="co">#&gt;  do_not_know:12                   do_not_know:14       </span>
+<span class="co">#&gt;  inap       :10                   inap       :10       </span>
+<span class="co">#&gt;                                                        </span>
+<span class="co">#&gt;                                                        </span>
+<span class="co">#&gt;  trust_united_nations_tcc weight_result_from_target_redressment</span>
+<span class="co">#&gt;  not_trust: 4             Min.   :0.4376                       </span>
+<span class="co">#&gt;  trust    : 6             1st Qu.:0.7858                       </span>
+<span class="co">#&gt;  inap     :90             Median :1.0876                       </span>
+<span class="co">#&gt;                           Mean   :1.1537                       </span>
+<span class="co">#&gt;                           3rd Qu.:1.4168                       </span>
+<span class="co">#&gt;                           Max.   :2.5878                       </span>
+<span class="co">#&gt;  weight_germany   weight_extrapolated_population_aged_gt_15</span>
+<span class="co">#&gt;  Min.   :0.0000   Min.   :  203.8                          </span>
+<span class="co">#&gt;  1st Qu.:0.0000   1st Qu.: 1506.2                          </span>
+<span class="co">#&gt;  Median :0.0000   Median : 5816.5                          </span>
+<span class="co">#&gt;  Mean   :0.3344   Mean   :18774.5                          </span>
+<span class="co">#&gt;  3rd Qu.:0.5392   3rd Qu.:24301.3                          </span>
+<span class="co">#&gt;  Max.   :2.1909   Max.   :95773.7</span></pre></body></html></div>
+<p>And let’s compare this with the numeric representation, where the user-defined missing values are treated as missing:</p>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">panel</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span> (<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"trust"</span>)), <span class="no">as_numeric</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>()
+<span class="co">#&gt;      doi            gesis_archive_version_and_date     uniqid        </span>
+<span class="co">#&gt;  Length:100         Length:100                     Min.   :1.10e+08  </span>
+<span class="co">#&gt;  Class :character   Class :character               1st Qu.:3.20e+08  </span>
+<span class="co">#&gt;  Mode  :character   Mode  :character               Median :6.30e+08  </span>
+<span class="co">#&gt;                                                    Mean   :6.12e+08  </span>
+<span class="co">#&gt;                                                    3rd Qu.:1.00e+09  </span>
+<span class="co">#&gt;                                                    Max.   :1.00e+09  </span>
+<span class="co">#&gt;                                                                      </span>
+<span class="co">#&gt;  country_code_iso_3166   trust_army    trust_european_union</span>
+<span class="co">#&gt;  Length:100            Min.   :0.000   Min.   :0.0000      </span>
+<span class="co">#&gt;  Class :character      1st Qu.:0.000   1st Qu.:0.0000      </span>
+<span class="co">#&gt;  Mode  :character      Median :1.000   Median :1.0000      </span>
+<span class="co">#&gt;                        Mean   :0.575   Mean   :0.5128      </span>
+<span class="co">#&gt;                        3rd Qu.:1.000   3rd Qu.:1.0000      </span>
+<span class="co">#&gt;                        Max.   :1.000   Max.   :1.0000      </span>
+<span class="co">#&gt;                        NA's   :20      NA's   :22          </span>
+<span class="co">#&gt;  trust_european_union_tcc trust_justice_system trust_national_government</span>
+<span class="co">#&gt;  Min.   :0.0              Min.   :0.0000       Min.   :0.0000           </span>
+<span class="co">#&gt;  1st Qu.:0.0              1st Qu.:0.0000       1st Qu.:0.0000           </span>
+<span class="co">#&gt;  Median :1.0              Median :1.0000       Median :0.0000           </span>
+<span class="co">#&gt;  Mean   :0.6              Mean   :0.5227       Mean   :0.4359           </span>
+<span class="co">#&gt;  3rd Qu.:1.0              3rd Qu.:1.0000       3rd Qu.:1.0000           </span>
+<span class="co">#&gt;  Max.   :1.0              Max.   :1.0000       Max.   :1.0000           </span>
+<span class="co">#&gt;  NA's   :90               NA's   :12           NA's   :22               </span>
+<span class="co">#&gt;  trust_national_parliament  trust_police    trust_political_parties</span>
+<span class="co">#&gt;  Min.   :0.0000            Min.   :0.0000   Min.   :0.0            </span>
+<span class="co">#&gt;  1st Qu.:0.0000            1st Qu.:0.0000   1st Qu.:0.0            </span>
+<span class="co">#&gt;  Median :0.0000            Median :1.0000   Median :0.0            </span>
+<span class="co">#&gt;  Mean   :0.4737            Mean   :0.6512   Mean   :0.3            </span>
+<span class="co">#&gt;  3rd Qu.:1.0000            3rd Qu.:1.0000   3rd Qu.:1.0            </span>
+<span class="co">#&gt;  Max.   :1.0000            Max.   :1.0000   Max.   :1.0            </span>
+<span class="co">#&gt;  NA's   :24                NA's   :14       NA's   :20             </span>
+<span class="co">#&gt;  trust_political_parties_tcc trust_public_administration</span>
+<span class="co">#&gt;  Min.   :0                   Min.   :0.0000             </span>
+<span class="co">#&gt;  1st Qu.:0                   1st Qu.:0.0000             </span>
+<span class="co">#&gt;  Median :0                   Median :1.0000             </span>
+<span class="co">#&gt;  Mean   :0                   Mean   :0.5366             </span>
+<span class="co">#&gt;  3rd Qu.:0                   3rd Qu.:1.0000             </span>
+<span class="co">#&gt;  Max.   :0                   Max.   :1.0000             </span>
+<span class="co">#&gt;  NA's   :90                  NA's   :18                 </span>
+<span class="co">#&gt;  trust_regional_local_authorities trust_united_nations trust_united_nations_tcc</span>
+<span class="co">#&gt;  Min.   :0.0000                   Min.   :0.0          Min.   :0.0             </span>
+<span class="co">#&gt;  1st Qu.:0.0000                   1st Qu.:0.0          1st Qu.:0.0             </span>
+<span class="co">#&gt;  Median :1.0000                   Median :0.5          Median :1.0             </span>
+<span class="co">#&gt;  Mean   :0.5128                   Mean   :0.5          Mean   :0.6             </span>
+<span class="co">#&gt;  3rd Qu.:1.0000                   3rd Qu.:1.0          3rd Qu.:1.0             </span>
+<span class="co">#&gt;  Max.   :1.0000                   Max.   :1.0          Max.   :1.0             </span>
+<span class="co">#&gt;  NA's   :22                       NA's   :24           NA's   :90              </span>
+<span class="co">#&gt;  weight_result_from_target_redressment weight_germany  </span>
+<span class="co">#&gt;  Min.   :0.4376                        Min.   :0.0000  </span>
+<span class="co">#&gt;  1st Qu.:0.7858                        1st Qu.:0.0000  </span>
+<span class="co">#&gt;  Median :1.0876                        Median :0.0000  </span>
+<span class="co">#&gt;  Mean   :1.1537                        Mean   :0.3344  </span>
+<span class="co">#&gt;  3rd Qu.:1.4168                        3rd Qu.:0.5392  </span>
+<span class="co">#&gt;  Max.   :2.5878                        Max.   :2.1909  </span>
+<span class="co">#&gt;                                                        </span>
+<span class="co">#&gt;  weight_extrapolated_population_aged_gt_15</span>
+<span class="co">#&gt;  Min.   :  203.8                          </span>
+<span class="co">#&gt;  1st Qu.: 1506.2                          </span>
+<span class="co">#&gt;  Median : 5816.5                          </span>
+<span class="co">#&gt;  Mean   :18774.5                          </span>
+<span class="co">#&gt;  3rd Qu.:24301.3                          </span>
+<span class="co">#&gt;  Max.   :95773.7                          </span>
+<span class="co">#&gt; </span></pre></body></html></div>
 </div>
   </div>
 
