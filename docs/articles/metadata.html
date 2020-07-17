@@ -54,19 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/create_tables.html">Creating Variable and Values Tables</a>
-    </li>
-    <li>
       <a href="../articles/harmonization.html">Survey Data Harmonization</a>
     </li>
     <li>
       <a href="../articles/metadata.html">Working With Metadata</a>
-    </li>
-    <li>
-      <a href="../articles/variable_names.html">Harmonizing Variable Names</a>
-    </li>
-    <li>
-      <a href="../articles/vocabulary.html">Working With Vocabularies</a>
     </li>
   </ul>
 </li>
@@ -97,7 +88,7 @@
       <h1 data-toc-skip>Working With Metadata</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/tests/testthat/vignettes/metadata.Rmd"><code>tests/testthat/vignettes/metadata.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/eurobarometer/blob/master/vignettes/metadata.Rmd"><code>vignettes/metadata.Rmd</code></a></small>
       <div class="hidden name"><code>metadata.Rmd</code></div>
 
     </div>
@@ -106,52 +97,107 @@
     
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stringr</span>)</pre></body></html></div>
-<p>The <code>eb_sample</code> is a small fraction of the GESIS datafile <code>ZA5479_v6-0-0.sav</code>. It cannot be used to retrieve any statistical data from the original dataset. In scope it is limited to some important metadata columns, a few demographic variables and one question block. In geographic coverage, it takes a sample from the responses from the United Kingdom and Germany. These two countries are targeting parts of the countries separately, i.e. for Great Britain and Northern Ireland, and the former West Germany and East Germany.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span> ( <span class="st">"eb_sample"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
-<span class="no">eb_sample</span>$<span class="no">filename</span> <span class="kw">&lt;-</span> <span class="st">'eb_sample'</span>
-<span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">eb_sample</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"ZA7562_sample"</span>)</pre></body></html></div>
+<p>The <code>ZA7562_sample</code> is a small fraction of the GESIS datafile <code>ZA5479_v6-0-0.sav</code>. It cannot be used to retrieve any statistical data from the original dataset. In scope it is limited to some important metadata columns, a few demographic variables and one question block. In geographic coverage, it takes a sample from the responses from the United Kingdom and Germany. These two countries are targeting parts of the countries separately, i.e. for Great Britain and Northern Ireland, and the former West Germany and East Germany.</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">ZA7562_sample</span>$<span class="no">filename</span> <span class="kw">&lt;-</span> <span class="st">'eb_sample'</span>
+<span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">ZA7562_sample</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">sample_metadata</span>)
-<span class="co">#&gt;  [1] "filename"             "qb"                   "var_name_orig"       </span>
-<span class="co">#&gt;  [4] "var_label_orig"       "var_label_norm"       "var_name_suggested"  </span>
-<span class="co">#&gt;  [7] "length_cat_range"     "length_na_range"      "length_total_range"  </span>
-<span class="co">#&gt; [10] "n_categories"         "factor_levels"        "valid_range"         </span>
-<span class="co">#&gt; [13] "na_levels"            "class_orig"           "conversion_suggested"</span></pre></body></html></div>
-<p>The function <code>gesis_metadta_create</code> normalizes those variable names that are not machine readable, using two functions under the hood (see: <code><a href="../reference/label_normalize.html">?label_normalize</a></code> and <code><a href="../reference/label_suggest.html">?label_suggest</a></code>.)</p>
-<p>These names are still often problematic and require adjustment.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">adjusted_metadata</span> <span class="kw">&lt;-</span> <span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">var_name_suggested</span> <span class="kw">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span> (
-    <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_label_norm</span>, <span class="fl">1</span>,<span class="fl">3</span>) <span class="kw">==</span> <span class="st">"p6_|p7_"</span> ~
-      <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_label_norm</span>, <span class="fl">4</span>,-<span class="fl">1</span>),
-    <span class="no">var_label_norm</span> <span class="kw">==</span> <span class="st">"w1_weight_result_from_target"</span> ~ <span class="st">'w1'</span>,
-    <span class="fl">TRUE</span> ~ <span class="no">var_label_norm</span> )
-    )</pre></body></html></div>
-<p>You can, if you know what you are doing, change the suggested base R representation of your survey data in the column:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">renamed_sample</span> <span class="kw">&lt;-</span> <span class="no">sample</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">adjusted_metadata</span>$<span class="no">var_name_suggested</span>)
-
-<span class="no">converted</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/convert_class.html">convert_class</a></span> (<span class="kw">dat</span> <span class="kw">=</span> <span class="no">renamed_sample</span>,
-               <span class="kw">metadata</span> <span class="kw">=</span> <span class="no">adjusted_metadata</span>,
-               <span class="kw">var_name</span> <span class="kw">=</span> <span class="st">"var_name_suggested"</span>,
-               <span class="kw">conversion</span> <span class="kw">=</span> <span class="st">"class_suggested"</span>)
-
-<span class="no">converted</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(
-    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"w1"</span>,<span class="st">"age_exact"</span>,
-             <span class="st">"energy_saving_action_used_car_less"</span>))
-    ) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="no">.</span>, <span class="fl">10</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">kable</span>()</pre></body></html></div>
-<p><code>GESIS</code> and/or <code>TNS</code> did not use some variable names consistently over the years and decades. Canonizing these variables names is a subjective matter. A subjective canonization is coded in <code><a href="../reference/label_suggest.html">?label_suggest</a></code>, which uses both the variable names and their labels from the SPSS file.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">sample_metadata</span>$<span class="no">var_name_suggested</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/label_suggest.html">label_suggest</a></span>(
-  <span class="kw">var_name_orig</span> <span class="kw">=</span> <span class="no">sample_metadata</span>$<span class="no">var_name_orig</span>,
-  <span class="kw">var_label_orig</span> <span class="kw">=</span> <span class="no">sample_metadata</span>$<span class="no">var_label_orig</span>                       )
-
-<span class="no">sample</span> <span class="kw">%&gt;%</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span> ( <span class="no">sample_metadata</span>$<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"age"</span>)) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html">sample_n</a></span>(<span class="fl">10</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">kable</span>()</pre></body></html></div>
+<span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
+<span class="co">#&gt;  [4] "var_label_orig"     "var_label_norm"     "var_name_suggested"</span>
+<span class="co">#&gt;  [7] "length_cat_range"   "length_na_range"    "length_total_range"</span>
+<span class="co">#&gt; [10] "n_categories"       "labels"             "na_levels"         </span>
+<span class="co">#&gt; [13] "na_range"           "class_orig"</span></pre></body></html></div>
+<p>The function <code>gesis_metadta_create()</code> normalizes those variable names that are not machine readable, using two functions under the hood (see: <code><a href="../reference/label_normalize.html">label_normalize()</a></code> and <code><a href="../reference/label_suggest.html">label_suggest()</a></code>.)</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_name_orig"</span>, <span class="st">"var_name_suggested"</span>)))
+<span class="co">#&gt;           var_name_orig                                    var_name_suggested</span>
+<span class="co">#&gt; survey.1            doi                                                   doi</span>
+<span class="co">#&gt; survey.2        version                        gesis_archive_version_and_date</span>
+<span class="co">#&gt; survey.3         uniqid                                                uniqid</span>
+<span class="co">#&gt; survey.4       isocntry                                 country_code_iso_3166</span>
+<span class="co">#&gt; survey.5             p1                                     date_of_interview</span>
+<span class="co">#&gt; survey.6             p2                                     time_of_interview</span>
+<span class="co">#&gt; survey.7             p3                                 duration_of_interview</span>
+<span class="co">#&gt; survey.8             p4                 n_of_persons_present_during_interview</span>
+<span class="co">#&gt; survey.9             p5                                respondent_cooperation</span>
+<span class="co">#&gt; survey.10            d7                                        marital_status</span>
+<span class="co">#&gt; survey.11            d8                                         age_education</span>
+<span class="co">#&gt; survey.12           d25                                     type_of_community</span>
+<span class="co">#&gt; survey.13           d60                                paying_bills_last_year</span>
+<span class="co">#&gt; survey.14         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.15         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.16         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.17         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.18         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.19         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.20         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.21         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.22         qa3_6                                  trust_european_union</span>
+<span class="co">#&gt; survey.23         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.24         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.25         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.26         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.27         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.28         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.29         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.30         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.31         qa3_1                                           trust_media</span>
+<span class="co">#&gt; survey.32         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.33         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.34         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.35         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.36         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.37         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.38         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.39         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.40         qa3_4                             trust_national_government</span>
+<span class="co">#&gt; survey.41         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.42         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.43         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.44         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.45         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.46         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.47         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.48         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.49         qa3_5                             trust_national_parliament</span>
+<span class="co">#&gt; survey.50         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.51         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.52         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.53         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.54         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.55         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.56         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.57         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.58         qa3_2                               trust_political_parties</span>
+<span class="co">#&gt; survey.59         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.60         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.61         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.62         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.63         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.64         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.65         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.66         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.67         qa3_3                      trust_regional_local_authorities</span>
+<span class="co">#&gt; survey.68         d71_1                 political_discussion_national_matters</span>
+<span class="co">#&gt; survey.69         d71_2                 political_discussion_european_matters</span>
+<span class="co">#&gt; survey.70         d71_3                    political_discussion_local_matters</span>
+<span class="co">#&gt; survey.71         qc9.1                    vaccine_information_sources_family</span>
+<span class="co">#&gt; survey.72         qc9.2                   vaccine_information_sources_friends</span>
+<span class="co">#&gt; survey.73         qc9.3                vaccine_information_sources_doctor_etc</span>
+<span class="co">#&gt; survey.74         qc9.4 vaccine_information_sources_other_health_care_workers</span>
+<span class="co">#&gt; survey.75         qc9.5               vaccine_information_sources_pharmacists</span>
+<span class="co">#&gt; survey.76         qc9.6    vaccine_information_sources_online_social_networks</span>
+<span class="co">#&gt; survey.77         qc9.7      vaccine_information_sources_other_internet_sites</span>
+<span class="co">#&gt; survey.78         qc9.8        vaccine_information_sources_health_authorities</span>
+<span class="co">#&gt; survey.79         qc9.9               vaccine_information_sources_other_spont</span>
+<span class="co">#&gt; survey.80        qc9.10                vaccine_information_sources_none_spont</span>
+<span class="co">#&gt; survey.81        qc9.11                        vaccine_information_sources_dk</span>
+<span class="co">#&gt; survey.82          qc10               most_trusted_vaccine_information_source</span>
+<span class="co">#&gt; survey.83           d77                 political_discussion_convince_friends</span>
+<span class="co">#&gt; survey.84            w1                 weight_result_from_target_redressment</span>
+<span class="co">#&gt; survey.85            w3                                        weight_germany</span>
+<span class="co">#&gt; survey.86           wex             weight_extrapolated_population_aged_gt_15</span>
+<span class="co">#&gt; survey.87      filename                                             not_given</span></pre></body></html></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
