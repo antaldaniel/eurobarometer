@@ -41,7 +41,7 @@ read_rds <- function(file, id = NULL, doi = NULL) {
     doi <- tmp$doi[1]
     }
 
-  amend_survey(tmp)
+  amend_survey(tmp,filename = filename ,doi=doi)
 
 }
 
@@ -85,14 +85,14 @@ read_spss <- function(file,
     doi = doi )
 
 
-  amend_survey(tmp, filename = filename)
+  amend_survey(tmp, filename = filename, doi = doi)
 
 
 }
 
 #' @importFrom retroharmonize read_spss survey
 #' @keywords internal
-amend_survey <- function (survey, filename) {
+amend_survey <- function (survey, filename, doi = doi) {
   tmp <- retroharmonize::survey(
     df = survey, id = id, filename = filename, doi = doi
   )
