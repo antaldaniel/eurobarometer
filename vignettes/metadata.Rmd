@@ -39,6 +39,7 @@ For identifying variables and variable labels, the helper function `gesis_metada
 sample_metadata <- gesis_metadata_create(ZA7562_sample)
 names(sample_metadata)
 ```
+
 The function `gesis_metadta_create()` normalizes those variable names that are not machine readable, using two functions under the hood (see: `label_normalize()` and `label_suggest()`.) 
 
 ```{r}
