@@ -55,11 +55,13 @@ gesis_metadata_create <- function ( survey_list ) {
     mtd <- retroharmonize::metadata_create(dat) %>%
       mutate (
         filename = dat$filename[1],
-        var_label_norm = eurobarometer::var_label_normalize(label_orig),
+        var_label_norm = var_label_normalize(label_orig)
+        ) %>%
+      mutate (
         # do we need this?
         var_name_suggested = label_suggest( var_label_norm,
-                                            names(dat))
-               )
+                                            var_name_orig )
+      )
 
     ## Creating the basic metadata ----
     metadata  <- mtd %>%
@@ -82,9 +84,7 @@ gesis_metadata_create <- function ( survey_list ) {
 
     metadata <- question_block_identify(metadata)
 
-    names (metadata)
-
-   metadata %>%
+    metadata %>%
       select ( all_of(c("filename", "qb", "var_name_orig",
                         "var_label_orig",
                         "var_label_norm", "var_name_suggested",
@@ -93,14 +93,11 @@ gesis_metadata_create <- function ( survey_list ) {
                         "n_categories",
                         "labels","na_levels", "na_range",
                         "class_orig")
-                      )
-               )
+              )
+      )
 
-    ## class_suggest is not neeeded any more  in utils.R
-
+    ## class_suggest is not needed any more  in utils.R
   }
-
-  tmp <- metadata_create( dat = survey_list[[1]])
 
   metadata_list <- lapply ( survey_list, metadata_create )
   do.call(rbind,metadata_list)

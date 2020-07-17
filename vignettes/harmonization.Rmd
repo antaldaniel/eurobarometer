@@ -18,43 +18,98 @@ knitr::opts_chunk$set(
 library(eurobarometer)
 library(dplyr)
 library(knitr)
+library(stringr)
 ```
 
-## Class conversion
+```{r}
+ZA6863 <- read_rds(
+  system.file("examples", "ZA6863.rds", package = "eurobarometer")
+)
+ZA7576 <- read_rds(
+  system.file("examples", "ZA7576.rds", package = "eurobarometer")
+)
 
-We are using the SPSS file version of the GESIS archive and recommend reading in these files with the haven package.  Haven uses a special R class, `labelled`, to preserve the metadata information of the SPSS file.  While `labelled` provides a consistent and full representation of the SPSS file, it is not very useful for our purposes, because it mixes data with metadata in a way that is particular to the SPSS software.
+```
 
-The data part is not particularly useful for statistical analysis and visualization in the labelled class. We are looking for a practical representation of each typical questionnaire form: for example, multiple response questions are represented by indicator / dummy variables, and single choice questions can be usually represented with factors.
+```{r}
+ZA6863_metadata <- gesis_metadata_create(ZA6863)
+ZA7576_metadata <- gesis_metadata_create(ZA7576)
+```
 
-The metadata elements must be detached, harmonized and re-joined with the data.  For example, multiple choice questions are almost always, but not always are coding per questionnaire item with two categories: `Mentioned` and `Not Mentioned`, with rare exceptions.  We are re-coding them into numerical 1,0 values. Or, repeating single choice questions are sometimes differently ordered, or, apparently due to translation issues, are expressed with a different spelling or with a very similar synonym. If they are converted to factors, it is essential that the factor levels are matching in otherwise identical questionnaire items in different questionnaires.
-  
-### Harmonization of variable types
-In some cases, similar variables are represented with different type of data. For example, numerical information is sometimes described with words, such as One person, two persons, three persons. These must be brought to a consistent coding and variable type (class in R), i.e. they must be consistently either numeric or character variables.
+```{r}
+ZA6863_items <- ZA6863_metadata %>%
+  filter (
+    class_orig %in% c("character", "numeric") | 
+    str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
+  select (var_name_suggested) %>%
+  filter ( var_name_suggested != 'not_given' ) %>%
+  unlist() %>% as.character() 
+```
 
-## Variable names
-Variable names are essential both for joining data from various surveys, and for programming.  When we read in the SPSS file to a labelled class, we have a variable names and variable labels present from SPSS.  Our primary goal is to harmonize the variable names, but we need to create a consistent mapping for variable names for potential cross-checking with actual questionnaires.
+```{r}
+ZA7576_items <- ZA7576_metadata %>%
+  filter (
+    class_orig %in% c("character", "numeric") | 
+    str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
+  select (var_name_suggested) %>%
+  filter ( var_name_suggested != 'not_given' ) %>%
+  unlist() %>% as.character()
+```
 
-### Harmonization of variable names
-The harmonization of variables means that the same variable name is used for the same questionnaire item.  In the original GESIS files, there is a little consistency present, but not sufficient to use the original variable names.  Some demography variables are consistently identified with their usual questionnaire item ID, for example, xxxx with xxxx.  However, there seem to be exception.  For non-trending, but potentially repeating policy questions, there are no harmonized variable names.
+```{r}
+hZA6863 <- ZA6863 %>%
+  stats::setNames ( nm = ZA6863_metadata$var_name_suggested ) %>%
+  select ( all_of(intersect(ZA6863_items, ZA7576_items)))
+```
 
-Another problem with the original variable names is that they are not always programmatically usable, because they use various reserved characters, such as percentage signs, semicolons, etc.  We are changing them to ASCII-only, snake_form variable names that are harmonized.
-Harmonization of variable name labels.
+```{r}
+hZA7576 <- ZA7576 %>%
+  stats::setNames ( nm = ZA6863_metadata$var_name_suggested ) %>%
+  select ( all_of(intersect(ZA6863_items, ZA7576_items)))
+```
 
-The harmonization of variable name labels would mean that for each variable name, such as `type_of_community`, we would use the same generic question abbreviation xxxxxx.   The harmonization of variable labels is not a priority, but the documentation of variant is an important task to create comprehensive data maps or metadata. While the generic questionnaire is always bilingual, i.e. English and French, it seems that sometimes it is a bit more English or bit more French, which leads to minor inconsistencies that are likely not systematically reflected in the actually used translations (and the final English language versions used in the United Kingdom and Ireland, and the final French versions used in France and Belgium.)
+```{r}
+ZA6863_trust <- ZA6863_metadata %>%
+  filter ( str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
+  select ( labels, na_levels ) %>%
+  tidyr::unnest( cols = c(labels, na_levels) ) %>%
+  distinct_all()
 
-See more on variable name harmonization in `vignette("metadata")` .
+trust$labels[1]
+trust$labels[2]
+```
 
-## Harmonization of data 
-Once we made sure that the `type_of_community` demography variable is called `type_of_community` in all data tables, and they are all converted to a character class, we can technically join tables with a time identifier to compare the contents of this variable.  Conversion to character leads to a loss of information, because the answer options to this question are intended to be ordinal: they represent three levels of urbanizations irrespective of national administrative definitions.
+```{r}
+ZA7576_trust <- ZA7576_metadata %>%
+  filter ( str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
+  select ( labels, na_levels ) %>%
+  tidyr::unnest( cols = c(labels, na_levels) ) %>%
+  distinct_all()
 
-Data harmonization means that the three levels are identically coded in the join.
+ZA7576_trust$labels[1]
+ZA7576_trust$labels[2]
+```
 
-```{r, results='asis'}
-data("eurobarometer_corpus", package = "eurobarometer")
 
-eurobarometer_corpus %>%
-  filter ( grepl("town|rural", label_normalized )) %>%
-  sample_n(., 20) %>%
-  kable()
+```{r}
+harmonize_trust <- function(x) {
+   retroharmonize::harmonize_values(
+  x = x,
+  harmonize_label = NULL,
+  harmonize_labels = (
+    list (
+     from = c("^Tend\\sto", "^Tend\\snot", "DK", "^Inap"),
+    to  =  c("trust", "distrust", "do not know", "inap"), 
+    numeric_values = c(1,0,99997, 99999 
+    ))
+    ),
+  na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
+  na_range = NULL,
+  id = "survey_id",
+  name_orig = NULL
+)
+}
+
+labelled::val_labels(hZA7576$trust_army)
 ```
 
