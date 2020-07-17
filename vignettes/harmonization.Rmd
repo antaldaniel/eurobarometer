@@ -166,7 +166,7 @@ hZA6863 %>%
   select ( all_of(c("trust_army", "trust_european_union")))
 ```
 
-Given that the other selected variables have identical (harmonized) names and they are of base type `numeric` or `character`, after harmonizing the `trust` labels and `na_values`, we can bind the two panels with `vectrs::vec_rbind()`. Unfortunately, the generic `c()` method cannot be implemented to work with this type.
+Given that the other selected variables have identical (harmonized) names and they are of base type `numeric` or `character`, after harmonizing the `trust` labels and `na_values`, we can bind the two panels with `vectrs::vec_rbind()` or `dplyr::bind_rows()`. Unfortunately, the generic `c()` method cannot be implemented to work with this type.
 
 ```{r}
 panel <- vctrs::vec_rbind (
@@ -190,4 +190,18 @@ And let's compare this with the numeric representation, where the user-defined m
 panel %>%
   mutate_at (vars (starts_with("trust")), as_numeric ) %>%
   summary()
+```
+## Documentation
+
+```{r}
+trust_in_army_doc <- retroharmonize::document_survey_item(
+  trust_in_army)
+```
+
+```{r}
+trust_in_army_doc$code_table %>% kable ()
+```
+
+```{r}
+trust_in_army_doc$history_var_label
 ```
