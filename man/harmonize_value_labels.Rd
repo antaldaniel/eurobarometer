@@ -38,7 +38,6 @@ harmonize_value_labels(
 }
 \seealso{
 Other harmonization functions: 
-\code{\link{eurobarometer_special_values}()},
-\code{\link{id_create}()}
+\code{\link{eurobarometer_special_values}()}
 }
 \concept{harmonization functions}

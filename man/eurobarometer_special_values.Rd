@@ -19,7 +19,6 @@ eurobarometer_special_values()
 }
 \seealso{
 Other harmonization functions: 
-\code{\link{harmonize_value_labels}()},
-\code{\link{id_create}()}
+\code{\link{harmonize_value_labels}()}
 }
 \concept{harmonization functions}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Harmonize Value Labels — harmonize_value_labels • eurobarometer</title>
+<title>Create Normalized Value Labels — val_label_normalize • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Harmonize Value Labels — harmonize_value_labels" />
-<meta property="og:description" content="Harmonize the numeric values and the value labels of variables.
-Currently works only with binary values." />
+<meta property="og:title" content="Create Normalized Value Labels — val_label_normalize" />
+<meta property="og:description" content="Remove relative reference to question blocks, special characters
+used in regular expressions, whitespace." />
 
 
 
@@ -127,59 +127,52 @@ Currently works only with binary values." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Harmonize Value Labels</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/harmonize_value_labels.R'><code>R/harmonize_value_labels.R</code></a></small>
-    <div class="hidden name"><code>harmonize_value_labels.Rd</code></div>
+    <h1>Create Normalized Value Labels</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/val_label_normalize.R'><code>R/val_label_normalize.R</code></a></small>
+    <div class="hidden name"><code>val_label_normalize.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Harmonize the numeric values and the value labels of variables.
-Currently works only with binary values.</p>
+    <p>Remove relative reference to question blocks, special characters
+used in regular expressions, whitespace.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>harmonize_value_labels</span>(<span class='no'>labelled_var</span>, <span class='kw'>categories</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
+    <pre class="usage"><span class='fu'>val_label_normalize</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>labelled_var</th>
-      <td><p>A vector (survey variable) coded in with
-labelled class.</p></td>
-    </tr>
-    <tr>
-      <th>categories</th>
-      <td><p>The number of valid categories in the value range.</p></td>
+      <th>x</th>
+      <td><p>A vector of the (GESIS) value labels</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A labelled vector containing harmonized numeric values and
-labels, and in <code><a href='https://rdrr.io/r/base/attr.html'>attr(v, num_orig)</a></code> the original numeric values,
-<code><a href='https://rdrr.io/r/base/attr.html'>attr(v, labels_orig)</a></code> the original labelling.</p>
+    <p>A character vector with the normalized value labels.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other harmonization functions: 
-<code><a href='eurobarometer_special_values.html'>eurobarometer_special_values</a>()</code>,
-<code><a href='id_create.html'>id_create</a>()</code></p></div>
+    <div class='dont-index'><p>Other naming functions: 
+<code><a href='label_normalize.html'>label_normalize</a>()</code>,
+<code><a href='var_label_normalize.html'>var_label_normalize</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>v</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(
-       <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
-       <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>YES</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>NO</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>wrong_label</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>refused</span> <span class='kw'>=</span> <span class='fl'>9</span>)
-      )
-<span class='fu'>harmonize_value_labels</span>(<span class='no'>v</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
-#&gt; <span class='warning'>Please use `select()` instead.</span>
-#&gt; <span class='warning'>This warning is displayed once every 8 hours.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("select_"): no applicable method for 'select_' applied to an object of class "c('mts', 'ts')"</span></div><div class='input'>
-<span class='no'>v3</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>`BETTER`</span><span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>`WORSE`</span><span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>`SAME`</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>wrong_label</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>refused</span> <span class='kw'>=</span> <span class='fl'>9</span>))
-
-<span class='fu'>harmonize_value_labels</span>(
-  <span class='kw'>labelled_var</span> <span class='kw'>=</span> <span class='no'>v3</span>,<span class='kw'>categories</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("select_"): no applicable method for 'select_' applied to an object of class "c('mts', 'ts')"</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='label_normalize.html'>label_normalize</a></span> (
+    <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'QF4C INTERESTS INFO SOURCES: INTERNET'</span>,
+    <span class='st'>'QB15A CHILDREN NEEDS: SOME NEW CLOTHES'</span>,
+    <span class='st'>'QB9B RESEARCH INFO SOURCE - PREFERENCE 2ND'</span>,
+    <span class='st'>'EU MEANING: CULTURAL DIVERSITY'</span>,
+    <span class='st'>'P6 SIZE OF COMMUNITY - AUSTRIA'</span>,
+    <span class='st'>'D49D_CY WEBSITES: OTHER'</span>,
+    <span class='st'>'LOVE RELATIONSHIP OF CHILD - CHRISTIAN PERSON'</span> )
+)</div><div class='output co'>#&gt; [1] "qf4c_interests_info_sources_internet"       
+#&gt; [2] "a_children_needs_some_new_clothes"          
+#&gt; [3] "b_research_info_source_preference_2nd"      
+#&gt; [4] "eu_meaning_cultural_diversity"              
+#&gt; [5] "size_of_community_austria"                  
+#&gt; [6] "d_cy_websites_other"                        
+#&gt; [7] "love_relationship_of_child_christian_person"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

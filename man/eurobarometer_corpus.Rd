@@ -20,10 +20,6 @@ A data_frame:
 eurobarometer_corpus
 }
 \description{
-Variable labels used for the harmonization of questionnaire items,
-created by \code{\link{gesis_vocabulary_create}}.
-}
-\seealso{
-gesis_vocabulary_create
+Variable labels used for the harmonization of questionnaire items.
 }
 \keyword{datasets}

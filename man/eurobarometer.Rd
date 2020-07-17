@@ -13,7 +13,8 @@ harmonizing variable names, classes and labels.
 
 The naming functions make the GESIS SPSS files usable in a programmatic
 context.
-\code{\link{label_normalize}} removes regex symbols, whitespace, and
+\code{\link{var_label_normalize}} and \code{\link{val_label_normalize}}
+removes regex symbols, whitespace, and
 basic inconsistencies in abbreviations.
 \code{\link{label_suggest}} harmonizes the names across various GESIS
 files, so that they can be joined into panels across time.
@@ -24,26 +25,6 @@ files, so that they can be joined into panels across time.
 The metadata functions map the SPSS file and suggest variable names,
 re-labelling and class conversions.
 \code{\link{gesis_metadata_create}}
-\code{\link{gesis_vocabulary_create}}
-}
-
-\section{harmonization functions}{
-
-\code{\link{id_create}} creates truly unique IDs, and its wrapper
-\code{\link{panel_create}} creates a skeleton panel with unique
-\code{panel_id} and other identification variables.
-\code{\link{convert_class}} to make class conversions based on a
-metadata analysis.
-\code{\link{harmonize_qb_vars}} is harmonizing the names and classes of
-questions in a question block.
-\code{\link{harmonize_missing_values}} is harmonizing the missing values
-in a labelled vector.
-\code{\link{harmonize_value_lables}} is harmonizing the the value
-labels in 2 or 3 category labelled variables.
-\code{\link{eurobarometer_special_values}} returns the harmonized
-numeric codes and harmonized labels of special values in the
-Eurobarometer surveys, for example \code{"inap"}, \code{"declined"} or
-or \code{"still_studying"}.
 }
 
 \section{sample data files}{

@@ -110,7 +110,7 @@ The `retroharmonize::harmonize_values()` is a prototype of the harmonization fun
 
 Because we would like to have the same harmonization for a question block, in this case we adopt the prototype with a regex. The `retroharmonize::harmonize_values()` function will normalize the labels, so you do not have to deal with capitalization and upper case versions. If you want to understand better the harmonization procedure, please refer to the [Harmonize Value Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html) vignette of the [retroharmonize](http://retroharmonize.satellitereport.com/) package.
 
-> With a better imputing system, this could be automated to a high level, probably harmonizing all trend variables at the same time.
+> With a better imputing system, this could be automated to a high level, probably harmonizing all trend variables at the same time. The harmonize_eurobaromter should be something that deals with this.
 
 ```{r}
 harmonize_trust <- function(x) {
