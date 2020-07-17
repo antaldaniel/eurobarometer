@@ -16,6 +16,17 @@ A character vector with the normalized value labels.
 Remove relative reference to question blocks, special characters
 used in regular expressions, whitespace.
 }
+\examples{
+label_normalize (
+    c('QF4C INTERESTS INFO SOURCES: INTERNET',
+    'QB15A CHILDREN NEEDS: SOME NEW CLOTHES',
+    'QB9B RESEARCH INFO SOURCE - PREFERENCE 2ND',
+    'EU MEANING: CULTURAL DIVERSITY',
+    'P6 SIZE OF COMMUNITY - AUSTRIA',
+    'D49D_CY WEBSITES: OTHER',
+    'LOVE RELATIONSHIP OF CHILD - CHRISTIAN PERSON' )
+)
+}
 \seealso{
 Other naming functions: 
 \code{\link{label_normalize}()},

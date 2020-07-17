@@ -9,7 +9,7 @@
 #' @return A character vector with the normalized value labels.
 #' @examples
 #' label_normalize (
-#'     c(QF4C INTERESTS INFO SOURCES: INTERNET',
+#'     c('QF4C INTERESTS INFO SOURCES: INTERNET',
 #'     'QB15A CHILDREN NEEDS: SOME NEW CLOTHES',
 #'     'QB9B RESEARCH INFO SOURCE - PREFERENCE 2ND',
 #'     'EU MEANING: CULTURAL DIVERSITY',

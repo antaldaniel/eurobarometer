@@ -38,9 +38,7 @@ harmonize_value_labels(
 }
 \seealso{
 Other harmonization functions: 
-\code{\link{convert_class}()},
 \code{\link{eurobarometer_special_values}()},
-\code{\link{harmonize_qb_vars}()},
 \code{\link{id_create}()}
 }
 \concept{harmonization functions}
