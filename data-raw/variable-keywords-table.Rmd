@@ -19,6 +19,7 @@ options(width = 160)
 
 ```{r setup}
 library(eurobarometer)
+library(rio)
 library(tidyverse)
 library(tibble)
 library(knitr)
@@ -58,6 +59,8 @@ This vignette outlines a procedure for arriving at standardized variable names v
 
 The table contains metadata from 97 Eurobarometer files (each file corresponding to one EB round). The metadata are extracted from SPSS files with [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html).
 
+These 97 include 96 Standard Eurobarometer waves and 1 Candidate Country EB wave.
+
 ```{r}
 metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_20200628.rds')) %>%
   mutate(archive_id = substr(filename, 1, 6))
@@ -65,11 +68,11 @@ metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_202
 
 #### Waves - Archive IDs
 
-Mapping of GESIS Archive IDs (as used in file names) to wave numbers, from EB/44.2bis (ZA2828) to EB/92.1 (ZA7579) - 156 EB waves altogether.
+Mapping of GESIS Archive IDs (as used in file names) to wave numbers, from EB/44.2bis (ZA2828) to EB/92.1 (ZA7579) - 157 EB waves altogether.
 
 
 ```{r, warning = F}
-eb_names <- rio::import("../data-raw/eb_waves_filenames.xlsx") %>%
+eb_names <- import( file.path('../data-raw', 'eb_waves_filenames.xlsx')) %>%
   separate(x, c("archive_id", "x2", "title"), sep = ":") %>%
   separate(x2, c("wave", "dates"), sep = " \\(|\\)") %>%
   mutate(wave = gsub("Eurobarometer | ", "", wave))
@@ -86,24 +89,52 @@ eb_names %>%
 
 #### Variable groups
 
-Mapping of variable labels to variable groups, as defined in [GESIS ZACAT](https://zacat.gesis.org/webview/), for 51 waves from EB 79.1 (ZA5687) through EB 92.1 (ZA7579).
+Mapping of variable labels to variable groups, as defined in [GESIS ZACAT](https://zacat.gesis.org/webview/), for 157 EB waves from 44.2bis (ZA2828) to 92.1 (ZA7579).
 
 ```{r}
-varlabs <- rio::import("../data-raw/eb_variable_groups_zacat.xlsx", sheet = 4) %>%
-  mutate(wave_desc = ifelse(substr(var_label_zacat, 1, 13) == "Eurobarometer", var_label_zacat, NA),
-         var_label_zacat = ifelse(substr(var_label_zacat, 1, 13)=="Eurobarometer", NA, var_label_zacat),
+varlabs <- import( file.path('../data-raw', 'eb_variable_groups_zacat.xlsx')) %>%
+  mutate(var_label_zacat = gsub('â€“', "–", var_label_zacat),
+         wave_desc = ifelse(substr(var_label_zacat, 1, 13) == "Eurobarometer", 
+                            var_label_zacat, 
+                            NA),
+         var_label_zacat = ifelse(substr(var_label_zacat, 1, 13)=="Eurobarometer", 
+                                  NA, 
+                                  var_label_zacat),
          # group names are writte in camel case and != toupper(group names)
-         group = ifelse(var_label_zacat != toupper(var_label_zacat), var_label_zacat, NA),
+         group = ifelse(var_label_zacat != toupper(var_label_zacat), 
+                        var_label_zacat, 
+                        NA),
          # exceptions from the rule identifying group names
-         group = ifelse(substr(group, 1, 9) == "OWNERSHIP", NA, group), 
-         group = ifelse(substr(group, 1, 19) == "POSITIVE EU RESULTS", NA, group),
-         group = ifelse(substr(group, 1, 24) == "OPINION LEADERSHIP INDEX", NA, group),
-         var_label_zacat = ifelse(!is.na(group), NA, var_label_zacat)) %>%
+         group = ifelse(substr(group, 1, 9) == "OWNERSHIP", 
+                        NA, 
+                        group), 
+         group = ifelse(substr(group, 1, 19) == "POSITIVE EU RESULTS", 
+                        NA, 
+                        group),
+         group = ifelse(substr(group, 1, 24) == "OPINION LEADERSHIP INDEX", 
+                        NA, 
+                        group),
+         group = ifelse(substr(group, 1, 2) %in% c("Q1", "Q2", "Q3"), 
+                        NA, 
+                        group),
+         var_label_zacat = ifelse(!is.na(group), 
+                                  NA, 
+                                  var_label_zacat)) %>%
   fill(wave_desc, group) %>%
   drop_na(group, var_label_zacat) %>%
-  mutate(wave = substr(wave_desc, 1, 18),
-         wave = gsub("^Eurobarometer ", "", wave),
-         var_label_zacat = gsub("^W[0-9]{1,2}[A-Z] |^W3A/W4A ", "", var_label_zacat)) %>%
+  mutate(wave = sub("^(\\S*\\s+\\S+).*", "\\1", wave_desc),
+         wave = gsub("^Eurobarometer |:|,", "", wave),
+         var_label_zacat = gsub("^W[0-9]{1,2}[A-Z] |^W3A/W4A ", "", 
+                                var_label_zacat),
+         var_label_zacat = gsub("^([A-Z])*[0-9]{1,3}([A-Z]{1,2})* ", "", 
+                                var_label_zacat),
+         var_label_zacat = gsub("^[A-Z]{1,2}[0-9]{1,2}([A-Z])*_[A-Z]{1,2} ", "", 
+                                var_label_zacat),
+         # these 2 waves have problems and labels in data and in ZACAT are different
+         var_label_zacat = ifelse(wave %in% c("85.3", "86.1"),
+                                  gsub("\\s*\\([^\\)]+\\)","", var_label_zacat),
+                                  var_label_zacat),
+         group = gsub("\\s*\\([^\\)]+\\)","", group)) %>%
   left_join(eb_names) %>%
   select(wave, archive_id, group, var_label_zacat, everything())
 
@@ -127,15 +158,15 @@ length(archive_ids)
 
 ### 1. Standardize the spelling
 
-All procedures below applied to 51 waves, for which all metadata are available.
+All procedures below applied to those waves, for which all metadata are available.
 
 
 #### 1.1. Translation table ...
 
 
 ```{r}
-dict <- rio::import("../data-raw/var_lab_dict.xlsx", 
-                    sheet = "dict") %>%
+dict <- import( file.path('../data-raw', 'var_lab_dict.xlsx'), 
+                sheet = "dict") %>% 
   gather(id, from, 2:6) %>%
   select(from, to) %>%
   drop_na(from)
@@ -163,51 +194,57 @@ dat2 <- metadata_database %>%
   distinct(filename, qb, var_name_orig, var_name_orig, var_label_orig, var_label_norm, archive_id) %>%
   # original variable labels in the data and in GESIS ZACAT are not exactly the same 
   # --> need some cleaning
-  mutate(var_label_orig2 = gsub("^W[0-9]{1,2}", "", var_label_orig),
-         var_label_orig2 = gsub("^W[0-9]{1,2}[A-Z]", "", var_label_orig),
-         var_label_orig2 = gsub("^[0-9]{1-3} ", "", var_label_orig2),
-         var_label_orig2 = gsub("^[A-Z][0-9]{1,2}[A-Z] ", "", var_label_orig2),
-         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2} ", "", var_label_orig2),
-         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2}[A-Z] ", "", var_label_orig2),
-         var_label_orig2 = gsub("^[0-9]{1,2} ", "", var_label_orig2),
-         var_label_orig2 = gsub("^[A-Z][0-9] [0-9]{1,2} ", "", var_label_orig2),
-         var_label_orig2 = gsub("^W3A/W4A ", "", var_label_orig2)) %>%
+  mutate(var_label_orig2 = gsub("^([A-Z])*[0-9]{1,3}([A-Z]{1,2})* ", "", 
+                                var_label_orig),
+         var_label_orig2 = gsub("^[A-Z][0-9] [0-9]{1,2} ", "", 
+                                var_label_orig2),
+         var_label_orig2 = gsub("^W3A/W4A ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2}([A-Z])*_[A-Z]{1,2} ", "", 
+                                var_label_orig2),
+         var_label_orig2 = gsub("^\\s+|\\s+$", "", 
+                                var_label_orig2),
+         var_label_orig2 = gsub('“)', "", 
+                                var_label_orig2),
+         var_label_orig2 = gsub("  ", " ", 
+                                var_label_orig2),
+         # these 2 waves have problems and labels in data and in ZACAT are different
+         var_label_orig2 = ifelse(archive_id %in% c("ZA6695", "ZA6697"),
+                                  gsub("\\s*\\([^\\)]+\\)","", var_label_orig2),
+                                  var_label_orig2)) %>%
   # join with table with variable groups
   left_join(varlabs, by = c("var_label_orig2" = "var_label_zacat", "archive_id")) %>%
   # remove variables in the following groups
-  filter(!group %in% c("Archive and survey ID variables",
-                       "Country group variables",
-                       "Nationality (Q1)",
-                       "Protocol variables (P)",
-                       "Standard nation ID variables",
-                       "Weight variables (W)",
-                       "Nation ID variables",
-                       "Protocol variables",
-                       "Weight variables",
-                       "Archive and ID variables",
-                       "Household Weights"),
+  filter(!grepl("protocol|weight|nationality|nation id|original id|id variable|country group", 
+                tolower(group)),
          # remove recoded variables
          !grepl("recoded|(rec)", var_label_norm)) %>%
   mutate(var_id = paste0(filename, " ", var_name_orig),
          # leftover question numbers at the beginning of value labels
-         var_label_norm1 = gsub("^w[0-9]{1,2}", "", var_label_norm),
-         var_label_norm1 = gsub("^[0-9]{1-3}_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z][0-9]{2}[a-z]_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}[a-z]_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[0-9]{1,2}_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z]_", "", var_label_norm1),
-         var_label_norm1 = gsub("^[a-z][0-9]_[0-9]{1,2}_", "", var_label_norm1)) %>%
+         var_label_norm1 = gsub("^w[0-9]{1,2}", "", 
+                                var_label_norm),
+         var_label_norm1 = gsub("^[0-9]{1-3}_", "", 
+                                var_label_norm1),
+         var_label_norm1 = gsub("^[a-z][0-9]{2}[a-z]_", "", 
+                                var_label_norm1),
+         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}_", "", 
+                                var_label_norm1),
+         var_label_norm1 = gsub("^[a-z]{1,2}[0-9]{1,2}[a-z]_", "", 
+                                var_label_norm1),
+         var_label_norm1 = gsub("^[0-9]{1,2}_", "", 
+                                var_label_norm1),
+         var_label_norm1 = gsub("^[a-z]_", "", 
+                                var_label_norm1),
+         var_label_norm1 = gsub("^[a-z][0-9]_[0-9]{1,2}_", "", 
+                                var_label_norm1)) %>%
   # apply the translation table
   mutate(var_label_norm1 = stri_replace_all_regex(var_label_norm1,
                                                   pattern = dict$from,
                                                   replacement = dict$to,
                                                   vectorize_all = FALSE)) %>%
-  # replace underscore with space
-  mutate(text = gsub("_", " ", var_label_norm1)) %>%
   ungroup() %>%
   # select the needed variables
-  select(filename, qb, var_label_orig, var_label_norm, var_label_norm1, text, var_id, group)
+  select(filename, qb, var_label_orig, var_label_orig2, 
+         var_label_norm, var_label_norm1, var_id, group)
 
 ```
 
@@ -232,23 +269,33 @@ eu_countries <- c(
 
 tidy <- dat2 %>%
   # tokenize
-  unnest_tokens(word, text, 
-                token = "regex", pattern = " |  ") %>%
+  unnest_tokens(word, var_label_norm1, 
+                token = "regex", 
+                pattern = "_",
+                drop = FALSE) %>%
   # eliminate stop words, with some exceptions
   anti_join(stop_words %>%
-              filter(!word %in% c("working", "right", "other")
+              filter( !word %in% c("working", "right", "other")
                      )) %>%
   # eliminate numbers
-  filter(!grepl("\\b\\d+\\b", word)) %>%
+  filter( !grepl("\\b\\d+\\b", word)) %>%
   # convert country codes to country names
   mutate(
-    country = ifelse(word %in% eu_countries, word, NA),
+    country = ifelse(word %in% eu_countries, 
+                     word, 
+                     NA),
          country = countrycode::countrycode(
            toupper(country), "iso2c", "country.name"),
     country = tolower(country),
-    word = ifelse(!is.na(country), country, word),
-    word = ifelse(word == "united kingdom", "united-kingdom", word),
-    word = ifelse(word == "tcc", "turkish-cypriot-community", word)
+    word = ifelse(!is.na(country), 
+                  country, 
+                  word),
+    word = ifelse(word == "united kingdom", 
+                  "united-kingdom", 
+                  word),
+    word = ifelse(word == "tcc", 
+                  "turkish-cypriot-community", 
+                  word)
     ) %>%
   select(-country)
 ```
@@ -282,14 +329,14 @@ Note: this Denmark is probably a "don't know"
 
 ### 4. Create a document-term matrix
 
-Filter out labels that have words that appear in < 5 different waves. If we want to create a trend file, we're only interested in variables that are repeated often.
+Filter out labels that have words that appear in < 10 different waves. If we want to create a trend file, we're only interested in variables that are repeated often.
 
 ```{r}
 tidy_small_2 <- tidy %>%
   group_by(word) %>%
   # number of distinct file names (waves) per word
   mutate(n_wave = n_distinct(filename)) %>%
-  # flag words that appear in < 5 different files
+  # flag words that appear in < 10 different files
   mutate(to_drop = as.numeric(n_wave < 10)) %>%
   # group by variable ID (file x variable name)
   group_by(var_id) %>%
@@ -313,11 +360,14 @@ dim(dtm)
 
 ### 5. Sort columns according to the declining frequency of the keywords
 
+
 ```{r}
 # get the order of variables according to declining proportion of missing value
 # (declining popularity of keywords)
 order <- dtm %>%
-  summarise_all(funs(sum(is.na(.))/length(.))) %>%
+  summarise_all(
+    funs(sum(is.na(.))/length(.))
+    ) %>%
   t() %>% as.vector()
 
 names(order) <- names(dtm)
@@ -328,10 +378,12 @@ names(order) <- names(dtm)
 
 Standardized variable labels `var_label_std` are concatenated keywords, where the keywords occur in the order of their frequency in the entire corpus of variable labels. As a consequence, more common - likely broader - terms will come first, and less common - more specific - terms will come later.
 
+!!! This is not a perfect solution for the question order. We need a table with "concepts", like trust, satisfaction, etc., so that they are always at the beginning. Otherwise we end up with "internet_trust" (which should be "trust_internet") and so on.
+
 ```{r}
 dtm2 <- dtm %>%
   select( names(sort(order)) ) %>%
-  mutate_at(vars(3:ncol(dtm)), 
+  mutate_at( vars(3:ncol(dtm) ), 
             funs(ifelse(is.na(.), "", .))
             ) %>%
   unite("var_label_std", 3:ncol(dtm)) %>%
@@ -343,7 +395,7 @@ dtm2 <- dtm %>%
 dim(dtm2)
 ```
 
-These standardized variable names still have problems that need to be fixed.
+!!! These standardized variable names still have problems that need to be fixed.
 
 ```{r}
 dtm2 %>% 
@@ -376,7 +428,8 @@ Filter on substrings of standardized variable labels `var_label_std`, and count 
 ```{r}
 # filter on var_label_std
 dtm2 %>%
-  filter(grepl("trust|satisf|left-right|interest|class", var_label_std)) %>% 
+  filter( grepl("trust|satisf|left-right|interest|class",
+                var_label_std)) %>% 
   count(var_label_std) %>%
   arrange(desc(n)) %>%
   head(., 25) %>%
