@@ -19,6 +19,7 @@ library(eurobarometer)
 library(dplyr)
 library(knitr)
 library(stringr)
+library(retroharmonize)
 ```
 
 ```{r}
@@ -31,10 +32,14 @@ ZA7576 <- read_rds(
 
 ```
 
+## Metadata
+
 ```{r}
 ZA6863_metadata <- gesis_metadata_create(ZA6863)
 ZA7576_metadata <- gesis_metadata_create(ZA7576)
 ```
+
+Variables of base types `numeric` and `character` can be safely concatenated.  The labelled, mainly categorical variables require special attention: their valid range and missing range must be harmonized before binding the two tables together.
 
 ```{r}
 ZA6863_items <- ZA6863_metadata %>%
@@ -56,6 +61,8 @@ ZA7576_items <- ZA7576_metadata %>%
   unlist() %>% as.character()
 ```
 
+Let's select the variables with identical names from the two surveys:
+
 ```{r}
 hZA6863 <- ZA6863 %>%
   stats::setNames ( nm = ZA6863_metadata$var_name_suggested ) %>%
@@ -64,9 +71,12 @@ hZA6863 <- ZA6863 %>%
 
 ```{r}
 hZA7576 <- ZA7576 %>%
-  stats::setNames ( nm = ZA6863_metadata$var_name_suggested ) %>%
+  stats::setNames ( nm = ZA7576_metadata$var_name_suggested ) %>%
   select ( all_of(intersect(ZA6863_items, ZA7576_items)))
 ```
+
+And have a look at their value labelling:
+[no idea why are this not identical.]
 
 ```{r}
 ZA6863_trust <- ZA6863_metadata %>%
@@ -75,8 +85,8 @@ ZA6863_trust <- ZA6863_metadata %>%
   tidyr::unnest( cols = c(labels, na_levels) ) %>%
   distinct_all()
 
-trust$labels[1]
-trust$labels[2]
+ZA6863_trust$labels[1]
+ZA6863_trust$labels[2]
 ```
 
 ```{r}
@@ -89,7 +99,11 @@ ZA7576_trust <- ZA7576_metadata %>%
 ZA7576_trust$labels[1]
 ZA7576_trust$labels[2]
 ```
+## Harmonize the value labels
 
+The `retroharmonize::harmonize_values()` is a prototype of the harmonization function. It should be adjusted to survey and question-block specific idiosyncrasies. This should be the work of various vocabulary tables, but the prototype can be made work with inputting the harmonization regex either as a list or as a data frame.
+
+Because we wan to have the same harmonization for a question block, in this case we adopt the prototype with a regex. The `retroharmonize::harmonize_values()` function will normalize the labels, so you do not have to deal with capitalization and upper case versions.
 
 ```{r}
 harmonize_trust <- function(x) {
@@ -98,10 +112,9 @@ harmonize_trust <- function(x) {
   harmonize_label = NULL,
   harmonize_labels = (
     list (
-     from = c("^Tend\\sto", "^Tend\\snot", "DK", "^Inap"),
-    to  =  c("trust", "distrust", "do not know", "inap"), 
-    numeric_values = c(1,0,99997, 99999 
-    ))
+     from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"),
+    numeric_values = c(1,0,99997, 99999))
     ),
   na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
   na_range = NULL,
@@ -109,7 +122,61 @@ harmonize_trust <- function(x) {
   name_orig = NULL
 )
 }
-
-labelled::val_labels(hZA7576$trust_army)
 ```
 
+Choosing the first `trust` vector, we can see that the harmonization records all metadata for reproducability.
+
+```{r}
+harmonize_trust ( hZA6863$trust_army)
+```
+The coding appears very similar, so we use the same helper function for the same question in the other survey:
+
+```{r}
+harmonize_trust ( hZA7576$trust_army)
+```
+```{r}
+trust_in_army <- retroharmonize::concatenate(
+  x = harmonize_trust ( hZA6863$trust_army), 
+  y = harmonize_trust ( hZA7576$trust_army)
+  )
+trust_in_army
+```
+The attributes are complex, because they leave open reverting to historical coding, and for a choice of categorical or numeric representation in R.
+
+```{r}
+summary ( as_factor(trust_in_army))
+summary ( as_numeric(trust_in_army))
+```
+Let's repeat the same harmonization for all `trust` variables.
+
+```{r}
+hZA7576 <- hZA7576 %>%
+  mutate_at (vars (starts_with("trust")), harmonize_trust )
+hZA6863 <- hZA6863 %>%
+  mutate_at (vars (starts_with("trust")), harmonize_trust )
+
+hZA6863 %>%
+  select ( all_of(c("trust_army", "trust_european_union")))
+```
+
+Given that the other selected variables have identical (harmonized) names and they are of base type `numeric` or `character`, after harmonizing the `trust` labels and `na_values`, we can bind the two panels with `vectrs::vec_rbind()`. Unfortunately, the generic `c()` method cannot be implemented to work with this type.
+
+```{r}
+panel <- vctrs::vec_rbind (
+  hZA6863, hZA6863 
+)
+```
+
+The panel is created, and it is open for exporting to other statistical software, or further analysis in R. While some basic arithmetic methods are implemented for the `labelled_spss_survey` class of the [retroharmonize] package, for using all R statistical packages, the analyst has to chose a base R type that is compatible with them. Since the `trust` variables are categorical variables, they can be re-casted with the `as_factor()` or `as_numeric()` methods. Again, the base R `as.factor()` or `as.numeric()` will give a legible, but not correct representation. 
+
+```{r}
+panel %>%
+  mutate_at (vars (starts_with("trust")), as_factor ) %>%
+  summary()
+```
+
+```{r}
+panel %>%
+  mutate_at (vars (starts_with("trust")), as_numeric ) %>%
+  summary()
+```
