@@ -1,0 +1,3771 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Creating Variable and Values Tables</title>
+
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating Variable and Values Tables</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(eurobarometer)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(tibble)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(kableExtra)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co"># The examples of this vignette can be found run with  </span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="co"># source(</span></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">#  file.path(&quot;not_included&quot;, &quot;vignette_vocabulary_examples.R&quot;)</span></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="co">#  )</span></a></code></pre></div>
+<div id="procedure" class="section level2">
+<h2>Procedure</h2>
+<p>The procedure involves four steps:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>Concept definition</code>: Trust in institutions: general trust without speficying the concrete domains of activity where the trust applies (these specific questions would require special treatment).</p></li>
+<li><p><code>Selection of survey questions</code> that correspond to the concept by filtering on variable and value labels.</p></li>
+<li><p><code>Standardizing value labels</code> across questions.</p></li>
+<li><p><code>Standardizing variable name</code>s to have the same name for all variables that correspond to the same question.</p></li>
+</ol>
+</div>
+<div id="metadata" class="section level2">
+<h2>Metadata</h2>
+<p><code>metadata_database</code> is a table with variable metadata created from Eurobarometer SPSS files. It has the following columns:</p>
+<p><code>var_name_orig</code>: variable name in the original dataset<br />
+<code>class_orig</code>: column class in the original dataset<br />
+<code>var_label_orig</code>: variable label in the original dataset<br />
+<code>var_label_norm</code>: normalized variable label<br />
+<code>var_name_suggested</code>: suggested variable label<br />
+<code>factor_levels</code>: vector of value labels as a list (they have no fixed length)<br />
+<code>n_categories</code>: total number of response options <code>= length(factor_levels)</code><br />
+<code>class_suggested</code>: suggested conversion to an R class, it should correspond later to a conversion function, so that the researcher can just simply approve and get a correct R representation.<br />
+<code>filename</code>: original name of file as obtained from GESIS; it contains a disambigous version information, too. <code>val_numeric_orig</code>: numeric value code (if available, empty otherwise)<br />
+<code>val_label_orig</code>: value label in the original dataset corresponding to a response option <code>val_order_alpha</code>: alphabetical number (position) of response option in the set of value labels, aftering sorting with <code>sort()</code> (we use alphabetical order instead of <code>levels()</code> because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting)<br />
+<code>val_order_length</code>:<br />
+<code>val_label_norm</code>: value label normalized with <code>label_normalize()</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">metadata_database &lt;-<span class="st">  </span><span class="kw">readRDS</span>( </a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="kw">file.path</span>(<span class="st">&#39;..&#39;</span>, <span class="st">&#39;data-raw&#39;</span>,</a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="st">&#39;eb_metadata_database_large.rds&#39;</span>)) </a></code></pre></div>
+</div>
+<div id="selection-of-variables" class="section level2">
+<h2>Selection of variables</h2>
+<p>This is an iterative process.</p>
+<div id="iteration-1" class="section level3">
+<h3>Iteration 1</h3>
+<p>Let’s filter out questions with <code>trust</code> in their variable labels.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">select_metadata_vars &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb3-2" title="2">  <span class="st">&quot;filename&quot;</span>, <span class="st">&quot;var_name_orig&quot;</span>, <span class="st">&quot;var_label_orig&quot;</span>,</a>
+<a class="sourceLine" id="cb3-3" title="3">  <span class="st">&quot;var_label_norm&quot;</span>, <span class="st">&quot;val_label_orig&quot;</span>, <span class="st">&quot;val_label_norm&quot;</span>, </a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="st">&quot;val_numeric_orig&quot;</span>, <span class="st">&quot;val_order_alpha&quot;</span>, <span class="st">&quot;n_categories&quot;</span>)</a>
+<a class="sourceLine" id="cb3-5" title="5"></a>
+<a class="sourceLine" id="cb3-6" title="6">trust_metadata &lt;-<span class="st"> </span>metadata_database  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">filter</span> (</a>
+<a class="sourceLine" id="cb3-8" title="8">    <span class="kw">grepl</span>( <span class="st">&quot;trust&quot;</span>, var_label_norm )</a>
+<a class="sourceLine" id="cb3-9" title="9">  )  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="st">  </span><span class="kw">select</span> ( <span class="kw">all_of</span>(select_metadata_vars) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="st">  </span><span class="kw">arrange</span> ( var_label_norm, val_label_norm, filename )</a>
+<a class="sourceLine" id="cb3-12" title="12"></a>
+<a class="sourceLine" id="cb3-13" title="13">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb3-17" title="17">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb3-18" title="18">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb3-19" title="19">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_numeric_orig
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_order_alpha
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n_categories
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v335
+</td>
+<td style="text-align:left;">
+QA17_1 EUROPEAN PARLIAMENT - TRUST
+</td>
+<td style="text-align:left;">
+1_european_parliament_trust
+</td>
+<td style="text-align:left;">
+DK
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v335
+</td>
+<td style="text-align:left;">
+QA17_1 EUROPEAN PARLIAMENT - TRUST
+</td>
+<td style="text-align:left;">
+1_european_parliament_trust
+</td>
+<td style="text-align:left;">
+Tend not to trust
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v335
+</td>
+<td style="text-align:left;">
+QA17_1 EUROPEAN PARLIAMENT - TRUST
+</td>
+<td style="text-align:left;">
+1_european_parliament_trust
+</td>
+<td style="text-align:left;">
+Tend to trust
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v310
+</td>
+<td style="text-align:left;">
+QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT
+</td>
+<td style="text-align:left;">
+1_trust_in_institutions_nat_government
+</td>
+<td style="text-align:left;">
+DK
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v310
+</td>
+<td style="text-align:left;">
+QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT
+</td>
+<td style="text-align:left;">
+1_trust_in_institutions_nat_government
+</td>
+<td style="text-align:left;">
+Inap. (33 in V6)
+</td>
+<td style="text-align:left;">
+inap_33_in_v6
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v310
+</td>
+<td style="text-align:left;">
+QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT
+</td>
+<td style="text-align:left;">
+1_trust_in_institutions_nat_government
+</td>
+<td style="text-align:left;">
+Tend not to trust
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v310
+</td>
+<td style="text-align:left;">
+QA13_1 TRUST IN INSTITUTIONS: NAT GOVERNMENT
+</td>
+<td style="text-align:left;">
+1_trust_in_institutions_nat_government
+</td>
+<td style="text-align:left;">
+Tend to trust
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5564_v3-0-1.sav
+</td>
+<td style="text-align:left;">
+v443
+</td>
+<td style="text-align:left;">
+QC7_141 EU SECURITY PARTNERS: DONT TRUST NON-EUROP
+</td>
+<td style="text-align:left;">
+141_eu_security_partners_dont_trust_non_europ
+</td>
+<td style="text-align:left;">
+Mentioned
+</td>
+<td style="text-align:left;">
+mentioned
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5564_v3-0-1.sav
+</td>
+<td style="text-align:left;">
+v443
+</td>
+<td style="text-align:left;">
+QC7_141 EU SECURITY PARTNERS: DONT TRUST NON-EUROP
+</td>
+<td style="text-align:left;">
+141_eu_security_partners_dont_trust_non_europ
+</td>
+<td style="text-align:left;">
+Not mentioned
+</td>
+<td style="text-align:left;">
+not_mentioned
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5481_v2-0-1.sav
+</td>
+<td style="text-align:left;">
+v336
+</td>
+<td style="text-align:left;">
+QA17_2 EUROPEAN COMMISSION - TRUST
+</td>
+<td style="text-align:left;">
+2_european_commission_trust
+</td>
+<td style="text-align:left;">
+DK
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<p>Scrolling through the normalized variable names (see <code>?label_normalize</code>) created from the GESIS SPSS variable labels, it looks like binary value trust in institutions questions have in their label <code>trust in institutions</code> or <code>trust political parties</code> or <code>- trust</code> at the end. Let’s take a closer look at those questions and see what response options they have.</p>
+<p>Several variables from <code>Eurobarometer 69.2</code> (ZA4744) ask more detailed questions about specific reasons for trusting or not trusting selected institutions. These are different types of questions with more categories than the more general trend questions with a binary value <code>tend to trust</code> - <code>tend not to trust</code>.</p>
+</div>
+<div id="iteration-2" class="section level3">
+<h3>Iteration 2</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">trust_metadata &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw">filter</span> (</a>
+<a class="sourceLine" id="cb4-3" title="3">    <span class="kw">grepl</span>( </a>
+<a class="sourceLine" id="cb4-4" title="4">      <span class="st">&quot;trust_in_institutions|trust_political_parties|_trust$&quot;</span>,</a>
+<a class="sourceLine" id="cb4-5" title="5">      var_label_norm )</a>
+<a class="sourceLine" id="cb4-6" title="6">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">filter</span>( <span class="op">!</span><span class="st"> </span>(filename <span class="op">==</span><span class="st"> &quot;ZA4744_v5-0-0.sav&quot;</span> <span class="op">&amp;</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st">               </span>var_name_orig <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;v336&quot;</span>, <span class="st">&quot;v347&quot;</span>,<span class="st">&quot;v292&quot;</span>, <span class="st">&quot;v303&quot;</span>,</a>
+<a class="sourceLine" id="cb4-9" title="9">                                    <span class="st">&quot;v314&quot;</span>, <span class="st">&quot;v325&quot;</span>, <span class="st">&quot;v270&quot;</span>, <span class="st">&quot;v281&quot;</span>)</a>
+<a class="sourceLine" id="cb4-10" title="10">             )</a>
+<a class="sourceLine" id="cb4-11" title="11">          )</a>
+<a class="sourceLine" id="cb4-12" title="12"></a>
+<a class="sourceLine" id="cb4-13" title="13">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="st">  </span><span class="kw">arrange</span>(filename, var_name_orig, val_order_alpha) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb4-18" title="18">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb4-19" title="19">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb4-20" title="20">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_numeric_orig
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_order_alpha
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n_categories
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v46
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: THE PRESS
+</td>
+<td style="text-align:left;">
+trust_in_institutions_the_press
+</td>
+<td style="text-align:left;">
+&lt;NA&gt;
+</td>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v46
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: THE PRESS
+</td>
+<td style="text-align:left;">
+trust_in_institutions_the_press
+</td>
+<td style="text-align:left;">
+TEND TO TRUST
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v46
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: THE PRESS
+</td>
+<td style="text-align:left;">
+trust_in_institutions_the_press
+</td>
+<td style="text-align:left;">
+TEND NOT TO TRUST
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v46
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: THE PRESS
+</td>
+<td style="text-align:left;">
+trust_in_institutions_the_press
+</td>
+<td style="text-align:left;">
+DK
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v47
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: RADIO
+</td>
+<td style="text-align:left;">
+trust_in_institutions_radio
+</td>
+<td style="text-align:left;">
+&lt;NA&gt;
+</td>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v47
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: RADIO
+</td>
+<td style="text-align:left;">
+trust_in_institutions_radio
+</td>
+<td style="text-align:left;">
+TEND TO TRUST
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v47
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: RADIO
+</td>
+<td style="text-align:left;">
+trust_in_institutions_radio
+</td>
+<td style="text-align:left;">
+TEND NOT TO TRUST
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v47
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: RADIO
+</td>
+<td style="text-align:left;">
+trust_in_institutions_radio
+</td>
+<td style="text-align:left;">
+DK
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v48
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: TELEVISION
+</td>
+<td style="text-align:left;">
+trust_in_institutions_television
+</td>
+<td style="text-align:left;">
+&lt;NA&gt;
+</td>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA2959_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v48
+</td>
+<td style="text-align:left;">
+Q6 TRUST IN INSTITUTIONS: TELEVISION
+</td>
+<td style="text-align:left;">
+trust_in_institutions_television
+</td>
+<td style="text-align:left;">
+TEND TO TRUST
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+</tbody>
+</table>
+<p>Check how many unique response values do the selected variables have?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">arrange</span>(val_label_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="st">  </span><span class="kw">select</span>(val_label_norm, <span class="kw">everything</span>()) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="st">  </span><span class="kw">count</span>(n_categories) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb5-7" title="7">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb5-8" title="8">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb5-9" title="9">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n_categories
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1221
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1272
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+</tbody>
+</table>
+<p>These variables have 2, 3 or 4, or as many as 13 unique response options. Let’s take a look at the one with 13 unique responses:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">filter</span>(n_categories <span class="op">==</span><span class="st"> </span><span class="dv">13</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb6-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb6-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb6-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_norm
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_numeric_orig
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_order_alpha
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n_categories
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+Customs services
+</td>
+<td style="text-align:left;">
+customs_services
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+DK
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+Local or regional Government
+</td>
+<td style="text-align:left;">
+local_or_regional_government
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+Nobody (SPONTANEOUS)
+</td>
+<td style="text-align:left;">
+nobody_spontaneous
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+Other public bodies
+</td>
+<td style="text-align:left;">
+other_public_bodies
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+Other (SPONTANEOUS)
+</td>
+<td style="text-align:left;">
+other_spontaneous
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+Private auditing firms
+</td>
+<td style="text-align:left;">
+private_auditing_firms
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+The courts, the legal system
+</td>
+<td style="text-align:left;">
+the_courts,_the_legal_system
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+The European Union
+</td>
+<td style="text-align:left;">
+the_european_union
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+The media
+</td>
+<td style="text-align:left;">
+the_media
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+The (NATIONALITY) Government
+</td>
+<td style="text-align:left;">
+the_nationality_government
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+The police force
+</td>
+<td style="text-align:left;">
+the_police_force
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3938_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v511
+</td>
+<td style="text-align:left;">
+Q56 FIGHTING FRAUD EFFECTIVELY - TRUST
+</td>
+<td style="text-align:left;">
+fighting_fraud_effectively_trust
+</td>
+<td style="text-align:left;">
+The taxation authorities
+</td>
+<td style="text-align:left;">
+the_taxation_authorities
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+</tbody>
+</table>
+<p>The question asks: <em>Who do you trust the most to fight effectively in [country] against the European Union and its budget being defrauded?</em> (see documentation in the <a href="https://search.gesis.org/research_data/ZA3938">GESIS documentation</a>).</p>
+<p>This refers to trust with regard to a specific activity, so does not fit into our concept definition (see <a href="#procedure">procedure</a>.) Let’s see what we are left with after excluding it.</p>
+</div>
+<div id="iteration-3" class="section level3">
+<h3>Iteration 3</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">trust_metadata &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">filter</span>( <span class="op">!</span><span class="st"> </span>( filename <span class="op">==</span><span class="st"> &quot;ZA3938_v1-0-1.sav&quot;</span> <span class="op">&amp;</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">                </span>var_name_orig <span class="op">==</span><span class="st"> &quot;v511&quot;</span>)</a>
+<a class="sourceLine" id="cb7-4" title="4">          )</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw">count</span>(val_label_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb8-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb8-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb8-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_,_cy_tr_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_0_in_eu27
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_33_in_v6
+</td>
+<td style="text-align:right;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+130
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_mk_me_rs_al_tr_in_isocntry
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_norway_15_in_v8
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_to_30_in_v6
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_to_32_in_v6
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_coded_1_5_in_d62_5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry_and_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_eu27_plus_hr_0_in_eu28
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_eu28_coded_0_in_eu28
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mentioned
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+na
+</td>
+<td style="text-align:right;">
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+not_mentioned
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+you_generally_do_not_trust_stories_published_on_online_social_networks
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>dk</code> stands for “don’t know”,</li>
+<li><code>inap*</code> stands for “inapplicable” for various reasons, which are maybe worth exploring,</li>
+<li><code>mentioned</code> and <code>not mentioned</code> suggest questions where the respondent is asked to list all objects to which some condition applies, e.g. “here is a list of institutions. which of those would you say you trust?”. These questions require special attention, because “no” is blended with “no answer / don’t know”. Plus, it’s a very different type of question for the respondent,</li>
+<li><code>na</code> and <code>lt_na_gt</code> are missing values,<br />
+</li>
+<li><code>tend not to trust</code> is a negative answer to the trust question,</li>
+<li><code>tend to trust</code> is a positive answer to the trust question,</li>
+<li><code>you generally do not trust stories published on online social networks</code> is a mystery.</li>
+</ul>
+<p>Let’s start with the mystery.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">trust_metadata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw">filter</span>( </a>
+<a class="sourceLine" id="cb9-3" title="3">    <span class="kw">grepl</span>(<span class="st">&quot;you_generally_do_not_trust&quot;</span>, val_label_norm)</a>
+<a class="sourceLine" id="cb9-4" title="4">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>var_label_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb9-8" title="8">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb9-9" title="9">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb9-10" title="10">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_numeric_orig
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+val_order_alpha
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n_categories
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA6861_v1-2-0.sav
+</td>
+<td style="text-align:left;">
+qd5.6
+</td>
+<td style="text-align:left;">
+ONLINE SOC NETWORKS STORY TRUST: GENERALLY DO NOT TRUST
+</td>
+<td style="text-align:left;">
+You generally do not trust stories published on online social networks
+</td>
+<td style="text-align:left;">
+you_generally_do_not_trust_stories_published_on_online_social_networks
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<p>That’s likely not what we are interested in, but still worth checking with the <a href="https://search.gesis.org/research_data/ZA6861">GESIS documentation</a>.</p>
+<p>The question reads <code>QD5 When you see or read a story published on online social networks, what makes you consider the story trustworthy?</code> and has several “mentioned/not mentioned” items. This follows the usual multiple choice question structure of Eurobarometer, where all possible choice options are coded as separate variables, and one of them ended with “trust”, which is why we filtered it out. We don’t want it and will remove it. <em>This should generally be fixed with filtering out multiple choice questions because they follow a particular coding, see<a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">Prefix conventions</a></em></p>
+<p>We refine the variable filter.</p>
+</div>
+<div id="iteration-4" class="section level3">
+<h3>Iteration 4</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">trust_metadata &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">filter</span>( <span class="op">!</span><span class="st"> </span>( filename <span class="op">==</span><span class="st"> &quot;ZA6861_v1-2-0.sav&quot;</span> <span class="op">&amp;</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">                </span>var_name_orig <span class="op">==</span><span class="st"> &quot;qd5.6&quot;</span></a>
+<a class="sourceLine" id="cb10-4" title="4">              )</a>
+<a class="sourceLine" id="cb10-5" title="5">          )</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="st">  </span><span class="kw">count</span>(val_label_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb11-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb11-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb11-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_,_cy_tr_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_0_in_eu27
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_33_in_v6
+</td>
+<td style="text-align:right;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+130
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_mk_me_rs_al_tr_in_isocntry
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_norway_15_in_v8
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_to_30_in_v6
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_to_32_in_v6
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry_and_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_eu27_plus_hr_0_in_eu28
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_eu28_coded_0_in_eu28
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mentioned
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+na
+</td>
+<td style="text-align:right;">
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+not_mentioned
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+</tbody>
+</table>
+<p>Now let’s at the questions that have the <code>mentioned</code> - <code>not mentioned</code> response options. It’s not what we want.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">exclusions &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">filter</span>(val_label_norm <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mentioned&quot;</span>, <span class="st">&quot;not_mentioned&quot;</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">print</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw">count</span>(filename, var_name_orig)</a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="co">#&gt; # A tibble: 8 x 9</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="co">#&gt;   filename var_name_orig var_label_orig var_label_norm val_label_orig</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;          &lt;chr&gt;          &lt;chr&gt;         </span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="co">#&gt; 1 ZA3639_~ v218          Q30 EU FEELIN~ eu_feeling_tr~ Mentioned     </span></a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="co">#&gt; 2 ZA3938_~ v79           Q11 EU FEELIN~ eu_feeling_tr~ Mentioned     </span></a>
+<a class="sourceLine" id="cb12-10" title="10"><span class="co">#&gt; 3 ZA4229_~ v123          Q17 EU FEELIN~ eu_feeling_tr~ Mentioned     </span></a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="co">#&gt; 4 ZA4414_~ v136          QA14 EU FEELI~ eu_feeling_tr~ Mentioned     </span></a>
+<a class="sourceLine" id="cb12-12" title="12"><span class="co">#&gt; 5 ZA3639_~ v218          Q30 EU FEELIN~ eu_feeling_tr~ Not mentioned </span></a>
+<a class="sourceLine" id="cb12-13" title="13"><span class="co">#&gt; 6 ZA3938_~ v79           Q11 EU FEELIN~ eu_feeling_tr~ Not mentioned </span></a>
+<a class="sourceLine" id="cb12-14" title="14"><span class="co">#&gt; 7 ZA4229_~ v123          Q17 EU FEELIN~ eu_feeling_tr~ Not mentioned </span></a>
+<a class="sourceLine" id="cb12-15" title="15"><span class="co">#&gt; 8 ZA4414_~ v136          QA14 EU FEELI~ eu_feeling_tr~ Not mentioned </span></a>
+<a class="sourceLine" id="cb12-16" title="16"><span class="co">#&gt; # ... with 4 more variables: val_label_norm &lt;chr&gt;, val_numeric_orig &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb12-17" title="17"><span class="co">#&gt; #   val_order_alpha &lt;dbl&gt;, n_categories &lt;dbl&gt;</span></a></code></pre></div>
+</div>
+<div id="iteration-5" class="section level3">
+<h3>Iteration 5</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">trust_metadata &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="st">  </span><span class="kw">anti_join</span>(</a>
+<a class="sourceLine" id="cb13-3" title="3">    <span class="co"># with a filtering join exclude all from iteration 4</span></a>
+<a class="sourceLine" id="cb13-4" title="4">    exclusions, </a>
+<a class="sourceLine" id="cb13-5" title="5">    <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;filename&quot;</span>, <span class="st">&quot;var_name_orig&quot;</span>)</a>
+<a class="sourceLine" id="cb13-6" title="6">    )</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="st">  </span><span class="kw">count</span>(val_label_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb14-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb14-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb14-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_,_cy_tr_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_0_in_eu27
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_33_in_v6
+</td>
+<td style="text-align:right;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+130
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_mk_me_rs_al_tr_in_isocntry
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_norway_15_in_v8
+</td>
+<td style="text-align:right;">
+25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_to_30_in_v6
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_1_to_32_in_v6
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry_and_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_eu27_plus_hr_0_in_eu28
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+inap_not_eu28_coded_0_in_eu28
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+na
+</td>
+<td style="text-align:right;">
+26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+724
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="standardizing-value-labels-across-questions" class="section level2">
+<h2>Standardizing value labels across questions</h2>
+<p>Now we need to create a table with all value labels, as well as topics / variable types.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">val_labels_trust &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="st">  </span><span class="kw">count</span>(val_label_norm)</a>
+<a class="sourceLine" id="cb15-3" title="3"></a>
+<a class="sourceLine" id="cb15-4" title="4">trust_vocabulary &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">tibble</span> (</a>
+<a class="sourceLine" id="cb15-5" title="5">  <span class="co"># maybe we can use a generic controlled vocabulary, for example</span></a>
+<a class="sourceLine" id="cb15-6" title="6">  <span class="co"># Library of Congress</span></a>
+<a class="sourceLine" id="cb15-7" title="7">  <span class="dt">topic_1 =</span> <span class="st">&#39;trust institutions&#39;</span>,</a>
+<a class="sourceLine" id="cb15-8" title="8">  <span class="co"># And if we find them, we can add GESIS or TNS/Kantar keywords here</span></a>
+<a class="sourceLine" id="cb15-9" title="9">  <span class="dt">topic_2 =</span> <span class="st">&#39;trust, binary&#39;</span>,</a>
+<a class="sourceLine" id="cb15-10" title="10">  <span class="dt">val_label_norm =</span> val_labels_trust <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(val_label_norm), </a>
+<a class="sourceLine" id="cb15-11" title="11">  <span class="dt">level =</span> <span class="dv">3</span> <span class="co"># missingness should be harmonized in character form </span></a>
+<a class="sourceLine" id="cb15-12" title="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">trust_vocabulary <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb16-4" title="4">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb16-5" title="5">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb16-6" title="6">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+topic_1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+topic_2
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+level
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_,_cy_tr_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_0_in_eu27
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_mk_me_rs_al_tr_in_isocntry
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_norway_15_in_v8
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_1_to_30_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_1_to_32_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry_and_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_eu27_plus_hr_0_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_eu28_coded_0_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+na
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<p>We add the harmonized values and labels, as well as a flag indicating whether the value is substantive of one of missing value codes, to create the <code>trust_values_table</code>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">trust_values_table &lt;-<span class="st"> </span>trust_vocabulary <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">character_value =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb17-3" title="3">      <span class="co"># and create a surely harmonized character representation </span></a>
+<a class="sourceLine" id="cb17-4" title="4">      <span class="kw">grepl</span>(<span class="st">&quot;dk|inap|na&quot;</span>, val_label_norm) <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span>, </a>
+<a class="sourceLine" id="cb17-5" title="5">      <span class="kw">substr</span>(val_label_norm, <span class="dv">1</span>,<span class="dv">7</span>) <span class="op">==</span><span class="st"> &quot;tend_to&quot;</span> <span class="op">~</span><span class="st"> &quot;tend_to_trust&quot;</span>,</a>
+<a class="sourceLine" id="cb17-6" title="6">      <span class="kw">substr</span>(val_label_norm, <span class="dv">1</span>,<span class="dv">11</span>) <span class="op">==</span></a>
+<a class="sourceLine" id="cb17-7" title="7"><span class="st">        &quot;tend_not_to&quot;</span> <span class="op">~</span><span class="st"> &quot;tend_not_to_trust&quot;</span>,</a>
+<a class="sourceLine" id="cb17-8" title="8">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;ERROR&quot;</span>), </a>
+<a class="sourceLine" id="cb17-9" title="9">    <span class="dt">numeric_value =</span> <span class="kw">case_when</span> ( </a>
+<a class="sourceLine" id="cb17-10" title="10">      character_value <span class="op">==</span><span class="st"> &quot;tend_to_trust&quot;</span>     <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb17-11" title="11">      character_value <span class="op">==</span><span class="st"> &quot;tend_not_to_trust&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb17-12" title="12">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>),</a>
+<a class="sourceLine" id="cb17-13" title="13">    <span class="dt">missing =</span> <span class="kw">case_when</span> (</a>
+<a class="sourceLine" id="cb17-14" title="14">      <span class="co"># it is useful for faster filtering of missingness</span></a>
+<a class="sourceLine" id="cb17-15" title="15">      <span class="co"># and true value labels  </span></a>
+<a class="sourceLine" id="cb17-16" title="16">      <span class="kw">is.na</span>(numeric_value) <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb17-17" title="17">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb17-18" title="18">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-19" title="19"><span class="st">  </span><span class="kw">arrange</span>(numeric_value)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"></a>
+<a class="sourceLine" id="cb18-2" title="2">trust_values_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb18-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb18-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb18-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+topic_1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+topic_2
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+val_label_norm
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+level
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+character_value
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+numeric_value
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+missing
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+tend_not_to_trust
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+tend_to_trust
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+dk
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_,_cy_tr_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_0_in_eu27
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_33_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_mk_me_rs_al_tr_in_isocntry
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_norway_15_in_v8
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_1_to_30_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_1_to_32_in_v6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_cy_tcc_in_isocntry_and_not_1_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_eu27_plus_hr_0_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+inap_not_eu28_coded_0_in_eu28
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+lt_na_gt
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+<td style="text-align:left;">
+na
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="standardizing-variable-names" class="section level2">
+<h2>Standardizing variable names</h2>
+<p>The <code>trust_variable_table</code> will include original and harmonized variable names, as well as keywords and topics to match with the <code>trust_values_table</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">trust_variable_table &lt;-<span class="st"> </span>trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="st">  </span><span class="kw">filter</span> ( </a>
+<a class="sourceLine" id="cb19-3" title="3">    val_label_norm <span class="op">%in%</span><span class="st"> </span>trust_values_table<span class="op">$</span>val_label_norm </a>
+<a class="sourceLine" id="cb19-4" title="4">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="st">  </span><span class="kw">filter</span> ( <span class="op">!</span><span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;_recoded&quot;</span>, var_label_norm ) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-6" title="6"><span class="st">  </span><span class="kw">mutate</span> ( </a>
+<a class="sourceLine" id="cb19-7" title="7">    <span class="co"># normalize the names of institutions</span></a>
+<a class="sourceLine" id="cb19-8" title="8">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-9" title="9">      <span class="st">&quot;trust_in_institutions_|in_|_trust|trust_|[0-9]_|^a_|^b_|^q16c_|the_&quot;</span>, </a>
+<a class="sourceLine" id="cb19-10" title="10">      <span class="st">&quot;&quot;</span>, var_label_norm ),</a>
+<a class="sourceLine" id="cb19-11" title="11">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-12" title="12">      <span class="st">&quot;charitable_org&quot;</span>, <span class="st">&quot;charities&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-13" title="13">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-14" title="14">      <span class="st">&quot;europ_court_of_auditors|eur_court_of_auditors&quot;</span>,</a>
+<a class="sourceLine" id="cb19-15" title="15">      <span class="st">&quot;eu_court_of_auditors&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-16" title="16">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-17" title="17">      <span class="st">&quot;europ_court_of_justice|european_court_of_justice&quot;</span>,</a>
+<a class="sourceLine" id="cb19-18" title="18">      <span class="st">&quot;eu_court_of_justice&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-19" title="19">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-20" title="20">      <span class="st">&quot;justice_legal_system|justice_nat_legal_system&quot;</span>,</a>
+<a class="sourceLine" id="cb19-21" title="21">      <span class="st">&quot;justice&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-22" title="22">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-23" title="23">      <span class="st">&quot;nat_parliament&quot;</span>, <span class="st">&quot;national_parliament&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-24" title="24">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-25" title="25">      <span class="st">&quot;nat_government&quot;</span>, <span class="st">&quot;national_government&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-26" title="26">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-27" title="27">      <span class="st">&quot;non_govmnt_org|non_govnmt_org&quot;</span>, <span class="st">&quot;ngo&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-28" title="28">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-29" title="29">      <span class="st">&quot;polit_parties&quot;</span>, <span class="st">&quot;political_parties&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-30" title="30">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-31" title="31">      <span class="st">&quot;reg_loc_public_authorities|reg_local_authorities|reg_local_public_authorities|rg_lc_authorities&quot;</span>, </a>
+<a class="sourceLine" id="cb19-32" title="32">      <span class="st">&quot;reg_loc_authorities&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-33" title="33">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-34" title="34">      <span class="st">&quot;written_press&quot;</span>, <span class="st">&quot;press&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-35" title="35">    <span class="dt">institution =</span> <span class="kw">gsub</span>(</a>
+<a class="sourceLine" id="cb19-36" title="36">      <span class="st">&quot;econ_and_social_committee|economic_and_soc_committee&quot;</span>, </a>
+<a class="sourceLine" id="cb19-37" title="37">      <span class="st">&quot;econ_and_soc_committee&quot;</span>, institution ),</a>
+<a class="sourceLine" id="cb19-38" title="38">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-39" title="39"><span class="st">  </span><span class="kw">mutate</span> ( </a>
+<a class="sourceLine" id="cb19-40" title="40">    <span class="co">## handle exceptions from original questionnaire variants</span></a>
+<a class="sourceLine" id="cb19-41" title="41">    <span class="dt">geo_qualifier =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb19-42" title="42">      <span class="kw">grepl</span>(<span class="st">&quot;_tcc&quot;</span>, institution) <span class="op">~</span><span class="st"> &quot;tcc&quot;</span>, <span class="co">#Turkish Cypriot Community</span></a>
+<a class="sourceLine" id="cb19-43" title="43">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span>),</a>
+<a class="sourceLine" id="cb19-44" title="44">    <span class="dt">institution =</span> <span class="kw">gsub</span>(<span class="st">&quot;_tcc&quot;</span>, <span class="st">&quot;&quot;</span>, institution)</a>
+<a class="sourceLine" id="cb19-45" title="45">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-46" title="46"><span class="st">  </span><span class="kw">mutate</span> ( </a>
+<a class="sourceLine" id="cb19-47" title="47">    <span class="co">## follow exception handling for special questionnaires</span></a>
+<a class="sourceLine" id="cb19-48" title="48">    <span class="dt">var_name_suggested =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb19-49" title="49">      <span class="st">&quot;trust_&quot;</span>, institution, <span class="st">&quot;_&quot;</span>, geo_qualifier)</a>
+<a class="sourceLine" id="cb19-50" title="50">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-51" title="51"><span class="st">  </span><span class="kw">mutate</span> (</a>
+<a class="sourceLine" id="cb19-52" title="52">    <span class="co"># remove _na where the no geo_qualifier is present as base case</span></a>
+<a class="sourceLine" id="cb19-53" title="53">    <span class="dt">var_name_suggested =</span> <span class="kw">gsub</span>(<span class="st">&quot;_NA&quot;</span>, <span class="st">&quot;&quot;</span>, var_name_suggested),</a>
+<a class="sourceLine" id="cb19-54" title="54">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-55" title="55"><span class="st">  </span><span class="kw">mutate</span> ( </a>
+<a class="sourceLine" id="cb19-56" title="56">    <span class="co">## add some topical keywords to our table by taste</span></a>
+<a class="sourceLine" id="cb19-57" title="57">    <span class="dt">topic_1 =</span> <span class="st">&quot;trust institutions&quot;</span>,</a>
+<a class="sourceLine" id="cb19-58" title="58">    <span class="dt">topic_2 =</span> <span class="st">&quot;trust, binary&quot;</span></a>
+<a class="sourceLine" id="cb19-59" title="59">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-60" title="60"><span class="st">  </span><span class="kw">select</span> ( </a>
+<a class="sourceLine" id="cb19-61" title="61">    <span class="co">## remove aux variables </span></a>
+<a class="sourceLine" id="cb19-62" title="62">    <span class="op">-</span><span class="kw">contains</span>(<span class="st">&quot;label&quot;</span>),</a>
+<a class="sourceLine" id="cb19-63" title="63">    <span class="op">-</span><span class="kw">all_of</span>(<span class="kw">c</span>(<span class="st">&quot;val_numeric_orig&quot;</span>, </a>
+<a class="sourceLine" id="cb19-64" title="64">              <span class="st">&quot;val_order_alpha&quot;</span>, </a>
+<a class="sourceLine" id="cb19-65" title="65">              <span class="st">&quot;n_categories&quot;</span>))</a>
+<a class="sourceLine" id="cb19-66" title="66">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-67" title="67"><span class="st">  </span><span class="kw">rename</span> ( <span class="dt">keyword_1 =</span> institution ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-68" title="68"><span class="st">  </span><span class="kw">distinct_all</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-69" title="69"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">var_name_suggested =</span> <span class="kw">ifelse</span>(</a>
+<a class="sourceLine" id="cb19-70" title="70">    <span class="co">#one last exception to handle</span></a>
+<a class="sourceLine" id="cb19-71" title="71">    <span class="dt">test =</span> var_name_suggested <span class="op">==</span><span class="st"> &quot;trust_political_partiess_tcc&quot;</span>,</a>
+<a class="sourceLine" id="cb19-72" title="72">    <span class="dt">yes =</span> <span class="st">&quot;trust_political_parties_tcc&quot;</span>, </a>
+<a class="sourceLine" id="cb19-73" title="73">    <span class="dt">no =</span> var_name_suggested )</a>
+<a class="sourceLine" id="cb19-74" title="74">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb19-75" title="75"><span class="st">  </span><span class="kw">arrange</span>(var_name_suggested)</a></code></pre></div>
+<p>Let’s print the first 10 rows of the resulting table</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">trust_variable_table <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb20-2" title="2"><span class="st">  </span><span class="kw">head</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb20-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb20-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb20-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb20-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+filename
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_orig
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+keyword_1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+geo_qualifier
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_suggested
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+topic_1
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+topic_2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ZA5449_v2-2-0.sav
+</td>
+<td style="text-align:left;">
+v295
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA3387_v1-1-0.sav
+</td>
+<td style="text-align:left;">
+v323
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA4526_v1-0-1.sav
+</td>
+<td style="text-align:left;">
+v89
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA4744_v5-0-0.sav
+</td>
+<td style="text-align:left;">
+v211
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA4994_v3-0-0.sav
+</td>
+<td style="text-align:left;">
+v211
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5932_v3-0-0.sav
+</td>
+<td style="text-align:left;">
+qa8a_8
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA5998_v2-0-0.sav
+</td>
+<td style="text-align:left;">
+qa8a_3
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA6694_v2-0-0.sav
+</td>
+<td style="text-align:left;">
+qa8a_3
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA6788_v1-5-0.sav
+</td>
+<td style="text-align:left;">
+qa8a_8
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ZA6863_v1-0-0.sav
+</td>
+<td style="text-align:left;">
+qa8a_3
+</td>
+<td style="text-align:left;">
+army
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:left;">
+trust institutions
+</td>
+<td style="text-align:left;">
+trust, binary
+</td>
+</tr>
+</tbody>
+</table>
+<p>How many different harmonized variables do we get? 54, each in between 1 and 42 Eurobarometer editions.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">trust_variable_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="st">  </span><span class="kw">count</span>(var_name_suggested) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-3" title="3"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb21-4" title="4"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb21-5" title="5">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>),</a>
+<a class="sourceLine" id="cb21-6" title="6">                  <span class="dt">fixed_thead =</span> T,</a>
+<a class="sourceLine" id="cb21-7" title="7">                  <span class="dt">font_size =</span> <span class="dv">10</span> )</a></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="font-size: 10px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+var_name_suggested
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+trust_army
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_big_companies
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_charities
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_church
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_city_council
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_civil_service
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_committee_of_regions
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_consumer_assoc
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_council_of_eu
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_council_of_ministers
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_econ_and_soc_committee
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_education
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_eu_commit_of_regions
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_eu_court_of_auditors
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_eu_court_of_justice
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_eu_future_convention
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_central_bank
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_commission
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_council
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_ombudsman
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_parliament
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_union
+</td>
+<td style="text-align:right;">
+40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_european_union_tcc
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_internet
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_internet_tcc
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_justice
+</td>
+<td style="text-align:right;">
+27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_media
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_media_tcc
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_national_government
+</td>
+<td style="text-align:right;">
+41
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_national_parliament
+</td>
+<td style="text-align:right;">
+42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_nato
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_ngo
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_official_statistics
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_online_social_networks
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_online_social_networks_tcc
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_police
+</td>
+<td style="text-align:right;">
+23
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_political_parties
+</td>
+<td style="text-align:right;">
+39
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_political_parties_tcc
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_press
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_press_tcc
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_public_administration
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_radio
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_radio_tcc
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_reg_loc_authorities
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_reg_loc_authorities_tcc
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_religious_inst
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_small_companies
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_soc_and_econom_committee
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_television
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_television_tcc
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_trade_unions
+</td>
+<td style="text-align:right;">
+13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_united_nations
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+trust_united_nations_tcc
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

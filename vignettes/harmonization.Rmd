@@ -14,13 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library(eurobarometer)
 library(dplyr)
 library(knitr)
 library(stringr)
-library(retroharmonize)
 ```
+
+The [eurobarometer](http://eurobarometer.danielantal.eu/) package relies on the survey class system of [retroharmonize](http://retroharmonize.satellitereport.com/). You do not have to load the entire `retroharmonize` package - whatever is needed to make `eurobarometer` work is imported and modified as needed.
 
 ```{r}
 ZA6863 <- read_rds(
@@ -33,6 +34,8 @@ ZA7576 <- read_rds(
 ```
 
 ## Metadata
+
+The metadata analysis is a first step to help both variable name and value label harmonization.
 
 ```{r}
 ZA6863_metadata <- gesis_metadata_create(ZA6863)
@@ -60,6 +63,8 @@ ZA7576_items <- ZA7576_metadata %>%
   filter ( var_name_suggested != 'not_given' ) %>%
   unlist() %>% as.character()
 ```
+
+In this case, the `var_label_suggest()` function worked perfectly, so we can approve the suggestions of `gesis_metadata_create()`.
 
 Let's select the variables with identical names from the two surveys:
 
@@ -103,7 +108,9 @@ ZA7576_trust$labels[2]
 
 The `retroharmonize::harmonize_values()` is a prototype of the harmonization function. It should be adjusted to survey and question-block specific idiosyncrasies. This should be the work of various vocabulary tables, but the prototype can be made work with inputting the harmonization regex either as a list or as a data frame.
 
-Because we wan to have the same harmonization for a question block, in this case we adopt the prototype with a regex. The `retroharmonize::harmonize_values()` function will normalize the labels, so you do not have to deal with capitalization and upper case versions.
+Because we would like to have the same harmonization for a question block, in this case we adopt the prototype with a regex. The `retroharmonize::harmonize_values()` function will normalize the labels, so you do not have to deal with capitalization and upper case versions. If you want to understand better the harmonization procedure, please refer to the [Harmonize Value Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html) vignette of the [retroharmonize](http://retroharmonize.satellitereport.com/) package.
+
+> With a better imputing system, this could be automated to a high level, probably harmonizing all trend variables at the same time.
 
 ```{r}
 harmonize_trust <- function(x) {
@@ -119,16 +126,16 @@ harmonize_trust <- function(x) {
   na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
   na_range = NULL,
   id = "survey_id",
-  name_orig = NULL
-)
+  name_orig = NULL)
 }
 ```
 
-Choosing the first `trust` vector, we can see that the harmonization records all metadata for reproducability.
+Choosing the first `trust` vector, we can see that the harmonization records all metadata for reproducibility.
 
 ```{r}
 harmonize_trust ( hZA6863$trust_army)
 ```
+
 The coding appears very similar, so we use the same helper function for the same question in the other survey:
 
 ```{r}
@@ -167,13 +174,17 @@ panel <- vctrs::vec_rbind (
 )
 ```
 
-The panel is created, and it is open for exporting to other statistical software, or further analysis in R. While some basic arithmetic methods are implemented for the `labelled_spss_survey` class of the [retroharmonize] package, for using all R statistical packages, the analyst has to chose a base R type that is compatible with them. Since the `trust` variables are categorical variables, they can be re-casted with the `as_factor()` or `as_numeric()` methods. Again, the base R `as.factor()` or `as.numeric()` will give a legible, but not correct representation. 
+The panel is created, and it is open for exporting to other statistical software, or further analysis in R. While some basic arithmetic methods are implemented for the `labelled_spss_survey` class of the [retroharmonize](http://retroharmonize.satellitereport.com/) package, for using all R statistical packages, the analyst has to chose a base R type that is compatible with them. Since the `trust` variables are categorical variables, they can be re-casted with the `as_factor()` or `as_numeric()` methods. Again, the base R `as.factor()` or `as.numeric()` will give a legible, but not correct representation. 
+
+The factor representation presents the user-defined missing values as categories:
 
 ```{r}
 panel %>%
   mutate_at (vars (starts_with("trust")), as_factor ) %>%
   summary()
 ```
+
+And let's compare this with the numeric representation, where the user-defined missing values are treated as missing:
 
 ```{r}
 panel %>%

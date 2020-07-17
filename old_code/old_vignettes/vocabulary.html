@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Working With Vocabularies</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Working With Vocabularies</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(eurobarometer)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(tibble)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(knitr)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(kableExtra)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co"># The examples of this vignette can be found run with  </span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="co"># source(</span></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="co">#  file.path(&quot;not_included&quot;, &quot;vignette_vocabulary_examples.R&quot;)</span></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="co">#  )</span></a></code></pre></div>
+<p>There is no final metadata solution now. There are two main functions, <a href="http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html">gesis_metadata_create</a>, which mainly helps with normalizing the variable names, and <a href="http://eurobarometer.danielantal.eu/reference/gesis_vocabulary_create.html">gesis_vocabulary_create</a> (wrapped by <a href="http://eurobarometer.danielantal.eu/reference/gesis_corpus_create.html">gesis_corpus_create</a>), which help consolidating the vocabulary of questionnaire items.</p>
+<p>They are both referring back to <a href="http://eurobarometer.danielantal.eu/reference/normalize_names.html">normalize_names</a> in normalizing labels. The <a href="http://eurobarometer.danielantal.eu/reference/var_name_suggested.html">var_name_suggested</a> is a very early attempt to use a canonical form of same questions that appear under different normalized forms.</p>
+<p><code>metadata_database</code> is a table with variable metadata created from 28 Eurobarometer SPSS files. It has the following columns:</p>
+<p><code>var_name_orig</code>: variable name in the original dataset<br />
+<code>class_orig</code>: column class in the original dataset<br />
+<code>var_label_orig</code>: variable label in the original dataset<br />
+<code>var_label_norm</code>: normalized variable label<br />
+<code>var_name_suggested</code>: suggested variable label<br />
+<code>factor_levels</code>: vector of value labels as a list (they have no fixed length) <code>n_categories</code>: total number of response options <code>= length(factor_levels)</code><br />
+<code>class_suggested</code>: suggested conversion to an R class, it should correspond later to a conversion function, so that the researcher can just simply approve and get a correct R representation.<br />
+<code>filename</code>: original name of file as obtained from GESIS; it contains a disambigous version information, too. <code>val_numeric_orig</code>: numeric value code (if available, empty otherwise)<br />
+<code>val_label_orig</code>: value label in the original dataset corresponding to a response option <code>val_label_norm</code>: value label normalized with <code>label_normalize()</code> <code>val_order_alpha</code>: alphabetical number (position) of response option in the set of value labels, aftering sorting with <code>sort()</code>. We use alphabetical order instead of <code>levels()</code> because levels may not be the same in different survey files, and we revert to a basic but disambigous sorting. <code>val_order_length</code>: <strong>what’s this, and why is it equal to <code>n_categories</code> - 1?</strong></p>
+<p><strong>Can we also have the number of categories of non-missing response options? For binary variables this would be 2.</strong></p>
+<p>Thta is a very good question, and relates back to the treatment of <code>NA</code> vars. <code>val_order_alpha</code> shows the distinct values after converting from <code>haven_labelled</code>, and <code>n_categories</code> the number of labels. I fear that sometimes certain value labels have no numeric value in SPSS, and they convert to <code>NA</code>, in other cases they have a numeric value like <code>9</code> or <code>999</code> and they convert to a number.</p>
+<p>I believe that we must put the a lot of energies into understanding various forms of ‘missingness’ and refused answers, and come up with a coding that is practical for programmatic use, applicable in the R language, and gives a faithful representation of the original survey.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">metadata_database &lt;-<span class="st"> </span><span class="kw">readRDS</span>(</a>
+<a class="sourceLine" id="cb2-2" title="2">  <span class="kw">file.path</span>(<span class="st">&quot;..&quot;</span>, <span class="st">&quot;data-raw&quot;</span>, <span class="st">&quot;eb_metadata_database.rds&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">  )</a></code></pre></div>
+<p>Let’s filter out a typical question type that has <code>Tend to trust</code> and <code>Tend not to trust</code> answer options, with differently encoded <code>Declined</code> to answer options.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">select_metadata_vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;filename&quot;</span>, <span class="st">&quot;var_name_orig&quot;</span>,</a>
+<a class="sourceLine" id="cb3-2" title="2">                          <span class="st">&quot;var_label_norm&quot;</span>, </a>
+<a class="sourceLine" id="cb3-3" title="3">                          <span class="st">&quot;var_name_suggested&quot;</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                          <span class="st">&quot;val_label_norm&quot;</span> , <span class="st">&quot;val_label_orig&quot;</span>,</a>
+<a class="sourceLine" id="cb3-5" title="5">                          <span class="st">&quot;val_order_alpha&quot;</span>, <span class="st">&quot;val_order_length&quot;</span>)</a>
+<a class="sourceLine" id="cb3-6" title="6"></a>
+<a class="sourceLine" id="cb3-7" title="7">trust_metadata &lt;-<span class="st"> </span>metadata_database  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="st">  </span><span class="kw">filter</span> (</a>
+<a class="sourceLine" id="cb3-9" title="9">    <span class="kw">grepl</span>( <span class="st">&quot;tend_to_trust|tend_not_to_trust&quot;</span>, val_label_norm )</a>
+<a class="sourceLine" id="cb3-10" title="10">  )  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="st">  </span><span class="kw">select</span> ( <span class="kw">all_of</span>(select_metadata_vars)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="st">  </span><span class="kw">arrange</span> ( var_label_norm, val_label_norm, filename )</a></code></pre></div>
+<p>To get unique questions, let’s leave out the <code>Tend not to trust</code> negative answer options.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">require</span>(kableExtra)</a>
+<a class="sourceLine" id="cb4-2" title="2">trust_metadata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span> ( </a>
+<a class="sourceLine" id="cb4-3" title="3">   <span class="kw">grepl</span>( <span class="st">&quot;tend_to_trust&quot;</span>, val_label_norm )</a>
+<a class="sourceLine" id="cb4-4" title="4">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">15</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Print only a sample of 15 rows</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="kw">kable</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span></a>
+<a class="sourceLine" id="cb4-8" title="8">                <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
+<a class="sourceLine" id="cb4-9" title="9">                <span class="dt">fixed_thead =</span> T, </a>
+<a class="sourceLine" id="cb4-10" title="10">                <span class="dt">font_size =</span> <span class="dv">7</span>)</a></code></pre></div>
+<p>Let’s add back all value labels:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">select</span> (</a>
+<a class="sourceLine" id="cb5-3" title="3">    <span class="co"># previously we filtered tend to (not) agree, remove it</span></a>
+<a class="sourceLine" id="cb5-4" title="4">    <span class="op">-</span><span class="kw">all_of</span>(<span class="kw">c</span>(<span class="st">&quot;val_label_norm&quot;</span>, <span class="st">&quot;val_label_orig&quot;</span>))</a>
+<a class="sourceLine" id="cb5-5" title="5">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="st">  </span><span class="kw">left_join</span> ( </a>
+<a class="sourceLine" id="cb5-7" title="7">    <span class="co"># add back all value labels, i.e. various declines</span></a>
+<a class="sourceLine" id="cb5-8" title="8">    metadata_database <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="st">                </span><span class="kw">select</span> ( <span class="kw">all_of</span>(select_metadata_vars))</a>
+<a class="sourceLine" id="cb5-10" title="10">    )  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-11" title="11"><span class="st">  </span><span class="kw">sample_n</span>(<span class="dv">15</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Print only a sample of 15 rows</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="kw">kable</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-13" title="13"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> </a>
+<a class="sourceLine" id="cb5-14" title="14">                <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
+<a class="sourceLine" id="cb5-15" title="15">                <span class="dt">fixed_thead =</span> T, </a>
+<a class="sourceLine" id="cb5-16" title="16">                <span class="dt">font_size =</span> <span class="dv">9</span>)</a></code></pre></div>
+<div id="harmonization-of-value-labels" class="section level2">
+<h2>Harmonization of Value Labels</h2>
+<p>Let’s review the problems here.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">trust_with_decline  &lt;-<span class="st"> </span>metadata_database <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">select</span> ( <span class="kw">all_of</span>(select_metadata_vars) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">semi_join</span> ( trust_metadata <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">                </span><span class="kw">select</span> ( <span class="kw">all_of</span>(<span class="kw">c</span>(<span class="st">&quot;filename&quot;</span>, <span class="st">&quot;var_name_orig&quot;</span>))), </a>
+<a class="sourceLine" id="cb6-5" title="5">              <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;filename&quot;</span>, <span class="st">&quot;var_name_orig&quot;</span>))</a>
+<a class="sourceLine" id="cb6-6" title="6"></a>
+<a class="sourceLine" id="cb6-7" title="7">trust_var_labels &lt;-<span class="st"> </span>trust_with_decline <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="st">  </span><span class="kw">select</span> ( <span class="kw">all_of</span>(<span class="kw">c</span>(<span class="st">&quot;val_label_orig&quot;</span>, <span class="st">&quot;val_label_norm&quot;</span>,</a>
+<a class="sourceLine" id="cb6-9" title="9">                    <span class="st">&quot;val_order_alpha&quot;</span>, <span class="st">&quot;val_order_length&quot;</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="st">  </span><span class="kw">distinct_all</span> () <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="st">  </span><span class="kw">arrange</span> ( val_label_norm, val_label_orig, val_order_length)</a>
+<a class="sourceLine" id="cb6-12" title="12"></a>
+<a class="sourceLine" id="cb6-13" title="13">trust_var_labels <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="kw">kable</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> </a>
+<a class="sourceLine" id="cb6-16" title="16">                <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
+<a class="sourceLine" id="cb6-17" title="17">                <span class="dt">fixed_thead =</span> T, </a>
+<a class="sourceLine" id="cb6-18" title="18">                <span class="dt">font_size =</span> <span class="dv">9</span> ) </a></code></pre></div>
+<p>We are dealing with different scales here. Let’s narrow down.</p>
+<p>Some variables appear to have four categories, because the declined answers are differently coded in the Turkish Community of Cyprus. In other cases, though, this is just a different scale.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">trust_<span class="dv">2</span>_with_decline  &lt;-<span class="st"> </span>trust_with_decline <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">filter</span> ( val_order_length <span class="op">&lt;=</span><span class="st"> </span><span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb7-3" title="3"></a>
+<a class="sourceLine" id="cb7-4" title="4">trust_<span class="dv">2</span>_value_labels &lt;-<span class="st"> </span>trust_<span class="dv">2</span>_with_decline <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="st">  </span><span class="kw">select</span> ( <span class="kw">all_of</span>(<span class="kw">c</span>(<span class="st">&quot;val_label_orig&quot;</span>, <span class="st">&quot;val_label_norm&quot;</span>, </a>
+<a class="sourceLine" id="cb7-6" title="6">                    <span class="st">&quot;val_order_alpha&quot;</span>, <span class="st">&quot;val_order_length&quot;</span>))</a>
+<a class="sourceLine" id="cb7-7" title="7">           ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="st">  </span><span class="kw">distinct_all</span> () <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="st">  </span><span class="kw">arrange</span> ( val_label_norm, val_label_orig, val_order_length)</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11">trust_<span class="dv">2</span>_value_labels <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="kw">kable</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> </a>
+<a class="sourceLine" id="cb7-14" title="14">                <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
+<a class="sourceLine" id="cb7-15" title="15">                <span class="dt">fixed_thead =</span> T, </a>
+<a class="sourceLine" id="cb7-16" title="16">                <span class="dt">font_size =</span> <span class="dv">10</span> ) </a></code></pre></div>
+<p>My approach would be this:</p>
+<ol style="list-style-type: decimal">
+<li>Filter out all questions with normalized answer options <code>tend_to_trust</code> and <code>tend_not_to_trust</code>. These can be safely harmonized.</li>
+</ol>
+<ul>
+<li>A more conservative approach would be to screen the variables in terms of variable labels and value labels, to get an understanding of how these labels are constructed and how they reflect the content of the variable. Consulting the questionnaires might be inevitable in some cases.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p>There is clearly a lot of work to be done with the non-response options (don’t knows, refusals, logical skips / inapplicables, etc.). I think that this would merit a different function and a different vocabulary, because missingness should consistently treated anyway. The treatment of missinginess in the R language will also raise issues, because the <code>NA</code> values is not class independent.</p></li>
+<li><p>Agree on a class representation of the value labels and the missingness. A binary variable would lend itself to be numerically represented, but if we want to treat trust as a topic, which is sometimes coded differently, then a factor or character representation is better (and we should probably use their more modern vctrs versions.).</p></li>
+<li><p>A factor representation is useful if we want to use the ordinary scale of the variable. In this case we must make sure that at each table join, the number and ordering of the factor levels is consistent.</p></li>
+<li><p>I tend to belive that it is better to add back the ordinary scaling later, becasue it is not always necessary at all. (For example, the researcher may want to use this variables in PCA or select a few of them as indicators/dummies.) It is far more simple to give a character representation to these labels.</p></li>
+</ol>
+<ul>
+<li>Another idea would be to have everything stored as string variables, which would ofrce the user to decide for themselves what they want to do.</li>
+</ul>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Manually find out what is going on with <code>tend_to_trust_7_8_in_qa8</code> <code>tend_not_to_trust_1_4_in_qa8</code>. If they can be safely treated as an exception and recoded to <code>tend_to_trust</code> and <code>tend_not_to_trust</code>, add them to the controlled vocabulary.</p></li>
+<li><p>Leave out anything that has different labels than <code>tend_to_trust</code>, <code>tend_not_to_trust</code> or their missingness value.</p></li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">trust_vocabulary &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">tibble</span> (</a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="co"># maybe we can use a generic controlled vocabulary, for example</span></a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="co"># Library of Congress</span></a>
+<a class="sourceLine" id="cb8-4" title="4">  <span class="dt">topic_1 =</span> <span class="st">&#39;trust&#39;</span>,</a>
+<a class="sourceLine" id="cb8-5" title="5">  <span class="co"># And if we find them, we can add GESIS or TNS/Kantar keywords here</span></a>
+<a class="sourceLine" id="cb8-6" title="6">  <span class="dt">topic_2 =</span> <span class="st">&#39;trust, binary&#39;</span>,</a>
+<a class="sourceLine" id="cb8-7" title="7">  <span class="dt">val_label_norm =</span> trust_<span class="dv">2</span>_value_labels <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="st">    </span><span class="kw">filter</span> ( </a>
+<a class="sourceLine" id="cb8-9" title="9">      <span class="kw">grepl</span>(<span class="st">&quot;tend_to|tend_not_to|inap|dk&quot;</span>, val_label_norm)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="st">    </span><span class="kw">distinct</span> ( val_label_norm ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="st">    </span><span class="kw">unlist</span> () <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="st">    </span><span class="kw">as.character</span>(), </a>
+<a class="sourceLine" id="cb8-13" title="13">  <span class="dt">level =</span> <span class="dv">3</span> <span class="co"># missingness should be harmonized in character form </span></a>
+<a class="sourceLine" id="cb8-14" title="14">) </a>
+<a class="sourceLine" id="cb8-15" title="15"></a>
+<a class="sourceLine" id="cb8-16" title="16">trust_table &lt;-<span class="st"> </span>trust_vocabulary <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="st">  </span><span class="kw">mutate</span>( </a>
+<a class="sourceLine" id="cb8-18" title="18">    <span class="dt">character_value =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb8-19" title="19">      <span class="co"># and create a surely harmonized character representation </span></a>
+<a class="sourceLine" id="cb8-20" title="20">      <span class="kw">grepl</span>(<span class="st">&quot;dk|inap&quot;</span>, val_label_norm) <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span>, </a>
+<a class="sourceLine" id="cb8-21" title="21">      <span class="kw">substr</span>(val_label_norm, <span class="dv">1</span>,<span class="dv">7</span>) <span class="op">==</span><span class="st"> &quot;tend_to&quot;</span> <span class="op">~</span><span class="st"> &quot;tend_to_trust&quot;</span>, </a>
+<a class="sourceLine" id="cb8-22" title="22">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;tend_not_to_trust&quot;</span>), </a>
+<a class="sourceLine" id="cb8-23" title="23">    <span class="dt">numeric_value =</span> <span class="kw">case_when</span> ( </a>
+<a class="sourceLine" id="cb8-24" title="24">      character_value <span class="op">==</span><span class="st"> &quot;tend_to&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb8-25" title="25">      character_value <span class="op">==</span><span class="st"> &quot;tend_not_to&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb8-26" title="26">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_real_</span>),</a>
+<a class="sourceLine" id="cb8-27" title="27">    <span class="dt">missing =</span> <span class="kw">case_when</span> (</a>
+<a class="sourceLine" id="cb8-28" title="28">      <span class="co"># it is useful for faster filtering of missingness</span></a>
+<a class="sourceLine" id="cb8-29" title="29">      <span class="co"># and true value labels  </span></a>
+<a class="sourceLine" id="cb8-30" title="30">      <span class="kw">is.na</span>(numeric_value) <span class="op">~</span><span class="st"> </span><span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb8-31" title="31">      <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb8-32" title="32">  )</a>
+<a class="sourceLine" id="cb8-33" title="33"></a>
+<a class="sourceLine" id="cb8-34" title="34">trust_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-35" title="35"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-36" title="36"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> </a>
+<a class="sourceLine" id="cb8-37" title="37">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
+<a class="sourceLine" id="cb8-38" title="38">                  <span class="dt">fixed_thead =</span> T, </a>
+<a class="sourceLine" id="cb8-39" title="39">                  <span class="dt">font_size =</span> <span class="dv">10</span> ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-40" title="40"><span class="st">    </span><span class="kw">add_header_above</span>(<span class="kw">c</span>(<span class="st">&quot;Keywords&quot;</span> =<span class="st"> </span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb8-41" title="41">                       <span class="st">&quot;Label Identification&quot;</span> =<span class="st"> </span><span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb8-42" title="42">                       <span class="st">&quot;Value Harmonization&quot;</span> =<span class="st"> </span><span class="dv">3</span>))</a></code></pre></div>
+<p>As far as I see, this can be a bulding block of an important metadata table, for example, a table of two-level categories. As far as I see it, this table is capable of harmonizing the two-level trust variables in all 28 Eurobarometers I checked.</p>
+<p>The declined answers should be consistently added to the levels. Currently I used <code>NA_character_</code> in the character representation, but I think that a harmonized character version, such as the often used <code>declined</code> would be better. This could consistently treated as <code>NA_real_</code> in a suggested numerical representation, whenever that is applicable.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">saveRDS</span>(trust_table, <span class="kw">file.path</span>(</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="st">&quot;..&quot;</span>,   <span class="co"># we&#39;re in vignettes</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="st">&quot;data-raw&quot;</span>, <span class="st">&quot;trust_value_labels.rds&quot;</span>),</a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="dt">version =</span> <span class="dv">2</span> <span class="co"># downward compatibility on CRAN</span></a>
+<a class="sourceLine" id="cb9-5" title="5">  )</a></code></pre></div>
+<p>Once we have a few more bits, for example, similar elements of other 2-value factors, we’ll bind them together in the R file <code>data-raw/create_categorical_var.R</code>.</p>
+<p>Only the dataset maintainer should run <code>usethis::use_data()</code>, which creates the final file <code>data/category_labels_2</code>.</p>
+<p>When the data file is updated, you should check the documentation file <code>R/data-category_label_2.R</code>. This will be used to automatically update the data documentation. At last, <code>devtools::document()</code> will automatically update the <code>man/data-category_label_2.Rd</code> manual file. Never change the contents of the <code>man</code> directory by hand!</p>
+<p>The data documentation from the manual file can be reviewed by <code>?category_labels_2</code>.</p>
+<p>The <code>category_labels_2</code> should be extended by similar, two-level categorical variables later. The current stage can be reviewed with <code>data(category_labels_2</code>).</p>
+</div>
+<div id="harmonization-of-variable-names" class="section level2">
+<h2>Harmonization of Variable Names</h2>
+<p>Please review <a href="http://eurobarometer.danielantal.eu/articles/harmonization.html">Harmonizing Variable Names</a> vignette. Pull requests are welcome: if you want to make changes, or add details, please, modify the <code>variable_names.Rmd</code> file, and not the <code>.Rd</code> or <code>.html</code> or other compiled files. If you are unsure that we are woking paralell, just make a copy of the file to <code>not_included</code> with your version.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">trust_variable_table &lt;-<span class="st"> </span>trust_with_decline <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw">filter</span> ( val_label_norm <span class="op">%in%</span><span class="st"> </span>trust_table<span class="op">$</span>val_label_norm ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">filter</span> ( <span class="op">!</span><span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;_recoded&quot;</span>, var_label_norm ) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span><span class="kw">distinct</span> ( val_label_norm, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span> ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="st">  </span><span class="kw">mutate</span> ( <span class="dt">institution =</span>      <span class="kw">gsub</span>(<span class="st">&quot;trust_in_institutions_|trust_in_|_trust&quot;</span>, <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb10-6" title="6">                                   var_label_norm )) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="st">  </span><span class="kw">mutate</span> ( <span class="dt">geo_qualifier =</span> <span class="kw">case_when</span>(</a>
+<a class="sourceLine" id="cb10-8" title="8">    <span class="kw">grepl</span>(<span class="st">&quot;_tcc&quot;</span>, institution) <span class="op">~</span><span class="st"> &quot;tcc&quot;</span>,</a>
+<a class="sourceLine" id="cb10-9" title="9">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> </span><span class="ot">NA_character_</span>),</a>
+<a class="sourceLine" id="cb10-10" title="10">    <span class="dt">institution =</span> <span class="kw">gsub</span>(<span class="st">&quot;_tcc&quot;</span>, <span class="st">&quot;&quot;</span>, institution)</a>
+<a class="sourceLine" id="cb10-11" title="11">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="st">  </span><span class="kw">mutate</span> ( <span class="dt">var_name_suggested =</span> <span class="kw">paste0</span>(<span class="st">&quot;trust_in_&quot;</span>,</a>
+<a class="sourceLine" id="cb10-13" title="13">                                    institution, <span class="st">&quot;_&quot;</span>,</a>
+<a class="sourceLine" id="cb10-14" title="14">                                    geo_qualifier) ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="st">  </span><span class="kw">mutate</span> ( <span class="dt">var_name_suggested =</span> <span class="kw">gsub</span>(<span class="st">&quot;_NA&quot;</span>, <span class="st">&quot;&quot;</span>, var_name_suggested)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="st">  </span><span class="kw">select</span> ( filename, var_name_orig, var_label_norm, var_name_suggested, institution, geo_qualifier) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="st">  </span><span class="kw">rename</span> ( <span class="dt">keyword_1 =</span> institution )</a>
+<a class="sourceLine" id="cb10-18" title="18"></a>
+<a class="sourceLine" id="cb10-19" title="19">trust_variable_table <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-20" title="20"><span class="st">  </span>kable <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-21" title="21"><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> </a>
+<a class="sourceLine" id="cb10-22" title="22">                  <span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>, <span class="st">&quot;condensed&quot;</span>), </a>
+<a class="sourceLine" id="cb10-23" title="23">                  <span class="dt">fixed_thead =</span> T, </a>
+<a class="sourceLine" id="cb10-24" title="24">                  <span class="dt">font_size =</span> <span class="dv">10</span> ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-25" title="25"><span class="st">    </span><span class="kw">add_header_above</span>(<span class="kw">c</span>(<span class="st">&quot;Filtering&quot;</span> =<span class="st"> </span><span class="dv">3</span>, </a>
+<a class="sourceLine" id="cb10-26" title="26">                       <span class="st">&quot;Preferred Term&quot;</span> =<span class="st"> </span><span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb10-27" title="27">                       <span class="st">&quot;Keywords&quot;</span> =<span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb10-28" title="28">                     )</a></code></pre></div>
+<p>I think that this can be the basis of a metadata table to use canonical names for 2-level factors.</p>
+<p>We should make an effort to harmonize the keywords(s) with accepted thesauri, in this case, for example, with the <a href="https://elsst.ukdataservice.ac.uk/thesaurus-search/view-concept/?id=78e0b701-e501-48a1-864f-2d74fb12a37c&amp;lang=EN">ELSST</a>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">saveRDS</span>(trust_variable_table, <span class="kw">file.path</span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">  <span class="st">&quot;..&quot;</span>,   <span class="co"># we&#39;re in vignettes</span></a>
+<a class="sourceLine" id="cb11-3" title="3">  <span class="st">&quot;data-raw&quot;</span>, <span class="st">&quot;trust_variables.rds&quot;</span>),</a>
+<a class="sourceLine" id="cb11-4" title="4">  <span class="dt">version =</span> <span class="dv">2</span> <span class="co"># downward compatibility on CRAN</span></a>
+<a class="sourceLine" id="cb11-5" title="5">  )</a></code></pre></div>
+<p>Once we have a few more bits, for example, similar elements of other 2-value factors, we’ll bind them together in the R file <code>data-raw/create_categorical_var</code>. [Same as the previous data file, but the data files will be separate.]</p>
+<p>Only the dataset maintainer should run <code>usethis::use_data()</code>, which creates the final file <code>data/categorical_variables_2</code>.</p>
+<p>When the data file is updated, you should check the documentation file <code>R/data-categorical_variables_2.R</code>. This will be used to automatically update the data documentation. Like in the previous example, with <code>devtools::document()</code> will automatically update the <code>man/data-categorical_variables_2.Rd</code> manual file. Never change the contents of the <code>man</code> directory by hand!</p>
+<p>The data documentation from the manual file can be reviewed by <code>?categorical_variables_2</code>.</p>
+<p>The <code>categorical_variables_2</code> should be extended by similar, two-level categorical variables later. The current stage can be reviewed with <code>data(categorical_variables_2</code>).</p>
+</div>
+<div id="renaming-suggestions" class="section level2">
+<h2>Renaming Suggestions</h2>
+<p>If you are unhappy with any names used in this package itself (see all functions and arguments on the <a href="http://eurobarometer.danielantal.eu/reference/index.html">reference</a> page), please, let me know in an email. We should agree on all column names of metadata files, function names and function parameters as early as possible, because it will be extremely difficult to make name changes later as more and more code piles up.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

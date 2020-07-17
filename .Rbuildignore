@@ -14,3 +14,4 @@
 ^LICENSE$
 ^cran-comments\.md$
 ^inst$
+^old_code$
