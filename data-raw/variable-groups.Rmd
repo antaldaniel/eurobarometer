@@ -1,0 +1,134 @@
+---
+title: "Variable groups"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vocabulary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE, 
+  collapse = TRUE,
+  comment = "#>"
+)
+options(width = 160)
+```
+
+```{r setup}
+library(eurobarometer)
+library(rio)
+library(tidyverse)
+library(tibble)
+library(knitr)
+library(kableExtra)
+```
+
+
+`eb_var_groups_zacat.rds` contains info on variable groups for 157 EB waves from 44.2bis (ZA2828) to 92.1 (ZA7579), copied from [GESIS ZACAT](https://zacat.gesis.org/webview/).
+
+The columns are mostly self-explanatory:  
+
+`wave` = wave number (e.g., 72.1)    
+`archive_id` = GESIS archive id (e.g., ZA2828)    
+`group` = variable group as identified by GESIS ZACAT (e.g., "Protocol variables") , slightly cleaned to exclude variable names/ranges in parentheses following group name   
+`var_label_zacat` = variable label as presented in GESIS ZACAT (e.g., "EU COMMON CURRENCY - KNOW NAME"), slightly cleaned to exclude question number if it occurs at the beginning of the value label - more on that below     
+`wave_desc` = wave number and description / title (e.g., "Eurobarometer 85.1OVR (April 2016): European Youth in 2016")  
+`timeframe` = timing of the wave (e.g., "April 2016"), not always available  
+`description` = wave description / title (e.g., "European Youth in 2016")    
+
+```{r}
+eb_var_groups_zacat <- readRDS( file.path('../data-raw', 'eb_var_groups_zacat.rds') )
+
+eb_var_groups_zacat %>%
+  select(wave, archive_id, group, var_label_zacat) %>%
+  head() %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+Some examples of how the groups look like:
+
+```{r}
+eb_var_groups_zacat %>%
+  distinct(wave, group) %>%
+  head(., 25) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+Most common groups. Note that some groups changed names, e.g. "Archive and survey ID variables" and "Archive and ID variables". They could be standardized across all waves.  
+
+```{r}
+eb_var_groups_zacat %>%
+  count(wave, group) %>%
+  count(group) %>%
+  arrange(desc(n)) %>%
+  head(., 25) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+
+`eb_metadata_var_groups.rds` is created by joining `eb_var_groups_zacat.rds` with `eb_metadata_database_20200628.rds` after some cleaning of `var_label_orig`.
+
+The reason is that, in GESIS ZACAT, the variable labels (`var_label_zacat`) sometimes don't include the question number at the beginning (in the recent waves) and sometimes, especially in the early waves, they do (e.g., `Q25 EU COMMON CURRENCY - KNOW NAME`). So, for matching with metadata from the data files, these question numbers have been eliminated, but they also need to be eliminated from `var_label_orig` in the metadata files.
+
+Note: Variable labels in GESIS ZACAT for waves 85.3 (ZA6695) and 86.1 (ZA6697) are for some reason different than in the data and can't be joint easily. This is why, for these two waves some variables don't have groups assigned. Matching variable lables from these two waves would require some better regex magic or manual work.
+
+The resulting file is for 96 waves, the intersection of `eb_metadata_database_20200628.rds` (which has 97 files, but one is not from the Standard Eurobarometer) and `eb_var_groups_zacat.rds` (which has 157 waves).
+
+
+```{r}
+# waves included in eb_var_groups_zacat
+archive_ids <- eb_var_groups_zacat %>% distinct(archive_id) %>% pull(archive_id)
+
+metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_20200628.rds')) %>%
+  mutate(archive_id = substr(filename, 1, 6))
+
+eb_metadata_var_groups <- metadata_database %>%
+  # filter only waves for which variable groups are available
+  filter(archive_id %in% archive_ids,
+         # exclude this strange variable
+         var_label_orig != "filename") %>%
+  # keep one row per variable
+  distinct(filename, qb, var_name_orig, var_name_orig, var_label_orig, var_label_norm, archive_id) %>%
+  # original variable labels in the data and in GESIS ZACAT are not exactly the same
+  # --> need some cleaning
+  mutate(var_label_orig2 = gsub("^([A-Z])*[0-9]{1,3}([A-Z]{1,2})* ", "",
+                                var_label_orig),
+         var_label_orig2 = gsub("^[A-Z][0-9] [0-9]{1,2} ", "",
+                                var_label_orig2),
+         var_label_orig2 = gsub("^W3A/W4A ", "", var_label_orig2),
+         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2}([A-Z])*_[A-Z]{1,2} ", "",
+                                var_label_orig2),
+         var_label_orig2 = gsub("^\\s+|\\s+$", "",
+                                var_label_orig2),
+         var_label_orig2 = gsub('“)', "",
+                                var_label_orig2),
+         var_label_orig2 = gsub("  ", " ",
+                                var_label_orig2),
+         # these 2 waves have problems and labels in data and in ZACAT are different
+         var_label_orig2 = ifelse(archive_id %in% c("ZA6695", "ZA6697"),
+                                  gsub("\\s*\\([^\\)]+\\)","", var_label_orig2),
+                                  var_label_orig2)) %>%
+  # join with table with variable groups
+  left_join(eb_var_groups_zacat, by = c("var_label_orig2" = "var_label_zacat", "archive_id"))
+
+# saveRDS(eb_metadata_var_groups, file.path('../data-raw', 'eb_metadata_var_groups.rds') )
+```
+
+
+
+
