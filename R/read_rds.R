@@ -23,25 +23,10 @@
 
 read_rds <- function(file, id = NULL, doi = NULL) {
 
-  data("eb_waves", package = "eurobarometer", envir = environment())
 
-  filename <-  fs::path_file(file)
+  tmp  <- retroharmonize::read_rds(file, id=id, doi=doi)
 
-  if ( is.null(id)) {
-    id <- gsub(".rds", "", filename  )
-  }
-
-  tmp  <- retroharmonize::read_rds(file, id=id, filename=filename)
-
-
-  wave_info <- eb_waves %>%
-    filter ( zacat_code == gsub(".rds", "", filename  ))
-
-  if (is.null(doi) && ("doi" %in% names(tmp)) ) {
-    doi <- tmp$doi[1]
-    }
-
-  amend_survey(tmp,filename = filename ,doi=doi)
+  amend_survey(survey = tmp)
 
 }
 
@@ -56,61 +41,44 @@ read_rds <- function(file, id = NULL, doi = NULL) {
 #' read_spss <- read_spss(path)
 #' attributes(read_eb)
 #' @export
+
 read_spss <- function(file,
-                      user_na = NULL,
-                      col_select = NULL,
-                      skip = NULL,
-                      n_max = NULL,
-                      .name_repair = "unique",
+                      user_na = TRUE,
                       id = NULL,
                       filename = NULL,
-                      doi = NULL) {
-
-
-  filename <-  fs::path_file(file)
-
-  if ( is.null(id)) {
-    id <- gsub(".rds", "", filename  )
-  }
+                      doi = NULL,
+                      .name_repair = "unique") {
 
   tmp  <- retroharmonize::read_spss(
     file,
-    id=id, filename=filename,
-    user_na = user_na,
-    col_select = col_select,
-    n_max = n_max,
     .name_repair = "unique",
     id = id,
-    filename = filename,
     doi = doi )
 
-
-  amend_survey(tmp, filename = filename, doi = doi)
-
-
+  amend_survey(survey = tmp)
 }
 
 #' @importFrom retroharmonize read_spss survey
+#' @importFrom dplyr filter
+#' @importFrom stringr str_sub
 #' @keywords internal
-amend_survey <- function (survey, filename, doi = doi) {
-  tmp <- retroharmonize::survey(
-    df = survey, id = id, filename = filename, doi = doi
-  )
+amend_survey <- function (survey) {
   data("eb_waves", package = "eurobarometer", envir = environment())
 
-  wave_info <- eb_waves %>%
-    filter ( zacat_code == gsub(".rds", "", filename  ))
+  zacat <- substr(attr(survey, "filename"),1,6)
 
-  if (is.null(doi) && ("doi" %in% names(tmp)) ) {
-    doi <- tmp$doi[1]
-  }
+  version <- stringr::str_sub(
+    fs::path_ext_remove ( attr(survey, "filename") ), 8,-1)
+  if (nchar(version)==0) version <- NA_character_
+
+  wave_info <- eb_waves %>%
+    dplyr::filter ( zacat_code == zacat )
 
   if(nrow(wave_info) == 1 ) {
-
+    attr(tmp, "gesis_file_version")  <- version
     attr(tmp, "wave") <- wave_info$wave
     attr(tmp, "timeframe") <- wave_info$timeframe
     attr(tmp, "EB_description") <- wave_info$description
-
   }
 
   tmp

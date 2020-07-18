@@ -40,7 +40,7 @@ read_surveys <- function ( import_file_names,
 
   read_spss_survey <- function( filename ) {
 
-    tried_survey <- purrr::safely(.f = haven::read_spss)(filename, user_na = TRUE)
+    tried_survey <- purrr::safely(.f = eurobarometer::read_spss)(file = filename, user_na = TRUE)
 
     if ( is.null(tried_survey$error)) {
       tried_survey$result
@@ -50,11 +50,6 @@ read_surveys <- function ( import_file_names,
   }
 
   tmp <- lapply ( X = read_file_names, FUN = eval(.f)   )
-
-  for (i in 1:length(import_file_names)) {
-    tmp[[i]]$filename <- import_file_names[i]
-    attr(tmp[[i]]$filename, "label") <- "filename"
-  }
 
   tmp
 }
