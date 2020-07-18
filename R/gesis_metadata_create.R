@@ -52,9 +52,15 @@ gesis_metadata_create <- function ( survey_list ) {
   ## start of internal function metadata_create -------------
   metadata_create <- function (dat) {
 
-    mtd <- retroharmonize::metadata_create(dat) %>%
+    this_filename <- attr(dat, "filename")
+    if (is.null(this_filename)) this_filename <- "unknonw"
+
+    mtd <- retroharmonize::metadata_create(dat)
+
+
+    mtd <- mtd %>%
       mutate (
-        filename = dat$filename[1],
+        filename = this_filename,
         var_label_norm = var_label_normalize(label_orig)
         ) %>%
       mutate (
@@ -63,6 +69,7 @@ gesis_metadata_create <- function ( survey_list ) {
                                             var_name_orig )
       )
 
+    names(metadata)
     ## Creating the basic metadata ----
     metadata  <- mtd %>%
       select ( filename, var_name_orig, class_orig,
@@ -98,6 +105,9 @@ gesis_metadata_create <- function ( survey_list ) {
 
     ## class_suggest is not needed any more  in utils.R
   }
+
+  dat <- survey_list[[2]]
+  metadata_create ( dat )
 
   metadata_list <- lapply ( survey_list, metadata_create )
   do.call(rbind,metadata_list)

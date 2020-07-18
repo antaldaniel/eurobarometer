@@ -23,9 +23,7 @@
 
 read_rds <- function(file, id = NULL, doi = NULL) {
 
-
   tmp  <- retroharmonize::read_rds(file, id=id, doi=doi)
-
   amend_survey(survey = tmp)
 
 }
@@ -62,8 +60,18 @@ read_spss <- function(file,
 #' @importFrom dplyr filter
 #' @importFrom stringr str_sub
 #' @keywords internal
+#' @noRd
 amend_survey <- function (survey) {
   data("eb_waves", package = "eurobarometer", envir = environment())
+
+  select_attributes <- c("id", "filename", "doi",
+                         "wave", "timeframe", "EB_description", "gesis_file_version")
+  names_attributes <- names(attributes(survey))
+  names_attributes <- names_attributes [ !names_attributes %in% setdiff(names_attributes, select_attributes)]
+  message("Survey read:")
+  for (i in seq_along(names_attributes)) {
+    message (names_attributes[i], ": ", attr(survey, names_attributes[i]))
+  }
 
   zacat <- substr(attr(survey, "filename"),1,6)
 
@@ -75,11 +83,18 @@ amend_survey <- function (survey) {
     dplyr::filter ( zacat_code == zacat )
 
   if(nrow(wave_info) == 1 ) {
-    attr(tmp, "gesis_file_version")  <- version
-    attr(tmp, "wave") <- wave_info$wave
-    attr(tmp, "timeframe") <- wave_info$timeframe
-    attr(tmp, "EB_description") <- wave_info$description
+    attr(survey, "gesis_file_version")  <- version
+    attr(survey, "wave") <- wave_info$wave
+    attr(survey, "timeframe") <- wave_info$timeframe
+    attr(survey, "eb_description") <- wave_info$description
   }
 
-  tmp
+  if ( !is.null(attr(survey, "timeframe")) && !is.null(attr(survey, "eb_description"))) {
+    if ( attr(survey, "timeframe") == attr(survey, "eb_description")) {
+      attr(survey, "timeframe") <- 'unknown'
+    }
+  }
+
+  attr(survey, "id") <- fs::path_ext_remove ( attr(survey, "id") )
+  survey
 }
