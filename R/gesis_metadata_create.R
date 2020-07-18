@@ -55,7 +55,6 @@ gesis_metadata_create <- function ( survey_list ) {
 
     mtd <- retroharmonize::metadata_create(dat)
 
-
     mtd <- mtd %>%
       dplyr::mutate (
         filename = this_filename,

@@ -19,7 +19,6 @@ question_block_identify <- function (metadata) {
 
   qb <- vector ( mode = 'character', length = length(var_name_suggested))
 
-
   metadata_tmp <- metadata %>%
     mutate (
       orig_1 = tolower(substr(var_name_orig, 1, 1)),

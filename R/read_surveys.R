@@ -14,7 +14,6 @@
 #' frame. The respective file names are added to each data frame as a
 #' constant column \code{filename}.
 #' @importFrom purrr safely
-#' @importFrom haven read_spss
 #' @examples
 #' import_file_names <- c(
 #' 'ZA7576_sample','ZA6863_sample','ZA5913_sample'
