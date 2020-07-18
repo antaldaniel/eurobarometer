@@ -1,3 +1,10 @@
+library(eurobarometer)
+library(dplyr)
+metadata_database <- readRDS(
+  file.path("data-raw", "eb_metadata_database_20200628.rds")
+)
+
+
 message("Running the creation of binary tables")
 binary_vars <- metadata_database %>%
   filter ( length_cat_range == 2,
@@ -114,3 +121,4 @@ na_harmonization <- tibble (
     na_harmonized == "do_not_know" ~ 9997,
     TRUE ~ 8999
   ))
+

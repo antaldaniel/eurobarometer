@@ -4,10 +4,11 @@
 ### Only the maintainer of the data files should run this and refresh
 ### it in the repo.
 
-categorical_variables_2 <- readRDS(file.path("data-raw", "trust_variables.rds"))
+categorical_variables_2 <- readRDS(
+  file.path("data-raw", "trust_variables.rds"))
 
-category_labels_2 <- readRDS(file.path("data-raw",
-                                          "trust_value_labels.rds"))
+category_labels_2 <- readRDS(
+  file.path("data-raw","trust_value_labels.rds"))
 
 
 # Saving 'categorical_variables_2' to 'data/categorical_variables_2.rda'
