@@ -16,5 +16,6 @@ test_that("correct structure is returned", {
   expect_equal(returned_metadata$length_cat_range[row_n], 2)
   expect_equal(returned_metadata$length_na_range[row_n], 1)
   expect_equal(returned_metadata$length_total_range[row_n], 3)
+  #test this in retroharmonize
   #expect_equal(unique(single_data_frame$filename), "unknown")
 })

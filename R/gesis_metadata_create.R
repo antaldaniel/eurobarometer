@@ -24,22 +24,20 @@
 #' single survey in a single data frame. The filename should be added
 #' in the column \code{filename}.
 #' @importFrom labelled val_labels var_label
-#' @importFrom dplyr full_join mutate
+#' @importFrom dplyr full_join mutate rename select
 #' @importFrom tibble tibble
 #' @importFrom tidyselect all_of
 #' @importFrom retroharmonize metadata_create
 #' @return A data frame with the original variable attributes and
 #' suggested conversions and changes.
 #' @examples
-#' import_file_names <- c(
-#'   'ZA7576_sample','ZA5913_sample'
-#' )
+#' import_file_names <- system.file(
+#'     "examples", "ZA5913.rds", package = "eurobarometer")
 #'
 #' my_surveys <- read_surveys (
-#'     import_file_names,
-#'     .f = 'read_example_file' )
+#'   import_file_names, .f = 'read_rds' )
 #'
-#' metadata <- gesis_metadata_create(my_surveys)
+#' gesis_metadata_create(my_surveys)
 #' @export
 
 gesis_metadata_create <- function ( survey_list ) {
@@ -59,11 +57,11 @@ gesis_metadata_create <- function ( survey_list ) {
 
 
     mtd <- mtd %>%
-      mutate (
+      dplyr::mutate (
         filename = this_filename,
         var_label_norm = var_label_normalize(label_orig)
         ) %>%
-      mutate (
+      dplyr::mutate (
         # do we need this?
         var_name_suggested = label_suggest( var_label_norm,
                                             var_name_orig )
@@ -72,7 +70,7 @@ gesis_metadata_create <- function ( survey_list ) {
     names(metadata)
     ## Creating the basic metadata ----
     metadata  <- mtd %>%
-      select ( filename, var_name_orig, class_orig,
+      dplyr::select ( filename, var_name_orig, class_orig,
                var_label_norm,
                var_name_suggested,
                label_orig,
@@ -82,7 +80,7 @@ gesis_metadata_create <- function ( survey_list ) {
                na_values,
                valid_range, na_values, na_range) %>%
       dplyr::rename ( n_cat_values  = n_cat_labels) %>%
-      mutate ( n_categories = n_cat_values - n_na_values  ) %>%
+      dplyr::mutate ( n_categories = n_cat_values - n_na_values  ) %>%
       dplyr::rename ( var_label_orig = label_orig,
                       na_levels = na_values,
                       length_na_range = n_na_values,
@@ -92,7 +90,7 @@ gesis_metadata_create <- function ( survey_list ) {
     metadata <- question_block_identify(metadata)
 
     metadata %>%
-      select ( all_of(c("filename", "qb", "var_name_orig",
+      dplyr::select ( all_of(c("filename", "qb", "var_name_orig",
                         "var_label_orig",
                         "var_label_norm", "var_name_suggested",
                         "length_cat_range", "length_na_range",
@@ -105,9 +103,6 @@ gesis_metadata_create <- function ( survey_list ) {
 
     ## class_suggest is not needed any more  in utils.R
   }
-
-  dat <- survey_list[[2]]
-  metadata_create ( dat )
 
   metadata_list <- lapply ( survey_list, metadata_create )
   do.call(rbind,metadata_list)
