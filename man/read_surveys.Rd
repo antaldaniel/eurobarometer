@@ -7,7 +7,7 @@
 Import surveys into a list. Adds filename as a constant to each
 element of the list.}
 \usage{
-read_surveys(import_file_names, .f = "read_example_file", file_path = NULL)
+read_surveys(import_file_names, .f = "read_example_file", save_to_rds = TRUE)
 }
 \arguments{
 \item{import_file_names}{A vector of file names to import.}
@@ -17,9 +17,8 @@ Defaults to \code{'read_example_file'}. For SPSS files,
 \code{'read_spss_survey'} is recommended, which is a
 well-parametrised version of \code{\link[haven]{read_spss}}.}
 
-\item{file_path}{A file path where the \code{import_file_names}
-can be found.
-Defaults to the working directory: \code{file_path = NULL}.}
+\item{save_to_rds}{Should it save the imported survey to .rds?
+Defaults to \code{TRUE}.}
 }
 \value{
 A list of the surveys.  Each element of the list is a data
