@@ -7,18 +7,17 @@
 #'   \item{filename}{The original file name}
 #'   \item{qb}{Identifier of a question block for further tasks.}
 #'   \item{var_name_orig}{The original variable name in SPSS.}
-#'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
 #'   \item{var_label_orig}{The original variable label in SPSS.}
 #'   \item{var_label_norm}{A normalized version of the variable labels.}
 #'   \item{var_name_suggested}{A partly canonized variable name.}
-#'   \item{factor_levels}{A list of factor levels, i.e. value labels in SPSS}
-#'   \item{na_levels}{Values marked as missing by GESIS.}
-#'   \item{valid_range}{Not missing factor(category) levels.}
-#'   \item{class_suggested}{A suggested class conversion.}
 #'   \item{length_cat_range}{Number of categories in the non-missing range.}
 #'   \item{length_na_range}{Number of categories marked as missing by GESIS.}
 #'   \item{length_total_range}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
 #'   \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
+#'   \item{labels}{A list of the value labels.}
+#'   \item{na_levels}{A list of the user-defined missing values.}
+#'   \item{na_range}{An optional range of a continous missing range.}
+#'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
 #' }
 #' @param survey_list A list of data frames containing surveys, or a
 #' single survey in a single data frame. The filename should be added
@@ -31,13 +30,17 @@
 #' @return A data frame with the original variable attributes and
 #' suggested conversions and changes.
 #' @examples
-#' import_file_names <- system.file(
-#'     "examples", "ZA5913.rds", package = "eurobarometer")
+#' file1 <- system.file(
+#'   "examples", "ZA7576.rds", package = "eurobarometer")
+#' file2 <- system.file(
+#'   "examples", "ZA5913.rds", package = "eurobarometer")
+#'
+#' import_file_names <- c(file1,file2)
 #'
 #' my_surveys <- read_surveys (
 #'   import_file_names, .f = 'read_rds' )
 #'
-#' gesis_metadata_create(my_surveys)
+#' gesis_metadata_create(survey_list = my_surveys )
 #' @export
 
 gesis_metadata_create <- function ( survey_list ) {
@@ -66,7 +69,6 @@ gesis_metadata_create <- function ( survey_list ) {
                                             var_name_orig )
       )
 
-    names(metadata)
     ## Creating the basic metadata ----
     metadata  <- mtd %>%
       dplyr::select ( filename, var_name_orig, class_orig,
@@ -84,7 +86,7 @@ gesis_metadata_create <- function ( survey_list ) {
                       na_levels = na_values,
                       length_na_range = n_na_values,
                       length_total_range = n_cat_values ) %>%
-      mutate ( length_cat_range =length_total_range-length_na_range )
+      dplyr::mutate ( length_cat_range =length_total_range-length_na_range )
 
     metadata <- question_block_identify(metadata)
 

@@ -7,13 +7,13 @@
 Import surveys into a list. Adds filename as a constant to each
 element of the list.}
 \usage{
-read_surveys(import_file_names, .f = "read_example_file", save_to_rds = TRUE)
+read_surveys(import_file_names, .f = "read_rds", save_to_rds = TRUE)
 }
 \arguments{
 \item{import_file_names}{A vector of file names to import.}
 
 \item{.f}{A function to import the surveys with.
-Defaults to \code{'read_example_file'}. For SPSS files,
+Defaults to \code{'read_rds'}. For SPSS files,
 \code{'read_spss_survey'} is recommended, which is a
 well-parametrised version of \code{\link[haven]{read_spss}}.}
 
@@ -32,8 +32,10 @@ Import surveys into a list. Adds filename as a constant to each
 element of the list.
 }
 \examples{
-import_file_names <- c(
-'ZA7576_sample','ZA6863_sample','ZA5913_sample'
-)
-read_surveys (import_file_names, .f = 'read_example_file' )
+file1 <- system.file(
+    "examples", "ZA7576.rds", package = "eurobarometer")
+file2 <- system.file(
+    "examples", "ZA5913.rds", package = "eurobarometer")
+
+read_surveys (c(file1,file2), .f = 'read_rds' )
 }
