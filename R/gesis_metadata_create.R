@@ -101,8 +101,6 @@ gesis_metadata_create <- function ( survey_list ) {
                         "class_orig")
               )
       )
-
-    ## class_suggest is not needed any more  in utils.R
   }
 
   metadata_list <- lapply ( survey_list, metadata_create )
