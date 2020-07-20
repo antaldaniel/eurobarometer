@@ -43,6 +43,10 @@
 <meta property="og:description" content="Read a survey into a survey data.frame, and record its
 important metadata: information about the Eurobarometer wave,
 the filename, the digital object identifier, the timeframe of the
+survey and a short description.
+Read a survey into a survey data.frame, and record its
+important metadata: information about the Eurobarometer wave,
+the filename, the digital object identifier, the timeframe of the
 survey and a short description." />
 
 
@@ -75,7 +79,7 @@ survey and a short description." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -130,12 +134,16 @@ survey and a short description." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read A Survey File</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/read_rds.R'><code>R/read_rds.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/read_rds.R'><code>R/read_rds.R</code></a>, <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/read_survey.R'><code>R/read_survey.R</code></a></small>
     <div class="hidden name"><code>read_rds.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Read a survey into a survey data.frame, and record its
+important metadata: information about the Eurobarometer wave,
+the filename, the digital object identifier, the timeframe of the
+survey and a short description.</p>
+<p>Read a survey into a survey data.frame, and record its
 important metadata: information about the Eurobarometer wave,
 the filename, the digital object identifier, the timeframe of the
 survey and a short description.</p>
@@ -145,14 +153,22 @@ survey and a short description.</p>
 
 <span class='fu'>read_spss</span>(
   <span class='no'>file</span>,
-  <span class='kw'>user_na</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>col_select</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>,
+  <span class='kw'>user_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
+)
+
+<span class='fu'>read_rds</span>(<span class='no'>file</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>read_spss</span>(
+  <span class='no'>file</span>,
+  <span class='kw'>user_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -172,44 +188,6 @@ file name.</p></td>
       <td><p>An optional document object identifier.</p></td>
     </tr>
     <tr>
-      <th>user_na</th>
-      <td><p>If <code>TRUE</code> variables with user defined missing will
-be read into <code><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss()</a></code> objects. If <code>FALSE</code>, the
-default, user-defined missings will be converted to <code>NA</code>.</p></td>
-    </tr>
-    <tr>
-      <th>col_select</th>
-      <td><p>One or more selection expressions, like in
-<code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select()</a></code>. Use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> or <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> to use more than one expression.
-See <code><a href='https://dplyr.tidyverse.org/reference/select.html'>?dplyr::select</a></code> for details on available selection options. Only the
-specified columns will be read from <code>data_file</code>.</p></td>
-    </tr>
-    <tr>
-      <th>skip</th>
-      <td><p>Number of lines to skip before reading data.</p></td>
-    </tr>
-    <tr>
-      <th>n_max</th>
-      <td><p>Maximum number of lines to read.</p></td>
-    </tr>
-    <tr>
-      <th>.name_repair</th>
-      <td><p>Treatment of problematic column names:</p><ul>
-<li><p><code>"minimal"</code>: No name repair or checks, beyond basic existence,</p></li>
-<li><p><code>"unique"</code>: Make sure names are unique and not empty,</p></li>
-<li><p><code>"check_unique"</code>: (default value), no name repair, but check they are
-<code>unique</code>,</p></li>
-<li><p><code>"universal"</code>: Make the names <code>unique</code> and syntactic</p></li>
-<li><p>a function: apply custom name repair (e.g., <code>.name_repair = make.names</code>
-for names in the style of base R).</p></li>
-<li><p>A purrr-style anonymous function, see <code><a href='https://rlang.r-lib.org/reference/as_function.html'>rlang::as_function()</a></code></p></li>
-</ul>
-
-<p>This argument is passed on as <code>repair</code> to <code><a href='https://vctrs.r-lib.org/reference/vec_as_names.html'>vctrs::vec_as_names()</a></code>.
-See there for more details on these terms and the strategies used
-to enforce them.</p></td>
-    </tr>
-    <tr>
       <th>filename</th>
       <td><p>An import file name.</p></td>
     </tr>
@@ -221,19 +199,185 @@ to enforce them.</p></td>
 records important metadata about the survey contents.</p>
 <p>The survey data in a retorharmonize_survey class which
 records important metadata about the survey contents.</p>
+<p>The survey data in a retorharmonize_survey class which
+records important metadata about the survey contents.</p>
+<p>The survey data in a retorharmonize_survey class which
+records important metadata about the survey contents.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The retorharmonize_survey class extends the metadata of the survey
 data frame, but otherwise it inherits all methods of a modern
 tibble data frame.</p>
+<p>The retorharmonize_survey class extends the metadata of the survey
+data frame, but otherwise it inherits all methods of a modern
+tibble data frame.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>data_eb_waves</p></div>
+    <div class='dont-index'><p>data_eb_waves</p>
+<p>data_eb_waves</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"eurobarometer"</span>)
-<span class='no'>read_eb</span> <span class='kw'>&lt;-</span> <span class='fu'>read_rds</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: cannot open compressed file '', probable reason 'Invalid argument'</span></div><div class='output co'>#&gt; <span class='error'>Error in gzfile(file, "rb"): cannot open the connection</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>read_eb</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'read_eb' not found</span></div><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"iris1.sav"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"eurobarometer"</span>)
-<span class='no'>read_spss</span> <span class='kw'>&lt;-</span> <span class='fu'>read_spss</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='error'>Error in retroharmonize::read_spss(file, id = id, filename = filename,     user_na = user_na, col_select = col_select, n_max = n_max,     .name_repair = "unique", id = id, filename = filename, doi = doi): formal argument "id" matched by multiple actual arguments</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>read_eb</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'read_eb' not found</span></div></pre>
+<span class='no'>read_eb</span> <span class='kw'>&lt;-</span> <span class='fu'>read_rds</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='message'>Survey read:</span></div><div class='output co'>#&gt; <span class='message'>id: ZA7576</span></div><div class='output co'>#&gt; <span class='message'>filename: ZA7576.rds</span></div><div class='output co'>#&gt; <span class='message'>doi: doi:10.4232/1.13393</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>read_eb</span>)</div><div class='output co'>#&gt; $names
+#&gt;  [1] "rowid"    "doi"      "version"  "uniqid"   "caseid"   "serialid"
+#&gt;  [7] "isocntry" "p1"       "p2"       "p3"       "p4"       "p5"      
+#&gt; [13] "nuts"     "d7"       "d8"       "d25"      "d60"      "qa14_5"  
+#&gt; [19] "qa14_3"   "qa14_2"   "qa14_4"   "qa14_1"   "qa6a_5"   "qa6a_10" 
+#&gt; [25] "qa6b_2"   "qa6a_3"   "qa6a_1"   "qa6b_4"   "qa6a_8"   "qa6a_9"  
+#&gt; [31] "qa6a_4"   "qa6a_2"   "qa6b_1"   "qa6a_6"   "qa6a_7"   "qa6a_11" 
+#&gt; [37] "qa6b_3"   "qd6.1"    "qd6.2"    "qd6.3"    "qd6.4"    "qd6.5"   
+#&gt; [43] "qd6.6"    "qd6.7"    "qd6.8"    "qd6.9"    "qd6.10"   "qd6.11"  
+#&gt; [49] "qd6.12"   "qd6.13"   "qd6.14"   "qg1b"     "qg8"      "w1"      
+#&gt; [55] "w3"       "wex"     
+#&gt; 
+#&gt; $row.names
+#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+#&gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+#&gt; 
+#&gt; $class
+#&gt; [1] "survey"     "tbl_df"     "tbl"        "data.frame"
+#&gt; 
+#&gt; $id
+#&gt; [1] "ZA7576"
+#&gt; 
+#&gt; $filename
+#&gt; [1] "ZA7576.rds"
+#&gt; 
+#&gt; $doi
+#&gt; [1] "doi:10.4232/1.13393"
+#&gt; 
+#&gt; $gesis_file_version
+#&gt; [1] NA
+#&gt; 
+#&gt; $wave
+#&gt; [1] "Eurobarometer 91.5"
+#&gt; 
+#&gt; $timeframe
+#&gt; [1] "June-July 2019"
+#&gt; 
+#&gt; $eb_description
+#&gt; [1] "Standard Eurobarometer, European Parliament Post-election survey 2019, and EU citizens and development cooperation"
+#&gt; </div><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"iris1.sav"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"eurobarometer"</span>)
+<span class='no'>read_spss</span> <span class='kw'>&lt;-</span> <span class='fu'>read_spss</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='message'>Survey read:</span></div><div class='output co'>#&gt; <span class='message'>id: iris1</span></div><div class='output co'>#&gt; <span class='message'>filename: iris1.sav</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>read_eb</span>)</div><div class='output co'>#&gt; $names
+#&gt;  [1] "rowid"    "doi"      "version"  "uniqid"   "caseid"   "serialid"
+#&gt;  [7] "isocntry" "p1"       "p2"       "p3"       "p4"       "p5"      
+#&gt; [13] "nuts"     "d7"       "d8"       "d25"      "d60"      "qa14_5"  
+#&gt; [19] "qa14_3"   "qa14_2"   "qa14_4"   "qa14_1"   "qa6a_5"   "qa6a_10" 
+#&gt; [25] "qa6b_2"   "qa6a_3"   "qa6a_1"   "qa6b_4"   "qa6a_8"   "qa6a_9"  
+#&gt; [31] "qa6a_4"   "qa6a_2"   "qa6b_1"   "qa6a_6"   "qa6a_7"   "qa6a_11" 
+#&gt; [37] "qa6b_3"   "qd6.1"    "qd6.2"    "qd6.3"    "qd6.4"    "qd6.5"   
+#&gt; [43] "qd6.6"    "qd6.7"    "qd6.8"    "qd6.9"    "qd6.10"   "qd6.11"  
+#&gt; [49] "qd6.12"   "qd6.13"   "qd6.14"   "qg1b"     "qg8"      "w1"      
+#&gt; [55] "w3"       "wex"     
+#&gt; 
+#&gt; $row.names
+#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+#&gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+#&gt; 
+#&gt; $class
+#&gt; [1] "survey"     "tbl_df"     "tbl"        "data.frame"
+#&gt; 
+#&gt; $id
+#&gt; [1] "ZA7576"
+#&gt; 
+#&gt; $filename
+#&gt; [1] "ZA7576.rds"
+#&gt; 
+#&gt; $doi
+#&gt; [1] "doi:10.4232/1.13393"
+#&gt; 
+#&gt; $gesis_file_version
+#&gt; [1] NA
+#&gt; 
+#&gt; $wave
+#&gt; [1] "Eurobarometer 91.5"
+#&gt; 
+#&gt; $timeframe
+#&gt; [1] "June-July 2019"
+#&gt; 
+#&gt; $eb_description
+#&gt; [1] "Standard Eurobarometer, European Parliament Post-election survey 2019, and EU citizens and development cooperation"
+#&gt; </div><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"eurobarometer"</span>)
+<span class='no'>read_eb</span> <span class='kw'>&lt;-</span> <span class='fu'>read_rds</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='message'>Survey read:</span></div><div class='output co'>#&gt; <span class='message'>id: ZA7576</span></div><div class='output co'>#&gt; <span class='message'>filename: ZA7576.rds</span></div><div class='output co'>#&gt; <span class='message'>doi: doi:10.4232/1.13393</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>read_eb</span>)</div><div class='output co'>#&gt; $names
+#&gt;  [1] "rowid"    "doi"      "version"  "uniqid"   "caseid"   "serialid"
+#&gt;  [7] "isocntry" "p1"       "p2"       "p3"       "p4"       "p5"      
+#&gt; [13] "nuts"     "d7"       "d8"       "d25"      "d60"      "qa14_5"  
+#&gt; [19] "qa14_3"   "qa14_2"   "qa14_4"   "qa14_1"   "qa6a_5"   "qa6a_10" 
+#&gt; [25] "qa6b_2"   "qa6a_3"   "qa6a_1"   "qa6b_4"   "qa6a_8"   "qa6a_9"  
+#&gt; [31] "qa6a_4"   "qa6a_2"   "qa6b_1"   "qa6a_6"   "qa6a_7"   "qa6a_11" 
+#&gt; [37] "qa6b_3"   "qd6.1"    "qd6.2"    "qd6.3"    "qd6.4"    "qd6.5"   
+#&gt; [43] "qd6.6"    "qd6.7"    "qd6.8"    "qd6.9"    "qd6.10"   "qd6.11"  
+#&gt; [49] "qd6.12"   "qd6.13"   "qd6.14"   "qg1b"     "qg8"      "w1"      
+#&gt; [55] "w3"       "wex"     
+#&gt; 
+#&gt; $row.names
+#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+#&gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+#&gt; 
+#&gt; $class
+#&gt; [1] "survey"     "tbl_df"     "tbl"        "data.frame"
+#&gt; 
+#&gt; $id
+#&gt; [1] "ZA7576"
+#&gt; 
+#&gt; $filename
+#&gt; [1] "ZA7576.rds"
+#&gt; 
+#&gt; $doi
+#&gt; [1] "doi:10.4232/1.13393"
+#&gt; 
+#&gt; $gesis_file_version
+#&gt; [1] NA
+#&gt; 
+#&gt; $wave
+#&gt; [1] "Eurobarometer 91.5"
+#&gt; 
+#&gt; $timeframe
+#&gt; [1] "June-July 2019"
+#&gt; 
+#&gt; $eb_description
+#&gt; [1] "Standard Eurobarometer, European Parliament Post-election survey 2019, and EU citizens and development cooperation"
+#&gt; </div><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"iris1.sav"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"eurobarometer"</span>)
+<span class='no'>read_spss</span> <span class='kw'>&lt;-</span> <span class='fu'>read_spss</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='message'>Survey read:</span></div><div class='output co'>#&gt; <span class='message'>id: iris1</span></div><div class='output co'>#&gt; <span class='message'>filename: iris1.sav</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attributes.html'>attributes</a></span>(<span class='no'>read_eb</span>)</div><div class='output co'>#&gt; $names
+#&gt;  [1] "rowid"    "doi"      "version"  "uniqid"   "caseid"   "serialid"
+#&gt;  [7] "isocntry" "p1"       "p2"       "p3"       "p4"       "p5"      
+#&gt; [13] "nuts"     "d7"       "d8"       "d25"      "d60"      "qa14_5"  
+#&gt; [19] "qa14_3"   "qa14_2"   "qa14_4"   "qa14_1"   "qa6a_5"   "qa6a_10" 
+#&gt; [25] "qa6b_2"   "qa6a_3"   "qa6a_1"   "qa6b_4"   "qa6a_8"   "qa6a_9"  
+#&gt; [31] "qa6a_4"   "qa6a_2"   "qa6b_1"   "qa6a_6"   "qa6a_7"   "qa6a_11" 
+#&gt; [37] "qa6b_3"   "qd6.1"    "qd6.2"    "qd6.3"    "qd6.4"    "qd6.5"   
+#&gt; [43] "qd6.6"    "qd6.7"    "qd6.8"    "qd6.9"    "qd6.10"   "qd6.11"  
+#&gt; [49] "qd6.12"   "qd6.13"   "qd6.14"   "qg1b"     "qg8"      "w1"      
+#&gt; [55] "w3"       "wex"     
+#&gt; 
+#&gt; $row.names
+#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+#&gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+#&gt; 
+#&gt; $class
+#&gt; [1] "survey"     "tbl_df"     "tbl"        "data.frame"
+#&gt; 
+#&gt; $id
+#&gt; [1] "ZA7576"
+#&gt; 
+#&gt; $filename
+#&gt; [1] "ZA7576.rds"
+#&gt; 
+#&gt; $doi
+#&gt; [1] "doi:10.4232/1.13393"
+#&gt; 
+#&gt; $gesis_file_version
+#&gt; [1] NA
+#&gt; 
+#&gt; $wave
+#&gt; [1] "Eurobarometer 91.5"
+#&gt; 
+#&gt; $timeframe
+#&gt; [1] "June-July 2019"
+#&gt; 
+#&gt; $eb_description
+#&gt; [1] "Standard Eurobarometer, European Parliament Post-election survey 2019, and EU citizens and development cooperation"
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@
 <li>The <a href="http://eurobarometer.danielantal.eu/articles/variable_names.html">Harmonizing Variable Names</a> vignette/article started for an early standardization of variable names. Thanks for the contribution from <a href="https://github.com/mkolczynska">Marta</a>.</li>
 <li>In the future, <code>canonical_names()</code> may be renamed, and it may receive a new functionality.</li>
 <li>The <code>gesis_vocabulary_create()</code> and The <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> have better variable names. The <code>normalize_names()</code> function is renamed to <code><a href="../reference/label_normalize.html">label_normalize()</a></code>.</li>
-<li>Internal function is renamed to <code><a href="../reference/class_suggest.html">class_suggest()</a></code> from <code>suggest_conversion()</code>.</li>
+<li>Internal function is renamed to <code>class_suggest()</code> from <code>suggest_conversion()</code>.</li>
 <li>The <a href="http://eurobarometer.danielantal.eu/articles/workflow.html">Workflow</a> vignette is open for consultation.</li>
 </ul>
 </div>
@@ -168,7 +168,7 @@
 <code>naming functions</code> is renamed to <code>labelling functions</code> with the British spelling.</li>
 <li>Three new Eurobarometer sample files to be used in vignettes and unit testing: <code>ZA7489_sample</code>, <code>ZA7576_sample</code>, <code>ZA7562_sample</code>. These samples contain countries that require special attention (<code>DE</code>, <code>GB</code>, <code>CY</code>, <code>MK</code>), some metadata, some demograpy variables, some trending (trust) variables and some <em>ad hoc</em> variables.</li>
 <li>
-<code><a href="../reference/read_example_file.html">read_example_file()</a></code> is a simple wrapper around <code><a href="https://rdrr.io/r/utils/data.html">utils::data()</a></code> to mimick the data importing workflow with <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code> or other importing functions in vignette examples and unit tests.</li>
+<code>read_example_file()</code> is a simple wrapper around <code><a href="https://rdrr.io/r/utils/data.html">utils::data()</a></code> to mimick the data importing workflow with <code><a href="https://haven.tidyverse.org/reference/read_spss.html">haven::read_spss()</a></code> or other importing functions in vignette examples and unit tests.</li>
 <li>
 <code>panel_create()</code> creates a skeleton panel with a unique panel id made of selected ID variables, such as the individually unique case ID and the doi of the survey.</li>
 <li>
@@ -223,6 +223,11 @@
 <ul>
 <li>Serveral functions were deprecated: <code>concatenate</code>, <code>unique_id_create</code>, <code>harmonize_to_numeric</code>, <code>eurobarometer_labelled</code> and the <code>workflow</code> vignette and the NUTS1 and NUTS2 vocabulary files.</li>
 </ul>
+</div>
+    <div id="eurobarometer-0110" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.10">
+<a href="#eurobarometer-0110" class="anchor"></a>eurobarometer 0.1.10</h1>
+<p>Fully harmonized with <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a> 0.1.1.</p>
 </div>
   </div>
 

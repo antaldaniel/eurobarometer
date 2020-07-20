@@ -19,9 +19,7 @@ row_n <- which(single_data_frame$var_name_suggested == "paying_bills_last_year")
 
 # These values are not correct
 test_that("correct structure is returned", {
-  #expect_equal(single_data_frame$length_cat_range[row_n], 2)
-  expect_equal(single_data_frame$length_na_range[row_n], 1)
-  #expect_equal(returned_metadata$length_total_range[row_n], 3)
-  #test this in retroharmonize
-  #expect_equal(unique(single_data_frame$filename), "unknown")
+  expect_equal(single_data_frame$n_valid_labels[row_n], 3)
+  expect_equal(single_data_frame$n_na_labels[row_n], 1)
+  expect_equal(unique(single_data_frame$filename), "ZA5913.rds")
 })

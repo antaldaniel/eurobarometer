@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -100,12 +100,20 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">knitr</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">stringr</span>)</pre></body></html></div>
 <p>The <a href="http://eurobarometer.danielantal.eu/">eurobarometer</a> package relies on the survey class system of <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a>. You do not have to load the entire <code>retroharmonize</code> package - whatever is needed to make <code>eurobarometer</code> work is imported and modified as needed.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">ZA6863</span> <span class="kw">&lt;-</span> <span class="fu">read_rds</span>(
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">ZA6863</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_rds.html">read_rds</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"examples"</span>, <span class="st">"ZA6863.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
 )
-<span class="no">ZA7576</span> <span class="kw">&lt;-</span> <span class="fu">read_rds</span>(
+<span class="co">#&gt; Survey read:</span>
+<span class="co">#&gt; id: ZA6863</span>
+<span class="co">#&gt; filename: ZA6863.rds</span>
+<span class="co">#&gt; doi: doi:10.4232/1.12847</span>
+<span class="no">ZA7576</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_rds.html">read_rds</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"examples"</span>, <span class="st">"ZA7576.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"eurobarometer"</span>)
-)</pre></body></html></div>
+)
+<span class="co">#&gt; Survey read:</span>
+<span class="co">#&gt; id: ZA7576</span>
+<span class="co">#&gt; filename: ZA7576.rds</span>
+<span class="co">#&gt; doi: doi:10.4232/1.13393</span></pre></body></html></div>
 <div id="metadata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metadata" class="anchor"></a>Metadata</h2>
@@ -117,16 +125,14 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="no">class_orig</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"character"</span>, <span class="st">"numeric"</span>) <span class="kw">|</span>
     <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> (<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">var_name_suggested</span> <span class="kw">!=</span> <span class="st">'not_given'</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>()</pre></body></html></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span> (<span class="no">var_name_suggested</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">ZA7576_items</span> <span class="kw">&lt;-</span> <span class="no">ZA7576_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="no">class_orig</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"character"</span>, <span class="st">"numeric"</span>) <span class="kw">|</span>
     <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> (<span class="no">var_name_suggested</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">var_name_suggested</span> <span class="kw">!=</span> <span class="st">'not_given'</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>()</pre></body></html></div>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">var_name_suggested</span> <span class="kw">!=</span> <span class="st">'not_given'</span> ) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span> (<span class="no">var_name_suggested</span>)</pre></body></html></div>
 <p>In this case, the <code>var_label_suggest()</code> function worked perfectly, so we can approve the suggestions of <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code>.</p>
 <p>Let’s select the variables with identical names from the two surveys:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">hZA6863</span> <span class="kw">&lt;-</span> <span class="no">ZA6863</span> <span class="kw">%&gt;%</span>
@@ -138,40 +144,28 @@
 <p>And have a look at their value labelling: [no idea why are this not identical.]</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">ZA6863_trust</span> <span class="kw">&lt;-</span> <span class="no">ZA6863_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">labels</span>, <span class="no">na_levels</span> ) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">labels</span>, <span class="no">na_levels</span>) ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">labels</span>, <span class="no">na_labels</span> ) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">labels</span>, <span class="no">na_labels</span>) ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct_all.html">distinct_all</a></span>()
 
 <span class="no">ZA6863_trust</span>$<span class="no">labels</span>[<span class="fl">1</span>]
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
-<span class="co">#&gt;                          1                          2 </span>
-<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
-<span class="co">#&gt;                          3                          9</span>
+<span class="co">#&gt; Tend to trust </span>
+<span class="co">#&gt;             1</span>
 <span class="no">ZA6863_trust</span>$<span class="no">labels</span>[<span class="fl">2</span>]
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt;                  Tend to trust              Tend not to trust </span>
-<span class="co">#&gt;                              1                              2 </span>
-<span class="co">#&gt;                             DK Inap. (not CY-TCC in isocntry) </span>
-<span class="co">#&gt;                              3                              9</span></pre></body></html></div>
+<span class="co">#&gt; Tend not to trust </span>
+<span class="co">#&gt;                 2</span></pre></body></html></div>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">ZA7576_trust</span> <span class="kw">&lt;-</span> <span class="no">ZA7576_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(<span class="no">var_name_suggested</span>, <span class="fl">1</span>,<span class="fl">5</span>) <span class="kw">==</span> <span class="st">'trust'</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">labels</span>, <span class="no">na_levels</span> ) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">labels</span>, <span class="no">na_levels</span>) ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="no">labels</span>, <span class="no">na_labels</span> ) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">tidyr</span><span class="kw ns">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span>( <span class="kw">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">labels</span>, <span class="no">na_labels</span>) ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct_all.html">distinct_all</a></span>()
 
 <span class="no">ZA7576_trust</span>$<span class="no">labels</span>[<span class="fl">1</span>]
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt;              Tend to trust          Tend not to trust </span>
-<span class="co">#&gt;                          1                          2 </span>
-<span class="co">#&gt;                         DK Inap. (CY-TCC in isocntry) </span>
-<span class="co">#&gt;                          3                          9</span>
+<span class="co">#&gt; Tend to trust </span>
+<span class="co">#&gt;             1</span>
 <span class="no">ZA7576_trust</span>$<span class="no">labels</span>[<span class="fl">2</span>]
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt;                  Tend to trust              Tend not to trust </span>
-<span class="co">#&gt;                              1                              2 </span>
-<span class="co">#&gt;                             DK Inap. (not CY-TCC in isocntry) </span>
-<span class="co">#&gt;                              3                              9</span></pre></body></html></div>
+<span class="co">#&gt; Tend not to trust </span>
+<span class="co">#&gt;                 2</span></pre></body></html></div>
 </div>
 <div id="harmonize-the-value-labels" class="section level2">
 <h2 class="hasAnchor">
@@ -197,7 +191,7 @@
   <span class="kw">name_orig</span> <span class="kw">=</span> <span class="kw">NULL</span>)
 }</pre></body></html></div>
 <p>Choosing the first <code>trust</code> vector, we can see that the harmonization records all metadata for reproducibility.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">harmonize_trust</span> ( <span class="no">hZA6863</span>$<span class="no">trust_army</span>)
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">harmonize_trust</span> (<span class="no">hZA6863</span>$<span class="no">trust_army</span>)
 <span class="co">#&gt;  [1]     1     0 99997     0 99997     0     1     1     1     1 99997     1</span>
 <span class="co">#&gt; [13]     1     0     0     0     0     1     0     1     1     1     0     1</span>
 <span class="co">#&gt; [25]     1     0     1     1     1     1     0     1     0     0     1 99999</span>
@@ -230,7 +224,7 @@
 <span class="co">#&gt; attr(,"survey_id_na_values")</span>
 <span class="co">#&gt; [1] 9</span></pre></body></html></div>
 <p>The coding appears very similar, so we use the same helper function for the same question in the other survey:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">harmonize_trust</span> ( <span class="no">hZA7576</span>$<span class="no">trust_army</span>)
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">harmonize_trust</span> (<span class="no">hZA7576</span>$<span class="no">trust_army</span>)
 <span class="co">#&gt;  [1]     1     1     1     1     1     1     1     0     0     1     1 99997</span>
 <span class="co">#&gt; [13]     0     1     1     1     0     0 99997     1 99997     1     0     0</span>
 <span class="co">#&gt; [25]     0     1     0     1     0     0     1     0     0     0     1     0</span>
@@ -329,10 +323,87 @@
 <span class="co">#&gt;  9     1 [trust]                0 [not_trust]       </span>
 <span class="co">#&gt; 10     1 [trust]                1 [trust]           </span>
 <span class="co">#&gt; # ... with 40 more rows</span></pre></body></html></div>
-<p>Given that the other selected variables have identical (harmonized) names and they are of base type <code>numeric</code> or <code>character</code>, after harmonizing the <code>trust</code> labels and <code>na_values</code>, we can bind the two panels with <code>vectrs::vec_rbind()</code>. Unfortunately, the generic <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> method cannot be implemented to work with this type.</p>
+<p>Given that the other selected variables have identical (harmonized) names and they are of base type <code>numeric</code> or <code>character</code>, after harmonizing the <code>trust</code> labels and <code>na_values</code>, we can bind the two panels with <code>vectrs::vec_rbind()</code> or <code><a href="https://dplyr.tidyverse.org/reference/bind.html">dplyr::bind_rows()</a></code>. Unfortunately, the generic <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> method cannot be implemented to work with this type.</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">panel</span> <span class="kw">&lt;-</span> <span class="kw pkg">vctrs</span><span class="kw ns">::</span><span class="fu"><a href="https://vctrs.r-lib.org/reference/vec_bind.html">vec_rbind</a></span> (
   <span class="no">hZA6863</span>, <span class="no">hZA6863</span>
-)</pre></body></html></div>
+)
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span>
+
+<span class="co">#&gt; Warning in x_attr_names == paste0(x_id, "_name"): longer object length is not a</span>
+<span class="co">#&gt; multiple of shorter object length</span></pre></body></html></div>
 <p>The panel is created, and it is open for exporting to other statistical software, or further analysis in R. While some basic arithmetic methods are implemented for the <code>labelled_spss_survey</code> class of the <a href="http://retroharmonize.satellitereport.com/">retroharmonize</a> package, for using all R statistical packages, the analyst has to chose a base R type that is compatible with them. Since the <code>trust</code> variables are categorical variables, they can be re-casted with the <code>as_factor()</code> or <code>as_numeric()</code> methods. Again, the base R <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code> or <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> will give a legible, but not correct representation.</p>
 <p>The factor representation presents the user-defined missing values as categories:</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">panel</span> <span class="kw">%&gt;%</span>
@@ -462,6 +533,55 @@
 <span class="co">#&gt;  3rd Qu.:24301.3                          </span>
 <span class="co">#&gt;  Max.   :95773.7                          </span>
 <span class="co">#&gt; </span></pre></body></html></div>
+</div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">trust_in_army_doc</span> <span class="kw">&lt;-</span> <span class="kw pkg">retroharmonize</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/retroharmonize/man/document_survey_item.html">document_survey_item</a></span>(
+  <span class="no">trust_in_army</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">trust_in_army_doc</span>$<span class="no">code_table</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span> ()</pre></body></html></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">values</th>
+<th align="right">survey_id_values</th>
+<th align="left">labels</th>
+<th align="left">survey_id_labels</th>
+<th align="left">missing</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">not_trust</td>
+<td align="left">Tend to trust</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">trust</td>
+<td align="left">Tend not to trust</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="right">99997</td>
+<td align="right">3</td>
+<td align="left">do_not_know</td>
+<td align="left">DK</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="right">99999</td>
+<td align="right">9</td>
+<td align="left">inap</td>
+<td align="left">Inap. (CY-TCC in isocntry)</td>
+<td align="left">TRUE</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">trust_in_army_doc</span>$<span class="no">history_var_label</span>
+<span class="co">#&gt;                         label               survey_id_label </span>
+<span class="co">#&gt; "TRUST IN INSTITUTIONS: ARMY" "TRUST IN INSTITUTIONS: ARMY"</span></pre></body></html></div>
 </div>
   </div>
 

@@ -73,7 +73,7 @@ Currently works only with binary values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -168,17 +168,31 @@ labels, and in <code><a href='https://rdrr.io/r/base/attr.html'>attr(v, num_orig
        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
        <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>YES</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>NO</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>wrong_label</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>refused</span> <span class='kw'>=</span> <span class='fl'>9</span>)
       )
-<span class='fu'>harmonize_value_labels</span>(<span class='no'>v</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
-#&gt; <span class='warning'>Please use `select()` instead.</span>
-#&gt; <span class='warning'>This warning is displayed once every 8 hours.</span>
-#&gt; <span class='warning'>Call `lifecycle::last_warnings()` to see where this warning was generated.</span></div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("select_"): no applicable method for 'select_' applied to an object of class "c('mts', 'ts')"</span></div><div class='input'>
+<span class='fu'>harmonize_value_labels</span>(<span class='no'>v</span>, <span class='fl'>2</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
+#&gt; [1]     1     0     0     1 99000 99998
+#&gt; 
+#&gt; Labels:
+#&gt;  value       label
+#&gt;      1         yes
+#&gt;      0          no
+#&gt;  99000 wrong_label
+#&gt;  99998     decline</div><div class='input'>
 <span class='no'>v3</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>5</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>`BETTER`</span><span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>`WORSE`</span><span class='kw'>=</span> <span class='fl'>4</span>,
   <span class='kw'>`SAME`</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>wrong_label</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>refused</span> <span class='kw'>=</span> <span class='fl'>9</span>))
 
 <span class='fu'>harmonize_value_labels</span>(
-  <span class='kw'>labelled_var</span> <span class='kw'>=</span> <span class='no'>v3</span>,<span class='kw'>categories</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("select_"): no applicable method for 'select_' applied to an object of class "c('mts', 'ts')"</span></div></pre>
+  <span class='kw'>labelled_var</span> <span class='kw'>=</span> <span class='no'>v3</span>,<span class='kw'>categories</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; &lt;labelled&lt;double&gt;[6]&gt;
+#&gt; [1]     1    -1     0     1 99000 99998
+#&gt; 
+#&gt; Labels:
+#&gt;  value       label
+#&gt;      1      better
+#&gt;     -1       worse
+#&gt;      0        same
+#&gt;  99000 wrong_label
+#&gt;  99998     decline</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
