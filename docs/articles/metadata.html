@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">eurobarometer</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
       </span>
     </div>
 
@@ -96,19 +96,65 @@
     
     
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">eurobarometer</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"ZA7562_sample"</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)</pre></body></html></div>
 <p>The <code>ZA7562_sample</code> is a small fraction of the GESIS datafile <code>ZA5479_v6-0-0.sav</code>. It cannot be used to retrieve any statistical data from the original dataset. In scope it is limited to some important metadata columns, a few demographic variables and one question block. In geographic coverage, it takes a sample from the responses from the United Kingdom and Germany. These two countries are targeting parts of the countries separately, i.e. for Great Britain and Northern Ireland, and the former West Germany and East Germany.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">ZA7562_sample</span>$<span class="no">filename</span> <span class="kw">&lt;-</span> <span class="st">'eb_sample'</span>
-<span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">ZA7562_sample</span>)
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">ZA7576_sample</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_rds.html">read_rds</a></span>(
+  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"examples"</span>, <span class="st">"ZA7576.rds"</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"eurobarometer"</span>)
+)
+<span class="co">#&gt; Survey read:</span>
+<span class="co">#&gt; id: ZA7576</span>
+<span class="co">#&gt; filename: ZA7576.rds</span>
+<span class="co">#&gt; doi: doi:10.4232/1.13393</span></pre></body></html></div>
+<p>When you read data in with <code><a href="../reference/read_rds.html">read_rds()</a></code> or <code><a href="../reference/read_rds.html">read_spss()</a></code>, as many metadata is added to the survey data frame as possible.</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span>(<span class="no">ZA7576_sample</span>)
+<span class="co">#&gt; $names</span>
+<span class="co">#&gt;  [1] "rowid"    "doi"      "version"  "uniqid"   "caseid"   "serialid"</span>
+<span class="co">#&gt;  [7] "isocntry" "p1"       "p2"       "p3"       "p4"       "p5"      </span>
+<span class="co">#&gt; [13] "nuts"     "d7"       "d8"       "d25"      "d60"      "qa14_5"  </span>
+<span class="co">#&gt; [19] "qa14_3"   "qa14_2"   "qa14_4"   "qa14_1"   "qa6a_5"   "qa6a_10" </span>
+<span class="co">#&gt; [25] "qa6b_2"   "qa6a_3"   "qa6a_1"   "qa6b_4"   "qa6a_8"   "qa6a_9"  </span>
+<span class="co">#&gt; [31] "qa6a_4"   "qa6a_2"   "qa6b_1"   "qa6a_6"   "qa6a_7"   "qa6a_11" </span>
+<span class="co">#&gt; [37] "qa6b_3"   "qd6.1"    "qd6.2"    "qd6.3"    "qd6.4"    "qd6.5"   </span>
+<span class="co">#&gt; [43] "qd6.6"    "qd6.7"    "qd6.8"    "qd6.9"    "qd6.10"   "qd6.11"  </span>
+<span class="co">#&gt; [49] "qd6.12"   "qd6.13"   "qd6.14"   "qg1b"     "qg8"      "w1"      </span>
+<span class="co">#&gt; [55] "w3"       "wex"     </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $row.names</span>
+<span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25</span>
+<span class="co">#&gt; [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $class</span>
+<span class="co">#&gt; [1] "survey"     "tbl_df"     "tbl"        "data.frame"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $id</span>
+<span class="co">#&gt; [1] "ZA7576"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $filename</span>
+<span class="co">#&gt; [1] "ZA7576.rds"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $doi</span>
+<span class="co">#&gt; [1] "doi:10.4232/1.13393"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $gesis_file_version</span>
+<span class="co">#&gt; [1] NA</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $wave</span>
+<span class="co">#&gt; [1] "Eurobarometer 91.5"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $timeframe</span>
+<span class="co">#&gt; [1] "June-July 2019"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $eb_description</span>
+<span class="co">#&gt; [1] "Standard Eurobarometer, European Parliament Post-election survey 2019, and EU citizens and development cooperation"</span></pre></body></html></div>
+<p>For identifying variables and variable labels, the helper function <code><a href="../reference/gesis_metadata_create.html">gesis_metadata_create()</a></code> analyzes the contents of the survey.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">sample_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/gesis_metadata_create.html">gesis_metadata_create</a></span>(<span class="no">ZA7562_sample</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="no">sample_metadata</span>)
 <span class="co">#&gt;  [1] "filename"           "qb"                 "var_name_orig"     </span>
-<span class="co">#&gt;  [4] "var_label_orig"     "var_label_norm"     "var_name_suggested"</span>
-<span class="co">#&gt;  [7] "length_cat_range"   "length_na_range"    "length_total_range"</span>
-<span class="co">#&gt; [10] "n_categories"       "labels"             "na_levels"         </span>
-<span class="co">#&gt; [13] "na_range"           "class_orig"</span></pre></body></html></div>
+<span class="co">#&gt;  [4] "label_orig"         "var_label_norm"     "var_name_suggested"</span>
+<span class="co">#&gt;  [7] "n_valid_labels"     "n_na_labels"        "labels"            </span>
+<span class="co">#&gt; [10] "na_labels"          "na_range"           "class_orig"</span></pre></body></html></div>
 <p>The function <code>gesis_metadta_create()</code> normalizes those variable names that are not machine readable, using two functions under the hood (see: <code><a href="../reference/label_normalize.html">label_normalize()</a></code> and <code><a href="../reference/label_suggest.html">label_suggest()</a></code>.)</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">sample_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"var_name_orig"</span>, <span class="st">"var_name_suggested"</span>)))
 <span class="co">#&gt;           var_name_orig                                    var_name_suggested</span>
 <span class="co">#&gt; survey.1            doi                                                   doi</span>
