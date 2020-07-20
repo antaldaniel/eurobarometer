@@ -7,6 +7,7 @@
 #' labelled class.
 #' @param categories The number of valid categories in the value range.
 #' @importFrom labelled to_character labelled
+#' @importFrom tidyr distinct
 #' @importFrom dplyr case_when mutate left_join if_else distinct_all
 #' @importFrom tibble tibble
 #' @return A labelled vector containing harmonized numeric values and
