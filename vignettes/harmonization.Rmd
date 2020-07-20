@@ -30,7 +30,6 @@ ZA6863 <- read_rds(
 ZA7576 <- read_rds(
   system.file("examples", "ZA7576.rds", package = "eurobarometer")
 )
-
 ```
 
 ## Metadata
@@ -49,9 +48,8 @@ ZA6863_items <- ZA6863_metadata %>%
   filter (
     class_orig %in% c("character", "numeric") | 
     str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
-  select (var_name_suggested) %>%
   filter ( var_name_suggested != 'not_given' ) %>%
-  unlist() %>% as.character() 
+  pull (var_name_suggested)
 ```
 
 ```{r}
@@ -59,9 +57,8 @@ ZA7576_items <- ZA7576_metadata %>%
   filter (
     class_orig %in% c("character", "numeric") | 
     str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
-  select (var_name_suggested) %>%
-  filter ( var_name_suggested != 'not_given' ) %>%
-  unlist() %>% as.character()
+    filter ( var_name_suggested != 'not_given' ) %>%
+    pull (var_name_suggested)
 ```
 
 In this case, the `var_label_suggest()` function worked perfectly, so we can approve the suggestions of `gesis_metadata_create()`.
@@ -86,8 +83,8 @@ And have a look at their value labelling:
 ```{r}
 ZA6863_trust <- ZA6863_metadata %>%
   filter ( str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
-  select ( labels, na_levels ) %>%
-  tidyr::unnest( cols = c(labels, na_levels) ) %>%
+  select ( labels, na_labels ) %>%
+  tidyr::unnest( cols = c(labels, na_labels) ) %>%
   distinct_all()
 
 ZA6863_trust$labels[1]
@@ -97,8 +94,8 @@ ZA6863_trust$labels[2]
 ```{r}
 ZA7576_trust <- ZA7576_metadata %>%
   filter ( str_sub(var_name_suggested, 1,5) == 'trust' ) %>%
-  select ( labels, na_levels ) %>%
-  tidyr::unnest( cols = c(labels, na_levels) ) %>%
+  select ( labels, na_labels ) %>%
+  tidyr::unnest( cols = c(labels, na_labels) ) %>%
   distinct_all()
 
 ZA7576_trust$labels[1]
@@ -133,13 +130,13 @@ harmonize_trust <- function(x) {
 Choosing the first `trust` vector, we can see that the harmonization records all metadata for reproducibility.
 
 ```{r}
-harmonize_trust ( hZA6863$trust_army)
+harmonize_trust (hZA6863$trust_army)
 ```
 
 The coding appears very similar, so we use the same helper function for the same question in the other survey:
 
 ```{r}
-harmonize_trust ( hZA7576$trust_army)
+harmonize_trust (hZA7576$trust_army)
 ```
 ```{r}
 trust_in_army <- retroharmonize::concatenate(

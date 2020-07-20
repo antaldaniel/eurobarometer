@@ -18,14 +18,13 @@ library(knitr)
 ```{r setup, message=FALSE}
 library(eurobarometer)
 library(dplyr)
-
 ```
 
 The `ZA7562_sample` is a small fraction of the GESIS datafile `ZA5479_v6-0-0.sav`.  It cannot be used to retrieve any statistical data from the original dataset.  In scope it is limited to some important metadata columns, a few demographic variables and one question block.  In geographic coverage, it takes a sample from the responses from the United Kingdom and Germany. These two countries are targeting parts of the countries separately, i.e. for Great Britain and Northern Ireland, and the former West Germany and East Germany. 
 
 ```{r}
 ZA7576_sample <- read_rds(
-  system.file("examples", "ZA7576.rds", package = "eurobarometer")
+  system.file("examples", "ZA7576.rds", package="eurobarometer")
 )
 ```
 When you read data in with `read_rds()` or `read_spss()`, as many metadata is added to the survey data frame as possible.

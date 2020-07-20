@@ -47,8 +47,14 @@ on [GitHub](https://github.com/):
 
 ``` r
 # install.packages("devtools")
+devtools::install_github("antaldaniel/retroharmonize")
 devtools::install_github("antaldaniel/eurobarometer")
 ```
+
+You do not need to load the
+[retroharmonize](http://retroharmonize.satellitereport.com/) package
+with `library(retroharmonize)` but eurobarometer relies on some if its
+classes, methods and functions.
 
 ## Data Preparation For Programmatic Use
 
@@ -58,17 +64,25 @@ not ready for programmatic use in R or for joining into longitudinal
 panels. We created this package to help this procedure following the
 principles of reproducible research.
 
-1.  We import the GESIS SPSS files with the help of the
-    [haven](https://haven.tidyverse.org/) package. In order to preserve
-    the metadata in the files (particularly variable- and value labels,
-    and user-defined missing values) these are converted to labelled
-    classes.
+1.  We import the GESIS SPSS files with the help of the adopted version
+    of `read_spss()` from the [haven](https://haven.tidyverse.org/)
+    package. The `haven::write_sav()` function does not work perfectly,
+    it loses some metadata, so the best is to save you data as an `.rds`
+    file. You can read surveys then with `read_rds()`. Both importing
+    function will try to add important metadata to the
+    `retroharmonize::survey()` tibble/data.frame class, including the
+    original file name, the survey’s ID and DOI.
 
 2.  We analyse the files with `gesis_metadata_create()` to understand
     what are the possible problems in the SPSS file and how to resolve
     them. (See: [Working With
     Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html)
-    or `vignette("metadata")`)
+    or `vignette("metadata")`) This is a modified version of the more
+    generic
+    [metadata\_create](http://retroharmonize.satellitereport.com/reference/metadata_create.html)
+    function in `retroharmonize`. See the [Working With
+    Metadata](http://eurobarometer.danielantal.eu/articles/metadata.html)
+    vignette for some more details.
 
 3.  We suggest various
     [naming](http://eurobarometer.danielantal.eu/articles/variable_names.html)
@@ -78,16 +92,24 @@ principles of reproducible research.
     changes can be modified by the user.
 
 4.  We convert the variables to a modified version of the
-    `haven_labelled_spss` class that contains the harmonized values,
-    harmonized labels, harmonized missing values codes of the variable
-    with their history (original values, labels, and function applied to
-    change them) for reproducibility. The
-    [eurobarometer\_labelled](http://eurobarometer.danielantal.eu/articles/eurobarometer_class.html)
+    `retroharmonize_labelled_spss_survey` class that contains the
+    harmonized values, harmonized labels, harmonized missing values
+    codes of the variable with their history (original values, labels,
+    and function applied to change them) for reproducibility. The
+    [labelled\_spss\_survey](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html)
     class inherits most of the functionality of the packages
     [haven](https://haven.tidyverse.org/),
     [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html)
     and are expected to work well with
     [sjlabelled](https://strengejacke.github.io/sjlabelled/articles/labelleddata.html).
+
+5.  The harmonization of the variable names is currently possible with
+    retroharmonize only (See: [Harmonize Value
+    Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html)).
+    Further, Eurobarometer specific helpers will be added soon. See the
+    article [Survey Data
+    Harmonization](http://eurobarometer.danielantal.eu/articles/harmonization.html)
+    as a case study.
 
 <div class="figure" style="text-align: center">
 
