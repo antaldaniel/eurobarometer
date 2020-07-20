@@ -43,3 +43,6 @@ importing functions in vignette examples and unit tests.
 
 # eurobarometer 0.1.8
 * Serveral functions were deprecated: `concatenate`,  `unique_id_create`, `harmonize_to_numeric`, `eurobarometer_labelled` and the `workflow` vignette and the NUTS1 and NUTS2 vocabulary files.
+
+# eurobarometer 0.1.10
+Fully harmonized with [retroharmonize](http://retroharmonize.satellitereport.com/) 0.1.1.
