@@ -21,20 +21,22 @@ Create a metadata file from your surveys.
 \details{
 The structure of the returned tibble:
 \describe{
-  \item{filename}{The original file name}
-  \item{qb}{Identifier of a question block for further tasks.}
+  \item{filename}{The original file name.}
+  \item{id}{The ID of the survey, if present.}
+  \item{qb}{Question Block}
   \item{var_name_orig}{The original variable name in SPSS.}
-  \item{var_label_orig}{The original variable label in SPSS.}
-  \item{var_label_norm}{A normalized version of the variable labels.}
-  \item{var_name_suggested}{A partly canonized variable name.}
-  \item{length_cat_range}{Number of categories in the non-missing range.}
-  \item{length_na_range}{Number of categories marked as missing by GESIS.}
-  \item{length_total_range}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
-  \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
-  \item{labels}{A list of the value labels.}
-  \item{na_levels}{A list of the user-defined missing values.}
-  \item{na_range}{An optional range of a continous missing range.}
+  \item{var_label_norm}{The normalized variable label.}
+  \item{var_name_suggested}{Suggested variable name.}
   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
+  \item{label_orig}{The original variable label in SPSS.}
+  \item{labels}{A list of the value labels.}
+  \item{valid_labels}{A list of the value labels that are not marked as missing values.}
+  \item{na_labels}{A list of the value labels that refer to user-defined missing values.}
+  \item{na_range}{An optional range of a continous missing range, if present in the vector.}
+  \item{n_labels}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
+  \item{n_valid_labels}{Number of categories in the non-missing range.}
+  \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
+  \item{na_levels}{A list of the user-defined missing values.}
 }
 }
 \examples{

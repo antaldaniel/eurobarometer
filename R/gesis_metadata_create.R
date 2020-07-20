@@ -4,20 +4,22 @@
 #'
 #' @details The structure of the returned tibble:
 #' \describe{
-#'   \item{filename}{The original file name}
-#'   \item{qb}{Identifier of a question block for further tasks.}
+#'   \item{filename}{The original file name.}
+#'   \item{id}{The ID of the survey, if present.}
+#'   \item{qb}{Question Block}
 #'   \item{var_name_orig}{The original variable name in SPSS.}
-#'   \item{var_label_orig}{The original variable label in SPSS.}
-#'   \item{var_label_norm}{A normalized version of the variable labels.}
-#'   \item{var_name_suggested}{A partly canonized variable name.}
-#'   \item{length_cat_range}{Number of categories in the non-missing range.}
-#'   \item{length_na_range}{Number of categories marked as missing by GESIS.}
-#'   \item{length_total_range}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
-#'   \item{n_categories}{Number of categories of the variable, should be the sum of the former two.}
-#'   \item{labels}{A list of the value labels.}
-#'   \item{na_levels}{A list of the user-defined missing values.}
-#'   \item{na_range}{An optional range of a continous missing range.}
+#'   \item{var_label_norm}{The normalized variable label.}
+#'   \item{var_name_suggested}{Suggested variable name.}
 #'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
+#'   \item{label_orig}{The original variable label in SPSS.}
+#'   \item{labels}{A list of the value labels.}
+#'   \item{valid_labels}{A list of the value labels that are not marked as missing values.}
+#'   \item{na_labels}{A list of the value labels that refer to user-defined missing values.}
+#'   \item{na_range}{An optional range of a continous missing range, if present in the vector.}
+#'   \item{n_labels}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
+#'   \item{n_valid_labels}{Number of categories in the non-missing range.}
+#'   \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
+#'   \item{na_levels}{A list of the user-defined missing values.}
 #' }
 #' @param survey_list A list of data frames containing surveys, or a
 #' single survey in a single data frame. The filename should be added
@@ -60,7 +62,9 @@ gesis_metadata_create <- function ( survey_list ) {
 
     mtd <- mtd %>%
       dplyr::mutate (
-        filename = this_filename,
+        ##somewhere there is a problem with a mutate
+        filename = this_filename) %>%
+      dplyr::mutate (
         var_label_norm = var_label_normalize(label_orig)
         ) %>%
       dplyr::mutate (
@@ -75,29 +79,20 @@ gesis_metadata_create <- function ( survey_list ) {
                var_label_norm,
                var_name_suggested,
                label_orig,
-               n_na_values,
-               n_cat_labels,
+               n_valid_labels,
+               n_na_labels,
                labels,
-               na_values,
-               valid_range, na_values, na_range) %>%
-      dplyr::rename ( n_cat_values  = n_cat_labels) %>%
-      dplyr::mutate ( n_categories = n_cat_values - n_na_values  ) %>%
-      dplyr::rename ( var_label_orig = label_orig,
-                      na_levels = na_values,
-                      length_na_range = n_na_values,
-                      length_total_range = n_cat_values ) %>%
-      dplyr::mutate ( length_cat_range =length_total_range-length_na_range )
+               valid_labels,
+               na_labels, na_range)
 
     metadata <- question_block_identify(metadata)
 
     metadata %>%
       dplyr::select ( all_of(c("filename", "qb", "var_name_orig",
-                        "var_label_orig",
+                        "label_orig",
                         "var_label_norm", "var_name_suggested",
-                        "length_cat_range", "length_na_range",
-                        "length_total_range",
-                        "n_categories",
-                        "labels","na_levels", "na_range",
+                        "n_valid_labels", "n_na_labels",
+                        "labels","na_labels", "na_range",
                         "class_orig")
               )
       )

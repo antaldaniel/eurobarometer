@@ -20,11 +20,11 @@ question_block_identify <- function (metadata) {
   qb <- vector ( mode = 'character', length = length(var_name_suggested))
 
   metadata_tmp <- metadata %>%
-    mutate (
+    dplyr::mutate (
       orig_1 = tolower(substr(var_name_orig, 1, 1)),
       orig_2 = tolower(substr(var_name_orig, 1, 2))
       ) %>%
-    mutate (qb  = case_when (
+    dplyr::mutate (qb  = dplyr::case_when (
     var_name_suggested %in%
       c("filename", "doi", "uniqid" )              ~  "id",
     grepl( "gesis_archive", var_name_suggested)    ~  "id",
@@ -34,13 +34,13 @@ question_block_identify <- function (metadata) {
       c("d7", "d8", "d25", "d60")                  ~  "socio-demography",
     orig_1 == "w"                                  ~  "weights",
     grepl ( "trust_in|_trust", var_name_suggested) &
-      n_categories  == 4                           ~  "trust",
+      n_valid_labels  == 2                           ~  "trust",
     ## add further cases here
     TRUE ~ 'not_identified')
     )
 
  metadata_tmp %>%
-   select ( -all_of(c("orig_1", "orig_2")) )
+   dplyr::select ( -tidyselect::all_of(c("orig_1", "orig_2")) )
 }
 
 #' To Survey List
