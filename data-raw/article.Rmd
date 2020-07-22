@@ -13,13 +13,15 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::write_bib(c(
-  .packages(), 'haven', 'labelled', 'vctrs'
+  .packages(), 'haven', 'labelled', 'vctrs', 'retroharmonize'
 ), 'packages.bib')
 ```
 
 [Read the current knitted version on Rpubs](https://rpubs.com/antaldaniel/retroharmonize)
 
-The increasing availability of microdata creates new opportunities for joint exploitation of these resources for comparative research. Before joint analysis is possible, the data need to be harmonized, i.e. transformed and combined in a single data set in a way that matches the measurement of the same characteristics and standardizes the coding of responses. We introduce the `retroharmonize` and `eurobarometer` packages that help the reproducible ex-post harmonization of survey data stored in various, individual files with rich metadata.  We illustrate the proposed workflow using the case of the Eurobarometer surveys, which provide rich data on European publics in form of single-wave SPSS files from a period of over 25 years. Our tools are flexible and can be applied to other survey projects.
+The increasing availability of microdata creates new opportunities for joint exploitation of these resources for comparative research. Before joint analysis is possible, the data needs to be harmonized. This means a transformation and combination in a way that the same measurements are coded in the same way.
+
+We introduce the `retroharmonize` and `eurobarometer` packages that help the reproducible, metadata-rich ex-post harmonization of survey data stored in various individual files.  We illustrate the proposed workflow using the case of the Eurobarometer surveys, which provide rich data on European publics in form of single-wave SPSS files from a period of over 25 years. Our tools are flexible and can be applied to other survey projects: we also introduce [a small case study](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) with Afrobarometer.
 
 The Eurobarometer case is particularly interesting, because each wave of the Eurobarometer project includes 27-30 nationally representative surveys conducted in about 20 languages based on a generic English and French questionnaire. They contain trend variables, which are asked repeatedly in many waves, so only joining the same variables of two Eurobarometer waves, for example, on trust in institutions, requires a harmonization of about 60 complex data assets.  Within each wave, the surveys are harmonized ex ante, including fieldwork organization or processing of the interview data and combining them into a single data file.  These procedures differ between waves, especially ones that took place far away in time, for example, in 1995 and 2019. When we are ex post joining data from different survey waves, we have to understand and partly reconstruct ex ante harmonization steps.
 
@@ -33,7 +35,7 @@ In simple words, when we are creating a multi-wave integrated data set from two 
 
 -- [Ex-post harmonization](#expost) 
 
-* Define a common [taxonomy](#taxonomy), probably based on a thesaurus for consistentcy.
+* Define a common [taxonomy](#taxonomy) based on a thesaurus for consistency.
 
 * [harmonizing variable names](#harmonize-var-names), or “variable labels” in an SPSS context, making sure that variables that represent exactly the same information (in terms of question content and response measurement) have exactly the same, programmatically usable variable names; dissimilar variables have dissimilar names. 
 
@@ -41,7 +43,7 @@ In simple words, when we are creating a multi-wave integrated data set from two 
 
 * Harmonizing the treatment of [missing values](#harmonize-missing), carefully documenting the differences of ‘missingness’ (inapplicable items, items that were not collected, etc.), because during analysis they may require different interpretation.
 
---	Creating a [joint data table](#datajoin) where each variable that represents the same class and metadata attributes; documenting all the changes and 	Providing methods that re-export the data files to SPSS, Stata, SAS.
+--	Creating a [joint data table](#datajoin) where each variable that represents the same class and metadata attributes; documenting all the changes and providing methods that re-export the data files to SPSS, Stata, SAS.
 
 * Creating a consistent, [unique identifier](#uniqid) for each observation.
 
@@ -51,8 +53,9 @@ In simple words, when we are creating a multi-wave integrated data set from two 
 
 * Providing [methods](#rmethods) to convert the data to base types of numeric and factor, the usual inputs of statistical functions, for reproducible analysis in R.
 
-Our workflow generally fits into the tidyverse.
+The workflow that we created fits into the [tidyverse](https://www.tidyverse.org/), and relies on [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/) for data processing, [haven](https://haven.tidyverse.org/) for importing,  [tibble](https://tibble.tidyverse.org/) for more modern data framing. 
 
+For easier further development, we rely on the r-lib family of [rlang](https://rlang.r-lib.org/) for easier exception handling, [vctrs](https://vctrs.r-lib.org/) for type casting and coercion, and implementation of class methods, and [fs](https://fs.r-lib.org/) for platform-independent file management. Of course, the tidyverse relies on these modern re-implementations of base R and they improve the tidy workflow and benefit from the efficiency gains with of a basic C++ infrastructure. 
 
 # The Eurobarometer surveys
 
@@ -61,7 +64,6 @@ The Eurobarometer is a biannual survey conducted by the European Commission with
 Each EB wave is devoted to a particular topic, and most waves ask some "trend questions", i.e. questions that are repeated frequently in the same form. Especially these trend questions create unique opportunities for longitudinal research. Each wave is published as a separate file that contains responses from all countries that participated in that wave, i.e. all EU countries and sometimes also candidate countries. As a consequence, the data are ex-ante harmonized within waves, which makes cross-country comparisons readily possible, and also reduces the burden of ex-post harmonization by  a factor of about 20 (the number of countries in an average EB wave).
 
 TO given an idea of the size of the EB data sets, each file consists of between around 150 and 4000 variables, with an average of some 750 among the test files we used, and between 15,000 and around 65.000 cases corresponding to individual respondents.
-
 
 ## Import files {#import}
 
