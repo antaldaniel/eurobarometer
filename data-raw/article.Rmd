@@ -2,7 +2,7 @@
 title: "Tools for reproducible ex-post survey data harmonization"
 subtitle: "The case of the Eurobarometer surveys"
 author: "Daniel Antal, Marta Kolczynska"
-date: "7/10/2020"
+date: "7/22/2020"
 bibliography: [library.bib, packages.bib]
 biblio-style: apalike
 output:
@@ -53,9 +53,15 @@ In simple words, when we are creating a multi-wave integrated data set from two 
 
 Our workflow generally fits into the tidyverse.
 
+
 # The Eurobarometer surveys
 
-<Here more information about the EUrobarometer, the contents, frequency of waves, amount of data, fieldwork and number of respondents. Maybe even the paragraph from the introduction would fit better here than there>
+The Eurobarometer is a biannual survey conducted by the European Commission with the goal of monitoring the public opinion of populations of EU member states and -- occasionally -- also in candidate countries. The surveys are administered via face-to-face interviews to samples (selected via multi-stage probability sampling) of adult populations of the respective countries. Sample sizes hover around 1000 respondents in most countries, and around 500 respondents in smaller nations. Target populations in the Eurobarometer are defined as the “[P]opulation of the respective nationalities of the European Union Member States and other EU nationals, resident in each of the 28 Member States and aged 15 years and over“. In non-EU countries, the target population includes “the national population of citizens and the population of citizens of all the European Union Member States that are residents in these countries and have a sufficient command of the national languages to answer the questionnaire“ [@EuropeanCommission2017]. 
+
+Each EB wave is devoted to a particular topic, and most waves ask some "trend questions", i.e. questions that are repeated frequently in the same form. Especially these trend questions create unique opportunities for longitudinal research. Each wave is published as a separate file that contains responses from all countries that participated in that wave, i.e. all EU countries and sometimes also candidate countries. As a consequence, the data are ex-ante harmonized within waves, which makes cross-country comparisons readily possible, and also reduces the burden of ex-post harmonization by  a factor of about 20 (the number of countries in an average EB wave).
+
+TO given an idea of the size of the EB data sets, each file consists of between around 150 and 4000 variables, with an average of some 750 among the test files we used, and between 15,000 and around 65.000 cases corresponding to individual respondents.
+
 
 ## Import files {#import}
 
@@ -64,6 +70,7 @@ Complex microdata, such as primary survey data, is often stored in a format used
 In our case, we are dealing with highly structured survey data that contain a lot of metadata, partly about the *ex ante* harmonization process that is vital for using the data.  For example, an archived Eurobarometer wave file from recent years contains more than 28 national samples (for each EU member state, plus two for Germany - East and West, two for the former member state United Kingdom - for Great Britain and Northern Ireland, and often for European Economic Area or candidate countries, such as North Macedonia or Albania.)  The way these subsamples were merged together and handled must be preserved. 
 
 We almost fully rely in importing on two packages, [haven](https://haven.tidyverse.org/) and [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) from the tidyverse [cf. @R-haven; @R-labelled; @R-base].  They have created classes and methods that give a faithful representation of imported statistical software files, but they need to be amended for reproducibility and harmonization information for later joins. Our version of the [retroharmonize::read_spss()](http://retroharmonize.satellitereport.com/reference/read_spss.html) function records the parameters of the [haven::read_spss()](https://haven.tidyverse.org/reference/index.html) call for reproducibility.
+
 
 ## Ex-post harmonization {#expost}
 
@@ -75,13 +82,22 @@ While the exact steps vary by application case, a survey data harmonization proj
 
 The scope and complexity of the steps involved in survey data harmonization depends on the extent to which the existing data are already comparable with regard to the (a) sample and (b) measurement. The comparability of survey samples includes the definition of the target population, the sampling frame and sample type, as well as the response (or other outcome) rate. Measurement deals with the content and design of the survey questions, as well as the recording responses, data entry and data validation procedures applied following fieldwork. The more similar the procedures in both areas, the higher are the chances for a high quality end product.
 
-In the case of the Eurobarometer, the harmonization process in greatly facilitated by the fact that all Eurobarometer waves are part of the same project with largely standardized procedures for many stages of the survey process, including questionnaire design, sampling, fieldwork, data processing and dissemination. Additionally, within each Eurobarometer wave, data for all countries are harmonized *ex ante*. Thus, in this case the harmonization of the data across multiple Eurobarometer surveys boils down to data data transformation and documentation. For the purposes of presenting the process of harmonization with `retroharmonize` and eurobarometer packages, we use the case of the Eurobarometer without the loss of generality of the described procedures, since it includes all data processing steps involved in harmonization.
+In the case of the Eurobarometer, the harmonization process in greatly facilitated by the fact that all Eurobarometer waves are part of the same project with largely standardized procedures for many stages of the survey process, including questionnaire design, sampling, fieldwork, data processing and dissemination. Additionally, within each Eurobarometer wave, data for all countries are harmonized *ex ante*. Thus, in this case the harmonization of the data across multiple Eurobarometer surveys boils down to data data transformation and documentation. For the purposes of presenting the process of harmonization with `retroharmonize` and `eurobarometer` packages, we use the case of the Eurobarometer without the loss of generality of the described procedures, since it includes all data processing steps involved in harmonization.
 
 ### Thesaurus, taxonomy {#taxonomy}
 
 ### Harmonization of variable names {#harmonize-var-names}
 
-We should keep an eye on [snakecase](#https://github.com/Tazinho/snakecase) and maybe janitor, too.
+While many EB waves include the same trend questions, the naming conventions of these variables and their variable labels have been changing and are not consistent across all waves. For example, questions about trust in parliament are labelled as "TRUST IN INSTITUTIONS: NAT PARLIAMENT" or "TRUST IN INSTITUTIONS: NATIONAL PARLIAMENT", where the label also typically contains at the beginning the number of the question in the questionnaire, which changes from wave to wave. Similarly, the question about Respondent's occupation is sometimes labelled as "RESPONDENT OCCUPATION SCALE" and other times "OCCUPATION OF RESPONDENT SCALE". 
+
+Identifying the same variables behind these different labels can be automated in cases when the labels contain the same words but in a different order or separated by different punctuation or stop words.
+
+Another part of the standardization of variable names can be performed with a dictionary that maps abbreviations (often non-standard ones due to limits in the length of variable labels) to standardized terms. For example, 'gov', 'govnmt', and 'govmnt' are all variants of the term 'government'. 
+
+Only applying these two steps enable the standardization of a number of variables referring to socio-demographic characteristics (age, gender, education, occupation, household size, marital status, community type), well-being (life satisfaction), political attitudes and engagement (left-right placement, trust in institutions, discussing politics), and living standard (ownership of durables, internet use).
+
+
+**Note:** We should keep an eye on [snakecase](#https://github.com/Tazinho/snakecase) and maybe janitor, too.
 
 ### Harmonization of missing values {#harmonize-missing}
 
