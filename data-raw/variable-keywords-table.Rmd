@@ -1,5 +1,5 @@
 ---
-title: "Tagging variables with keywords"
+title: "Harmonizing variables names"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vocabulary}
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 options(width = 160)
 ```
 
-```{r setup}
+```{r setup, warning = F, error = F}
 library(eurobarometer)
 library(rio)
 library(tidyverse)
@@ -29,193 +29,144 @@ library(janitor)
 library(stringi)
 ```
 
-An important aspect of survey data harmonization - in addition to standardizing response coding and value labels - is the identification of variables that measure the same thing, and standardizing the names of these variables. The process is faciliated by the fact that variables typically have labels that succintly describe the content of the variable, and sometimes also contain information about the coding of responses (e.g., length of scale), the unit (e.g., age in years or categories) and whether the variable contains "original" respondent responses or some transformation of responses (e.g. recoding or index).  
+An important aspect of survey data harmonization -- in addition to standardizing response coding and value labels -- is the identification of variables that measure the same thing in the same way, and standardizing the names of these variables. The process is faciliated by the fact that variables typically have labels that succintly describe the content of the variable, and sometimes also contain information about the coding of responses (e.g., length of scale), the unit (e.g., age in years or categories) and whether the variable contains "original" respondent responses or some transformation of responses (e.g. recoding or index). Variable labels, on the other hand, provide information about the response options, including their number (corresponding to the number of substantive response options) and content.  
 
-Fortunately, in many multi-wave surveys, such as the Eurobarometer, there is a degree of consistency in how variables are labelled in different editions of the survey, and most survey projects try to follow some labelling conventions. 
+Thus, there is quite a lot of information in the variable metadata that can be used to identify:
 
-Unfortunately, consistency is limited and conventions are not followed strictly, which makes standardizing labels a semi-manual task. Some of these issues stem from the limits in the number of characters of variable labels in common statistical software packages (e.g., SPSS), which leads to non-standard abbreviations.  
+1. variables that have the same or very similar **variable labels**,  
 
-This vignette outlines a procedure for arriving at standardized variable names via tokenization of normalized variable labels (`var_label_norm`), which are created by [`label_normalize`](http://eurobarometer.danielantal.eu/reference/label_normalize.html) as part of [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html). The logic is similar to text analysis, in that a document-term matrix is created with each variable label treated as a (very short) document, and terms treated as keywords. variables that contain the same sets of keywords can be - with some margin of error - assumed to correspond to the same or equivalent survey questions.
+2. variables of the same type in terms of item design in terms of **value labels** - especially items of the "mentioned / not mentioned" type that are used to represent questions with multiple items where the Respondent chooses more than one option, but also -- occasionally -- questions, where the Respondent chooses only one option.  
+
+Thanks to variable and value labels, it becomes possible to identify variables that measure the same concept in the same way in different EB waves without studying the documentation.
+
+This vignette outlines these procedures, including the tokenization of normalized variable labels (`var_label_norm`), which are created by [`label_normalize`](http://eurobarometer.danielantal.eu/reference/label_normalize.html) as part of [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html). The logic is similar to text analysis, in that a document-term matrix is created with each variable label treated as a (very short) document, and terms treated as keywords.
+
 
 ## Procedure
 
-0. Read survey and variable metadata, match variables to variable groups as defined by GESIS-ZACAT, filter out technical and protocol variables,
+0. Read survey and variable metadata
 
-1. Standardize the spelling of certain often abbreviated words (e.g., 'gov', 'govnmt', and 'govmnt' for 'government'),
+    a. Match variables to variable groups as defined by GESIS-ZACAT, filter out technical and protocol variables
 
-2. Tokenize,
+1. Standardize variable labels  
 
-3. Eliminate stop words (but be careful to not eliminate too many, e.g. 'right' or 'working'),
+    a. Standardize the spelling of certain often abbreviated words (e.g., 'gov', 'govnmt', and 'govmnt' for 'government')
 
-4. Create a document-term matrix (actually, variable label - keyword matrix),
+    b. Tokenize, eliminate stop words (but be careful to not eliminate too many, e.g. 'right' or 'working')
 
-5. Sort the columns according to the declining frequency of the keywords,
+    c. Create a document-term matrix (actually, variable label - keyword matrix)
 
-6. Create standardized variable labels by concatenating keywords.
+    d. Sort the columns according to the declining frequency of the keywords
+
+    e. Create standardized variable labels by concatenating keywords
+  
+2. Identify identical or equivalent sets of value labels
 
 ### 0. Survey and variable metadata
 
 #### Variable metadata
 
-The table contains metadata from 97 Eurobarometer files (each file corresponding to one EB round). The metadata are extracted from SPSS files with [`gesis_metadata_create`](http://eurobarometer.danielantal.eu/reference/gesis_metadata_create.html).
+The table `eb_metadata_var_groups` contains metadata from 96 Eurobarometer files (each file corresponding to one EB round) combined with information on variable groups from [GESIS ZACAT](https://zacat.gesis.org/webview/).
 
-These 97 include 96 Standard Eurobarometer waves and 1 Candidate Country EB wave.
 
 ```{r}
-metadata_database <- readRDS( file.path('../data-raw', 'eb_metadata_database_20200628.rds')) %>%
+# uses eb_metadata_database_20200628.rds
+
+eb_metadata_var_groups <- readRDS( file.path('../data-raw', 'eb_metadata_var_groups.rds')) %>%
+  mutate(archive_id = substr(filename, 1, 6)) %>%
+  distinct()
+```
+
+
+`eb_metadata_var_groups` is created by joining `eb_var_groups_zacat.rds` with 'eb_metadata_database_20200628.rds' after some cleaning of `var_label_orig`.
+
+`eb_var_groups_zacat.rds` contains info on variable groups for 157 EB waves from 44.2bis (ZA2828) to 92.1 (ZA7579).
+
+Code for this (not run):
+
+```{r, eval = FALSE}
+
+metadata_database <- readRDS( file.path('../data-raw', 
+                                        'eb_metadata_database_20200628.rds')) %>%
   mutate(archive_id = substr(filename, 1, 6))
-```
 
-#### Waves - Archive IDs
+eb_var_groups_zacat <- readRDS( file.path('../data-raw', 
+                                          'eb_var_groups_zacat.rds') ) %>% distinct()
 
-Mapping of GESIS Archive IDs (as used in file names) to wave numbers, from EB/44.2bis (ZA2828) to EB/92.1 (ZA7579) - 157 EB waves altogether.
+archive_ids <- eb_var_groups_zacat %>% distinct(archive_id) %>% pull(archive_id)
 
-
-```{r, warning = F}
-eb_names <- import( file.path('../data-raw', 'eb_waves_filenames.xlsx')) %>%
-  separate(x, c("archive_id", "x2", "title"), sep = ":") %>%
-  separate(x2, c("wave", "dates"), sep = " \\(|\\)") %>%
-  mutate(wave = gsub("Eurobarometer | ", "", wave))
-
-eb_names %>%
-  select(archive_id, wave, dates) %>%
-  head() %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
-```
-
-#### Variable groups
-
-Mapping of variable labels to variable groups, as defined in [GESIS ZACAT](https://zacat.gesis.org/webview/), for 157 EB waves from 44.2bis (ZA2828) to 92.1 (ZA7579).
-
-```{r}
-varlabs <- import( file.path('../data-raw', 'eb_variable_groups_zacat.xlsx')) %>%
-  mutate(var_label_zacat = gsub('â€“', "–", var_label_zacat),
-         wave_desc = ifelse(substr(var_label_zacat, 1, 13) == "Eurobarometer", 
-                            var_label_zacat, 
-                            NA),
-         var_label_zacat = ifelse(substr(var_label_zacat, 1, 13)=="Eurobarometer", 
-                                  NA, 
-                                  var_label_zacat),
-         # group names are writte in camel case and != toupper(group names)
-         group = ifelse(var_label_zacat != toupper(var_label_zacat), 
-                        var_label_zacat, 
-                        NA),
-         # exceptions from the rule identifying group names
-         group = ifelse(substr(group, 1, 9) == "OWNERSHIP", 
-                        NA, 
-                        group), 
-         group = ifelse(substr(group, 1, 19) == "POSITIVE EU RESULTS", 
-                        NA, 
-                        group),
-         group = ifelse(substr(group, 1, 24) == "OPINION LEADERSHIP INDEX", 
-                        NA, 
-                        group),
-         group = ifelse(substr(group, 1, 2) %in% c("Q1", "Q2", "Q3"), 
-                        NA, 
-                        group),
-         var_label_zacat = ifelse(!is.na(group), 
-                                  NA, 
-                                  var_label_zacat)) %>%
-  fill(wave_desc, group) %>%
-  drop_na(group, var_label_zacat) %>%
-  mutate(wave = sub("^(\\S*\\s+\\S+).*", "\\1", wave_desc),
-         wave = gsub("^Eurobarometer |:|,", "", wave),
-         var_label_zacat = gsub("^W[0-9]{1,2}[A-Z] |^W3A/W4A ", "", 
-                                var_label_zacat),
-         var_label_zacat = gsub("^([A-Z])*[0-9]{1,3}([A-Z]{1,2})* ", "", 
-                                var_label_zacat),
-         var_label_zacat = gsub("^[A-Z]{1,2}[0-9]{1,2}([A-Z])*_[A-Z]{1,2} ", "", 
-                                var_label_zacat),
-         # these 2 waves have problems and labels in data and in ZACAT are different
-         var_label_zacat = ifelse(wave %in% c("85.3", "86.1"),
-                                  gsub("\\s*\\([^\\)]+\\)","", var_label_zacat),
-                                  var_label_zacat),
-         group = gsub("\\s*\\([^\\)]+\\)","", group)) %>%
-  left_join(eb_names) %>%
-  select(wave, archive_id, group, var_label_zacat, everything())
-
-varlabs %>%
-  select(archive_id, wave, group, var_label_zacat) %>%
-  head() %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
-```
-
-```{r}
-# vector of archive IDs
-archive_ids <- varlabs %>% distinct(archive_id) %>% pull(archive_id)
-
-length(archive_ids)
-```
-
-
-### 1. Standardize the spelling
-
-All procedures below applied to those waves, for which all metadata are available.
-
-
-#### 1.1. Translation table ...
-
-
-```{r}
-dict <- import( file.path('../data-raw', 'var_lab_dict.xlsx'), 
-                sheet = "dict") %>% 
-  gather(id, from, 2:6) %>%
-  select(from, to) %>%
-  drop_na(from)
-
-head(dict) %>%
-  kable %>%
-  kable_styling(bootstrap_options =
-                  c("striped", "hover", "condensed"),
-                  fixed_thead = T,
-                  font_size = 10 )
-```
-
-
-#### 1.2. ... applied to metadata
-
-```{r}
-# this part now became very fast with stri_replace_all_regex
-
-dat2 <- metadata_database %>%
+eb_metadata_var_groups <- metadata_database %>%
   # filter only waves for which variable groups are available
   filter(archive_id %in% archive_ids,
          # exclude this strange variable
          var_label_orig != "filename") %>%
+  # valid_range is a list, which messes things up, so let's make it a lower case string
+  mutate(valid_range_str = tolower(as.character(valid_range))) %>%
   # keep one row per variable
-  distinct(filename, qb, var_name_orig, var_name_orig, var_label_orig, var_label_norm, archive_id) %>%
-  # original variable labels in the data and in GESIS ZACAT are not exactly the same 
+  distinct(filename, qb, var_name_orig, var_name_orig, var_label_orig, 
+           var_label_norm, archive_id, valid_range_str, length_cat_range) %>%
+  # original variable labels in the data and in GESIS ZACAT are not exactly the same
   # --> need some cleaning
-  mutate(var_label_orig2 = gsub("^([A-Z])*[0-9]{1,3}([A-Z]{1,2})* ", "", 
+  mutate(var_label_orig2 = gsub("^([A-Z])*[0-9]{1,3}([A-Z]{1,2})* ", "",
                                 var_label_orig),
-         var_label_orig2 = gsub("^[A-Z][0-9] [0-9]{1,2} ", "", 
+         var_label_orig2 = gsub("^[A-Z][0-9] [0-9]{1,2} ", "",
                                 var_label_orig2),
          var_label_orig2 = gsub("^W3A/W4A ", "", var_label_orig2),
-         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2}([A-Z])*_[A-Z]{1,2} ", "", 
+         var_label_orig2 = gsub("^[A-Z]{1,2}[0-9]{1,2}([A-Z])*_[A-Z]{1,2} ", "",
                                 var_label_orig2),
-         var_label_orig2 = gsub("^\\s+|\\s+$", "", 
+         var_label_orig2 = gsub("^\\s+|\\s+$", "",
                                 var_label_orig2),
-         var_label_orig2 = gsub('“)', "", 
+         var_label_orig2 = gsub('“)', "",
                                 var_label_orig2),
-         var_label_orig2 = gsub("  ", " ", 
+         var_label_orig2 = gsub("  ", " ",
                                 var_label_orig2),
          # these 2 waves have problems and labels in data and in ZACAT are different
          var_label_orig2 = ifelse(archive_id %in% c("ZA6695", "ZA6697"),
                                   gsub("\\s*\\([^\\)]+\\)","", var_label_orig2),
                                   var_label_orig2)) %>%
   # join with table with variable groups
-  left_join(varlabs, by = c("var_label_orig2" = "var_label_zacat", "archive_id")) %>%
+  left_join(eb_var_groups_zacat, by = c("var_label_orig2" = "var_label_zacat", "archive_id"))
+```
+
+
+### 1. Standardize variable labels
+
+In many multi-wave surveys, such as the Eurobarometer, there is a degree of consistency in how variables are labelled in different editions of the survey, and other survey projects also try to follow some labelling conventions.
+
+This consistency is limited and conventions are not followed strictly, which makes standardizing labels a semi-manual task. Some of the issues stem from the limits in the number of characters of variable labels in common statistical software packages (e.g., SPSS), which leads to non-standard abbreviations.
+
+#### 1.1. Translation tables ...
+
+The dictionary of variable labels is a project-specific (i.e., specific for the Eurobarometer) table that standardizes the spelling of words and abbreviations used in variable names.
+
+```{r}
+var_dict <- import( file.path('../data-raw', 'var_lab_dict.xlsx'), 
+                sheet = "dict") %>% 
+  gather(id, from, 2:6) %>%
+  select(from, to) %>%
+  drop_na(from)
+
+head(var_dict) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
+
+
+#### 1.2. ... applied to metadata
+
+
+
+```{r}
+# this part now became very fast with stri_replace_all_regex
+
+dat2 <- eb_metadata_var_groups %>%
   # remove variables in the following groups
   filter(!grepl("protocol|weight|nationality|nation id|original id|id variable|country group", 
-                tolower(group)),
+                tolower(var_group)),
          # remove recoded variables
          !grepl("recoded|(rec)", var_label_norm)) %>%
   mutate(var_id = paste0(filename, " ", var_name_orig),
@@ -236,37 +187,21 @@ dat2 <- metadata_database %>%
                                 var_label_norm1),
          var_label_norm1 = gsub("^[a-z][0-9]_[0-9]{1,2}_", "", 
                                 var_label_norm1)) %>%
-  # apply the translation table
+    # apply the variable label dictionary
   mutate(var_label_norm1 = stri_replace_all_regex(var_label_norm1,
-                                                  pattern = dict$from,
-                                                  replacement = dict$to,
+                                                  pattern = var_dict$from,
+                                                  replacement = var_dict$to,
                                                   vectorize_all = FALSE)) %>%
   ungroup() %>%
   # select the needed variables
-  select(filename, qb, var_label_orig, var_label_orig2, 
-         var_label_norm, var_label_norm1, var_id, group)
-
+  select(filename, qb, var_label_orig, var_label_orig2, var_name_orig,
+         var_label_norm, var_label_norm1, var_id, var_group, 
+         valid_range_str, length_cat_range)
 ```
 
 ### 2 & 3. Tokenize & Eliminate stopwords
 
 ```{r}
-# list of country codes to be converted to country names
-eu_countries <- c(
-  "at", "be", "bg", "cy", "cz", "dk", "de", "ee", "es", "fr",
-  "fi", "gb", "gr", "hr", "hu", "ie", "it", "lt", "lv", "lu",
-  "mt", "nl", "pl", "pt", "ro", "se", "si", "sk", "tr")
-
-# !!! the problem here is that dk sometimes means "don't know" and sometimes Demnark !!!
-# this needs to be treated in gesis_metadata_create, where the
-# user defined missings are separately analyzed, they dk should 
-# be converted there to do_not_know.
-
-# it's not clear hot to do this, because both types of DK appear at the end of labels e.g. in
-# mentioned/not mentioned questions, and they look very much the same
-
-# ---- but normally one should be in attr(x, "na_values") 
-
 tidy <- dat2 %>%
   # tokenize
   unnest_tokens(word, var_label_norm1, 
@@ -278,26 +213,7 @@ tidy <- dat2 %>%
               filter( !word %in% c("working", "right", "other")
                      )) %>%
   # eliminate numbers
-  filter( !grepl("\\b\\d+\\b", word)) %>%
-  # convert country codes to country names
-  mutate(
-    country = ifelse(word %in% eu_countries, 
-                     word, 
-                     NA),
-         country = countrycode::countrycode(
-           toupper(country), "iso2c", "country.name"),
-    country = tolower(country),
-    word = ifelse(!is.na(country), 
-                  country, 
-                  word),
-    word = ifelse(word == "united kingdom", 
-                  "united-kingdom", 
-                  word),
-    word = ifelse(word == "tcc", 
-                  "turkish-cypriot-community", 
-                  word)
-    ) %>%
-  select(-country)
+  filter( !grepl("\\b\\d+\\b", word)) 
 ```
 
 ```{r}
@@ -324,20 +240,20 @@ tidy %>%
                   font_size = 10 )
 ```
 
-Note: this Denmark is probably a "don't know"
-
 
 ### 4. Create a document-term matrix
+### 5. Sort the columns according to the declining frequency of the keywords
+### 6. Create standardized variable labels by concatenating keywords
 
-Filter out labels that have words that appear in < 10 different waves. If we want to create a trend file, we're only interested in variables that are repeated often.
+First, we filter out labels that have words that appear in < 5 different waves. If we want to create a trend file, we're only interested in variables that are repeated often.
 
 ```{r}
-tidy_small_2 <- tidy %>%
+tidy_small <- tidy %>%
   group_by(word) %>%
   # number of distinct file names (waves) per word
   mutate(n_wave = n_distinct(filename)) %>%
-  # flag words that appear in < 10 different files
-  mutate(to_drop = as.numeric(n_wave < 10)) %>%
+  # flag words that appear in < 5 different files
+  mutate(to_drop = as.numeric(n_wave < 5)) %>%
   # group by variable ID (file x variable name)
   group_by(var_id) %>%
   # copy to_drop across words in the same variable label
@@ -347,58 +263,71 @@ tidy_small_2 <- tidy %>%
   # remove auxiliary variables
   select(-to_drop, -n_wave) %>%
   ungroup()
-
-dtm <- tidy_small_2 %>%
-  distinct(var_id, var_label_norm1, word) %>%
-  mutate(n = word) %>%
-  spread(word, n)
-
-dim(dtm)
 ```
 
+The next steps are performed separately within variable groups, and programmed as a loop.
 
-
-### 5. Sort columns according to the declining frequency of the keywords
-
+Note that a change to the earlier process is that **selected words** (so far only "cat" which stands for "categories", I presume) **are placed at the end of the document-term matrix**, even though they tend to occur frequently, so that they are always at the end.
 
 ```{r}
-# get the order of variables according to declining proportion of missing value
-# (declining popularity of keywords)
-order <- dtm %>%
-  summarise_all(
-    funs(sum(is.na(.))/length(.))
+# split into list by `group`
+tidy_small_list <- split( tidy_small , f = tidy_small$var_group )
+
+# list of words that go last
+words_last <- c("cat")
+
+# create empty list for standardized variable names
+dtm2_list <- list()
+
+for (i in names(tidy_small_list)) {
+
+  # create a document-term matrix within each variable group
+  dtm <- tidy_small_list[[i]] %>%
+    distinct(var_id, var_label_norm1, word) %>%
+    mutate(n = word) %>%
+    spread(word, n)
+
+  # find the order of declining frequency of the keywords
+  order <- dtm %>%
+    summarise_all(
+      list(~ sum(is.na(.))/length(.))
     ) %>%
-  t() %>% as.vector()
+    t() %>% as.vector()
 
-names(order) <- names(dtm)
+  names(order) <- names(dtm)
+
+  # concatenate keywords to create standardized variable names
+  dtm2_list[[i]] <- dtm %>%
+    select( names(sort(order)), 
+            # !!! put selected words last
+            -any_of("cat"), any_of(words_last) ) %>%
+    mutate_at( vars(3:ncol(dtm) ),
+               list( ~ifelse(is.na(.), "", .))
+    ) %>%
+    unite("var_label_std", 3:ncol(dtm)) %>%
+    mutate(var_label_std = gsub(
+      "(\\_)\\1+", "\\1", var_label_std) ) %>%
+    mutate(var_label_std = gsub(
+      "^_|_$", "", var_label_std) )
+
+}
+
+dtm2 <- bind_rows(dtm2_list)
 ```
-
-
-### 6. Create standardized variable labels by concatenating keywords
 
 Standardized variable labels `var_label_std` are concatenated keywords, where the keywords occur in the order of their frequency in the entire corpus of variable labels. As a consequence, more common - likely broader - terms will come first, and less common - more specific - terms will come later.
 
-!!! This is not a perfect solution for the question order. We need a table with "concepts", like trust, satisfaction, etc., so that they are always at the beginning. Otherwise we end up with "internet_trust" (which should be "trust_internet") and so on.
 
 ```{r}
-dtm2 <- dtm %>%
-  select( names(sort(order)) ) %>%
-  mutate_at( vars(3:ncol(dtm) ), 
-            funs(ifelse(is.na(.), "", .))
-            ) %>%
-  unite("var_label_std", 3:ncol(dtm)) %>%
-  mutate(var_label_std = gsub(
-    "(\\_)\\1+", "\\1", var_label_std) ) %>%
-  mutate(var_label_std = gsub(
-    "^_|_$", "", var_label_std) )
-
-dim(dtm2)
+metadata_standard_var_names <- dtm2 %>%
+  left_join(dat2)
 ```
 
-!!! These standardized variable names still have problems that need to be fixed.
+
 
 ```{r}
-dtm2 %>% 
+metadata_standard_var_names %>% 
+  select(var_id, var_label_std, var_group) %>%
   head(., 25) %>%
   kable %>%
   kable_styling(bootstrap_options =
@@ -410,7 +339,7 @@ dtm2 %>%
 Print the most common standardized variable labels.
 
 ```{r}
-dtm2 %>%
+metadata_standard_var_names %>%
   count(var_label_std) %>%
   arrange(desc(n)) %>% 
   head(., 25) %>%
@@ -427,7 +356,7 @@ Filter on substrings of standardized variable labels `var_label_std`, and count 
 
 ```{r}
 # filter on var_label_std
-dtm2 %>%
+metadata_standard_var_names %>%
   filter( grepl("trust|satisf|left-right|interest|class",
                 var_label_std)) %>% 
   count(var_label_std) %>%
@@ -439,4 +368,84 @@ dtm2 %>%
                   fixed_thead = T,
                   font_size = 10 )
 ```
+
+
+### 2. Standardize value labels
+
+
+The dictionary of value labels identifies identical or equivalent sets of value labels. 
+
+```{r}
+val_dict <- import( file.path('../data-raw', 'val_lab_dict.xlsx'),
+                sheet = "dict") %>%
+  mutate(from = tolower(from)) %>%
+  select(from, to)
+
+head(val_dict) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+
+```
+
+So far, seven types of response scales are identified:  
+
+1. `mentioned / not mentioned` - coding of responses to questions where the Respondent is asked to choose one or more elements from a list of possibilities; these variables account for the majority of variables in the Eurobarometer, but -- interestingly -- are not generally found in other cross-national survey projects,    
+2. `trust / no trust` - binary response scales to questions about trust in institutions,  
+3. `national government / European Union` - binary responses to questions about whether national governments or the European Union have authority over a given issue domain,  
+4. `yes / no` - binary response scales (exclude types 1-3),  
+5. `positive / negative / neutral` - three-point scales, where the order of options is: positive, negative, neutral,  
+6. `positive / neutral / negative` - three-point scales, where the order of options is: positive, neutral, negative,  
+7. `ordinal, 4 points` - four-point scales that contain ordinal evaluations of a phenomenon, starting from the most positive, typically on a bipolar scale, e.g.: very positive, fairly positive, fairly negative, very negative.  
+
+```{r}
+metadata_standard_var_names_scales <- metadata_standard_var_names %>%
+  # use values dictionary to tag variables to values_type
+  mutate(values_type = stri_replace_all_fixed(as.character(valid_range_str),
+                                                  pattern = val_dict$from,
+                                                  replacement = val_dict$to,
+                                                  vectorize_all = FALSE)) %>%
+  # identify "mentioned/not mentioned" as a separate type
+  mutate(values_type = ifelse(
+           grepl(".*not mentioned.*", valid_range_str), 
+           "mentioned", 
+           values_type )) %>%
+  # if type == valid_range, nothing has been learnt, so replace with NA
+  mutate(values_type = ifelse(
+           values_type == as.character(valid_range_str), 
+           NA, 
+           values_type)
+         )
+
+metadata_standard_var_names_scales %>% 
+  count(values_type) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+
+```
+
+## Application, ctd.: political attitudes
+
+Filter on substrings of standardized variable labels `var_label_std`, and count the repetitions across datasets.
+
+```{r}
+# filter on var_label_std
+metadata_standard_var_names_scales %>%
+  filter( grepl("trust|satisf|left-right|interest|class",
+                var_label_std)) %>% 
+  count(var_label_std, values_type) %>%
+  arrange(desc(n)) %>%
+  head(., 25) %>%
+  kable %>%
+  kable_styling(bootstrap_options =
+                  c("striped", "hover", "condensed"),
+                  fixed_thead = T,
+                  font_size = 10 )
+```
+
 
