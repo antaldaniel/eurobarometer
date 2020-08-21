@@ -6,7 +6,7 @@ x <- c('QF4C INTERESTS INFO SOURCES: INTERNET',
        'D49D_CY WEBSITES: OTHER',
        'LOVE RELATIONSHIP OF CHILD - CHRISTIAN PERSON' )
 
-test_that("multiplication works", {
+test_that("variable label normalization works", {
   expect_equal(var_label_normalize(x),
                c('interests information sources internet',
                  'children needs some new clothes',

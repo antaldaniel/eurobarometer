@@ -35,7 +35,13 @@ file name.}
 
 \item{doi}{An optional document object identifier.}
 
+\item{user_na}{Should user-defined na_values be imported? Defaults
+to \code{TRUE}.}
+
 \item{filename}{An import file name.}
+
+\item{.name_repair}{Defaults to \code{"unique"} See 
+\code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
 }
 \value{
 The survey data in a retorharmonize_survey class which

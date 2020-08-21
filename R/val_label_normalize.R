@@ -22,5 +22,8 @@
 val_label_normalize <- function(x) {
 
   y <- tolower(as.character(x))
-  retroharmonize::var_label_normalize(y)
+  y <- retroharmonize::var_label_normalize(y)
+  y <- gsub("_the_", "", y)
+  y <- gsub("_your_", "", y)
+  snakecase::to_snake_case(y)
 }

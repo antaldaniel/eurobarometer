@@ -21,7 +21,7 @@
 
 var_label_normalize <- function(x) {
 
-  y <- retroharmonize::var_label_normalize(x)
+  y <- trimws(tolower(as.character(x)), which = "both")
 
   ##do the abbreviations first that may have a . sign
   y <- gsub( '\\ss\\.a\\.', '_sa', y)
@@ -38,6 +38,7 @@ var_label_normalize <- function(x) {
   y <- gsub ( "^p\\d+{1,}\\s", "", y)  #remove p6  like starts
   y <- gsub ( "^q\\d+{1,}_", "", y)  #remove q1_ like starts
   y <- gsub ( "^q\\d+{1,}\\s", "", y)  #remove q1  like starts
+  y <- gsub( '^q\\d{1,2}[abcdefghijkl]', '', y )       # removed q26k_ (afrobarometer)
   y <- gsub( '^\\d{1,2}_', '', y ) #remove leading number 1_
   y <- gsub( '^_', '', y ) #remove leading _
   y
@@ -68,7 +69,7 @@ var_label_normalize <- function(x) {
   y <- gsub(
     "_cap_", "_common-agricultural-policy_", y)
 
-  y <- retroharmonize::var_label_normalize(y)
+
 
   # leftover question numbers at the beginning of value labels
   y <- gsub(
