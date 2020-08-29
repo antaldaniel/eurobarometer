@@ -24,7 +24,13 @@ files, so that they can be joined into panels across time.
 
 The metadata functions map the SPSS file and suggest variable names,
 re-labelling and class conversions.
+\code{\link{metadata_create}}
 \code{\link{gesis_metadata_create}}
+}
+
+\section{identify functions}{
+
+Identify functions try to find harmonization candidates by logical rules.
 }
 
 \section{sample data files}{
