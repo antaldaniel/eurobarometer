@@ -23,7 +23,7 @@ Description: Converting Eurobarometer microdata files, as stored by
 License: GPL-3
 Encoding: UTF-8
 Language: en-GB
-URL: https://eurobarometer.danielantal.eu/
+URL: https://eurobarometer.dataobservatory.eu/
 BugReports: https://github.com/antaldaniel/eurobarometer/issues
 LazyData: true
 Imports: 
