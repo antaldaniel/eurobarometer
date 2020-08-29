@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Suggested Names for GESIS Columns — label_suggest • eurobarometer</title>
+<title>Identify mentioned and not mentioned types — identify_mentioned • eurobarometer</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Create Suggested Names for GESIS Columns — label_suggest" />
-<meta property="og:description" content="Create canonical variable names (labels) that do not vary across
-several SPSS files from different years." />
+<meta property="og:title" content="Identify mentioned and not mentioned types — identify_mentioned" />
+<meta property="og:description" content="Identification for questions where the answers are coded as
+'not_mentioned', and one other valid label, with, or without
+missing labels." />
 
 
 
@@ -127,62 +128,34 @@ several SPSS files from different years." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Suggested Names for GESIS Columns</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/label_suggest.R'><code>R/label_suggest.R</code></a></small>
-    <div class="hidden name"><code>label_suggest.Rd</code></div>
+    <h1>Identify mentioned and not mentioned types</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/eurobarometer/blob/master/R/identify_mentioned.R'><code>R/identify_mentioned.R</code></a></small>
+    <div class="hidden name"><code>identify_mentioned.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create canonical variable names (labels) that do not vary across
-several SPSS files from different years.</p>
+    <p>Identification for questions where the answers are coded as
+<code>'not_mentioned'</code>, and one other valid label, with, or without
+missing labels.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>label_suggest</span>(<span class='no'>var_label_orig</span>, <span class='no'>var_name_orig</span>)</pre>
+    <pre class="usage"><span class='fu'>identify_mentioned</span>(<span class='no'>metadata</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>var_label_orig</th>
-      <td><p>A character vector of original variable labels.</p></td>
-    </tr>
-    <tr>
-      <th>var_name_orig</th>
-      <td><p>A character vector of original variable names.</p></td>
-    </tr>
-    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A character vector with the same length as the two
-input character vectors.</p>
+    <p>An augmented metadata table with the identified mentioned-type
+variables</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'> <span class='no'>var_name_orig</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
- <span class='st'>'v335'</span>, <span class='st'>'v121'</span>, <span class='st'>'v150'</span>, <span class='st'>'v83'</span>, <span class='st'>'qa6a_3'</span>, <span class='st'>'qa8a_5'</span>, <span class='st'>'qa10_9'</span>
- )
-
- <span class='no'>var_label_orig</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
- <span class='st'>'QA17_1 EUROPEAN PARLIAMENT - TRUST'</span>,
- <span class='st'>'Q26 COUNCIL OF MINISTERS - TRUST'</span>,
- <span class='st'>'Q17 EUROPEAN COMMISSION - TRUST'</span>,
- <span class='st'>'Q10 TRUST IN INSTITUTIONS: CIVIL SERVICE'</span>,
- <span class='st'>'TRUST IN INSTITUTIONS: JUSTICE / LEGAL SYSTEM'</span>,
- <span class='st'>'TRUST IN INSTITUTIONS: REG/LOC PUBLIC AUTHORITIES'</span>,
- <span class='st'>'TRUST IN INSTITUTIONS: UNITED NATIONS'</span>
- )
-
- <span class='fu'>label_suggest</span>(
- <span class='kw'>var_label_orig</span> <span class='kw'>=</span> <span class='no'>var_label_orig</span>,
- <span class='kw'>var_name_orig</span> <span class='kw'>=</span> <span class='no'>var_name_orig</span>
- )</div><div class='output co'>#&gt; [1] "european_parliament_trust"                       
-#&gt; [2] "council_of_ministers_trust"                      
-#&gt; [3] "european_commission_trust"                       
-#&gt; [4] "trust_in_institutions_civil_service"             
-#&gt; [5] "trust_in_institutions_justice_legal_system"      
-#&gt; [6] "trust_in_institutions_reg_loc_public_authorities"
-#&gt; [7] "trust_in_institutions_united_nations"            </div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'>{
+<span class='no'>example_survey</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(
+        <span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"eurobarometer"</span>),
+         <span class='kw'>.f</span><span class='kw'>=</span><span class='st'>'read_rds'</span>)
+<span class='no'>identified</span> <span class='kw'>&lt;-</span> <span class='fu'>identify_mentioned</span> (<span class='fu'><a href='metadata_create.html'>metadata_create</a></span> ( <span class='no'>example_survey</span> <span class='kw'>[[</span><span class='fl'>1</span>]] ))
+<span class='no'>identified</span> <span class='kw'>&lt;-</span> <span class='no'>identified</span>[(!<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>identified</span>$<span class='no'>group_mentioned</span>)),]
+<span class='no'>identified</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"var_name_orig"</span>, <span class='st'>"labels"</span>, <span class='st'>"group_mentioned"</span>)]
+}</div><div class='output co'>#&gt; <span class='error'>Error in FUN(X[[i]], ...): The file does not exist.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
